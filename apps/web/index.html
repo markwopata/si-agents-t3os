@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SI Management</title>
+  </head>
+  <body>
+    <div id="appbar"></div>
+    <div id="root"></div>
+    <script>
+      window.T3osConfig = {
+        mount: "appbar",
+        theme: "system",
+        autoLogin: true,
+        ...(location.hostname === "localhost" ? { callbackPath: "/" } : {}),
+      };
+    </script>
+    <script type="module" src="%VITE_T3OS_WIDGETS_URL%/t3os.js"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

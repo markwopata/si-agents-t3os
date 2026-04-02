@@ -1,0 +1,87 @@
+services:
+  - type: web
+    name: si-agents-api
+    runtime: node
+    rootDir: .
+    buildCommand: npm install && npm run build
+    preDeployCommand: npm run db:migrate -w @si/api
+    startCommand: npm run start -w @si/api
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: WEB_APP_URL
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: TOKEN_ENCRYPTION_SECRET
+        sync: false
+      - key: T3OS_GRAPHQL_URL
+        value: https://staging-api.equipmentshare.com/es-erp-api/graphql
+      - key: T3OS_EXECUTIVE_EMAILS
+        sync: false
+      - key: T3OS_TRUST_HEADER_AUTH
+        value: false
+      - key: DEV_AUTH_BYPASS
+        value: false
+      - key: AUTH0_ISSUER_BASE_URL
+        sync: false
+      - key: AUTH0_AUDIENCE
+        sync: false
+      - key: FROSTY_BASE_URL
+        sync: false
+      - key: FROSTY_REQUEST_TIMEOUT_MS
+        value: 30000
+      - key: ANALYTICS_SEARCH_TIMEOUT_MS
+        value: 20000
+      - key: KPI_RESEARCH_TIMEOUT_MS
+        value: 45000
+      - key: PORTFOLIO_STEP_TIMEOUT_MS
+        value: 600000
+      - key: EVIDENCE_SYNC_REUSE_HOURS
+        value: 12
+      - key: SLACK_CLIENT_ID
+        sync: false
+      - key: SLACK_CLIENT_SECRET
+        sync: false
+      - key: SLACK_REDIRECT_URI
+        sync: false
+      - key: SLACK_USER_SCOPES
+        value: channels:history,groups:history,channels:read,groups:read,users:read
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      - key: GOOGLE_SCOPES
+        value: openid,email,profile,https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/spreadsheets.readonly
+
+  - type: cron
+    name: si-agents-refresh
+    runtime: node
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -w @si/agent-runner
+    schedule: "0 6 * * *"
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: SI_API_BASE_URL
+        sync: false
+      - key: SI_AGENT_SERVICE_TOKEN
+        sync: false
+      - key: AGENT_RUN_MODE
+        value: once
+      - key: AGENT_RUN_TARGET
+        value: portfolio_refresh
+      - key: AGENT_RUN_ON_START
+        value: true

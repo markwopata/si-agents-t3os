@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "frosty": {
+      "url": "http://localhost:8888/mcp"
+    }
+  }
+}
