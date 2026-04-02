@@ -1,4 +1,7 @@
 import { config as loadDotenv } from "dotenv";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 loadDotenv();
 
@@ -11,6 +14,7 @@ const target = process.env.AGENT_RUN_TARGET || "portfolio_refresh";
 const dailyHour = Number(process.env.AGENT_RUN_DAILY_HOUR || "6");
 const dailyMinute = Number(process.env.AGENT_RUN_DAILY_MINUTE || "0");
 const directPortfolioWorker = (process.env.AGENT_DIRECT_PORTFOLIO_WORKER || "false") === "true";
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
 type RunTarget = "portfolio_refresh" | "run_all_evaluations";
 
@@ -50,7 +54,7 @@ async function triggerTarget(): Promise<void> {
 }
 
 async function runDirectPortfolioWorker(): Promise<void> {
-  const { processNextPortfolioRefreshRun } = await import("../../api/src/services/portfolio-service.js");
+  const { processNextPortfolioRefreshRun } = await importPortfolioWorkerModule();
 
   let processedCount = 0;
   for (;;) {
@@ -67,6 +71,39 @@ async function runDirectPortfolioWorker(): Promise<void> {
       `[agent-runner] direct portfolio worker processed ${run.runId} with status ${run.status}`,
     );
   }
+}
+
+async function importPortfolioWorkerModule(): Promise<{
+  processNextPortfolioRefreshRun: () => Promise<
+    | {
+        runId: string;
+        status: string;
+      }
+    | null
+  >;
+}> {
+  const candidates = [
+    path.resolve(process.cwd(), "apps/api/dist/apps/api/src/services/portfolio-service.js"),
+    path.resolve(process.cwd(), "apps/api/dist/services/portfolio-service.js"),
+    path.resolve(process.cwd(), "apps/api/src/services/portfolio-service.ts"),
+    path.resolve(process.cwd(), "apps/api/src/services/portfolio-service.js"),
+    path.resolve(currentDir, "../../api/dist/apps/api/src/services/portfolio-service.js"),
+    path.resolve(currentDir, "../../api/dist/services/portfolio-service.js"),
+    path.resolve(currentDir, "../../api/src/services/portfolio-service.ts"),
+    path.resolve(currentDir, "../../api/src/services/portfolio-service.js"),
+  ];
+
+  for (const candidate of candidates) {
+    if (!existsSync(candidate)) {
+      continue;
+    }
+
+    return import(pathToFileURL(candidate).href);
+  }
+
+  throw new Error(
+    `[agent-runner] unable to locate portfolio worker module. Checked: ${candidates.join(", ")}`,
+  );
 }
 
 function msUntilNextDailyRun(hour: number, minute: number): number {
