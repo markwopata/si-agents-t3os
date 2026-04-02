@@ -31,6 +31,9 @@ const envSchema = z.object({
   T3OS_APP_ROLE_HEADER: z.string().default("x-t3os-app-role"),
   T3OS_WORKSPACE_ID_HEADER: z.string().default("x-t3os-workspace-id"),
   T3OS_EXECUTIVE_EMAILS: z.string().default(""),
+  T3OS_JWT_ISSUER: z.string().default("https://staging-auth.t3os.ai/"),
+  T3OS_JWT_AUDIENCE: z.string().default("https://staging-api.equipmentshare.com/es-erp-api"),
+  T3OS_JWKS_URI: z.string().optional(),
   T3OS_GRAPHQL_URL: z
     .string()
     .default("https://staging-api.equipmentshare.com/es-erp-api/graphql"),

@@ -2,15 +2,19 @@ import { createHash } from "node:crypto";
 import { eq } from "drizzle-orm";
 import fp from "fastify-plugin";
 import type { FastifyRequest } from "fastify";
+import { createRemoteJWKSet, jwtVerify, type JWTPayload } from "jose";
 import { db } from "../db/client.js";
 import { serviceTokens } from "../db/schema.js";
 import { env } from "../config/env.js";
 
 type AppRole = "executive" | "participant" | "viewer" | null;
 const T3OS_CLAIMS = {
+  roles: "https://erp.estrack.com/es_erp_roles",
+  permissions: "https://erp.estrack.com/permissions",
   workspaceId: "https://erp.estrack.com/workspace_id",
   userId: "https://erp.estrack.com/user_id",
 } as const;
+const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -107,6 +111,61 @@ function deriveHumanScopes(appRole: AppRole): string[] {
   return ["read:initiatives", "read:knowledge", "read:observations", "read:platform"];
 }
 
+function normalizeIssuer(issuer: string): string {
+  return issuer.endsWith("/") ? issuer : `${issuer}/`;
+}
+
+function buildJwksUri(): string {
+  if (env.T3OS_JWKS_URI?.trim()) {
+    return env.T3OS_JWKS_URI.trim();
+  }
+
+  return new URL(".well-known/jwks.json", normalizeIssuer(env.T3OS_JWT_ISSUER)).toString();
+}
+
+function getJwks() {
+  const jwksUri = buildJwksUri();
+  const existing = jwksCache.get(jwksUri);
+  if (existing) {
+    return existing;
+  }
+
+  const jwks = createRemoteJWKSet(new URL(jwksUri));
+  jwksCache.set(jwksUri, jwks);
+  return jwks;
+}
+
+async function verifyT3osJwt(token: string): Promise<JWTPayload> {
+  const { payload } = await jwtVerify(token, getJwks(), {
+    issuer: normalizeIssuer(env.T3OS_JWT_ISSUER),
+    audience: env.T3OS_JWT_AUDIENCE,
+  });
+  return payload;
+}
+
+function extractStringArrayClaim(payload: Record<string, unknown>, claim: string): string[] {
+  const value = payload[claim];
+  return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
+}
+
+function deriveJwtAppRole(payload: Record<string, unknown>, email: string | null): AppRole {
+  if (email && executiveEmails().has(email)) {
+    return "executive";
+  }
+
+  const roles = extractStringArrayClaim(payload, T3OS_CLAIMS.roles).map((role) => role.toLowerCase());
+  if (roles.some((role) => role.includes("viewer"))) {
+    return "viewer";
+  }
+
+  return "participant";
+}
+
+function deriveJwtScopes(payload: Record<string, unknown>, appRole: AppRole): string[] {
+  const permissions = extractStringArrayClaim(payload, T3OS_CLAIMS.permissions);
+  return Array.from(new Set([...deriveHumanScopes(appRole), ...permissions]));
+}
+
 export const authPlugin = fp(async (app) => {
   app.decorateRequest("actor", null as unknown as FastifyRequest["actor"]);
 
@@ -148,7 +207,32 @@ export const authPlugin = fp(async (app) => {
     const token = header.slice("Bearer ".length);
     if (looksLikeJwt(token)) {
       const configuredExecutiveEmails = executiveEmails();
-      const payload = decodeJwtPayload(token) ?? {};
+      let payload: Record<string, unknown>;
+
+      try {
+        payload = (await verifyT3osJwt(token)) as Record<string, unknown>;
+      } catch (error) {
+        if (!env.DEV_AUTH_BYPASS) {
+          request.actor = {
+            type: "human",
+            id: "unauthorized",
+            email: null,
+            displayName: null,
+            appRole: null,
+            workspaceId: null,
+            t3osUserId: null,
+            authSource: "t3os_jwt",
+            platformAccessToken: null,
+            scopes: [],
+          };
+          request.log.warn({ error }, "JWT verification failed");
+          throw app.httpErrors.unauthorized("Invalid bearer token");
+        }
+
+        request.log.warn({ error }, "JWT verification failed; using dev decode fallback");
+        payload = decodeJwtPayload(token) ?? {};
+      }
+
       const email =
         typeof payload.email === "string" ? payload.email.trim().toLowerCase() : null;
       const displayName =
@@ -167,15 +251,10 @@ export const authPlugin = fp(async (app) => {
         typeof payload[T3OS_CLAIMS.workspaceId] === "string"
           ? String(payload[T3OS_CLAIMS.workspaceId])
           : null;
-      const requestedRole = getHeader(request, env.T3OS_APP_ROLE_HEADER)?.trim().toLowerCase() ?? null;
       const derivedRole: AppRole =
-        requestedRole === "executive" || requestedRole === "participant" || requestedRole === "viewer"
-          ? requestedRole
-          : email && configuredExecutiveEmails.has(email)
-            ? "executive"
-            : env.DEV_AUTH_BYPASS
-              ? "executive"
-              : "participant";
+        env.DEV_AUTH_BYPASS && email && configuredExecutiveEmails.has(email)
+          ? "executive"
+          : deriveJwtAppRole(payload, email);
 
       request.actor = {
         type: "human",
@@ -187,7 +266,7 @@ export const authPlugin = fp(async (app) => {
         t3osUserId,
         authSource: "t3os_jwt",
         platformAccessToken: token,
-        scopes: deriveHumanScopes(derivedRole),
+        scopes: deriveJwtScopes(payload, derivedRole),
       };
       return;
     }

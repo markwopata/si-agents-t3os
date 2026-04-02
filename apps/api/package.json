@@ -23,6 +23,7 @@
     "fast-xml-parser": "^5.2.5",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
+    "jose": "^6.2.2",
     "jszip": "^3.10.1",
     "pg": "^8.13.3",
     "zod": "^3.24.2"
