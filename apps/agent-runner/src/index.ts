@@ -10,6 +10,7 @@ const mode = process.env.AGENT_RUN_MODE || "watch";
 const target = process.env.AGENT_RUN_TARGET || "portfolio_refresh";
 const dailyHour = Number(process.env.AGENT_RUN_DAILY_HOUR || "6");
 const dailyMinute = Number(process.env.AGENT_RUN_DAILY_MINUTE || "0");
+const directPortfolioWorker = (process.env.AGENT_DIRECT_PORTFOLIO_WORKER || "false") === "true";
 
 type RunTarget = "portfolio_refresh" | "run_all_evaluations";
 
@@ -48,6 +49,26 @@ async function triggerTarget(): Promise<void> {
   }
 }
 
+async function runDirectPortfolioWorker(): Promise<void> {
+  const { processNextPortfolioRefreshRun } = await import("../../api/src/services/portfolio-service.js");
+
+  let processedCount = 0;
+  for (;;) {
+    const run = await processNextPortfolioRefreshRun();
+    if (!run) {
+      console.log(
+        `[agent-runner] direct portfolio worker found no queued runs after ${processedCount} processed`,
+      );
+      return;
+    }
+
+    processedCount += 1;
+    console.log(
+      `[agent-runner] direct portfolio worker processed ${run.runId} with status ${run.status}`,
+    );
+  }
+}
+
 function msUntilNextDailyRun(hour: number, minute: number): number {
   const now = new Date();
   const next = new Date(now);
@@ -73,6 +94,11 @@ function scheduleDaily(run: () => Promise<void>): void {
 
 async function main(): Promise<void> {
   const run = async () => {
+    if (directPortfolioWorker) {
+      await runDirectPortfolioWorker();
+      return;
+    }
+
     await triggerTarget();
   };
 
