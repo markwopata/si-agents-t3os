@@ -52,6 +52,21 @@ function loadServiceAccountCredentials(): GoogleServiceAccountCredentials | null
     return serviceAccountCredentialsCache;
   }
 
+  if (
+    env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL &&
+    env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY &&
+    env.GOOGLE_SERVICE_ACCOUNT_TOKEN_URI
+  ) {
+    serviceAccountCredentialsCache = {
+      type: "service_account",
+      project_id: env.GOOGLE_SERVICE_ACCOUNT_PROJECT_ID,
+      client_email: env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+      private_key: env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      token_uri: env.GOOGLE_SERVICE_ACCOUNT_TOKEN_URI,
+    };
+    return serviceAccountCredentialsCache;
+  }
+
   const raw =
     env.GOOGLE_SERVICE_ACCOUNT_JSON ||
     (env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH ? readFileSync(env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH, "utf8") : null);

@@ -60,6 +60,10 @@ const envSchema = z.object({
   GOOGLE_AUTH_MODE: z.enum(["auto", "oauth", "service_account"]).default("auto"),
   GOOGLE_SERVICE_ACCOUNT_KEY_PATH: z.string().optional(),
   GOOGLE_SERVICE_ACCOUNT_JSON: z.string().optional(),
+  GOOGLE_SERVICE_ACCOUNT_PROJECT_ID: z.string().optional(),
+  GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: z.string().optional(),
+  GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: z.string().optional(),
+  GOOGLE_SERVICE_ACCOUNT_TOKEN_URI: z.string().optional(),
   GOOGLE_SERVICE_ACCOUNT_SUBJECT: z.string().optional(),
   GOOGLE_SCOPES: z
     .string()
