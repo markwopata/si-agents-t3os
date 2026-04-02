@@ -600,6 +600,40 @@ async function crawlGoogleTree(input: {
       }) as Record<string, unknown>,
     });
 
+    if (file.mimeType === "application/vnd.google-apps.folder") {
+      const children = await listAllFolderFiles(token, file.id).catch(async (error) => {
+        await recordSyncIssue({
+          initiativeId,
+          sourceType: "google",
+          runId,
+          sourceId: file.id!,
+          error,
+          metadata: {
+            crawlPath: current.crawlPath,
+            phase: "folder_list",
+          },
+        });
+        return [];
+      });
+
+      for (const child of children) {
+        if (!child.id || !child.name) {
+          continue;
+        }
+        queue.push({
+          fileId: child.id,
+          parentFileId: file.id,
+          depth: current.depth + 1,
+          crawlPath: `${current.crawlPath} / ${child.name}`,
+        });
+      }
+      continue;
+    }
+
+    if (file.mimeType === "application/vnd.google-apps.shortcut") {
+      continue;
+    }
+
     const revisions = await listAllRevisions(token, file.id).catch(async (error) => {
       await recordSyncIssue({
         initiativeId,
@@ -625,37 +659,6 @@ async function crawlGoogleTree(input: {
           rawJson: sanitizeJsonValue(revision) as Record<string, unknown>,
         })),
     );
-
-    if (file.mimeType !== "application/vnd.google-apps.folder") {
-      continue;
-    }
-
-    const children = await listAllFolderFiles(token, file.id).catch(async (error) => {
-      await recordSyncIssue({
-        initiativeId,
-        sourceType: "google",
-        runId,
-        sourceId: file.id!,
-        error,
-        metadata: {
-          crawlPath: current.crawlPath,
-          phase: "folder_list",
-        },
-      });
-      return [];
-    });
-
-    for (const child of children) {
-      if (!child.id || !child.name) {
-        continue;
-      }
-      queue.push({
-        fileId: child.id,
-        parentFileId: file.id,
-        depth: current.depth + 1,
-        crawlPath: `${current.crawlPath} / ${child.name}`,
-      });
-    }
   }
 }
 
