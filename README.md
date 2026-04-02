@@ -1,4 +1,4 @@
-# SI Management Platform
+# SI-Agent T3OS
 
 Local-first Strategic Initiatives management platform with:
 
@@ -15,5 +15,4 @@ Local-first Strategic Initiatives management platform with:
 3. `npm run db:migrate`
 4. `npm run dev`
 
-Frontend runs at `http://localhost:5173` and API runs at `http://localhost:3001`.
-
+Frontend runs at `http://localhost:3000` and API runs at `http://localhost:3001`.
