@@ -1,4 +1,5 @@
-import { createHmac, randomBytes } from "node:crypto";
+import { createHmac, createSign, randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { desc, eq } from "drizzle-orm";
 import { env } from "../../config/env.js";
 import { db } from "../../db/client.js";
@@ -22,6 +23,137 @@ interface GoogleUserInfoResponse {
   email?: string;
 }
 
+interface GoogleServiceAccountCredentials {
+  type?: string;
+  project_id?: string;
+  private_key?: string;
+  client_email?: string;
+  token_uri?: string;
+}
+
+type GoogleAuthMode = "oauth" | "service_account" | "unconfigured";
+
+let serviceAccountCredentialsCache: GoogleServiceAccountCredentials | null | undefined;
+
+function base64UrlEncode(input: string): string {
+  return Buffer.from(input)
+    .toString("base64")
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+}
+
+function getGoogleScopes(): string[] {
+  return env.GOOGLE_SCOPES.split(",").filter(Boolean);
+}
+
+function loadServiceAccountCredentials(): GoogleServiceAccountCredentials | null {
+  if (serviceAccountCredentialsCache !== undefined) {
+    return serviceAccountCredentialsCache;
+  }
+
+  const raw =
+    env.GOOGLE_SERVICE_ACCOUNT_JSON ||
+    (env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH ? readFileSync(env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH, "utf8") : null);
+
+  if (!raw) {
+    serviceAccountCredentialsCache = null;
+    return serviceAccountCredentialsCache;
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as GoogleServiceAccountCredentials;
+    serviceAccountCredentialsCache = parsed;
+    return serviceAccountCredentialsCache;
+  } catch (error) {
+    throw new Error(
+      `Unable to parse Google service account credentials: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
+function isServiceAccountConfigured(): boolean {
+  const credentials = loadServiceAccountCredentials();
+  return Boolean(
+    credentials?.type === "service_account" &&
+      credentials.client_email &&
+      credentials.private_key &&
+      credentials.token_uri,
+  );
+}
+
+function shouldUseServiceAccount(): boolean {
+  if (env.GOOGLE_AUTH_MODE === "oauth") {
+    return false;
+  }
+
+  if (env.GOOGLE_AUTH_MODE === "service_account") {
+    return true;
+  }
+
+  return isServiceAccountConfigured();
+}
+
+async function getServiceAccountAccessToken(): Promise<string> {
+  const credentials = loadServiceAccountCredentials();
+  if (
+    credentials?.type !== "service_account" ||
+    !credentials.client_email ||
+    !credentials.private_key ||
+    !credentials.token_uri
+  ) {
+    throw new Error("Google service account credentials are not configured");
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const header = {
+    alg: "RS256",
+    typ: "JWT",
+  };
+  const payload = {
+    iss: credentials.client_email,
+    scope: getGoogleScopes().join(" "),
+    aud: credentials.token_uri,
+    exp: now + 3600,
+    iat: now,
+    ...(env.GOOGLE_SERVICE_ACCOUNT_SUBJECT ? { sub: env.GOOGLE_SERVICE_ACCOUNT_SUBJECT } : {}),
+  };
+
+  const unsignedToken = `${base64UrlEncode(JSON.stringify(header))}.${base64UrlEncode(JSON.stringify(payload))}`;
+  const signer = createSign("RSA-SHA256");
+  signer.update(unsignedToken);
+  signer.end();
+
+  const signature = signer
+    .sign(credentials.private_key, "base64")
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+
+  const response = await fetch(credentials.token_uri, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion: `${unsignedToken}.${signature}`,
+    }),
+  });
+
+  const payloadText = await response.text();
+  if (!response.ok) {
+    throw new Error(`Google service account token exchange failed with HTTP ${response.status}: ${payloadText}`);
+  }
+
+  const payloadJson = JSON.parse(payloadText) as GoogleTokenResponse;
+  if (!payloadJson.access_token) {
+    throw new Error(payloadJson.error_description ?? payloadJson.error ?? "Google service account token exchange failed");
+  }
+
+  return payloadJson.access_token;
+}
+
 function signState(payload: string): string {
   return createHmac("sha256", env.TOKEN_ENCRYPTION_SECRET).update(payload).digest("hex");
 }
@@ -31,24 +163,48 @@ export function verifyGoogleState(state: string): boolean {
   return Boolean(nonce && signature && signState(nonce) === signature);
 }
 
-function getGoogleSetupState() {
+function getGoogleSetupState(): {
+  configured: boolean;
+  authMode: GoogleAuthMode;
+  clientIdConfigured: boolean;
+  clientSecretConfigured: boolean;
+  serviceAccountConfigured: boolean;
+  redirectUri: string;
+  installUrl: string | null;
+  requiredScopes: string[];
+  missingRequirements: string[];
+} {
   const clientIdConfigured = Boolean(env.GOOGLE_CLIENT_ID);
   const clientSecretConfigured = Boolean(env.GOOGLE_CLIENT_SECRET);
-  const requiredScopes = env.GOOGLE_SCOPES.split(",").filter(Boolean);
+  const serviceAccountConfigured = isServiceAccountConfigured();
+  const authMode =
+    shouldUseServiceAccount() ? "service_account" : clientIdConfigured && clientSecretConfigured ? "oauth" : "unconfigured";
+  const requiredScopes = getGoogleScopes();
   const missingRequirements: string[] = [];
 
-  if (!clientIdConfigured) {
+  if (env.GOOGLE_AUTH_MODE !== "service_account" && !clientIdConfigured) {
     missingRequirements.push("Add GOOGLE_CLIENT_ID to .env.");
   }
 
-  if (!clientSecretConfigured) {
+  if (env.GOOGLE_AUTH_MODE !== "service_account" && !clientSecretConfigured) {
     missingRequirements.push("Add GOOGLE_CLIENT_SECRET to .env.");
   }
 
+  if (env.GOOGLE_AUTH_MODE !== "oauth" && !serviceAccountConfigured) {
+    missingRequirements.push(
+      "Add GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_SERVICE_ACCOUNT_KEY_PATH to use the Google service account path.",
+    );
+  }
+
   return {
-    configured: clientIdConfigured && clientSecretConfigured,
+    configured:
+      authMode === "service_account"
+        ? serviceAccountConfigured
+        : clientIdConfigured && clientSecretConfigured,
+    authMode,
     clientIdConfigured,
     clientSecretConfigured,
+    serviceAccountConfigured,
     redirectUri: env.GOOGLE_REDIRECT_URI,
     installUrl: clientIdConfigured ? createGoogleInstallUrl() : null,
     requiredScopes,
@@ -211,6 +367,10 @@ async function refreshGoogleAccessToken(refreshToken: string): Promise<GoogleTok
 }
 
 export async function getGoogleAccessToken(): Promise<string | null> {
+  if (shouldUseServiceAccount()) {
+    return getServiceAccountAccessToken();
+  }
+
   const installation = await db.query.googleInstallations.findFirst({
     orderBy: [desc(googleInstallations.updatedAt)],
   });
@@ -247,8 +407,10 @@ export async function getGoogleAccessToken(): Promise<string | null> {
 export async function getGoogleInstallStatus(): Promise<{
   connected: boolean;
   configured: boolean;
+  authMode: GoogleAuthMode;
   clientIdConfigured: boolean;
   clientSecretConfigured: boolean;
+  serviceAccountConfigured: boolean;
   redirectUri: string;
   installUrl: string | null;
   requiredScopes: string[];
@@ -257,6 +419,16 @@ export async function getGoogleInstallStatus(): Promise<{
   connectedAt: string | null;
 }> {
   const setup = getGoogleSetupState();
+  if (setup.authMode === "service_account") {
+    const credentials = loadServiceAccountCredentials();
+    return {
+      connected: setup.configured,
+      ...setup,
+      email: credentials?.client_email ?? null,
+      connectedAt: null,
+    };
+  }
+
   const installation = await db.query.googleInstallations.findFirst({
     orderBy: [desc(googleInstallations.updatedAt)],
   });
