@@ -73,6 +73,34 @@ async function updatePortfolioRun(
     .where(eq(portfolioRefreshRuns.id, runId));
 }
 
+async function markPortfolioRunRunning(
+  runId: string,
+  input: PortfolioActor,
+  totalCount: number,
+  processed: RefreshSummaryEntry[],
+  failures: RefreshSummaryEntry[],
+): Promise<void> {
+  await db
+    .update(portfolioRefreshRuns)
+    .set({
+      status: "running",
+      finishedAt: null,
+      summary: {
+        requestedByType: input.requestedByType,
+        requestedById: input.requestedById,
+        totalCount,
+        processedCount: processed.length,
+        failureCount: failures.length,
+        currentInitiativeId: null,
+        currentCode: null,
+        processed,
+        failures,
+        error: null,
+      },
+    })
+    .where(eq(portfolioRefreshRuns.id, runId));
+}
+
 function asSummaryEntries(value: unknown): RefreshSummaryEntry[] {
   return Array.isArray(value) ? value.filter((entry): entry is RefreshSummaryEntry => !!entry && typeof entry === "object") : [];
 }
@@ -135,6 +163,8 @@ async function processPortfolioRefresh(
   );
 
   try {
+    await markPortfolioRunRunning(runId, input, initiativeIds.length, processed, failures);
+
     for (const initiativeId of initiativeIds) {
       if (completedIds.has(initiativeId)) {
         continue;
@@ -272,6 +302,10 @@ async function processPortfolioRefresh(
 }
 
 export async function recoverPortfolioRefreshRuns(): Promise<void> {
+  if (!env.PORTFOLIO_PROCESS_INLINE) {
+    return;
+  }
+
   const running = await db.query.portfolioRefreshRuns.findMany({
     where: eq(portfolioRefreshRuns.status, "running"),
     orderBy: [desc(portfolioRefreshRuns.createdAt)],
@@ -358,12 +392,21 @@ export async function launchPortfolioRefresh(input: {
     return toPortfolioRun(runningRecord);
   }
 
+  const queuedRecord = await db.query.portfolioRefreshRuns.findFirst({
+    where: eq(portfolioRefreshRuns.status, "queued"),
+    orderBy: [desc(portfolioRefreshRuns.createdAt)],
+  });
+
+  if (queuedRecord) {
+    return toPortfolioRun(queuedRecord);
+  }
+
   const initiativeIds = await listPortfolioInitiativeIds(Boolean(input.includeInactive));
 
   const runId = createId("portfolio_refresh");
   await db.insert(portfolioRefreshRuns).values({
     id: runId,
-    status: "running",
+    status: env.PORTFOLIO_PROCESS_INLINE ? "running" : "queued",
     summary: {
       requestedByType: input.requestedByType,
       requestedById: input.requestedById,
@@ -378,16 +421,64 @@ export async function launchPortfolioRefresh(input: {
     },
   });
 
-  startPortfolioRefreshProcessing(
-    runId,
-    initiativeIds,
-    {
-      requestedByType: input.requestedByType,
-      requestedById: input.requestedById,
-    },
-  );
+  if (env.PORTFOLIO_PROCESS_INLINE) {
+    startPortfolioRefreshProcessing(
+      runId,
+      initiativeIds,
+      {
+        requestedByType: input.requestedByType,
+        requestedById: input.requestedById,
+      },
+    );
+  }
 
   return getPortfolioRefreshRun(runId) as Promise<PortfolioRefreshRun>;
+}
+
+export async function processNextPortfolioRefreshRun(): Promise<PortfolioRefreshRun | null> {
+  const runningRecord = await db.query.portfolioRefreshRuns.findFirst({
+    where: eq(portfolioRefreshRuns.status, "running"),
+    orderBy: [desc(portfolioRefreshRuns.createdAt)],
+  });
+
+  if (runningRecord) {
+    const summary = (runningRecord.summary ?? {}) as Record<string, unknown>;
+    const actor = extractActor(summary);
+    const initiativeIds = await listPortfolioInitiativeIds();
+    await processPortfolioRefresh(
+      runningRecord.id,
+      initiativeIds,
+      actor,
+      {
+        processed: asSummaryEntries(summary.processed),
+        failures: asSummaryEntries(summary.failures),
+      },
+    );
+    return getPortfolioRefreshRun(runningRecord.id);
+  }
+
+  const queuedRecord = await db.query.portfolioRefreshRuns.findFirst({
+    where: eq(portfolioRefreshRuns.status, "queued"),
+    orderBy: [asc(portfolioRefreshRuns.createdAt)],
+  });
+
+  if (!queuedRecord) {
+    return null;
+  }
+
+  const summary = (queuedRecord.summary ?? {}) as Record<string, unknown>;
+  const actor = extractActor(summary);
+  const initiativeIds = await listPortfolioInitiativeIds();
+  await processPortfolioRefresh(
+    queuedRecord.id,
+    initiativeIds,
+    actor,
+    {
+      processed: asSummaryEntries(summary.processed),
+      failures: asSummaryEntries(summary.failures),
+    },
+  );
+  return getPortfolioRefreshRun(queuedRecord.id);
 }
 
 export async function getPortfolioRefreshRun(runId: string): Promise<PortfolioRefreshRun | null> {

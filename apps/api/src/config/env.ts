@@ -74,6 +74,10 @@ const envSchema = z.object({
   KPI_RESEARCH_TIMEOUT_MS: z.coerce.number().default(45000),
   EVIDENCE_SYNC_REUSE_HOURS: z.coerce.number().default(12),
   PORTFOLIO_STEP_TIMEOUT_MS: z.coerce.number().default(600000),
+  PORTFOLIO_PROCESS_INLINE: z
+    .string()
+    .default("true")
+    .transform((value) => value === "true"),
 });
 
 export const env = envSchema.parse(process.env);
