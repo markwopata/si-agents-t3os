@@ -153,12 +153,4 @@ if (hostedRuntime) {
   if (env.TOKEN_ENCRYPTION_SECRET === "local-dev-encryption-secret") {
     throw new Error("TOKEN_ENCRYPTION_SECRET must be explicitly configured in hosted environments.");
   }
-
-  if (!firstDefined(process.env.T3OS_JWT_ISSUER, process.env.AUTH0_ISSUER_BASE_URL)) {
-    throw new Error("Set T3OS_JWT_ISSUER for hosted environments.");
-  }
-
-  if (!firstDefined(process.env.T3OS_JWT_AUDIENCE, process.env.AUTH0_AUDIENCE)) {
-    throw new Error("Set T3OS_JWT_AUDIENCE for hosted environments.");
-  }
 }
