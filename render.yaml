@@ -47,10 +47,16 @@ services:
         value: 20000
       - key: KPI_RESEARCH_TIMEOUT_MS
         value: 360000
+      - key: OPENAI_EVALUATION_MODEL
+        value: gpt-5.4
+      - key: OPENAI_EVALUATION_REASONING_EFFORT
+        value: high
+      - key: OPENAI_EVALUATION_TIMEOUT_MS
+        value: 45000
       - key: OPENAI_KPI_MODEL
-        value: gpt-5
+        value: gpt-5.4
       - key: OPENAI_KPI_REASONING_EFFORT
-        value: medium
+        value: high
       - key: OPENAI_KPI_TIMEOUT_MS
         value: 300000
       - key: PORTFOLIO_STEP_TIMEOUT_MS
@@ -99,9 +105,15 @@ services:
         sync: false
       - key: FROSTY_SQL_WAREHOUSE
         sync: false
+      - key: OPENAI_EVALUATION_MODEL
+        value: gpt-5.4
+      - key: OPENAI_EVALUATION_REASONING_EFFORT
+        value: high
+      - key: OPENAI_EVALUATION_TIMEOUT_MS
+        value: 45000
       - key: OPENAI_KPI_MODEL
-        value: gpt-5
+        value: gpt-5.4
       - key: OPENAI_KPI_REASONING_EFFORT
-        value: medium
+        value: high
       - key: OPENAI_KPI_TIMEOUT_MS
         value: 300000

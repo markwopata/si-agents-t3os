@@ -77,11 +77,11 @@ const envSchema = z.object({
       ].join(","),
     ),
   OPENAI_API_KEY: z.string().optional(),
-  OPENAI_EVALUATION_MODEL: z.string().default("gpt-5"),
-  OPENAI_EVALUATION_REASONING_EFFORT: z.enum(["low", "medium", "high"]).default("medium"),
+  OPENAI_EVALUATION_MODEL: z.string().default("gpt-5.4"),
+  OPENAI_EVALUATION_REASONING_EFFORT: z.enum(["low", "medium", "high"]).default("high"),
   OPENAI_EVALUATION_TIMEOUT_MS: z.coerce.number().default(45000),
-  OPENAI_KPI_MODEL: z.string().default("gpt-5"),
-  OPENAI_KPI_REASONING_EFFORT: z.enum(["low", "medium", "high"]).default("medium"),
+  OPENAI_KPI_MODEL: z.string().default("gpt-5.4"),
+  OPENAI_KPI_REASONING_EFFORT: z.enum(["low", "medium", "high"]).default("high"),
   OPENAI_KPI_TIMEOUT_MS: z.coerce.number().default(300000),
   ANALYTICS_CORPUS_PATH: z
     .string()
