@@ -1,6 +1,6 @@
 import { execFile as execFileCallback } from "node:child_process";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import type { InitiativeDetail } from "@si/domain";
@@ -177,6 +177,66 @@ function buildExcerpt(lines: string[], bestIndex: number): { lineStart: number; 
   };
 }
 
+async function walkAnalyticsFiles(rootPath: string, currentPath: string, results: string[]): Promise<void> {
+  const entries = await readdir(currentPath, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const absolutePath = path.join(currentPath, entry.name);
+
+    if (entry.isDirectory()) {
+      const loweredRelativePath = path.relative(rootPath, absolutePath).replace(/\\/g, "/").toLowerCase();
+      if (EXCLUDED_PATH_SEGMENTS.some((segment) => loweredRelativePath.split("/").includes(segment.toLowerCase()))) {
+        continue;
+      }
+      await walkAnalyticsFiles(rootPath, absolutePath, results);
+      continue;
+    }
+
+    if (entry.isFile() && shouldIncludeAnalyticsFile(absolutePath, rootPath)) {
+      results.push(absolutePath);
+    }
+  }
+}
+
+async function findCandidateFilesWithoutRipgrep(rootPath: string, terms: string[], maxFiles: number): Promise<string[]> {
+  const candidateFiles: string[] = [];
+  await walkAnalyticsFiles(rootPath, rootPath, candidateFiles);
+
+  const scoredMatches: Array<{ filePath: string; score: number }> = [];
+  for (const filePath of candidateFiles) {
+    let contents: string;
+    try {
+      contents = await readFile(filePath, "utf8");
+    } catch {
+      continue;
+    }
+
+    const loweredContents = contents.toLowerCase();
+    const loweredFilePath = filePath.toLowerCase();
+    const matchedTerms = terms.filter(
+      (term) => loweredFilePath.includes(term) || loweredContents.includes(term),
+    );
+
+    if (matchedTerms.length === 0) {
+      continue;
+    }
+
+    const sourceType = classifyAnalyticsSourceType(filePath);
+    const score =
+      matchedTerms.length * 4 +
+      sourceWeight(sourceType) +
+      (SEMANTIC_HINT_PATTERN.test(contents) ? 4 : 0) +
+      (METRIC_HINT_PATTERN.test(contents) ? 3 : 0);
+
+    scoredMatches.push({ filePath, score });
+  }
+
+  return scoredMatches
+    .sort((left, right) => right.score - left.score)
+    .slice(0, maxFiles)
+    .map((entry) => entry.filePath);
+}
+
 function selectBestSnippet(filePath: string, fileContents: string, terms: string[], rootPath: string): AnalyticsCorpusSnippet | null {
   const lines = fileContents.split("\n");
   let bestIndex = -1;
@@ -245,6 +305,7 @@ export async function retrieveAnalyticsCorpusSnippets(input: {
   const escapedTerms = terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   const pattern = escapedTerms.join("|");
   const args = ["-l", "-i", "--glob", "*.{sql,lkml,md,yml,yaml}", pattern, rootPath];
+  const maxFiles = input.maxFiles ?? 60;
 
   try {
     const { stdout } = await execFile("rg", args, {
@@ -255,7 +316,7 @@ export async function retrieveAnalyticsCorpusSnippets(input: {
       .split("\n")
       .filter(Boolean)
       .filter((filePath) => shouldIncludeAnalyticsFile(filePath, rootPath))
-      .slice(0, input.maxFiles ?? 60);
+      .slice(0, maxFiles);
 
     const snippets: AnalyticsCorpusSnippet[] = [];
     for (const filePath of candidateFiles) {
@@ -279,6 +340,24 @@ export async function retrieveAnalyticsCorpusSnippets(input: {
     }
     if (execError.code === "ETIMEDOUT" || execError.killed === true || execError.signal === "SIGTERM") {
       return [];
+    }
+    if (execError.code === "ENOENT") {
+      const candidateFiles = await findCandidateFilesWithoutRipgrep(rootPath, terms, maxFiles);
+      const snippets: AnalyticsCorpusSnippet[] = [];
+      for (const filePath of candidateFiles) {
+        let contents: string;
+        try {
+          contents = await readFile(filePath, "utf8");
+        } catch {
+          continue;
+        }
+        const snippet = selectBestSnippet(filePath, contents, terms, rootPath);
+        if (snippet) {
+          snippets.push(snippet);
+        }
+      }
+
+      return snippets.sort((left, right) => right.score - left.score).slice(0, input.maxSnippets ?? 10);
     }
     throw error;
   }
