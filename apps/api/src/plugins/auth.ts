@@ -4,7 +4,7 @@ import fp from "fastify-plugin";
 import type { FastifyRequest } from "fastify";
 import { createRemoteJWKSet, jwtVerify, type JWTPayload } from "jose";
 import { db } from "../db/client.js";
-import { serviceTokens } from "../db/schema.js";
+import { serviceTokens, userApiTokens } from "../db/schema.js";
 import { env } from "../config/env.js";
 
 type AppRole = "admin" | "executive" | "member" | null;
@@ -31,7 +31,7 @@ declare module "fastify" {
       appRole: AppRole;
       workspaceId: string | null;
       t3osUserId: string | null;
-      authSource: "local_headers" | "t3os_jwt" | "service_token";
+      authSource: "local_headers" | "t3os_jwt" | "api_token" | "service_token";
       platformAccessToken: string | null;
       scopes: string[];
     };
@@ -74,6 +74,11 @@ function adminEmails(): Set<string> {
 
 function executiveEmails(): Set<string> {
   return configuredEmails(env.T3OS_EXECUTIVE_EMAILS);
+}
+
+function intersectScopes(granted: string[], allowed: string[]): string[] {
+  const allowedSet = new Set(allowed);
+  return granted.filter((scope) => allowedSet.has(scope));
 }
 
 function normalizeDisplayName(value: string | null): string | null {
@@ -140,6 +145,7 @@ function deriveHumanScopes(appRole: AppRole): string[] {
       "read:observations",
       "write:observations",
       "run:agents",
+      "manage:tokens",
     ];
   }
 
@@ -207,6 +213,16 @@ function deriveJwtAppRole(
   email: string | null,
   displayName: string | null,
 ): AppRole {
+  void _payload;
+  return deriveConfiguredAppRole(email, displayName);
+}
+
+function deriveJwtScopes(payload: Record<string, unknown>, appRole: AppRole): string[] {
+  void payload;
+  return deriveHumanScopes(appRole);
+}
+
+function deriveConfiguredAppRole(email: string | null, displayName: string | null): AppRole {
   if (email && adminEmails().has(email)) {
     return "admin";
   }
@@ -225,11 +241,6 @@ function deriveJwtAppRole(
   }
 
   return "member";
-}
-
-function deriveJwtScopes(payload: Record<string, unknown>, appRole: AppRole): string[] {
-  void payload;
-  return deriveHumanScopes(appRole);
 }
 
 export const authPlugin = fp(async (app) => {
@@ -338,6 +349,36 @@ export const authPlugin = fp(async (app) => {
     }
 
     const tokenHash = hashToken(token);
+    const userApiTokenRecord = await db.query.userApiTokens.findFirst({
+      where: eq(userApiTokens.tokenHash, tokenHash),
+    });
+
+    if (userApiTokenRecord) {
+      const appRole = deriveConfiguredAppRole(
+        userApiTokenRecord.ownerEmail ?? null,
+        userApiTokenRecord.ownerDisplayName ?? null,
+      );
+
+      await db
+        .update(userApiTokens)
+        .set({ lastUsedAt: new Date() })
+        .where(eq(userApiTokens.id, userApiTokenRecord.id));
+
+      request.actor = {
+        type: "human",
+        id: userApiTokenRecord.ownerUserId,
+        email: userApiTokenRecord.ownerEmail ?? null,
+        displayName: userApiTokenRecord.ownerDisplayName ?? null,
+        appRole,
+        workspaceId: userApiTokenRecord.ownerWorkspaceId ?? null,
+        t3osUserId: userApiTokenRecord.ownerUserId,
+        authSource: "api_token",
+        platformAccessToken: null,
+        scopes: intersectScopes(userApiTokenRecord.scopes, deriveHumanScopes(appRole)),
+      };
+      return;
+    }
+
     const record = await db.query.serviceTokens.findFirst({
       where: eq(serviceTokens.tokenHash, tokenHash),
     });

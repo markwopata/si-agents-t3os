@@ -167,12 +167,26 @@ export const serviceTokenCreateSchema = z.object({
   scopes: z.array(tokenScopeEnum).min(1),
 });
 
+export const apiTokenCreateSchema = z.object({
+  label: z.string().min(1),
+  scopes: z.array(tokenScopeEnum).min(1),
+});
+
 export const serviceTokenSchema = z.object({
   id: z.string(),
   label: z.string(),
   scopes: z.array(tokenScopeEnum),
   tokenPreview: z.string(),
   createdAt: z.string(),
+});
+
+export const apiTokenSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  scopes: z.array(tokenScopeEnum),
+  tokenPreview: z.string(),
+  createdAt: z.string(),
+  lastUsedAt: z.string().nullable(),
 });
 
 export const initiativeSummarySchema = z.object({
@@ -703,7 +717,7 @@ export const currentUserSchema = z.object({
   appRole: appUserRoleEnum.nullable(),
   workspaceId: z.string().nullable().default(null),
   t3osUserId: z.string().nullable().default(null),
-  authSource: z.enum(["local_headers", "t3os_jwt", "service_token"]).default("local_headers"),
+  authSource: z.enum(["local_headers", "t3os_jwt", "api_token", "service_token"]).default("local_headers"),
   scopes: z.array(z.string()),
 });
 
@@ -1014,6 +1028,7 @@ export type KnowledgeDocumentUpsertInput = z.infer<typeof knowledgeDocumentUpser
 export type InitiativeAnnotationCreateInput = z.infer<typeof initiativeAnnotationCreateSchema>;
 export type InitiativeRunConfigUpsertInput = z.infer<typeof initiativeRunConfigUpsertSchema>;
 export type ServiceTokenCreateInput = z.infer<typeof serviceTokenCreateSchema>;
+export type ApiTokenCreateInput = z.infer<typeof apiTokenCreateSchema>;
 export type InitiativeSummary = z.infer<typeof initiativeSummarySchema>;
 export type InitiativeDetail = z.infer<typeof initiativeDetailSchema>;
 export type ImportSummary = z.infer<typeof importSummarySchema>;
@@ -1057,6 +1072,8 @@ export type PortfolioRefreshRun = z.infer<typeof portfolioRefreshRunSchema>;
 export type AgentObservation = z.infer<typeof agentObservationSchema>;
 export type ObservationReview = z.infer<typeof observationReviewSchema>;
 export type ObservationReviewUpsertInput = z.infer<typeof observationReviewUpsertSchema>;
+export type ServiceToken = z.infer<typeof serviceTokenSchema>;
+export type ApiToken = z.infer<typeof apiTokenSchema>;
 
 export const personRoleLabels: Record<PersonRole, string> = {
   exec_owner: "Exec Owner",

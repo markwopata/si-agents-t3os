@@ -142,6 +142,20 @@ export const serviceTokens = pgTable("service_tokens", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const userApiTokens = pgTable("user_api_tokens", {
+  id: text("id").primaryKey(),
+  ownerUserId: text("owner_user_id").notNull(),
+  ownerEmail: text("owner_email"),
+  ownerDisplayName: text("owner_display_name"),
+  ownerWorkspaceId: text("owner_workspace_id"),
+  label: text("label").notNull(),
+  tokenHash: text("token_hash").notNull(),
+  tokenPreview: text("token_preview").notNull(),
+  scopes: jsonb("scopes").$type<string[]>().notNull(),
+  lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const auditEvents = pgTable("audit_events", {
   id: text("id").primaryKey(),
   actorType: text("actor_type").notNull(),
@@ -150,6 +164,27 @@ export const auditEvents = pgTable("audit_events", {
   entityType: text("entity_type").notNull(),
   entityId: text("entity_id").notNull(),
   payload: jsonb("payload").$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const agentQueryLogs = pgTable("agent_query_logs", {
+  id: text("id").primaryKey(),
+  actorType: text("actor_type").notNull(),
+  actorId: text("actor_id").notNull(),
+  actorEmail: text("actor_email"),
+  actorRole: text("actor_role"),
+  workspaceId: text("workspace_id"),
+  route: text("route").notNull(),
+  entityType: text("entity_type"),
+  entityId: text("entity_id"),
+  prompt: text("prompt"),
+  requestPayload: jsonb("request_payload").$type<Record<string, unknown>>().notNull().default({}),
+  responseSummary: jsonb("response_summary")
+    .$type<Record<string, unknown>>()
+    .notNull()
+    .default({}),
+  status: text("status").notNull(),
+  errorText: text("error_text"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

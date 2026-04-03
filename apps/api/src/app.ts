@@ -4,6 +4,7 @@ import sensible from "@fastify/sensible";
 import Fastify from "fastify";
 import { env } from "./config/env.js";
 import { authPlugin } from "./plugins/auth.js";
+import { apiTokenRoutes } from "./routes/api-tokens.js";
 import { agentRoutes } from "./routes/agent.js";
 import { healthRoutes } from "./routes/health.js";
 import { googleRoutes } from "./routes/google.js";
@@ -64,6 +65,7 @@ export async function buildApp() {
   await app.register(rootRoutes);
   await app.register(sessionRoutes);
   await app.register(healthRoutes);
+  await app.register(apiTokenRoutes);
   await app.register(initiativeRoutes);
   await app.register(executiveRoutes);
   await app.register(knowledgeRoutes);

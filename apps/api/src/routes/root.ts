@@ -5,7 +5,9 @@ export const rootRoutes: FastifyPluginAsync = async (app) => {
     service: "si-management-api",
     docs: {
       health: "/health",
+      apiTokens: "/api-tokens",
       initiatives: "/initiatives",
+      executiveQueryLogs: "/executive/query-logs",
       executivePortfolioQuery: "/executive/portfolio/query",
       executiveInitiativeContext: "/executive/initiatives/:initiativeId/context",
       executiveInitiativeRawPackage: "/executive/initiatives/:initiativeId/raw-package",
