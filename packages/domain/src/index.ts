@@ -170,6 +170,10 @@ export const serviceTokenCreateSchema = z.object({
 export const apiTokenCreateSchema = z.object({
   label: z.string().min(1),
   scopes: z.array(tokenScopeEnum).min(1),
+  ownerUserId: z.string().optional(),
+  ownerEmail: z.string().email().optional(),
+  ownerDisplayName: z.string().optional(),
+  ownerWorkspaceId: z.string().optional(),
 });
 
 export const serviceTokenSchema = z.object({

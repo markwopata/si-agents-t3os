@@ -1,11 +1,13 @@
-import type { ApiToken, CurrentUser, TokenScope } from "@si/domain";
+import type { ApiToken, CurrentUser, TokenScope, WorkspaceMemberSummary } from "@si/domain";
 import { useEffect, useMemo, useState } from "react";
 import {
   createApiToken,
   deleteApiToken,
   getCurrentUser,
   listApiTokens,
+  listPlatformWorkspaceMembers,
 } from "../api/client";
+import { getCurrentWorkspaceId } from "../lib/t3os";
 
 const TOKEN_SCOPE_OPTIONS: Array<{ value: TokenScope; label: string; description: string }> = [
   {
@@ -86,6 +88,7 @@ function getOwnerLabel(token: ApiToken): string {
 export function ApiTokensPage() {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [tokens, setTokens] = useState<ApiToken[]>([]);
+  const [workspaceMembers, setWorkspaceMembers] = useState<WorkspaceMemberSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
@@ -94,8 +97,11 @@ export function ApiTokensPage() {
   const [revealedToken, setRevealedToken] = useState("");
   const [busyTokenId, setBusyTokenId] = useState("");
   const [search, setSearch] = useState("");
+  const [creationMode, setCreationMode] = useState<"self" | "delegate">("self");
+  const [selectedOwnerUserId, setSelectedOwnerUserId] = useState("");
 
   const isAdmin = currentUser?.type === "service_token" || currentUser?.appRole === "admin";
+  const workspaceId = getCurrentWorkspaceId();
 
   async function load() {
     setLoading(true);
@@ -104,8 +110,16 @@ export function ApiTokensPage() {
     try {
       const me = await getCurrentUser();
       setCurrentUser(me);
-      const tokenItems = await listApiTokens(me.type === "service_token" || me.appRole === "admin");
+      const loadMembers =
+        me.appRole === "admin" && workspaceId
+          ? listPlatformWorkspaceMembers(workspaceId)
+          : Promise.resolve({ workspaceId: workspaceId ?? "", items: [] });
+      const [tokenItems, memberItems] = await Promise.all([
+        listApiTokens(me.type === "service_token" || me.appRole === "admin"),
+        loadMembers,
+      ]);
       setTokens(tokenItems);
+      setWorkspaceMembers(memberItems.items);
     } catch (caughtError) {
       setError(
         caughtError instanceof Error ? caughtError.message : "Unable to load API token inventory.",
@@ -117,7 +131,22 @@ export function ApiTokensPage() {
 
   useEffect(() => {
     void load();
-  }, []);
+  }, [workspaceId]);
+
+  const sortedWorkspaceMembers = useMemo(
+    () =>
+      [...workspaceMembers].sort((left, right) => {
+        const leftLabel = (left.user?.name ?? left.user?.email ?? left.userId).toLowerCase();
+        const rightLabel = (right.user?.name ?? right.user?.email ?? right.userId).toLowerCase();
+        return leftLabel.localeCompare(rightLabel);
+      }),
+    [workspaceMembers],
+  );
+
+  const selectedOwner = useMemo(
+    () => sortedWorkspaceMembers.find((member) => member.userId === selectedOwnerUserId) ?? null,
+    [selectedOwnerUserId, sortedWorkspaceMembers],
+  );
 
   const visibleTokens = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -180,6 +209,11 @@ export function ApiTokensPage() {
       return;
     }
 
+    if (creationMode === "delegate" && !selectedOwner) {
+      setStatus("Select the workspace user who should own this token.");
+      return;
+    }
+
     if (selectedScopes.length === 0) {
       setStatus("Select at least one scope for the token.");
       return;
@@ -192,10 +226,20 @@ export function ApiTokensPage() {
       const created = await createApiToken({
         label: label.trim(),
         scopes: selectedScopes,
+        ...(creationMode === "delegate" && selectedOwner
+          ? {
+              ownerUserId: selectedOwner.userId,
+              ownerEmail: selectedOwner.user?.email ?? undefined,
+              ownerDisplayName: selectedOwner.user?.name ?? undefined,
+              ownerWorkspaceId: workspaceId ?? undefined,
+            }
+          : {}),
       });
       setRevealedToken(created.token);
       setLabel("");
       setSelectedScopes(DEFAULT_TOKEN_SCOPES);
+      setSelectedOwnerUserId("");
+      setCreationMode("self");
       setStatus("Token created. Copy it now because it will not be shown again.");
       await load();
     } catch (caughtError) {
@@ -283,10 +327,29 @@ export function ApiTokensPage() {
             <div>
               <h2>Create token</h2>
               <p className="panel-subtitle">
-                The token can only request scopes your current role already has.
+                {creationMode === "delegate"
+                  ? "Admins can create a token owned by a selected workspace member. Final scopes are capped to that user's role."
+                  : "The token can only request scopes your current role already has."}
               </p>
             </div>
           </div>
+
+          {isAdmin ? (
+            <div className="button-row token-creation-mode">
+              <button
+                className={creationMode === "self" ? "primary-button" : "ghost-button"}
+                onClick={() => setCreationMode("self")}
+              >
+                Create For Me
+              </button>
+              <button
+                className={creationMode === "delegate" ? "primary-button" : "ghost-button"}
+                onClick={() => setCreationMode("delegate")}
+              >
+                Create For Workspace User
+              </button>
+            </div>
+          ) : null}
 
           <div className="form-grid">
             <input
@@ -294,7 +357,31 @@ export function ApiTokensPage() {
               placeholder="Example: Jabbok executive agent"
               onChange={(event) => setLabel(event.target.value)}
             />
+            {isAdmin && creationMode === "delegate" ? (
+              <select
+                value={selectedOwnerUserId}
+                onChange={(event) => setSelectedOwnerUserId(event.target.value)}
+              >
+                <option value="">Select a workspace member</option>
+                {sortedWorkspaceMembers.map((member) => (
+                  <option key={member.userId} value={member.userId}>
+                    {member.user?.name ?? member.user?.email ?? member.userId}
+                    {member.user?.email ? ` (${member.user.email})` : ""}
+                  </option>
+                ))}
+              </select>
+            ) : null}
           </div>
+
+          {creationMode === "delegate" && selectedOwner ? (
+            <div className="notice-card notice-info">
+              <strong>Creating for {selectedOwner.user?.name ?? selectedOwner.user?.email ?? selectedOwner.userId}</strong>
+              <p className="muted">
+                {selectedOwner.user?.email ?? "No email available"} · Token ownership and role will
+                be resolved from this workspace member.
+              </p>
+            </div>
+          ) : null}
 
           <div className="token-scope-grid">
             {TOKEN_SCOPE_OPTIONS.map((scope) => {

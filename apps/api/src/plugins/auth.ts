@@ -7,7 +7,7 @@ import { db } from "../db/client.js";
 import { serviceTokens, userApiTokens } from "../db/schema.js";
 import { env } from "../config/env.js";
 
-type AppRole = "admin" | "executive" | "member" | null;
+export type AppRole = "admin" | "executive" | "member" | null;
 const T3OS_CLAIMS = {
   workspaceId: "https://erp.estrack.com/workspace_id",
   userId: "https://erp.estrack.com/user_id",
@@ -108,7 +108,7 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
   }
 }
 
-function deriveHumanScopes(appRole: AppRole): string[] {
+export function deriveHumanScopes(appRole: AppRole): string[] {
   if (appRole === "admin") {
     return [
       "read:initiatives",
@@ -222,7 +222,7 @@ function deriveJwtScopes(payload: Record<string, unknown>, appRole: AppRole): st
   return deriveHumanScopes(appRole);
 }
 
-function deriveConfiguredAppRole(email: string | null, displayName: string | null): AppRole {
+export function deriveConfiguredAppRole(email: string | null, displayName: string | null): AppRole {
   if (email && adminEmails().has(email)) {
     return "admin";
   }
