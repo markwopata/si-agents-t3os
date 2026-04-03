@@ -124,6 +124,10 @@ function progressScore(initiative: InitiativeSummary): number {
   );
 }
 
+function hasStoredOpinion(initiative: InitiativeSummary): boolean {
+  return Boolean(initiative.latestOpinionStatus || initiative.latestObservationAt);
+}
+
 function compareBestProgress(left: InitiativeSummary, right: InitiativeSummary): number {
   const delta = progressScore(right) - progressScore(left);
   if (delta !== 0) {
@@ -199,8 +203,14 @@ export async function queryExecutivePortfolio(input: {
   switch (intent) {
     case "best_progress":
       selected = [...allInitiatives]
-        .filter((initiative) => initiative.latestOpinionStatus === "on_track")
-        .sort(compareBestProgress)
+        .sort((left, right) => {
+          const leftHasOpinion = hasStoredOpinion(left) ? 1 : 0;
+          const rightHasOpinion = hasStoredOpinion(right) ? 1 : 0;
+          if (leftHasOpinion !== rightHasOpinion) {
+            return rightHasOpinion - leftHasOpinion;
+          }
+          return compareBestProgress(left, right);
+        })
         .slice(0, input.limit);
       break;
     case "needs_attention":
