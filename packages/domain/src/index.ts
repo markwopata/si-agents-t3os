@@ -659,7 +659,7 @@ export const initiativeAskRequestSchema = z.object({
 
 export const executivePortfolioQueryRequestSchema = z.object({
   question: z.string().min(3),
-  limit: z.number().int().min(1).max(250).default(5),
+  limit: z.number().int().min(1).max(1000).default(5),
 });
 
 export const executivePortfolioQueryResponseSchema = z.object({

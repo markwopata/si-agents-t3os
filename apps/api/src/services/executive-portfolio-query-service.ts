@@ -54,6 +54,19 @@ function interpretIntent(question: string): QueryIntent {
   return "portfolio_summary";
 }
 
+function wantsFullPortfolio(question: string): boolean {
+  const lower = question.toLowerCase();
+  return (
+    lower.includes("all initiatives") ||
+    lower.includes("entire portfolio") ||
+    lower.includes("full portfolio") ||
+    lower.includes("every initiative") ||
+    lower.includes("list initiatives") ||
+    lower.includes("list all si") ||
+    lower.includes("all sis")
+  );
+}
+
 function daysSince(iso: string | null): number | null {
   if (!iso) {
     return null;
@@ -198,6 +211,9 @@ export async function queryExecutivePortfolio(input: {
 }): Promise<ExecutivePortfolioQueryResponse> {
   const intent = interpretIntent(input.question);
   const allInitiatives = (await listInitiatives()).filter((initiative) => initiative.isActive);
+  const effectiveLimit = wantsFullPortfolio(input.question)
+    ? Math.max(allInitiatives.length, input.limit)
+    : input.limit;
 
   let selected = allInitiatives;
   switch (intent) {
@@ -211,7 +227,7 @@ export async function queryExecutivePortfolio(input: {
           }
           return compareBestProgress(left, right);
         })
-        .slice(0, input.limit);
+        .slice(0, effectiveLimit);
       break;
     case "needs_attention":
       selected = [...allInitiatives]
@@ -221,10 +237,10 @@ export async function queryExecutivePortfolio(input: {
           ),
         )
         .sort(compareNeedsAttention)
-        .slice(0, input.limit);
+        .slice(0, effectiveLimit);
       break;
     case "stale":
-      selected = [...allInitiatives].sort(compareStaleness).slice(0, input.limit);
+      selected = [...allInitiatives].sort(compareStaleness).slice(0, effectiveLimit);
       break;
     case "priority_stack":
       selected = [...allInitiatives]
@@ -234,12 +250,12 @@ export async function queryExecutivePortfolio(input: {
             (left.priorityRank ?? Number.MAX_SAFE_INTEGER) -
             (right.priorityRank ?? Number.MAX_SAFE_INTEGER),
         )
-        .slice(0, input.limit);
+        .slice(0, effectiveLimit);
       break;
     default:
       selected = [...allInitiatives]
         .sort(compareBestProgress)
-        .slice(0, input.limit);
+        .slice(0, effectiveLimit);
       break;
   }
 
