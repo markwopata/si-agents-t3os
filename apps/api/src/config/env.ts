@@ -85,6 +85,7 @@ const envSchema = z.object({
   KPI_RESEARCH_TIMEOUT_MS: z.coerce.number().default(45000),
   EVIDENCE_SYNC_REUSE_HOURS: z.coerce.number().default(12),
   PORTFOLIO_STEP_TIMEOUT_MS: z.coerce.number().default(600000),
+  PORTFOLIO_CONCURRENCY: z.coerce.number().int().min(1).max(12).default(4),
   PORTFOLIO_PROCESS_INLINE: z
     .string()
     .default("true")

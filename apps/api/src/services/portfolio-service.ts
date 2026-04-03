@@ -161,104 +161,157 @@ async function processPortfolioRefresh(
       .map((entry) => (typeof entry.initiativeId === "string" ? entry.initiativeId : null))
       .filter((value): value is string => Boolean(value)),
   );
+  const activeInitiatives = new Map<string, { id: string; code: string }>();
+  let summaryWrite = Promise.resolve();
+
+  const updateRunState = async (
+    overrides: Partial<{
+      currentInitiativeId: string | null;
+      currentCode: string | null;
+      status: string;
+      error: string | null;
+    }> = {},
+  ): Promise<void> => {
+    const currentInitiative = activeInitiatives.values().next().value as
+      | { id: string; code: string }
+      | undefined;
+    const currentCode = overrides.currentCode ?? currentInitiative?.code ?? null;
+    const currentInitiativeId = overrides.currentInitiativeId ?? currentInitiative?.id ?? null;
+
+    await updatePortfolioRun(runId, {
+      ...input,
+      totalCount: initiativeIds.length,
+      processed,
+      failures,
+      currentInitiativeId,
+      currentCode,
+      status: overrides.status,
+      error: overrides.error,
+    });
+  };
+
+  const queueRunStateUpdate = async (
+    overrides: Partial<{
+      currentInitiativeId: string | null;
+      currentCode: string | null;
+      status: string;
+      error: string | null;
+    }> = {},
+  ): Promise<void> => {
+    summaryWrite = summaryWrite.then(() => updateRunState(overrides));
+    await summaryWrite;
+  };
+
+  const processInitiative = async (initiativeId: string): Promise<void> => {
+    if (completedIds.has(initiativeId)) {
+      return;
+    }
+
+    const initiative = await getInitiativeById(initiativeId);
+    if (!initiative) {
+      failures.push({
+        initiativeId,
+        error: "Initiative not found",
+      });
+      completedIds.add(initiativeId);
+      await queueRunStateUpdate();
+      return;
+    }
+
+    activeInitiatives.set(initiative.id, { id: initiative.id, code: initiative.code });
+    await queueRunStateUpdate({
+      currentInitiativeId: initiative.id,
+      currentCode: initiative.code,
+    });
+
+    try {
+      const slackSync = await withTimeout(
+        syncSlackHistoryForInitiative(initiative),
+        `Slack sync for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+      const googleSync = await withTimeout(
+        syncGoogleHistoryForInitiative(initiative),
+        `Google sync for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+      const extraction = await withTimeout(
+        extractDocumentsForInitiative({
+          initiativeId: initiative.id,
+          slackRunIds: slackSync.runIds,
+          googleRunId: googleSync.runId,
+        }),
+        `Document extraction for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+      const tracker = await withTimeout(
+        parseTrackerForInitiative(initiative.id, googleSync.runId),
+        `Tracker parsing for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+      const evaluation = await withTimeout(
+        runEvaluationForInitiative({
+          initiativeId: initiative.id,
+          requestedByType: input.requestedByType,
+          requestedById: input.requestedById,
+        }),
+        `Evaluation for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+      const kpiResearch = await withTimeout(
+        runKpiResearchForInitiative(initiative, evaluation.runId),
+        `KPI research for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
+
+      processed.push({
+        initiativeId: initiative.id,
+        code: initiative.code,
+        title: initiative.title,
+        slackSync,
+        googleSync,
+        extraction,
+        trackerParseRunId: tracker?.latestParseRunId ?? null,
+        agentRunId: evaluation.runId,
+        observationId: evaluation.observationId,
+        kpiResearchRunId: kpiResearch.researchRunId,
+        kpiFindingCount: kpiResearch.findings.length,
+      });
+      completedIds.add(initiative.id);
+    } catch (error) {
+      failures.push({
+        initiativeId: initiative.id,
+        code: initiative.code,
+        title: initiative.title,
+        error: error instanceof Error ? error.message : "Portfolio refresh failed",
+      });
+      completedIds.add(initiative.id);
+    } finally {
+      activeInitiatives.delete(initiative.id);
+      await queueRunStateUpdate();
+    }
+  };
 
   try {
     await markPortfolioRunRunning(runId, input, initiativeIds.length, processed, failures);
+    const pendingInitiativeIds = initiativeIds.filter((initiativeId) => !completedIds.has(initiativeId));
+    let nextIndex = 0;
+    const workerCount = Math.min(env.PORTFOLIO_CONCURRENCY, Math.max(pendingInitiativeIds.length, 1));
 
-    for (const initiativeId of initiativeIds) {
-      if (completedIds.has(initiativeId)) {
-        continue;
+    const workers = Array.from({ length: workerCount }, async () => {
+      for (;;) {
+        const initiativeId = pendingInitiativeIds[nextIndex];
+        nextIndex += 1;
+
+        if (!initiativeId) {
+          return;
+        }
+
+        await processInitiative(initiativeId);
       }
+    });
 
-      const initiative = await getInitiativeById(initiativeId);
-      if (!initiative) {
-        failures.push({
-          initiativeId,
-          error: "Initiative not found",
-        });
-        continue;
-      }
-
-      await updatePortfolioRun(runId, {
-        ...input,
-        totalCount: initiativeIds.length,
-        processed,
-        failures,
-        currentInitiativeId: initiative.id,
-        currentCode: initiative.code,
-      });
-
-      try {
-        const slackSync = await withTimeout(
-          syncSlackHistoryForInitiative(initiative),
-          `Slack sync for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-        const googleSync = await withTimeout(
-          syncGoogleHistoryForInitiative(initiative),
-          `Google sync for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-        const extraction = await withTimeout(
-          extractDocumentsForInitiative({
-            initiativeId: initiative.id,
-            slackRunIds: slackSync.runIds,
-            googleRunId: googleSync.runId,
-          }),
-          `Document extraction for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-        const tracker = await withTimeout(
-          parseTrackerForInitiative(initiative.id, googleSync.runId),
-          `Tracker parsing for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-        const evaluation = await withTimeout(
-          runEvaluationForInitiative({
-            initiativeId: initiative.id,
-            requestedByType: input.requestedByType,
-            requestedById: input.requestedById,
-          }),
-          `Evaluation for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-        const kpiResearch = await withTimeout(
-          runKpiResearchForInitiative(initiative, evaluation.runId),
-          `KPI research for ${initiative.code}`,
-          env.PORTFOLIO_STEP_TIMEOUT_MS,
-        );
-
-        processed.push({
-          initiativeId: initiative.id,
-          code: initiative.code,
-          title: initiative.title,
-          slackSync,
-          googleSync,
-          extraction,
-          trackerParseRunId: tracker?.latestParseRunId ?? null,
-          agentRunId: evaluation.runId,
-          observationId: evaluation.observationId,
-          kpiResearchRunId: kpiResearch.researchRunId,
-          kpiFindingCount: kpiResearch.findings.length,
-        });
-        completedIds.add(initiative.id);
-      } catch (error) {
-        failures.push({
-          initiativeId: initiative.id,
-          code: initiative.code,
-          title: initiative.title,
-          error: error instanceof Error ? error.message : "Portfolio refresh failed",
-        });
-        completedIds.add(initiative.id);
-      }
-
-      await updatePortfolioRun(runId, {
-        ...input,
-        totalCount: initiativeIds.length,
-        processed,
-        failures,
-      });
-    }
+    await Promise.all(workers);
 
     const rankings = await refreshPrioritySignals();
 
