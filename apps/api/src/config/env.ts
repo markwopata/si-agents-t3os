@@ -52,7 +52,7 @@ const envSchema = z.object({
     .default("mark.wopata@equipmentshare.com,kim.misher@equipmentshare.com"),
   T3OS_EXECUTIVE_EMAILS: z
     .string()
-    .default("lindsey.malhiot@equipmentshare.com,jabbok@equipmentshare.com,willy@equipmentshare.com"),
+    .default("lindsey.malhiot@equipmentshare.com,jabbok@equipmentshare.com,will@equipmentshare.com"),
   T3OS_JWT_ISSUER: z.string().min(1),
   T3OS_JWT_AUDIENCE: z.string().min(1),
   T3OS_JWKS_URI: z.string().optional(),
