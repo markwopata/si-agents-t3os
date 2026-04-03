@@ -23,6 +23,7 @@ import {
 import { getDocumentExtractsForInitiative, summarizeDocumentExtractsForInitiative } from "./document-extraction-service.js";
 import { getInitiativeById } from "./initiative-service.js";
 import { getLatestKpiResearchForInitiative, runKpiResearchForInitiative } from "./kpi-research-service.js";
+import { evaluateInitiativeWithOpenAi, openAiEvaluationEnabled } from "./openai-evaluation-service.js";
 import { getLatestTrackerForInitiative } from "./tracker-service.js";
 
 async function getGlobalKnowledgeContent(): Promise<string> {
@@ -84,6 +85,63 @@ function normalizeKpiEvidence(
       provenance: finding.provenance,
     })),
   };
+}
+
+async function resolveEvaluationResult(input: {
+  initiative: NonNullable<Awaited<ReturnType<typeof getInitiativeById>>>;
+  globalKnowledge: string;
+  slackEvidence: Parameters<typeof evaluateInitiative>[0]["slackEvidence"];
+  googleEvidence: Parameters<typeof evaluateInitiative>[0]["googleEvidence"];
+  trackerEvidence: Parameters<typeof evaluateInitiative>[0]["trackerEvidence"];
+  kpiEvidence: Parameters<typeof evaluateInitiative>[0]["kpiEvidence"];
+  runConfig: NonNullable<Awaited<ReturnType<typeof getInitiativeById>>>["runConfig"];
+}) {
+  const heuristicResult = evaluateInitiative({
+    initiative: input.initiative,
+    globalKnowledge: input.globalKnowledge,
+    slackEvidence: input.slackEvidence,
+    googleEvidence: input.googleEvidence,
+    trackerEvidence: input.trackerEvidence,
+    kpiEvidence: input.kpiEvidence,
+    runConfig: input.runConfig,
+  });
+
+  if (!openAiEvaluationEnabled()) {
+    return {
+      result: heuristicResult,
+      evaluationMode: "heuristic" as const,
+      evaluationModel: null,
+    };
+  }
+
+  try {
+    const llm = await evaluateInitiativeWithOpenAi({
+      initiative: input.initiative,
+      globalKnowledge: input.globalKnowledge,
+      slackEvidence: input.slackEvidence,
+      googleEvidence: input.googleEvidence,
+      trackerEvidence: input.trackerEvidence,
+      kpiEvidence: input.kpiEvidence ?? {
+        latestResearchRunId: null,
+        researchedAt: null,
+        summary: {},
+        findings: [],
+      },
+      heuristicResult,
+    });
+
+    return {
+      result: llm.result,
+      evaluationMode: "openai" as const,
+      evaluationModel: llm.model,
+    };
+  } catch {
+    return {
+      result: heuristicResult,
+      evaluationMode: "heuristic_fallback" as const,
+      evaluationModel: env.OPENAI_EVALUATION_MODEL,
+    };
+  }
 }
 
 export async function runEvaluationForInitiative(input: {
@@ -192,20 +250,24 @@ export async function runEvaluationForInitiative(input: {
             })),
           };
 
-    const result = evaluateInitiative({
+    const globalKnowledge = [await getGlobalKnowledgeContent(), buildAnnotationKnowledge(initiative), documentKnowledge]
+      .filter(Boolean)
+      .join("\n\n");
+
+    const kpiEvidence = {
+      ...normalizeKpiEvidence(
+        kpiResearch,
+        input.refreshKpisBeforeEvaluation ? startedAt : null,
+      ),
+    };
+
+    const { result, evaluationMode, evaluationModel } = await resolveEvaluationResult({
       initiative,
-      globalKnowledge: [await getGlobalKnowledgeContent(), buildAnnotationKnowledge(initiative), documentKnowledge]
-        .filter(Boolean)
-        .join("\n\n"),
+      globalKnowledge,
       slackEvidence,
       googleEvidence,
       runConfig: initiative.runConfig,
-      kpiEvidence: {
-        ...normalizeKpiEvidence(
-          kpiResearch,
-          input.refreshKpisBeforeEvaluation ? startedAt : null,
-        ),
-      },
+      kpiEvidence,
       trackerEvidence: {
         connected: trackerEvidence.connected,
         trackerFileId: trackerEvidence.trackerFileId,
@@ -324,11 +386,13 @@ export async function runEvaluationForInitiative(input: {
         status: "completed",
         finishedAt: new Date(),
         summary: {
-          statusRecommendation: result.statusRecommendation,
-          confidenceScore: result.confidenceScore,
-        },
-      })
-      .where(eq(agentRuns.id, runId));
+        statusRecommendation: result.statusRecommendation,
+        confidenceScore: result.confidenceScore,
+        evaluationMode,
+        evaluationModel,
+      },
+    })
+    .where(eq(agentRuns.id, runId));
 
     return {
       runId,
@@ -362,24 +426,37 @@ export async function runEvaluationForAllInitiatives(input: {
 
   const runIds: string[] = [];
   const failures: Array<{ initiativeId: string; code: string; title: string; error: string }> = [];
-  for (const initiative of activeInitiatives) {
-    try {
-      const result = await runEvaluationForInitiative({
-        initiativeId: initiative.id,
-        requestedByType: input.requestedByType,
-        requestedById: input.requestedById,
-        refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
-      });
-      runIds.push(result.runId);
-    } catch (error) {
-      failures.push({
-        initiativeId: initiative.id,
-        code: initiative.code,
-        title: initiative.title,
-        error: error instanceof Error ? error.message : "Evaluation failed",
-      });
+  let nextIndex = 0;
+  const workerCount = Math.min(env.PORTFOLIO_CONCURRENCY, Math.max(activeInitiatives.length, 1));
+  const workers = Array.from({ length: workerCount }, async () => {
+    for (;;) {
+      const initiative = activeInitiatives[nextIndex];
+      nextIndex += 1;
+
+      if (!initiative) {
+        return;
+      }
+
+      try {
+        const result = await runEvaluationForInitiative({
+          initiativeId: initiative.id,
+          requestedByType: input.requestedByType,
+          requestedById: input.requestedById,
+          refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
+        });
+        runIds.push(result.runId);
+      } catch (error) {
+        failures.push({
+          initiativeId: initiative.id,
+          code: initiative.code,
+          title: initiative.title,
+          error: error instanceof Error ? error.message : "Evaluation failed",
+        });
+      }
     }
-  }
+  });
+
+  await Promise.all(workers);
 
   return { runIds, failures };
 }

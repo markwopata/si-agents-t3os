@@ -76,6 +76,10 @@ const envSchema = z.object({
         "https://www.googleapis.com/auth/spreadsheets.readonly",
       ].join(","),
     ),
+  OPENAI_API_KEY: z.string().optional(),
+  OPENAI_EVALUATION_MODEL: z.string().default("gpt-5"),
+  OPENAI_EVALUATION_REASONING_EFFORT: z.enum(["low", "medium", "high"]).default("medium"),
+  OPENAI_EVALUATION_TIMEOUT_MS: z.coerce.number().default(45000),
   ANALYTICS_CORPUS_PATH: z
     .string()
     .default("/Users/mark.wopata/code/cursor_all_data_org_code"),
