@@ -149,6 +149,7 @@ export async function runEvaluationForInitiative(input: {
   requestedByType: "human" | "service_token";
   requestedById: string;
   refreshKpisBeforeEvaluation?: boolean;
+  hydrateLiveEvidence?: boolean;
 }): Promise<{ runId: string; observationId: string }> {
   const initiative = await getInitiativeById(input.initiativeId);
   if (!initiative) {
@@ -157,6 +158,7 @@ export async function runEvaluationForInitiative(input: {
 
   const runId = createId("run");
   const startedAt = new Date().toISOString();
+  const startedAtMs = Date.now();
   await db.insert(agentRuns).values({
     id: runId,
     requestedByType: input.requestedByType,
@@ -164,26 +166,49 @@ export async function runEvaluationForInitiative(input: {
     runScope: "single",
     initiativeId: input.initiativeId,
     status: "running",
+    summary: {
+      stage: "starting",
+      refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation ?? false,
+      hydrateLiveEvidence: input.hydrateLiveEvidence ?? true,
+      startedAt,
+    },
   });
 
   try {
+    const timings: Record<string, number> = {};
     const kpiResearch = input.refreshKpisBeforeEvaluation
       ? await runKpiResearchForInitiative(initiative, runId)
       : await getLatestKpiResearchForInitiative(initiative.id);
+    timings.kpiResearchMs = Date.now() - startedAtMs;
 
+    await db
+      .update(agentRuns)
+      .set({
+        summary: {
+          stage: "hydrating_evidence",
+          refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation ?? false,
+          hydrateLiveEvidence: input.hydrateLiveEvidence ?? true,
+          timings,
+        },
+      })
+      .where(eq(agentRuns.id, runId));
+
+    const shouldHydrateLiveEvidence = input.hydrateLiveEvidence ?? true;
+    const evidenceHydrationStartedAtMs = Date.now();
     const [storedSlackEvidence, storedGoogleEvidence, liveSlackEvidence, liveGoogleEvidence, trackerEvidence, documentKnowledge, documentExtracts] =
       await Promise.all([
         getStoredSlackEvidenceForInitiative(initiative),
         getStoredGoogleEvidenceForInitiative(initiative.id),
-        fetchSlackEvidenceForInitiative(initiative),
-        fetchGoogleEvidenceForInitiative(initiative),
+        shouldHydrateLiveEvidence ? fetchSlackEvidenceForInitiative(initiative) : Promise.resolve(null),
+        shouldHydrateLiveEvidence ? fetchGoogleEvidenceForInitiative(initiative) : Promise.resolve(null),
         getLatestTrackerForInitiative(initiative.id),
         summarizeDocumentExtractsForInitiative(initiative.id, 8),
         getDocumentExtractsForInitiative(initiative.id, 8),
       ]);
+    timings.evidenceHydrationMs = Date.now() - evidenceHydrationStartedAtMs;
 
     const slackEvidence =
-      storedSlackEvidence.messages.length > 0 || !liveSlackEvidence.connected
+      storedSlackEvidence.messages.length > 0 || !liveSlackEvidence?.connected
         ? storedSlackEvidence
         : {
             connected: liveSlackEvidence.connected,
@@ -208,7 +233,7 @@ export async function runEvaluationForInitiative(input: {
           };
 
     const googleEvidence =
-      storedGoogleEvidence.files.length > 0 || !liveGoogleEvidence.connected
+      storedGoogleEvidence.files.length > 0 || !liveGoogleEvidence?.connected
         ? storedGoogleEvidence
         : {
             connected: liveGoogleEvidence.connected,
@@ -261,6 +286,20 @@ export async function runEvaluationForInitiative(input: {
       ),
     };
 
+    await db
+      .update(agentRuns)
+      .set({
+        summary: {
+          stage: "evaluating",
+          refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation ?? false,
+          hydrateLiveEvidence: input.hydrateLiveEvidence ?? true,
+          timings,
+          kpiResearchRunId: "researchRunId" in kpiResearch ? kpiResearch.researchRunId : kpiResearch.latestResearchRunId,
+        },
+      })
+      .where(eq(agentRuns.id, runId));
+
+    const evaluationStartedAtMs = Date.now();
     const { result, evaluationMode, evaluationModel } = await resolveEvaluationResult({
       initiative,
       globalKnowledge,
@@ -296,8 +335,10 @@ export async function runEvaluationForInitiative(input: {
         })),
       },
     });
+    timings.evaluationMs = Date.now() - evaluationStartedAtMs;
 
     const observationId = createId("observation");
+    const persistenceStartedAtMs = Date.now();
     await db.insert(agentObservations).values({
       id: observationId,
       initiativeId: initiative.id,
@@ -379,6 +420,8 @@ export async function runEvaluationForInitiative(input: {
       statusRecommendation: result.statusRecommendation,
       rationale: result.progressAssessment,
     });
+    timings.persistenceMs = Date.now() - persistenceStartedAtMs;
+    timings.totalMs = Date.now() - startedAtMs;
 
     await db
       .update(agentRuns)
@@ -390,6 +433,8 @@ export async function runEvaluationForInitiative(input: {
         confidenceScore: result.confidenceScore,
         evaluationMode,
         evaluationModel,
+        timings,
+        hydrateLiveEvidence: input.hydrateLiveEvidence ?? true,
       },
     })
     .where(eq(agentRuns.id, runId));
@@ -418,6 +463,7 @@ export async function runEvaluationForAllInitiatives(input: {
   requestedByType: "human" | "service_token";
   requestedById: string;
   refreshKpisBeforeEvaluation?: boolean;
+  hydrateLiveEvidence?: boolean;
 }): Promise<{ runIds: string[]; failures: Array<{ initiativeId: string; code: string; title: string; error: string }> }> {
   const activeInitiatives = await db.query.initiatives.findMany({
     where: eq(initiatives.isActive, true),
@@ -443,6 +489,7 @@ export async function runEvaluationForAllInitiatives(input: {
           requestedByType: input.requestedByType,
           requestedById: input.requestedById,
           refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
+          hydrateLiveEvidence: input.hydrateLiveEvidence,
         });
         runIds.push(result.runId);
       } catch (error) {

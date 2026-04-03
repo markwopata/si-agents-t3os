@@ -18,24 +18,26 @@ export const agentRoutes: FastifyPluginAsync = async (app) => {
   app.post("/agent/run-all", async (request) => {
     requireScope(request, "run:agents");
     requireExecutive(request);
-    const body = ((request.body ?? {}) as { refreshKpis?: boolean });
+    const body = ((request.body ?? {}) as { refreshKpis?: boolean; hydrateLiveEvidence?: boolean });
     return runEvaluationForAllInitiatives({
       requestedByType: request.actor.type,
       requestedById: request.actor.id,
       refreshKpisBeforeEvaluation: body.refreshKpis ?? true,
+      hydrateLiveEvidence: body.hydrateLiveEvidence ?? false,
     });
   });
 
   app.post("/agent/run/:initiativeId", async (request) => {
     requireScope(request, "run:agents");
     const { initiativeId } = request.params as { initiativeId: string };
-    const body = ((request.body ?? {}) as { refreshKpis?: boolean });
+    const body = ((request.body ?? {}) as { refreshKpis?: boolean; hydrateLiveEvidence?: boolean });
     await ensureInitiativeContributionAccess(request, initiativeId);
     return runEvaluationForInitiative({
       initiativeId,
       requestedByType: request.actor.type,
       requestedById: request.actor.id,
       refreshKpisBeforeEvaluation: body.refreshKpis ?? true,
+      hydrateLiveEvidence: body.hydrateLiveEvidence ?? true,
     });
   });
 
