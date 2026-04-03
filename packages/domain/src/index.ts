@@ -114,12 +114,14 @@ export const initiativeUpdateSchema = initiativeBaseSchema.partial();
 export const initiativePersonSchema = z.object({
   id: z.string().optional(),
   role: personRoleEnum,
-  displayName: z.string().min(1),
+  displayName: z.string().default(""),
   email: z.string().email().nullable().optional(),
   t3osContactId: z.string().nullable().optional(),
   t3osWorkspaceMemberId: z.string().nullable().optional(),
   t3osUserId: z.string().nullable().optional(),
   sourceType: z.string().default("local"),
+  directorySource: z.enum(["t3os", "legacy_local"]).optional(),
+  directoryResolved: z.boolean().optional(),
   sortOrder: z.number().int().default(0),
 });
 

@@ -51,6 +51,7 @@ import { runInitiativeAgentQuery } from "../services/initiative-agent-query-serv
 import { getInitiativeRawEvidence } from "../services/raw-evidence-service.js";
 import { recomputePriorityRanking, saveManualPriorityRanking } from "../services/ranking-service.js";
 import { getInitiativeRunConfig, upsertInitiativeRunConfig } from "../services/run-config-service.js";
+import { hydrateInitiativePeopleFromT3os } from "../services/t3os-platform-service.js";
 import { getLatestTrackerForInitiative, parseTrackerForInitiative } from "../services/tracker-service.js";
 
 export const initiativeRoutes: FastifyPluginAsync = async (app) => {
@@ -68,6 +69,17 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
     const initiative = await getInitiativeById(initiativeId);
     if (!initiative) {
       return reply.notFound("Initiative not found");
+    }
+    if (request.actor.type === "human" && request.actor.platformAccessToken && request.actor.workspaceId) {
+      try {
+        initiative.people = await hydrateInitiativePeopleFromT3os({
+          token: request.actor.platformAccessToken,
+          workspaceId: request.actor.workspaceId,
+          people: initiative.people,
+        });
+      } catch (error) {
+        request.log.warn({ error, initiativeId }, "Unable to hydrate initiative people from T3OS");
+      }
     }
     return initiative;
   });

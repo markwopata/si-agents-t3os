@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   archiveInitiative,
+  createPlatformContact,
   createInitiativeAnnotation,
   deleteInitiativeAnnotation,
   getInitiative,
@@ -130,6 +131,7 @@ export function InitiativePage() {
   const [kpiResearch, setKpiResearch] = useState<InitiativeKpiResearch>(emptyKpiResearch(initiativeId));
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [workspaceContacts, setWorkspaceContacts] = useState<ContactSummary[]>([]);
+  const [workspaceBusinesses, setWorkspaceBusinesses] = useState<ContactSummary[]>([]);
   const [workspaceMembers, setWorkspaceMembers] = useState<WorkspaceMemberSummary[]>([]);
   const [workspaceDirectoryStatus, setWorkspaceDirectoryStatus] = useState("");
   const [selectedPlatformContactId, setSelectedPlatformContactId] = useState("");
@@ -139,6 +141,12 @@ export function InitiativePage() {
     annotationType: "analysis_instruction" as InitiativeDetail["annotations"][number]["annotationType"],
     title: "",
     content: "",
+  });
+  const [newPlatformContact, setNewPlatformContact] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    businessId: "",
   });
   const [status, setStatus] = useState("Loading...");
 
@@ -150,6 +158,7 @@ export function InitiativePage() {
       !workspaceId
     ) {
       setWorkspaceContacts([]);
+      setWorkspaceBusinesses([]);
       setWorkspaceMembers([]);
       setWorkspaceDirectoryStatus(
         canAccessPlatformDirectory(me)
@@ -161,17 +170,20 @@ export function InitiativePage() {
 
     try {
       setWorkspaceDirectoryStatus("Loading workspace contacts and members...");
-      const [contactsResponse, membersResponse] = await Promise.all([
+      const [contactsResponse, businessResponse, membersResponse] = await Promise.all([
         listPlatformContacts(workspaceId, "PERSON"),
+        listPlatformContacts(workspaceId, "BUSINESS"),
         listPlatformWorkspaceMembers(workspaceId),
       ]);
       setWorkspaceContacts(contactsResponse.items);
+      setWorkspaceBusinesses(businessResponse.items);
       setWorkspaceMembers(membersResponse.items);
       setWorkspaceDirectoryStatus(
-        `Loaded ${contactsResponse.items.length} workspace contacts and ${membersResponse.items.length} workspace members.`,
+        `Loaded ${contactsResponse.items.length} workspace contacts, ${businessResponse.items.length} businesses, and ${membersResponse.items.length} workspace members.`,
       );
     } catch (error) {
       setWorkspaceContacts([]);
+      setWorkspaceBusinesses([]);
       setWorkspaceMembers([]);
       setWorkspaceDirectoryStatus(
         error instanceof Error
@@ -381,10 +393,66 @@ export function InitiativePage() {
           t3osWorkspaceMemberId: matchingMember?.userId ?? null,
           t3osUserId: matchingMember?.user?.id ?? matchingMember?.userId ?? null,
           sourceType: "t3os",
+          directorySource: "t3os",
+          directoryResolved: true,
         },
       ],
     });
     setSelectedPlatformContactId("");
+  }
+
+  async function handleCreateWorkspaceContact() {
+    const workspaceId = currentUser?.workspaceId ?? getCurrentWorkspaceId();
+    if (!workspaceId || !newPlatformContact.name.trim() || !newPlatformContact.email.trim() || !newPlatformContact.businessId) {
+      return;
+    }
+
+    setStatus("Creating T3OS contact...");
+    const created = await createPlatformContact({
+      contactType: "PERSON",
+      workspaceId,
+      name: newPlatformContact.name.trim(),
+      email: newPlatformContact.email.trim(),
+      phone: newPlatformContact.phone.trim() || null,
+      role: null,
+      businessId: newPlatformContact.businessId,
+      resourceMapIds: [],
+    });
+
+    const matchingMember = workspaceMembers.find((member) => {
+      const memberEmail = member.user?.email?.toLowerCase();
+      return Boolean(created.email && memberEmail && memberEmail === created.email.toLowerCase());
+    });
+
+    setWorkspaceContacts((current) =>
+      [...current, created].sort((left, right) => left.name.localeCompare(right.name)),
+    );
+    setInitiative({
+      ...initiative,
+      people: [
+        ...initiative.people,
+        {
+          id: `temp-t3os-${created.id}-${Date.now()}`,
+          role: selectedPlatformRole,
+          displayName: created.name,
+          email: created.email,
+          sortOrder: initiative.people.length,
+          t3osContactId: created.id,
+          t3osWorkspaceMemberId: matchingMember?.userId ?? null,
+          t3osUserId: matchingMember?.user?.id ?? matchingMember?.userId ?? null,
+          sourceType: "t3os",
+          directorySource: "t3os",
+          directoryResolved: true,
+        },
+      ],
+    });
+    setNewPlatformContact({
+      name: "",
+      email: "",
+      phone: "",
+      businessId: "",
+    });
+    setStatus("Created T3OS contact and added it to the SI role draft. Save Record to persist the mapping.");
   }
 
   function canAccessPlatformDirectory(me: CurrentUser | null): boolean {
@@ -541,6 +609,8 @@ export function InitiativePage() {
                       email: null,
                       sortOrder: initiative.people.length,
                       sourceType: "local",
+                      directorySource: "legacy_local",
+                      directoryResolved: true,
                     },
                   ],
                 })
@@ -597,6 +667,58 @@ export function InitiativePage() {
               Add From T3OS
             </button>
           </div>
+          <div className="form-grid" style={{ marginTop: "0.75rem" }}>
+            <input
+              value={newPlatformContact.name}
+              disabled={!canUsePlatformDirectory}
+              onChange={(event) =>
+                setNewPlatformContact((current) => ({ ...current, name: event.target.value }))
+              }
+              placeholder="New T3OS contact name"
+            />
+            <input
+              value={newPlatformContact.email}
+              disabled={!canUsePlatformDirectory}
+              onChange={(event) =>
+                setNewPlatformContact((current) => ({ ...current, email: event.target.value }))
+              }
+              placeholder="New T3OS contact email"
+            />
+            <select
+              value={newPlatformContact.businessId}
+              disabled={!canUsePlatformDirectory || workspaceBusinesses.length === 0}
+              onChange={(event) =>
+                setNewPlatformContact((current) => ({ ...current, businessId: event.target.value }))
+              }
+            >
+              <option value="">Select a business</option>
+              {workspaceBusinesses.map((business) => (
+                <option key={business.id} value={business.id}>
+                  {business.name}
+                </option>
+              ))}
+            </select>
+            <input
+              value={newPlatformContact.phone}
+              disabled={!canUsePlatformDirectory}
+              onChange={(event) =>
+                setNewPlatformContact((current) => ({ ...current, phone: event.target.value }))
+              }
+              placeholder="Phone (optional)"
+            />
+            <button
+              className="secondary-button"
+              disabled={
+                !canUsePlatformDirectory ||
+                !newPlatformContact.name.trim() ||
+                !newPlatformContact.email.trim() ||
+                !newPlatformContact.businessId
+              }
+              onClick={() => void handleCreateWorkspaceContact()}
+            >
+              Create In T3OS
+            </button>
+          </div>
           <p className="muted">
             {workspaceDirectoryStatus ||
               (canAccessPlatformDirectory(currentUser)
@@ -628,25 +750,32 @@ export function InitiativePage() {
                 </select>
                 <input
                   value={person.displayName}
+                  disabled={person.directorySource === "t3os"}
                   onChange={(event) => {
                     const next = [...initiative.people];
                     next[index] = { ...person, displayName: event.target.value };
                     setInitiative({ ...initiative, people: next });
                   }}
-                  placeholder="Name"
+                  placeholder={person.directorySource === "t3os" ? "Hydrated from T3OS" : "Name"}
                 />
                 <input
                   value={person.email ?? ""}
+                  disabled={person.directorySource === "t3os"}
                   onChange={(event) => {
                     const next = [...initiative.people];
                     next[index] = { ...person, email: event.target.value || null };
                     setInitiative({ ...initiative, people: next });
                   }}
-                  placeholder="Email"
+                  placeholder={person.directorySource === "t3os" ? "Hydrated from T3OS" : "Email"}
                 />
               </div>
               <p className="muted">
-                Source: {person.sourceType === "t3os" ? "T3OS workspace" : "Local SI record"}
+                Source: {person.directorySource === "t3os" ? "T3OS workspace" : "Local SI record"}
+                {person.directorySource === "t3os"
+                  ? person.directoryResolved === false
+                    ? " • unresolved"
+                    : " • resolved"
+                  : ""}
                 {person.t3osContactId ? ` • Contact ${person.t3osContactId}` : ""}
                 {person.t3osWorkspaceMemberId ? ` • Member ${person.t3osWorkspaceMemberId}` : ""}
               </p>

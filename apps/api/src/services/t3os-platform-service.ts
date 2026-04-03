@@ -1,6 +1,7 @@
 import type {
   ContactSummary,
   CreateOrUpdateContactInput,
+  InitiativeDetail,
   UpdateContactInput,
   WorkspaceMemberSummary,
 } from "@si/domain";
@@ -52,7 +53,6 @@ const LIST_WORKSPACE_MEMBERS_QUERY = `
         roles
         user {
           id
-          name
           email
         }
       }
@@ -175,7 +175,6 @@ const INVITE_WORKSPACE_MEMBER_MUTATION = `
       roles
       user {
         id
-        name
         email
       }
     }
@@ -189,7 +188,6 @@ const UPDATE_WORKSPACE_MEMBER_ROLES_MUTATION = `
       roles
       user {
         id
-        name
         email
       }
     }
@@ -268,11 +266,84 @@ function normalizeWorkspaceMember(raw: Record<string, unknown>): WorkspaceMember
     user: user
       ? {
           id: String(user.id ?? raw.userId ?? ""),
-          name: typeof user.name === "string" ? user.name : null,
+          name: null,
           email: typeof user.email === "string" ? user.email : null,
         }
       : null,
   };
+}
+
+export function hydrateInitiativePeopleFromDirectory(input: {
+  people: InitiativeDetail["people"];
+  contacts: ContactSummary[];
+  members: WorkspaceMemberSummary[];
+}): InitiativeDetail["people"] {
+  const contactsById = new Map(input.contacts.map((contact) => [contact.id, contact] as const));
+  const membersByUserId = new Map<string, WorkspaceMemberSummary>();
+  for (const member of input.members) {
+    membersByUserId.set(member.userId, member);
+    if (member.user?.id) {
+      membersByUserId.set(member.user.id, member);
+    }
+  }
+
+  return input.people.map((person) => {
+    const isT3osBacked =
+      person.sourceType === "t3os" ||
+      Boolean(person.t3osContactId || person.t3osWorkspaceMemberId || person.t3osUserId);
+
+    if (!isT3osBacked) {
+      return {
+        ...person,
+        directorySource: "legacy_local" as const,
+        directoryResolved: true,
+      };
+    }
+
+    const contact = person.t3osContactId ? contactsById.get(person.t3osContactId) ?? null : null;
+    const member =
+      (person.t3osWorkspaceMemberId
+        ? membersByUserId.get(person.t3osWorkspaceMemberId)
+        : undefined) ??
+      (person.t3osUserId ? membersByUserId.get(person.t3osUserId) : undefined) ??
+      null;
+
+    const displayName = contact?.name ?? member?.user?.email ?? "";
+    const email = contact?.email ?? member?.user?.email ?? null;
+    const directoryResolved = Boolean(contact || member?.user?.email);
+
+    return {
+      ...person,
+      displayName,
+      email,
+      directorySource: "t3os" as const,
+      directoryResolved,
+    };
+  });
+}
+
+export async function hydrateInitiativePeopleFromT3os(input: {
+  token: string;
+  workspaceId: string;
+  people: InitiativeDetail["people"];
+}): Promise<InitiativeDetail["people"]> {
+  const [contacts, members] = await Promise.all([
+    listPlatformContacts({
+      token: input.token,
+      workspaceId: input.workspaceId,
+      contactType: "PERSON",
+    }),
+    listPlatformWorkspaceMembers({
+      token: input.token,
+      workspaceId: input.workspaceId,
+    }),
+  ]);
+
+  return hydrateInitiativePeopleFromDirectory({
+    people: input.people,
+    contacts,
+    members,
+  });
 }
 
 export async function listPlatformContacts(input: {
