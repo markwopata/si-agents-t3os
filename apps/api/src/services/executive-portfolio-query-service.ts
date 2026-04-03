@@ -262,6 +262,8 @@ export async function queryExecutivePortfolio(input: {
     interpretedIntent: intent,
     generatedAt: new Date().toISOString(),
     summary: buildSummary(intent, items.length),
+    returnedCount: items.length,
+    totalAvailable: allInitiatives.length,
     items,
   };
 }

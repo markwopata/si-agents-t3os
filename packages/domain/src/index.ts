@@ -659,7 +659,7 @@ export const initiativeAskRequestSchema = z.object({
 
 export const executivePortfolioQueryRequestSchema = z.object({
   question: z.string().min(3),
-  limit: z.number().int().min(1).max(25).default(5),
+  limit: z.number().int().min(1).max(250).default(5),
 });
 
 export const executivePortfolioQueryResponseSchema = z.object({
@@ -673,6 +673,8 @@ export const executivePortfolioQueryResponseSchema = z.object({
   ]),
   generatedAt: z.string(),
   summary: z.string(),
+  returnedCount: z.number().int(),
+  totalAvailable: z.number().int(),
   items: z.array(
     z.object({
       initiativeId: z.string(),
