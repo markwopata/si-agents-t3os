@@ -359,6 +359,199 @@ textarea {
   font-size: 0.9rem;
 }
 
+.directory-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.directory-stat,
+.directory-detail-card,
+.initiative-person-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.directory-stat {
+  padding: 0.85rem 0.9rem;
+}
+
+.directory-stat strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.35rem;
+}
+
+.directory-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.directory-toolbar > input {
+  flex: 1 1 280px;
+}
+
+.directory-filter-row {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.people-directory-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+  gap: 0.9rem;
+  margin-top: 0.9rem;
+}
+
+.directory-list-panel {
+  min-height: 320px;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.directory-list {
+  display: grid;
+  gap: 0.55rem;
+  max-height: 520px;
+  overflow: auto;
+  padding: 0.15rem;
+}
+
+.directory-contact-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  text-align: left;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
+}
+
+.directory-contact-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: var(--shadow);
+}
+
+.directory-contact-item.selected {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: rgba(239, 246, 255, 0.95);
+}
+
+.directory-contact-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+}
+
+.directory-contact-main {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.directory-contact-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.directory-contact-name {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.directory-contact-meta {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.directory-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.directory-chip.member {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--brand-dark);
+}
+
+.directory-chip.assigned {
+  background: rgba(21, 128, 61, 0.12);
+  color: var(--good);
+}
+
+.directory-empty-state {
+  display: grid;
+  gap: 0.4rem;
+  place-items: center;
+  text-align: center;
+  min-height: 240px;
+  padding: 1.2rem;
+}
+
+.directory-assignment-panel {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.directory-detail-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem;
+}
+
+.initiative-person-card {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.9rem;
+}
+
+.initiative-person-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+@media (max-width: 1080px) {
+  .people-directory-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .filter-grid,
 .form-grid {
   display: grid;

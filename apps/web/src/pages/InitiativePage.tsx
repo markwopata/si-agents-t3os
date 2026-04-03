@@ -34,6 +34,7 @@ import {
   updateInitiative,
 } from "../api/client";
 import { OpinionPanel } from "../components/OpinionPanel";
+import { T3osDirectoryContactListItem } from "../components/T3osDirectoryContactListItem";
 import { getCurrentWorkspaceId } from "../lib/t3os";
 
 function emptyInitiative(): InitiativeDetail {
@@ -135,6 +136,8 @@ export function InitiativePage() {
   const [workspaceMembers, setWorkspaceMembers] = useState<WorkspaceMemberSummary[]>([]);
   const [workspaceDirectoryStatus, setWorkspaceDirectoryStatus] = useState("");
   const [selectedPlatformContactId, setSelectedPlatformContactId] = useState("");
+  const [directorySearch, setDirectorySearch] = useState("");
+  const [directoryFilter, setDirectoryFilter] = useState<"all" | "assigned" | "members">("all");
   const [selectedPlatformRole, setSelectedPlatformRole] =
     useState<InitiativeDetail["people"][number]["role"]>("other_invitee");
   const [annotationDraft, setAnnotationDraft] = useState({
@@ -367,6 +370,44 @@ export function InitiativePage() {
   const canContribute = canManageRecord || currentUser?.appRole === "participant";
   const canUsePlatformDirectory =
     currentUser?.type === "human" && currentUser.authSource === "t3os_jwt" && Boolean(currentUser.workspaceId);
+  const assignedT3osContactIds = new Set(
+    initiative.people.map((person) => person.t3osContactId).filter((value): value is string => Boolean(value)),
+  );
+  const directoryEntries = workspaceContacts
+    .map((contact) => {
+      const member =
+        workspaceMembers.find((candidate) => {
+          const memberEmail = candidate.user?.email?.toLowerCase();
+          return Boolean(contact.email && memberEmail && memberEmail === contact.email.toLowerCase());
+        }) ?? null;
+
+      return {
+        contact,
+        member,
+        isAssigned: assignedT3osContactIds.has(contact.id),
+      };
+    })
+    .filter(({ contact, member, isAssigned }) => {
+      if (directoryFilter === "assigned") {
+        return isAssigned;
+      }
+      if (directoryFilter === "members") {
+        return Boolean(member);
+      }
+      return true;
+    })
+    .filter(({ contact }) => {
+      const query = directorySearch.trim().toLowerCase();
+      if (!query) {
+        return true;
+      }
+      return [contact.name, contact.email, contact.businessName, contact.role]
+        .filter(Boolean)
+        .some((value) => value?.toLowerCase().includes(query));
+    })
+    .sort((left, right) => left.contact.name.localeCompare(right.contact.name));
+  const selectedDirectoryEntry =
+    directoryEntries.find(({ contact }) => contact.id === selectedPlatformContactId) ?? null;
 
   function handleAddWorkspacePerson() {
     const contact = workspaceContacts.find((item) => item.id === selectedPlatformContactId);
@@ -399,6 +440,18 @@ export function InitiativePage() {
       ],
     });
     setSelectedPlatformContactId("");
+  }
+
+  function handleRemovePerson(personId: string | undefined) {
+    if (!personId) {
+      return;
+    }
+    setInitiative({
+      ...initiative,
+      people: initiative.people
+        .filter((person) => person.id !== personId)
+        .map((person, index) => ({ ...person, sortOrder: index })),
+    });
   }
 
   async function handleCreateWorkspaceContact() {
@@ -626,98 +679,172 @@ export function InitiativePage() {
             T3OS is the canonical directory for workspace contacts and members. Add executive and SI
             participants from the staged workspace when available, then keep the SI-specific role mapping here.
           </p>
-          <div className="form-grid">
-            <select
-              value={selectedPlatformContactId}
-              disabled={!canUsePlatformDirectory || workspaceContacts.length === 0}
-              onChange={(event) => setSelectedPlatformContactId(event.target.value)}
-            >
-              <option value="">Select a workspace contact</option>
-              {workspaceContacts.map((contact) => (
-                <option key={contact.id} value={contact.id}>
-                  {contact.name}
-                  {contact.email ? ` • ${contact.email}` : ""}
-                  {contact.role ? ` • ${contact.role}` : ""}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedPlatformRole}
-              onChange={(event) =>
-                setSelectedPlatformRole(
-                  event.target.value as InitiativeDetail["people"][number]["role"],
-                )
-              }
-            >
-              <option value="exec_owner">Exec Owner</option>
-              <option value="group_owner">Group Owner</option>
-              <option value="initiative_owner">Initiative Owner</option>
-              <option value="si_analytics_owner">SI Analytics Owner</option>
-              <option value="sales_lead">Sales Lead</option>
-              <option value="ops_lead">Ops Lead</option>
-              <option value="analytics_lead">Analytics Lead</option>
-              <option value="pm">PM</option>
-              <option value="other_invitee">Other Invitee</option>
-            </select>
-            <button
-              className="secondary-button"
-              disabled={!selectedPlatformContactId || !canUsePlatformDirectory}
-              onClick={() => handleAddWorkspacePerson()}
-            >
-              Add From T3OS
-            </button>
+          <div className="directory-stats-grid">
+            <div className="directory-stat">
+              <span className="metric-label">Total Contacts</span>
+              <strong>{workspaceContacts.length}</strong>
+            </div>
+            <div className="directory-stat">
+              <span className="metric-label">Businesses</span>
+              <strong>{workspaceBusinesses.length}</strong>
+            </div>
+            <div className="directory-stat">
+              <span className="metric-label">Workspace Members</span>
+              <strong>{workspaceMembers.length}</strong>
+            </div>
           </div>
-          <div className="form-grid" style={{ marginTop: "0.75rem" }}>
+          <div className="directory-toolbar">
             <input
-              value={newPlatformContact.name}
+              value={directorySearch}
               disabled={!canUsePlatformDirectory}
-              onChange={(event) =>
-                setNewPlatformContact((current) => ({ ...current, name: event.target.value }))
-              }
-              placeholder="New T3OS contact name"
+              onChange={(event) => setDirectorySearch(event.target.value)}
+              placeholder="Search T3OS contacts..."
             />
-            <input
-              value={newPlatformContact.email}
-              disabled={!canUsePlatformDirectory}
-              onChange={(event) =>
-                setNewPlatformContact((current) => ({ ...current, email: event.target.value }))
-              }
-              placeholder="New T3OS contact email"
-            />
-            <select
-              value={newPlatformContact.businessId}
-              disabled={!canUsePlatformDirectory || workspaceBusinesses.length === 0}
-              onChange={(event) =>
-                setNewPlatformContact((current) => ({ ...current, businessId: event.target.value }))
-              }
-            >
-              <option value="">Select a business</option>
-              {workspaceBusinesses.map((business) => (
-                <option key={business.id} value={business.id}>
-                  {business.name}
-                </option>
-              ))}
-            </select>
-            <input
-              value={newPlatformContact.phone}
-              disabled={!canUsePlatformDirectory}
-              onChange={(event) =>
-                setNewPlatformContact((current) => ({ ...current, phone: event.target.value }))
-              }
-              placeholder="Phone (optional)"
-            />
-            <button
-              className="secondary-button"
-              disabled={
-                !canUsePlatformDirectory ||
-                !newPlatformContact.name.trim() ||
-                !newPlatformContact.email.trim() ||
-                !newPlatformContact.businessId
-              }
-              onClick={() => void handleCreateWorkspaceContact()}
-            >
-              Create In T3OS
-            </button>
+            <div className="directory-filter-row">
+              <button
+                className={directoryFilter === "all" ? "primary-button" : "ghost-button"}
+                onClick={() => setDirectoryFilter("all")}
+              >
+                All
+              </button>
+              <button
+                className={directoryFilter === "members" ? "primary-button" : "ghost-button"}
+                onClick={() => setDirectoryFilter("members")}
+              >
+                Members
+              </button>
+              <button
+                className={directoryFilter === "assigned" ? "primary-button" : "ghost-button"}
+                onClick={() => setDirectoryFilter("assigned")}
+              >
+                Assigned
+              </button>
+            </div>
+          </div>
+          <div className="people-directory-layout">
+            <div className="directory-list-panel">
+              {directoryEntries.length === 0 ? (
+                <div className="directory-empty-state">
+                  <strong>No contacts match this view.</strong>
+                  <p className="muted">
+                    Adjust the search or filter, or create a new contact in T3OS below.
+                  </p>
+                </div>
+              ) : (
+                <div className="directory-list">
+                  {directoryEntries.map(({ contact, member, isAssigned }) => (
+                    <T3osDirectoryContactListItem
+                      key={contact.id}
+                      contact={contact}
+                      member={member}
+                      isAssigned={isAssigned}
+                      isSelected={contact.id === selectedPlatformContactId}
+                      onSelect={setSelectedPlatformContactId}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="directory-assignment-panel">
+              <div className="directory-detail-card">
+                <span className="metric-label">Assign Selected Contact</span>
+                {selectedDirectoryEntry ? (
+                  <>
+                    <strong>{selectedDirectoryEntry.contact.name}</strong>
+                    <p className="muted">
+                      {selectedDirectoryEntry.contact.email || "No email on file"}
+                      {selectedDirectoryEntry.contact.businessName
+                        ? ` • ${selectedDirectoryEntry.contact.businessName}`
+                        : ""}
+                    </p>
+                  </>
+                ) : (
+                  <p className="muted">
+                    Select a contact from the T3OS directory to map them into an SI role.
+                  </p>
+                )}
+                <select
+                  value={selectedPlatformRole}
+                  onChange={(event) =>
+                    setSelectedPlatformRole(
+                      event.target.value as InitiativeDetail["people"][number]["role"],
+                    )
+                  }
+                >
+                  <option value="exec_owner">Exec Owner</option>
+                  <option value="group_owner">Group Owner</option>
+                  <option value="initiative_owner">Initiative Owner</option>
+                  <option value="si_analytics_owner">SI Analytics Owner</option>
+                  <option value="sales_lead">Sales Lead</option>
+                  <option value="ops_lead">Ops Lead</option>
+                  <option value="analytics_lead">Analytics Lead</option>
+                  <option value="pm">PM</option>
+                  <option value="other_invitee">Other Invitee</option>
+                </select>
+                <button
+                  className="secondary-button"
+                  disabled={!selectedPlatformContactId || !canUsePlatformDirectory}
+                  onClick={() => handleAddWorkspacePerson()}
+                >
+                  Add From T3OS
+                </button>
+              </div>
+              <div className="directory-detail-card">
+                <span className="metric-label">Create In T3OS</span>
+                <div className="stack-list">
+                  <input
+                    value={newPlatformContact.name}
+                    disabled={!canUsePlatformDirectory}
+                    onChange={(event) =>
+                      setNewPlatformContact((current) => ({ ...current, name: event.target.value }))
+                    }
+                    placeholder="New T3OS contact name"
+                  />
+                  <input
+                    value={newPlatformContact.email}
+                    disabled={!canUsePlatformDirectory}
+                    onChange={(event) =>
+                      setNewPlatformContact((current) => ({ ...current, email: event.target.value }))
+                    }
+                    placeholder="New T3OS contact email"
+                  />
+                  <select
+                    value={newPlatformContact.businessId}
+                    disabled={!canUsePlatformDirectory || workspaceBusinesses.length === 0}
+                    onChange={(event) =>
+                      setNewPlatformContact((current) => ({ ...current, businessId: event.target.value }))
+                    }
+                  >
+                    <option value="">Select a business</option>
+                    {workspaceBusinesses.map((business) => (
+                      <option key={business.id} value={business.id}>
+                        {business.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    value={newPlatformContact.phone}
+                    disabled={!canUsePlatformDirectory}
+                    onChange={(event) =>
+                      setNewPlatformContact((current) => ({ ...current, phone: event.target.value }))
+                    }
+                    placeholder="Phone (optional)"
+                  />
+                  <button
+                    className="secondary-button"
+                    disabled={
+                      !canUsePlatformDirectory ||
+                      !newPlatformContact.name.trim() ||
+                      !newPlatformContact.email.trim() ||
+                      !newPlatformContact.businessId
+                    }
+                    onClick={() => void handleCreateWorkspaceContact()}
+                  >
+                    Create In T3OS
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <p className="muted">
             {workspaceDirectoryStatus ||
@@ -728,7 +855,21 @@ export function InitiativePage() {
         </div>
         <div className="stack-list">
           {initiative.people.map((person, index) => (
-            <div className="stack-list" key={person.id}>
+            <div className="initiative-person-card" key={person.id}>
+              <div className="initiative-person-header">
+                <div>
+                  <span className="metric-label">
+                    {person.directorySource === "t3os" ? "T3OS Contact Mapping" : "Legacy Local Entry"}
+                  </span>
+                  <strong>{person.displayName || "Unresolved person"}</strong>
+                </div>
+                <button
+                  className="ghost-button"
+                  onClick={() => handleRemovePerson(person.id)}
+                >
+                  Remove
+                </button>
+              </div>
               <div className="row-grid">
                 <select
                   value={person.role}
@@ -769,7 +910,7 @@ export function InitiativePage() {
                   placeholder={person.directorySource === "t3os" ? "Hydrated from T3OS" : "Email"}
                 />
               </div>
-              <p className="muted">
+              <p className="muted" style={{ marginBottom: 0 }}>
                 Source: {person.directorySource === "t3os" ? "T3OS workspace" : "Local SI record"}
                 {person.directorySource === "t3os"
                   ? person.directoryResolved === false
