@@ -26,6 +26,7 @@ export const apiTokenRoutes: FastifyPluginAsync = async (app) => {
 
     return listUserApiTokens({
       ownerUserId: request.actor.id,
+      workspaceId: request.actor.workspaceId,
       includeAllForAdmin: isAdminActor(request) && query.all === "true",
     });
   });
@@ -38,6 +39,10 @@ export const apiTokenRoutes: FastifyPluginAsync = async (app) => {
     let ownerDisplayName = request.actor.displayName;
     let ownerWorkspaceId = request.actor.workspaceId;
     let allowedScopes = request.actor.scopes;
+
+    if (!ownerWorkspaceId && !(isAdminActor(request) && payload.ownerWorkspaceId)) {
+      throw new Error("User API tokens must be bound to a workspace");
+    }
 
     const isDelegatedCreate =
       isAdminActor(request) &&
@@ -93,7 +98,7 @@ export const apiTokenRoutes: FastifyPluginAsync = async (app) => {
       ownerUserId,
       ownerEmail,
       ownerDisplayName,
-      ownerWorkspaceId,
+      ownerWorkspaceId: ownerWorkspaceId as string,
       allowedScopes,
       token: payload,
     });
@@ -120,6 +125,7 @@ export const apiTokenRoutes: FastifyPluginAsync = async (app) => {
     await deleteUserApiToken({
       tokenId,
       ownerUserId: request.actor.id,
+      workspaceId: request.actor.workspaceId,
       includeAllForAdmin: isAdminActor(request),
     });
 

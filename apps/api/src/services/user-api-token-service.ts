@@ -11,12 +11,20 @@ function hashToken(token: string): string {
 
 export async function listUserApiTokens(input: {
   ownerUserId: string;
+  workspaceId: string | null;
   includeAllForAdmin?: boolean;
 }) {
   const rows = await db.query.userApiTokens.findMany({
     where: input.includeAllForAdmin
-      ? undefined
-      : eq(userApiTokens.ownerUserId, input.ownerUserId),
+      ? input.workspaceId
+        ? eq(userApiTokens.ownerWorkspaceId, input.workspaceId)
+        : eq(userApiTokens.ownerUserId, input.ownerUserId)
+      : input.workspaceId
+        ? and(
+            eq(userApiTokens.ownerUserId, input.ownerUserId),
+            eq(userApiTokens.ownerWorkspaceId, input.workspaceId),
+          )
+        : eq(userApiTokens.ownerUserId, input.ownerUserId),
     orderBy: (table, { desc, asc }) => [asc(table.ownerDisplayName), asc(table.label), desc(table.createdAt)],
   });
 
@@ -38,7 +46,7 @@ export async function createUserApiToken(input: {
   ownerUserId: string;
   ownerEmail: string | null;
   ownerDisplayName: string | null;
-  ownerWorkspaceId: string | null;
+  ownerWorkspaceId: string;
   allowedScopes: string[];
   token: ApiTokenCreateInput;
 }): Promise<{ id: string; token: string }> {
@@ -72,10 +80,23 @@ export async function createUserApiToken(input: {
 export async function deleteUserApiToken(input: {
   tokenId: string;
   ownerUserId: string;
+  workspaceId: string | null;
   includeAllForAdmin?: boolean;
 }): Promise<void> {
   if (input.includeAllForAdmin) {
-    await db.delete(userApiTokens).where(eq(userApiTokens.id, input.tokenId));
+    if (!input.workspaceId) {
+      await db.delete(userApiTokens).where(eq(userApiTokens.id, input.tokenId));
+      return;
+    }
+
+    await db
+      .delete(userApiTokens)
+      .where(
+        and(
+          eq(userApiTokens.id, input.tokenId),
+          eq(userApiTokens.ownerWorkspaceId, input.workspaceId),
+        ),
+      );
     return;
   }
 
@@ -85,6 +106,7 @@ export async function deleteUserApiToken(input: {
       and(
         eq(userApiTokens.id, input.tokenId),
         eq(userApiTokens.ownerUserId, input.ownerUserId),
+        ...(input.workspaceId ? [eq(userApiTokens.ownerWorkspaceId, input.workspaceId)] : []),
       ),
     );
 }

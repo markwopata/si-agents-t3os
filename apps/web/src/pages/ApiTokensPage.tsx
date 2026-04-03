@@ -334,6 +334,14 @@ export function ApiTokensPage() {
             </div>
           </div>
 
+          <div className="notice-card notice-info">
+            <strong>Workspace-bound</strong>
+            <p className="muted">
+              This token will be bound to the current T3OS workspace and can only be used for that
+              workspace's token inventory and platform operations.
+            </p>
+          </div>
+
           {isAdmin ? (
             <div className="button-row token-creation-mode">
               <button

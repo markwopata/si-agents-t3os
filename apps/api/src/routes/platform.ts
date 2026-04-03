@@ -31,11 +31,16 @@ function requireHumanPlatformToken(request: FastifyRequest): string {
 }
 
 function resolveWorkspaceId(request: FastifyRequest, provided: unknown): string {
+  const actorWorkspaceId = request.actor.workspaceId?.trim() ?? null;
   if (typeof provided === "string" && provided.trim()) {
-    return provided.trim();
+    const requestedWorkspaceId = provided.trim();
+    if (actorWorkspaceId && actorWorkspaceId !== requestedWorkspaceId) {
+      throw new Error("This session is bound to a different workspace");
+    }
+    return requestedWorkspaceId;
   }
-  if (request.actor.workspaceId) {
-    return request.actor.workspaceId;
+  if (actorWorkspaceId) {
+    return actorWorkspaceId;
   }
   throw new Error("workspaceId is required");
 }
