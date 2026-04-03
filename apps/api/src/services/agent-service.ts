@@ -108,159 +108,160 @@ export async function runEvaluationForInitiative(input: {
     status: "running",
   });
 
-  const kpiResearch = input.refreshKpisBeforeEvaluation
-    ? await runKpiResearchForInitiative(initiative, runId)
-    : await getLatestKpiResearchForInitiative(initiative.id);
+  try {
+    const kpiResearch = input.refreshKpisBeforeEvaluation
+      ? await runKpiResearchForInitiative(initiative, runId)
+      : await getLatestKpiResearchForInitiative(initiative.id);
 
-  const [storedSlackEvidence, storedGoogleEvidence, liveSlackEvidence, liveGoogleEvidence, trackerEvidence, documentKnowledge, documentExtracts] =
-    await Promise.all([
-      getStoredSlackEvidenceForInitiative(initiative),
-      getStoredGoogleEvidenceForInitiative(initiative.id),
-      fetchSlackEvidenceForInitiative(initiative),
-      fetchGoogleEvidenceForInitiative(initiative),
-      getLatestTrackerForInitiative(initiative.id),
-      summarizeDocumentExtractsForInitiative(initiative.id, 8),
-      getDocumentExtractsForInitiative(initiative.id, 8),
-    ]);
+    const [storedSlackEvidence, storedGoogleEvidence, liveSlackEvidence, liveGoogleEvidence, trackerEvidence, documentKnowledge, documentExtracts] =
+      await Promise.all([
+        getStoredSlackEvidenceForInitiative(initiative),
+        getStoredGoogleEvidenceForInitiative(initiative.id),
+        fetchSlackEvidenceForInitiative(initiative),
+        fetchGoogleEvidenceForInitiative(initiative),
+        getLatestTrackerForInitiative(initiative.id),
+        summarizeDocumentExtractsForInitiative(initiative.id, 8),
+        getDocumentExtractsForInitiative(initiative.id, 8),
+      ]);
 
-  const slackEvidence =
-    storedSlackEvidence.messages.length > 0 || !liveSlackEvidence.connected
-      ? storedSlackEvidence
-      : {
-          connected: liveSlackEvidence.connected,
-          unreadableChannels: liveSlackEvidence.channels
-            .filter((channel) => !channel.readable)
-            .map((channel) => channel.label),
-          messages: liveSlackEvidence.channels.flatMap((channel) =>
-            channel.messages.map((message) => ({
-              channelId: channel.channelId,
-              channelName: channel.channelName,
-              label: channel.label,
-              url: channel.url,
-              ts: message.ts,
-              userId: message.userId,
-              text: message.text,
-              permalink: message.permalink,
-              attachments: message.attachments,
-              replyCount: message.replyCount,
-              replies: message.replies,
-            })),
-          ),
-        };
+    const slackEvidence =
+      storedSlackEvidence.messages.length > 0 || !liveSlackEvidence.connected
+        ? storedSlackEvidence
+        : {
+            connected: liveSlackEvidence.connected,
+            unreadableChannels: liveSlackEvidence.channels
+              .filter((channel) => !channel.readable)
+              .map((channel) => channel.label),
+            messages: liveSlackEvidence.channels.flatMap((channel) =>
+              channel.messages.map((message) => ({
+                channelId: channel.channelId,
+                channelName: channel.channelName,
+                label: channel.label,
+                url: channel.url,
+                ts: message.ts,
+                userId: message.userId,
+                text: message.text,
+                permalink: message.permalink,
+                attachments: message.attachments,
+                replyCount: message.replyCount,
+                replies: message.replies,
+              })),
+            ),
+          };
 
-  const googleEvidence =
-    storedGoogleEvidence.files.length > 0 || !liveGoogleEvidence.connected
-      ? storedGoogleEvidence
-      : {
-          connected: liveGoogleEvidence.connected,
-          files: liveGoogleEvidence.files.map((file) => ({
-            linkId: file.linkId,
-            label: file.label,
-            url: file.url,
-            fileId: file.fileId,
-            name: file.name,
-            mimeType: file.mimeType,
-            readable: file.readable,
-            error: file.error,
-            modifiedTime: file.modifiedTime,
-            lastModifyingUser: file.lastModifyingUser,
-            webViewLink: file.webViewLink,
-            depth: file.depth,
-            crawlPath: file.crawlPath,
-            revisions: file.revisions.map((revision) => ({
-              id: revision.id,
-              modifiedTime: revision.modifiedTime,
-              lastModifyingUser: revision.lastModifyingUser,
-            })),
-            children: file.children.map((child) => ({
-              id: child.id,
-              parentFileId: child.parentFileId,
-              depth: child.depth,
-              crawlPath: child.crawlPath,
-              name: child.name,
-              mimeType: child.mimeType,
-              modifiedTime: child.modifiedTime,
-              lastModifyingUser: child.lastModifyingUser,
-              webViewLink: child.webViewLink,
-              revisions: child.revisions.map((revision) => ({
+    const googleEvidence =
+      storedGoogleEvidence.files.length > 0 || !liveGoogleEvidence.connected
+        ? storedGoogleEvidence
+        : {
+            connected: liveGoogleEvidence.connected,
+            files: liveGoogleEvidence.files.map((file) => ({
+              linkId: file.linkId,
+              label: file.label,
+              url: file.url,
+              fileId: file.fileId,
+              name: file.name,
+              mimeType: file.mimeType,
+              readable: file.readable,
+              error: file.error,
+              modifiedTime: file.modifiedTime,
+              lastModifyingUser: file.lastModifyingUser,
+              webViewLink: file.webViewLink,
+              depth: file.depth,
+              crawlPath: file.crawlPath,
+              revisions: file.revisions.map((revision) => ({
                 id: revision.id,
                 modifiedTime: revision.modifiedTime,
                 lastModifyingUser: revision.lastModifyingUser,
               })),
+              children: file.children.map((child) => ({
+                id: child.id,
+                parentFileId: child.parentFileId,
+                depth: child.depth,
+                crawlPath: child.crawlPath,
+                name: child.name,
+                mimeType: child.mimeType,
+                modifiedTime: child.modifiedTime,
+                lastModifyingUser: child.lastModifyingUser,
+                webViewLink: child.webViewLink,
+                revisions: child.revisions.map((revision) => ({
+                  id: revision.id,
+                  modifiedTime: revision.modifiedTime,
+                  lastModifyingUser: revision.lastModifyingUser,
+                })),
+              })),
             })),
-          })),
-        };
+          };
 
-  const result = evaluateInitiative({
-    initiative,
-    globalKnowledge: [await getGlobalKnowledgeContent(), buildAnnotationKnowledge(initiative), documentKnowledge]
-      .filter(Boolean)
-      .join("\n\n"),
-    slackEvidence,
-    googleEvidence,
-    runConfig: initiative.runConfig,
-    kpiEvidence: {
-      ...normalizeKpiEvidence(
-        kpiResearch,
-        input.refreshKpisBeforeEvaluation ? startedAt : null,
-      ),
-    },
-    trackerEvidence: {
-      connected: trackerEvidence.connected,
-      trackerFileId: trackerEvidence.trackerFileId,
-      trackerName: trackerEvidence.trackerName,
-      parsedAt: trackerEvidence.parsedAt,
-      summary: trackerEvidence.summary,
-      summaryFields: trackerEvidence.summaryFields.map((field) => ({
-        fieldKey: field.fieldKey,
-        label: field.label,
-        value: field.value,
-      })),
-      items: trackerEvidence.items.map((item) => ({
-        rowNumber: item.rowNumber,
-        itemType: item.itemType,
-        description: item.description,
-        prioritization: item.prioritization,
-        phase: item.phase,
-        impactPotential: item.impactPotential,
-        impactValue: item.impactValue,
-        confidence: item.confidence,
-        currentValueEstimate: item.currentValueEstimate,
-        status: item.status,
-        notes: item.notes,
-        lastEdited: item.lastEdited,
-        submittedBy: item.submittedBy,
-      })),
-    },
-  });
+    const result = evaluateInitiative({
+      initiative,
+      globalKnowledge: [await getGlobalKnowledgeContent(), buildAnnotationKnowledge(initiative), documentKnowledge]
+        .filter(Boolean)
+        .join("\n\n"),
+      slackEvidence,
+      googleEvidence,
+      runConfig: initiative.runConfig,
+      kpiEvidence: {
+        ...normalizeKpiEvidence(
+          kpiResearch,
+          input.refreshKpisBeforeEvaluation ? startedAt : null,
+        ),
+      },
+      trackerEvidence: {
+        connected: trackerEvidence.connected,
+        trackerFileId: trackerEvidence.trackerFileId,
+        trackerName: trackerEvidence.trackerName,
+        parsedAt: trackerEvidence.parsedAt,
+        summary: trackerEvidence.summary,
+        summaryFields: trackerEvidence.summaryFields.map((field) => ({
+          fieldKey: field.fieldKey,
+          label: field.label,
+          value: field.value,
+        })),
+        items: trackerEvidence.items.map((item) => ({
+          rowNumber: item.rowNumber,
+          itemType: item.itemType,
+          description: item.description,
+          prioritization: item.prioritization,
+          phase: item.phase,
+          impactPotential: item.impactPotential,
+          impactValue: item.impactValue,
+          confidence: item.confidence,
+          currentValueEstimate: item.currentValueEstimate,
+          status: item.status,
+          notes: item.notes,
+          lastEdited: item.lastEdited,
+          submittedBy: item.submittedBy,
+        })),
+      },
+    });
 
-  const observationId = createId("observation");
-  await db.insert(agentObservations).values({
-    id: observationId,
-    initiativeId: initiative.id,
-    agentRunId: runId,
-    statusRecommendation: result.statusRecommendation,
-    progressAssessment: result.progressAssessment,
-    confidenceScore: result.confidenceScore,
-    topBlockers: result.topBlockers,
-    suggestedNextActions: result.suggestedNextActions,
-    evidenceSummary: result.evidenceSummary,
-  });
+    const observationId = createId("observation");
+    await db.insert(agentObservations).values({
+      id: observationId,
+      initiativeId: initiative.id,
+      agentRunId: runId,
+      statusRecommendation: result.statusRecommendation,
+      progressAssessment: result.progressAssessment,
+      confidenceScore: result.confidenceScore,
+      topBlockers: result.topBlockers,
+      suggestedNextActions: result.suggestedNextActions,
+      evidenceSummary: result.evidenceSummary,
+    });
 
-  if (result.evidenceReferences.length > 0) {
-    await db.insert(agentEvidenceRefs).values(
-      result.evidenceReferences.map((reference) => ({
-        id: createId("evidence"),
-        observationId,
-        sourceType: reference.sourceType,
-        sourceId: reference.sourceId,
-        title: reference.title,
-        url: reference.url ?? null,
-        excerpt: reference.excerpt,
-        metadata: reference.metadata ?? {},
-      })),
-    );
-  }
+    if (result.evidenceReferences.length > 0) {
+      await db.insert(agentEvidenceRefs).values(
+        result.evidenceReferences.map((reference) => ({
+          id: createId("evidence"),
+          observationId,
+          sourceType: reference.sourceType,
+          sourceId: reference.sourceId,
+          title: reference.title,
+          url: reference.url ?? null,
+          excerpt: reference.excerpt,
+          metadata: reference.metadata ?? {},
+        })),
+      );
+    }
 
   const annotationRefs = initiative.annotations
     .filter((annotation) =>
@@ -283,9 +284,9 @@ export async function runEvaluationForInitiative(input: {
       },
     }));
 
-  if (annotationRefs.length > 0) {
-    await db.insert(agentEvidenceRefs).values(annotationRefs);
-  }
+    if (annotationRefs.length > 0) {
+      await db.insert(agentEvidenceRefs).values(annotationRefs);
+    }
 
   const documentRefs = documentExtracts
     .filter((extract) => extract.extractionStatus === "completed" && extract.summary.trim())
@@ -305,58 +306,82 @@ export async function runEvaluationForInitiative(input: {
       },
     }));
 
-  if (documentRefs.length > 0) {
-    await db.insert(agentEvidenceRefs).values(documentRefs);
+    if (documentRefs.length > 0) {
+      await db.insert(agentEvidenceRefs).values(documentRefs);
+    }
+
+    await db.insert(initiativeStatusHistory).values({
+      id: createId("history"),
+      initiativeId: initiative.id,
+      observationId,
+      statusRecommendation: result.statusRecommendation,
+      rationale: result.progressAssessment,
+    });
+
+    await db
+      .update(agentRuns)
+      .set({
+        status: "completed",
+        finishedAt: new Date(),
+        summary: {
+          statusRecommendation: result.statusRecommendation,
+          confidenceScore: result.confidenceScore,
+        },
+      })
+      .where(eq(agentRuns.id, runId));
+
+    return {
+      runId,
+      observationId,
+    };
+  } catch (error) {
+    await db
+      .update(agentRuns)
+      .set({
+        status: "failed",
+        finishedAt: new Date(),
+        summary: {
+          error: error instanceof Error ? error.message : "Evaluation failed",
+        },
+      })
+      .where(eq(agentRuns.id, runId));
+
+    throw error;
   }
-
-  await db.insert(initiativeStatusHistory).values({
-    id: createId("history"),
-    initiativeId: initiative.id,
-    observationId,
-    statusRecommendation: result.statusRecommendation,
-    rationale: result.progressAssessment,
-  });
-
-  await db
-    .update(agentRuns)
-    .set({
-      status: "completed",
-      finishedAt: new Date(),
-      summary: {
-        statusRecommendation: result.statusRecommendation,
-        confidenceScore: result.confidenceScore,
-      },
-    })
-    .where(eq(agentRuns.id, runId));
-
-  return {
-    runId,
-    observationId,
-  };
 }
 
 export async function runEvaluationForAllInitiatives(input: {
   requestedByType: "human" | "service_token";
   requestedById: string;
   refreshKpisBeforeEvaluation?: boolean;
-}): Promise<{ runIds: string[] }> {
+}): Promise<{ runIds: string[]; failures: Array<{ initiativeId: string; code: string; title: string; error: string }> }> {
   const activeInitiatives = await db.query.initiatives.findMany({
     where: eq(initiatives.isActive, true),
     orderBy: (table) => table.code,
   });
 
   const runIds: string[] = [];
+  const failures: Array<{ initiativeId: string; code: string; title: string; error: string }> = [];
   for (const initiative of activeInitiatives) {
-    const result = await runEvaluationForInitiative({
-      initiativeId: initiative.id,
-      requestedByType: input.requestedByType,
-      requestedById: input.requestedById,
-      refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
-    });
-    runIds.push(result.runId);
+    try {
+      const result = await runEvaluationForInitiative({
+        initiativeId: initiative.id,
+        requestedByType: input.requestedByType,
+        requestedById: input.requestedById,
+        refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
+      });
+      runIds.push(result.runId);
+    } catch (error) {
+      failures.push({
+        initiativeId: initiative.id,
+        code: initiative.code,
+        title: initiative.title,
+        error: error instanceof Error ? error.message : "Evaluation failed",
+      });
+    }
   }
 
-  return { runIds };
+  return { runIds, failures };
 }
 
 export async function getRun(runId: string): Promise<Record<string, unknown> | null> {
