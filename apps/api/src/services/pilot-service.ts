@@ -95,12 +95,13 @@ async function processPilotBatch(
           googleRunId: googleSync.runId,
         });
         const tracker = await parseTrackerForInitiative(initiative.id, googleSync.runId);
+        const kpiResearch = await runKpiResearchForInitiative(initiative);
         const evaluation = await runEvaluationForInitiative({
           initiativeId: initiative.id,
           requestedByType: input.requestedByType,
           requestedById: input.requestedById,
+          refreshKpisBeforeEvaluation: false,
         });
-        const kpiResearch = await runKpiResearchForInitiative(initiative, evaluation.runId);
 
         processed.push({
           initiativeId: initiative.id,

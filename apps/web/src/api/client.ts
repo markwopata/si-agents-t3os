@@ -307,15 +307,20 @@ export async function importWorkbook(file?: File): Promise<ImportSummary> {
 
 export function runInitiativeEvaluation(
   initiativeId: string,
+  options?: { refreshKpis?: boolean },
 ): Promise<{ runId: string; observationId: string }> {
   return request(`/agent/run/${initiativeId}`, {
     method: "POST",
+    body: JSON.stringify({ refreshKpis: options?.refreshKpis ?? true }),
   });
 }
 
-export function runAllEvaluations(): Promise<{ runIds: string[] }> {
+export function runAllEvaluations(
+  options?: { refreshKpis?: boolean },
+): Promise<{ runIds: string[] }> {
   return request("/agent/run-all", {
     method: "POST",
+    body: JSON.stringify({ refreshKpis: options?.refreshKpis ?? true }),
   });
 }
 

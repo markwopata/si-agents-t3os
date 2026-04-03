@@ -251,10 +251,9 @@ export const authPlugin = fp(async (app) => {
         typeof payload[T3OS_CLAIMS.workspaceId] === "string"
           ? String(payload[T3OS_CLAIMS.workspaceId])
           : null;
-      const derivedRole: AppRole =
-        env.DEV_AUTH_BYPASS && email && configuredExecutiveEmails.has(email)
-          ? "executive"
-          : deriveJwtAppRole(payload, email);
+      const derivedRole: AppRole = env.DEV_AUTH_BYPASS
+        ? "executive"
+        : deriveJwtAppRole(payload, email);
 
       request.actor = {
         type: "human",

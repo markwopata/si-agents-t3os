@@ -22,6 +22,7 @@ import {
 } from "./history-sync-service.js";
 import { getDocumentExtractsForInitiative, summarizeDocumentExtractsForInitiative } from "./document-extraction-service.js";
 import { getInitiativeById } from "./initiative-service.js";
+import { getLatestKpiResearchForInitiative, runKpiResearchForInitiative } from "./kpi-research-service.js";
 import { getLatestTrackerForInitiative } from "./tracker-service.js";
 
 async function getGlobalKnowledgeContent(): Promise<string> {
@@ -57,10 +58,39 @@ function buildAnnotationKnowledge(
     .join("\n\n");
 }
 
+function normalizeKpiEvidence(
+  kpiResearch:
+    | Awaited<ReturnType<typeof getLatestKpiResearchForInitiative>>
+    | Awaited<ReturnType<typeof runKpiResearchForInitiative>>,
+  refreshedAt: string | null,
+) {
+  return {
+    latestResearchRunId:
+      "latestResearchRunId" in kpiResearch
+        ? kpiResearch.latestResearchRunId
+        : kpiResearch.researchRunId,
+    researchedAt: "researchedAt" in kpiResearch ? kpiResearch.researchedAt : refreshedAt,
+    summary: "summary" in kpiResearch ? kpiResearch.summary : {},
+    findings: kpiResearch.findings.map((finding) => ({
+      id: finding.id,
+      findingClass: finding.findingClass,
+      sourceType: finding.sourceType,
+      metricKey: finding.metricKey,
+      label: finding.label,
+      metricValue: finding.metricValue,
+      unit: finding.unit,
+      narrative: finding.narrative ?? "",
+      sourceRef: finding.sourceRef ?? "",
+      provenance: finding.provenance,
+    })),
+  };
+}
+
 export async function runEvaluationForInitiative(input: {
   initiativeId: string;
   requestedByType: "human" | "service_token";
   requestedById: string;
+  refreshKpisBeforeEvaluation?: boolean;
 }): Promise<{ runId: string; observationId: string }> {
   const initiative = await getInitiativeById(input.initiativeId);
   if (!initiative) {
@@ -68,6 +98,7 @@ export async function runEvaluationForInitiative(input: {
   }
 
   const runId = createId("run");
+  const startedAt = new Date().toISOString();
   await db.insert(agentRuns).values({
     id: runId,
     requestedByType: input.requestedByType,
@@ -76,6 +107,10 @@ export async function runEvaluationForInitiative(input: {
     initiativeId: input.initiativeId,
     status: "running",
   });
+
+  const kpiResearch = input.refreshKpisBeforeEvaluation
+    ? await runKpiResearchForInitiative(initiative, runId)
+    : await getLatestKpiResearchForInitiative(initiative.id);
 
   const [storedSlackEvidence, storedGoogleEvidence, liveSlackEvidence, liveGoogleEvidence, trackerEvidence, documentKnowledge, documentExtracts] =
     await Promise.all([
@@ -164,6 +199,12 @@ export async function runEvaluationForInitiative(input: {
     slackEvidence,
     googleEvidence,
     runConfig: initiative.runConfig,
+    kpiEvidence: {
+      ...normalizeKpiEvidence(
+        kpiResearch,
+        input.refreshKpisBeforeEvaluation ? startedAt : null,
+      ),
+    },
     trackerEvidence: {
       connected: trackerEvidence.connected,
       trackerFileId: trackerEvidence.trackerFileId,
@@ -297,6 +338,7 @@ export async function runEvaluationForInitiative(input: {
 export async function runEvaluationForAllInitiatives(input: {
   requestedByType: "human" | "service_token";
   requestedById: string;
+  refreshKpisBeforeEvaluation?: boolean;
 }): Promise<{ runIds: string[] }> {
   const activeInitiatives = await db.query.initiatives.findMany({
     where: eq(initiatives.isActive, true),
@@ -309,6 +351,7 @@ export async function runEvaluationForAllInitiatives(input: {
       initiativeId: initiative.id,
       requestedByType: input.requestedByType,
       requestedById: input.requestedById,
+      refreshKpisBeforeEvaluation: input.refreshKpisBeforeEvaluation,
     });
     runIds.push(result.runId);
   }

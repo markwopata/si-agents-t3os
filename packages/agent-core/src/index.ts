@@ -11,6 +11,7 @@ export interface EvidenceReference {
     | "slack"
     | "google_drive"
     | "initiative_tracker"
+    | "kpi_research"
     | "manual";
   sourceId: string;
   title: string;
@@ -111,12 +112,33 @@ export interface TrackerEvidenceInput {
   items: TrackerRowItemInput[];
 }
 
+export interface KpiEvidenceFindingInput {
+  id: string;
+  findingClass: string;
+  sourceType: string;
+  metricKey: string;
+  label: string;
+  metricValue: string | null;
+  unit: string | null;
+  narrative: string;
+  sourceRef: string;
+  provenance?: Record<string, unknown>;
+}
+
+export interface KpiEvidenceInput {
+  latestResearchRunId: string | null;
+  researchedAt: string | null;
+  summary: Record<string, unknown>;
+  findings: KpiEvidenceFindingInput[];
+}
+
 export interface EvaluationInput {
   initiative: InitiativeDetail;
   globalKnowledge: string;
   slackEvidence: SlackEvidenceInput;
   googleEvidence: GoogleEvidenceInput;
   trackerEvidence: TrackerEvidenceInput;
+  kpiEvidence?: KpiEvidenceInput;
   runConfig?: InitiativeDetail["runConfig"];
 }
 
@@ -181,6 +203,12 @@ function summarizeHealth(summary: InitiativeSummary | InitiativeDetail): string[
 
 export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
   const { initiative, globalKnowledge, slackEvidence, googleEvidence, trackerEvidence, runConfig } = input;
+  const kpiEvidence = input.kpiEvidence ?? {
+    latestResearchRunId: null,
+    researchedAt: null,
+    summary: {},
+    findings: [],
+  };
   const thresholds = runConfig?.alertThresholds;
   const evidenceReferences: EvidenceReference[] = [];
   const blockers = summarizeHealth(initiative);
@@ -339,6 +367,11 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
   const trackerBlockedItems = trackerEvidence.items.filter((item) =>
     /(block|risk|delay|hold|stuck)/i.test(`${item.status ?? ""} ${item.notes ?? ""}`),
   );
+  const kpiAgeDays = daysSince(kpiEvidence.researchedAt);
+  const analyticsFindings = kpiEvidence.findings.filter((finding) =>
+    ["analytics_reference", "current_state"].includes(finding.findingClass),
+  );
+  const proposalFindings = kpiEvidence.findings.filter((finding) => finding.findingClass === "proposal");
 
   if (trackerEvidence.connected) {
     if (trackerEvidence.items.length > 0 || trackerEvidence.summaryFields.length > 0) {
@@ -380,6 +413,30 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
     score -= Math.min(trackerBlockedItems.length * 0.03, 0.12);
   }
 
+  if (kpiEvidence.findings.length > 0) {
+    score += 0.04;
+
+    if (analyticsFindings.length > 0) {
+      score += 0.03;
+    }
+
+    if (proposalFindings.length > 0) {
+      score += 0.02;
+    }
+
+    if (kpiAgeDays !== null && kpiAgeDays <= 30) {
+      score += 0.05;
+    } else if (kpiAgeDays !== null && kpiAgeDays <= 90) {
+      score += 0.02;
+    } else if (kpiAgeDays !== null && kpiAgeDays > 180) {
+      blockers.push(`KPI research appears stale, with no refresh in roughly ${Math.round(kpiAgeDays)} days`);
+      score -= 0.06;
+    }
+  } else if (triadRoles.has("analytics_lead")) {
+    blockers.push("no KPI research findings are available to validate current progress");
+    score -= 0.05;
+  }
+
   const signalCorpus = [
     ...slackEvidence.messages.map((message) => message.text),
     ...slackEvidence.messages.flatMap((message) => message.replies.map((reply) => reply.text)),
@@ -389,6 +446,9 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
         .join(" "),
     ),
     ...trackerEvidence.summaryFields.map((field) => `${field.label} ${field.value}`),
+    ...kpiEvidence.findings.map((finding) =>
+      [finding.label, finding.narrative, finding.metricKey, finding.sourceRef].filter(Boolean).join(" "),
+    ),
   ];
   const progressSignals = countMatches(
     signalCorpus,
@@ -606,6 +666,24 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
     });
   }
 
+  for (const finding of kpiEvidence.findings.slice(0, 3)) {
+    evidenceReferences.push({
+      sourceType: "kpi_research",
+      sourceId: finding.id,
+      title: `KPI ${finding.label}`,
+      excerpt: finding.narrative,
+      metadata: {
+        findingClass: finding.findingClass,
+        sourceType: finding.sourceType,
+        metricKey: finding.metricKey,
+        metricValue: finding.metricValue,
+        unit: finding.unit,
+        sourceRef: finding.sourceRef,
+        researchedAt: kpiEvidence.researchedAt,
+      },
+    });
+  }
+
   const progressAssessment =
     statusRecommendation === "on_track"
       ? "The initiative shows credible recent operating activity and progress signals across Slack, Drive, and the tracker, so it appears to be actively moving toward its goal."
@@ -621,6 +699,11 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
         ? "Review the latest tracker updates with the initiative lead and verify them against current KPI evidence."
         : "Require the SI triad to refresh the initiative tracker and the top priority rows before the next review."
       : "Require the SI team to create or relink the working tracker so blockers, priorities, and KPI progress are visible.",
+    kpiEvidence.findings.length > 0
+      ? kpiAgeDays !== null && kpiAgeDays <= 30
+        ? "Validate the KPI research findings against the latest operator narrative and update any weak metric mappings."
+        : "Refresh KPI research so the initiative has current analytics references and measurable progress evidence."
+      : "Build or refresh KPI research so the initiative has concrete analytics references instead of qualitative-only updates.",
     hasChannel
       ? "Review the linked Slack channel for the latest blocker resolution activity and capture decisions back into the SI record."
       : "Add the correct SI Slack channel mapping before the next review cycle.",
@@ -647,6 +730,11 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
         trackerAgeDays !== null
           ? `last visible edit ${Math.round(trackerAgeDays)}d ago with ${trackerEvidence.items.length} parsed rows`
           : "tracker recency unknown"
+      }`,
+      `KPI research: ${
+        kpiEvidence.findings.length > 0
+          ? `${kpiEvidence.findings.length} findings${kpiAgeDays !== null ? `; latest refresh ${Math.round(kpiAgeDays)}d ago` : ""}`
+          : "no current KPI findings"
       }`,
       `Signals: ${progressSignals} progress, ${blockerSignals} blocker`,
       `Health flags: ${blockers.length > 0 ? blockers.join("; ") : "none"}`,

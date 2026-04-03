@@ -249,18 +249,19 @@ async function processPortfolioRefresh(
         `Tracker parsing for ${initiative.code}`,
         env.PORTFOLIO_STEP_TIMEOUT_MS,
       );
+      const kpiResearch = await withTimeout(
+        runKpiResearchForInitiative(initiative),
+        `KPI research for ${initiative.code}`,
+        env.PORTFOLIO_STEP_TIMEOUT_MS,
+      );
       const evaluation = await withTimeout(
         runEvaluationForInitiative({
           initiativeId: initiative.id,
           requestedByType: input.requestedByType,
           requestedById: input.requestedById,
+          refreshKpisBeforeEvaluation: false,
         }),
         `Evaluation for ${initiative.code}`,
-        env.PORTFOLIO_STEP_TIMEOUT_MS,
-      );
-      const kpiResearch = await withTimeout(
-        runKpiResearchForInitiative(initiative, evaluation.runId),
-        `KPI research for ${initiative.code}`,
         env.PORTFOLIO_STEP_TIMEOUT_MS,
       );
 
