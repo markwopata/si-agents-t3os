@@ -26,6 +26,11 @@ function makeInitiative(overrides: Partial<InitiativeDetail> = {}): InitiativeDe
     rankingUpdatedAt: null,
     latestOpinionStatus: null,
     latestOpinionConfidence: null,
+    latestObservationAt: null,
+    peopleCount: 3,
+    hasExecOwner: false,
+    hasGroupOwner: false,
+    hasInitiativeOwner: false,
     updatedAt: new Date().toISOString(),
     sourceRowNumber: 3,
     people: [

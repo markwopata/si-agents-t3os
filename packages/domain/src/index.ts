@@ -198,6 +198,11 @@ export const initiativeSummarySchema = z.object({
   rankingUpdatedAt: z.string().nullable(),
   latestOpinionStatus: statusRecommendationEnum.nullable(),
   latestOpinionConfidence: z.number().nullable(),
+  latestObservationAt: z.string().nullable(),
+  peopleCount: z.number().int(),
+  hasExecOwner: z.boolean(),
+  hasGroupOwner: z.boolean(),
+  hasInitiativeOwner: z.boolean(),
   updatedAt: z.string(),
 });
 
