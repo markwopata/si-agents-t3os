@@ -12,6 +12,13 @@ const T3OS_CLAIMS = {
   workspaceId: "https://erp.estrack.com/workspace_id",
   userId: "https://erp.estrack.com/user_id",
 } as const;
+const FALLBACK_ADMIN_DISPLAY_NAMES = new Set(["mark wopata", "kim misher"]);
+const FALLBACK_EXECUTIVE_DISPLAY_NAMES = new Set([
+  "lindsey malhiot",
+  "jabbok schlacks",
+  "william schlacks",
+  "willy schlacks",
+]);
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 
 declare module "fastify" {
@@ -67,6 +74,15 @@ function adminEmails(): Set<string> {
 
 function executiveEmails(): Set<string> {
   return configuredEmails(env.T3OS_EXECUTIVE_EMAILS);
+}
+
+function normalizeDisplayName(value: string | null): string | null {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = value.trim().toLowerCase().replace(/\s+/g, " ");
+  return normalized.length > 0 ? normalized : null;
 }
 
 function looksLikeJwt(token: string): boolean {
@@ -167,12 +183,44 @@ function extractStringArrayClaim(payload: Record<string, unknown>, claim: string
   return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
 }
 
-function deriveJwtAppRole(_payload: Record<string, unknown>, email: string | null): AppRole {
+function extractJwtEmail(payload: Record<string, unknown>): string | null {
+  const candidates = [
+    payload.email,
+    payload.preferred_username,
+    payload.upn,
+    payload["https://erp.estrack.com/email"],
+    payload["https://equipmentshare.com/email"],
+    payload["https://equipmentshare.com/user_email"],
+  ];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim().length > 0) {
+      return candidate.trim().toLowerCase();
+    }
+  }
+
+  return null;
+}
+
+function deriveJwtAppRole(
+  _payload: Record<string, unknown>,
+  email: string | null,
+  displayName: string | null,
+): AppRole {
   if (email && adminEmails().has(email)) {
     return "admin";
   }
 
   if (email && executiveEmails().has(email)) {
+    return "executive";
+  }
+
+  const normalizedDisplayName = normalizeDisplayName(displayName);
+  if (normalizedDisplayName && FALLBACK_ADMIN_DISPLAY_NAMES.has(normalizedDisplayName)) {
+    return "admin";
+  }
+
+  if (normalizedDisplayName && FALLBACK_EXECUTIVE_DISPLAY_NAMES.has(normalizedDisplayName)) {
     return "executive";
   }
 
@@ -253,8 +301,7 @@ export const authPlugin = fp(async (app) => {
         payload = decodeJwtPayload(token) ?? {};
       }
 
-      const email =
-        typeof payload.email === "string" ? payload.email.trim().toLowerCase() : null;
+      const email = extractJwtEmail(payload);
       const displayName =
         typeof payload.name === "string"
           ? payload.name
@@ -273,7 +320,7 @@ export const authPlugin = fp(async (app) => {
           : null;
       const derivedRole: AppRole = env.DEV_AUTH_BYPASS
         ? "admin"
-        : deriveJwtAppRole(payload, email);
+        : deriveJwtAppRole(payload, email, displayName);
 
       request.actor = {
         type: "human",
