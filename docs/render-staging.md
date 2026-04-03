@@ -44,8 +44,8 @@ Schedule:
 - `DATABASE_URL`
 - `TOKEN_ENCRYPTION_SECRET`
 - `T3OS_EXECUTIVE_EMAILS`
-- `AUTH0_ISSUER_BASE_URL`
-- `AUTH0_AUDIENCE`
+- `T3OS_JWT_ISSUER`
+- `T3OS_JWT_AUDIENCE`
 - `FROSTY_BASE_URL`
 - `SLACK_CLIENT_ID`
 - `SLACK_CLIENT_SECRET`
@@ -74,6 +74,7 @@ Recommended staging value:
 ## Important notes
 
 - The API is now CORS-allowlisted via `CORS_ALLOWED_ORIGINS`.
-- The current bearer-token flow is T3OS-aware, but hosted deployment still needs full Auth0/JWKS verification before this should be treated as production-safe.
+- The API verifies bearer tokens against `T3OS_JWT_ISSUER` and `T3OS_JWT_AUDIENCE`, so those values must be explicitly set in hosted environments.
+- `TOKEN_ENCRYPTION_SECRET` must be a long random value in hosted environments. Rotating it without a re-encryption or re-auth plan will invalidate stored Slack and Google credentials.
 - Slack and Google redirect URIs must point at the hosted API domain, not localhost.
 - This repo currently has no Git remote configured, so Render cannot create a repo-backed service from this machine until the repo is pushed or linked.

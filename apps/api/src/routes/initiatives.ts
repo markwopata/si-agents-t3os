@@ -21,6 +21,7 @@ import {
   ensureInitiativeContributionAccess,
   ensureInitiativeReadAccess,
   listAccessibleInitiativeIdsForActor,
+  requireAdmin,
   requireExecutive,
 } from "../services/authorization-service.js";
 import {
@@ -433,7 +434,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/initiatives", async (request) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const created = await createInitiative(initiativeCreateSchema.parse(request.body));
     await recordAuditEvent({
       actor: request.actor,
@@ -447,7 +448,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.patch("/initiatives/:initiativeId", async (request, reply) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const { initiativeId } = request.params as { initiativeId: string };
     const updated = await updateInitiative(
       initiativeId,
@@ -470,7 +471,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.delete("/initiatives/:initiativeId", async (request) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const { initiativeId } = request.params as { initiativeId: string };
     await archiveInitiative(initiativeId);
     await recordAuditEvent({
@@ -485,7 +486,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.put("/initiatives/:initiativeId/people", async (request) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const { initiativeId } = request.params as { initiativeId: string };
     const parsed = peopleReplaceSchema.parse(request.body);
     await replaceInitiativePeople(initiativeId, parsed.people);
@@ -494,7 +495,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.put("/initiatives/:initiativeId/links", async (request) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const { initiativeId } = request.params as { initiativeId: string };
     const parsed = linksReplaceSchema.parse(request.body);
     await replaceInitiativeLinks(initiativeId, parsed.links);
@@ -503,7 +504,7 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
   app.put("/initiatives/:initiativeId/period-snapshots", async (request) => {
     requireScope(request, "write:initiatives");
-    requireExecutive(request);
+    requireAdmin(request);
     const { initiativeId } = request.params as { initiativeId: string };
     const parsed = periodSnapshotsReplaceSchema.parse(request.body);
     await replaceInitiativeSnapshots(initiativeId, parsed.snapshots);

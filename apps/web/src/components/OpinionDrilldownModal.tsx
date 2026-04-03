@@ -15,6 +15,10 @@ export function OpinionDrilldownModal({
   error,
   onClose,
 }: OpinionDrilldownModalProps) {
+  if (!initiative && !loading && !error) {
+    return null;
+  }
+
   const latest = initiative?.observations[0] ?? null;
   const history = initiative?.observations.slice(1, 6) ?? [];
 

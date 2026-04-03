@@ -8,7 +8,7 @@ export function ImportPage() {
   const [summary, setSummary] = useState<ImportSummary | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const canImport = currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+  const canImport = currentUser?.type === "service_token" || currentUser?.appRole === "admin";
 
   useEffect(() => {
     void getCurrentUser()
@@ -39,7 +39,7 @@ export function ImportPage() {
           Use the default workbook path on disk or upload a workbook directly from your browser.
         </p>
         {!canImport ? (
-          <p className="muted">Workbook import is limited to executive users.</p>
+          <p className="muted">Workbook import is limited to admins.</p>
         ) : null}
         <div className="button-row">
           <button

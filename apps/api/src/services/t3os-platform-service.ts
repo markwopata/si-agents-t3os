@@ -14,7 +14,7 @@ type GraphqlResponse<T> = {
 
 const LIST_CONTACTS_QUERY = `
   query SiPlatformListContacts($workspaceId: String!, $contactType: ContactType) {
-    listContacts(filter: { workspaceId: $workspaceId, contactType: $contactType }, page: { size: 250 }) {
+    listContacts(filter: { workspaceId: $workspaceId, contactType: $contactType }, page: { size: 1000 }) {
       items {
         __typename
         ... on PersonContact {
@@ -66,7 +66,7 @@ const CREATE_PERSON_CONTACT_MUTATION = `
     $name: String!
     $email: String!
     $phone: String
-    $role: String
+    $role: String!
     $businessId: ID!
     $resourceMapIds: [ID!]
   ) {
@@ -391,7 +391,10 @@ export async function createPlatformContact(input: {
 
   const data = await executeT3osGraphql<{
     createPersonContact: Record<string, unknown>;
-  }>(input.token, "SiPlatformCreatePersonContact", CREATE_PERSON_CONTACT_MUTATION, input.payload);
+  }>(input.token, "SiPlatformCreatePersonContact", CREATE_PERSON_CONTACT_MUTATION, {
+    ...input.payload,
+    role: input.payload.role ?? "",
+  });
   return normalizeContact(data.createPersonContact);
 }
 

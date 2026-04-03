@@ -1,12 +1,13 @@
 import {
   createOrUpdateContactInputSchema,
+  legacyContactMigrationInputSchema,
   updateContactInputSchema,
   inviteWorkspaceMemberInputSchema,
   updateWorkspaceMemberRolesInputSchema,
 } from "@si/domain";
 import type { FastifyPluginAsync, FastifyRequest } from "fastify";
 import { requireScope } from "../plugins/auth.js";
-import { requireExecutive } from "../services/authorization-service.js";
+import { requireAdmin } from "../services/authorization-service.js";
 import {
   createPlatformContact,
   invitePlatformWorkspaceMember,
@@ -16,6 +17,11 @@ import {
   updatePlatformContact,
   updatePlatformWorkspaceMemberRoles,
 } from "../services/t3os-platform-service.js";
+import {
+  getLatestLegacyContactMigrationRun,
+  executeLegacyContactsMigration,
+  previewLegacyContactsMigration,
+} from "../services/legacy-contact-migration-service.js";
 
 function requireHumanPlatformToken(request: FastifyRequest): string {
   if (request.actor.type !== "human" || !request.actor.platformAccessToken) {
@@ -68,7 +74,7 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/platform/contacts", async (request) => {
     requireScope(request, "write:platform");
-    requireExecutive(request);
+    requireAdmin(request);
     const token = requireHumanPlatformToken(request);
     const payload = createOrUpdateContactInputSchema.parse(request.body);
     return createPlatformContact({
@@ -79,7 +85,7 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
 
   app.patch("/platform/contacts/:contactId", async (request) => {
     requireScope(request, "write:platform");
-    requireExecutive(request);
+    requireAdmin(request);
     const token = requireHumanPlatformToken(request);
     const { contactId } = request.params as { contactId: string };
     const payload = updateContactInputSchema.parse(request.body);
@@ -92,7 +98,7 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/platform/workspace-members/invite", async (request) => {
     requireScope(request, "write:platform");
-    requireExecutive(request);
+    requireAdmin(request);
     const token = requireHumanPlatformToken(request);
     const payload = inviteWorkspaceMemberInputSchema.parse(request.body);
     return invitePlatformWorkspaceMember({
@@ -105,7 +111,7 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
 
   app.patch("/platform/workspace-members/:userId/roles", async (request) => {
     requireScope(request, "write:platform");
-    requireExecutive(request);
+    requireAdmin(request);
     const token = requireHumanPlatformToken(request);
     const { userId } = request.params as { userId: string };
     const payload = updateWorkspaceMemberRolesInputSchema.parse(request.body);
@@ -119,7 +125,7 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
 
   app.delete("/platform/workspace-members/:userId", async (request) => {
     requireScope(request, "write:platform");
-    requireExecutive(request);
+    requireAdmin(request);
     const token = requireHumanPlatformToken(request);
     const { userId } = request.params as { userId: string };
     const query = request.query as { workspaceId?: string };
@@ -131,5 +137,49 @@ export const platformRoutes: FastifyPluginAsync = async (app) => {
         userId,
       }),
     };
+  });
+
+  app.get("/platform/migrations/legacy-contacts/latest", async (request) => {
+    requireScope(request, "read:platform");
+    requireAdmin(request);
+    const query = request.query as { workspaceId?: string };
+    const workspaceId = resolveWorkspaceId(request, query.workspaceId);
+    return getLatestLegacyContactMigrationRun(workspaceId);
+  });
+
+  app.post("/platform/migrations/legacy-contacts/preview", async (request) => {
+    requireScope(request, "write:platform");
+    requireAdmin(request);
+    const token = requireHumanPlatformToken(request);
+    const payload = legacyContactMigrationInputSchema.parse({
+      ...(request.body as Record<string, unknown>),
+      workspaceId: resolveWorkspaceId(request, (request.body as { workspaceId?: string } | undefined)?.workspaceId),
+    });
+    return previewLegacyContactsMigration({
+      token,
+      actor: {
+        type: request.actor.type,
+        id: request.actor.id,
+      },
+      payload,
+    });
+  });
+
+  app.post("/platform/migrations/legacy-contacts/execute", async (request) => {
+    requireScope(request, "write:platform");
+    requireAdmin(request);
+    const token = requireHumanPlatformToken(request);
+    const payload = legacyContactMigrationInputSchema.parse({
+      ...(request.body as Record<string, unknown>),
+      workspaceId: resolveWorkspaceId(request, (request.body as { workspaceId?: string } | undefined)?.workspaceId),
+    });
+    return executeLegacyContactsMigration({
+      token,
+      actor: {
+        type: request.actor.type,
+        id: request.actor.id,
+      },
+      payload,
+    });
   });
 };

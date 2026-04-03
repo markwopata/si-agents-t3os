@@ -8,7 +8,22 @@ function httpError(statusCode: number, message: string): Error & { statusCode: n
 }
 
 export function isExecutiveActor(request: FastifyRequest): boolean {
-  return request.actor.type === "service_token" || request.actor.appRole === "executive";
+  return (
+    request.actor.type === "service_token" ||
+    request.actor.appRole === "admin" ||
+    request.actor.appRole === "executive"
+  );
+}
+
+export function isAdminActor(request: FastifyRequest): boolean {
+  return request.actor.type === "service_token" || request.actor.appRole === "admin";
+}
+
+export function requireAdmin(request: FastifyRequest): void {
+  if (isAdminActor(request)) {
+    return;
+  }
+  throw httpError(403, "Admin permission required");
 }
 
 export function requireExecutive(request: FastifyRequest): void {
@@ -57,8 +72,8 @@ export async function ensureInitiativeContributionAccess(
     return;
   }
 
-  if (request.actor.appRole !== "participant") {
-    throw httpError(403, "Participant or executive access is required");
+  if (request.actor.appRole !== "member") {
+    throw httpError(403, "Member, executive, or admin access is required");
   }
 
   await ensureInitiativeReadAccess(request, initiativeId);
@@ -85,5 +100,5 @@ export async function ensureAnnotationDeleteAccess(
     return;
   }
 
-  throw httpError(403, "Only the annotation author or an executive can delete this entry");
+  throw httpError(403, "Only the annotation author or an executive/admin can delete this entry");
 }

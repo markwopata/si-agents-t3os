@@ -34,7 +34,7 @@ export function InitiativeEditorPage() {
   }, []);
 
   const canCreate =
-    currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+    currentUser?.type === "service_token" || currentUser?.appRole === "admin";
 
   async function handleCreate() {
     try {
@@ -79,9 +79,9 @@ export function InitiativeEditorPage() {
 
       {!canCreate ? (
         <section className="notice-card notice-warning">
-          <strong>Creation is limited to executive users.</strong>
+          <strong>Creation is limited to admins.</strong>
           <p className="muted">
-            You can review existing initiatives, but only executives and service-token operators can
+            You can review existing initiatives, but only admins and service-token operators can
             create new strategic initiatives.
           </p>
         </section>

@@ -13,6 +13,7 @@ import { knowledgeRoutes } from "./routes/knowledge.js";
 import { pilotRoutes } from "./routes/pilot.js";
 import { platformRoutes } from "./routes/platform.js";
 import { portfolioRoutes } from "./routes/portfolio.js";
+import { executiveRoutes } from "./routes/executive.js";
 import { rootRoutes } from "./routes/root.js";
 import { sessionRoutes } from "./routes/session.js";
 import { serviceTokenRoutes } from "./routes/service-tokens.js";
@@ -24,6 +25,17 @@ export async function buildApp() {
   const allowedOrigins = env.CORS_ALLOWED_ORIGINS.split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
+  const allowedOriginPatterns = env.CORS_ALLOWED_ORIGIN_PATTERNS.split(",")
+    .map((pattern) => pattern.trim())
+    .filter(Boolean)
+    .map((pattern) =>
+      new RegExp(
+        `^${pattern
+          .replace(/[|\\{}()[\]^$+?.]/g, "\\$&")
+          .replace(/\*/g, ".*")}$`,
+        "i",
+      ),
+    );
   await app.register(cors, {
     origin: (origin: string | undefined, callback) => {
       if (!origin) {
@@ -36,8 +48,15 @@ export async function buildApp() {
         return;
       }
 
+       if (allowedOriginPatterns.some((pattern) => pattern.test(origin))) {
+        callback(null, true);
+        return;
+      }
+
       callback(new Error(`Origin ${origin} is not allowed by CORS`), false);
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   });
   await app.register(multipart);
   await app.register(authPlugin);
@@ -46,6 +65,7 @@ export async function buildApp() {
   await app.register(sessionRoutes);
   await app.register(healthRoutes);
   await app.register(initiativeRoutes);
+  await app.register(executiveRoutes);
   await app.register(knowledgeRoutes);
   await app.register(importRoutes);
   await app.register(serviceTokenRoutes);

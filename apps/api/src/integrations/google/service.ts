@@ -198,11 +198,11 @@ function getGoogleSetupState(): {
   const missingRequirements: string[] = [];
 
   if (env.GOOGLE_AUTH_MODE !== "service_account" && !clientIdConfigured) {
-    missingRequirements.push("Add GOOGLE_CLIENT_ID to .env.");
+    missingRequirements.push("Add GOOGLE_CLIENT_ID to .env.local or your deploy secret manager.");
   }
 
   if (env.GOOGLE_AUTH_MODE !== "service_account" && !clientSecretConfigured) {
-    missingRequirements.push("Add GOOGLE_CLIENT_SECRET to .env.");
+    missingRequirements.push("Add GOOGLE_CLIENT_SECRET to .env.local or your deploy secret manager.");
   }
 
   if (env.GOOGLE_AUTH_MODE !== "oauth" && !serviceAccountConfigured) {

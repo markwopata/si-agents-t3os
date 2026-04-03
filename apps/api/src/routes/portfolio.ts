@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import { requireScope } from "../plugins/auth.js";
-import { requireExecutive } from "../services/authorization-service.js";
+import { requireAdmin } from "../services/authorization-service.js";
 import {
   getLatestPortfolioRefreshRun,
   getPortfolioRefreshRun,
@@ -23,7 +23,7 @@ export const portfolioRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/portfolio/refresh", async (request, reply) => {
     requireScope(request, "run:agents");
-    requireExecutive(request);
+    requireAdmin(request);
     reply.code(202);
     return launchPortfolioRefresh({
       requestedByType: request.actor.type,

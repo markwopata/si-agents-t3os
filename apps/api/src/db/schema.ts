@@ -153,6 +153,28 @@ export const auditEvents = pgTable("audit_events", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const legacyContactMigrationRuns = pgTable("legacy_contact_migration_runs", {
+  id: text("id").primaryKey(),
+  mode: text("mode").notNull(),
+  status: text("status").notNull(),
+  workspaceId: text("workspace_id").notNull(),
+  businessContactId: text("business_contact_id"),
+  createdByType: text("created_by_type").notNull(),
+  createdById: text("created_by_id").notNull(),
+  summary: jsonb("summary").$type<Record<string, unknown>>().notNull().default({}),
+  contactCandidates: jsonb("contact_candidates")
+    .$type<Array<Record<string, unknown>>>()
+    .notNull()
+    .default([]),
+  reviewQueue: jsonb("review_queue")
+    .$type<Array<Record<string, unknown>>>()
+    .notNull()
+    .default([]),
+  errorText: text("error_text"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
+});
+
 export const sourceImportBatches = pgTable("source_import_batches", {
   id: text("id").primaryKey(),
   sourceName: text("source_name").notNull(),

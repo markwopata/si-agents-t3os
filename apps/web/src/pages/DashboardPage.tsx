@@ -154,8 +154,9 @@ export function DashboardPage() {
     () => Array.from(new Set(initiatives.map((initiative) => initiative.stage))).filter(Boolean),
     [initiatives],
   );
-  const canManagePortfolio =
-    currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+  const isServiceToken = currentUser?.type === "service_token";
+  const isAdmin = isServiceToken || currentUser?.appRole === "admin";
+  const canManagePortfolio = isAdmin || currentUser?.appRole === "executive";
 
   const filtered = useMemo(() => {
     const search = query.trim().toLowerCase();
@@ -304,12 +305,12 @@ export function DashboardPage() {
             <strong>Operate the portfolio</strong>
           </div>
           <div className="hero-actions hero-actions-vertical">
-            {canManagePortfolio ? (
+            {isAdmin ? (
               <Link className="primary-button" to="/initiatives/new">
                 Create Initiative
               </Link>
             ) : null}
-            {canManagePortfolio ? (
+            {isAdmin ? (
               <button className="secondary-button" onClick={() => void handleLaunchRefresh()}>
                 Refresh All SI Data
               </button>

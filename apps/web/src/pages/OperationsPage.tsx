@@ -38,7 +38,7 @@ export function OperationsPage() {
   }, []);
 
   const canOperate =
-    currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+    currentUser?.type === "service_token" || currentUser?.appRole === "admin";
   const refreshSummary = (latestRefresh?.summary ?? {}) as Record<string, unknown>;
 
   async function handleLaunchRefresh() {

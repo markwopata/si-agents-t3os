@@ -38,9 +38,9 @@ export const initiativeAnnotationTypeEnum = z.enum([
 ]);
 
 export const appUserRoleEnum = z.enum([
+  "admin",
   "executive",
-  "participant",
-  "viewer",
+  "member",
 ]);
 
 export const runCadenceModeEnum = z.enum([
@@ -635,6 +635,37 @@ export const initiativeAskRequestSchema = z.object({
   includeRawEvidence: z.boolean().default(false),
 });
 
+export const executivePortfolioQueryRequestSchema = z.object({
+  question: z.string().min(3),
+  limit: z.number().int().min(1).max(25).default(5),
+});
+
+export const executivePortfolioQueryResponseSchema = z.object({
+  question: z.string(),
+  interpretedIntent: z.enum([
+    "best_progress",
+    "needs_attention",
+    "stale",
+    "priority_stack",
+    "portfolio_summary",
+  ]),
+  generatedAt: z.string(),
+  summary: z.string(),
+  items: z.array(
+    z.object({
+      initiativeId: z.string(),
+      code: z.string(),
+      title: z.string(),
+      status: statusRecommendationEnum.nullable(),
+      confidence: z.number().nullable(),
+      priorityRank: z.number().int().nullable(),
+      ownershipStatus: z.enum(["complete", "partial", "missing"]),
+      lastReviewedAt: z.string().nullable(),
+      read: z.string(),
+    }),
+  ),
+});
+
 export const initiativeAgentQueryModeEnum = z.enum(["raw", "insights", "assess", "full"]);
 
 export const initiativeAgentQueryRefreshPolicyEnum = z.enum(["if_stale", "always", "never"]);
@@ -713,6 +744,118 @@ export const listPlatformContactsResponseSchema = z.object({
 export const listWorkspaceMembersResponseSchema = z.object({
   workspaceId: z.string(),
   items: z.array(workspaceMemberSummarySchema),
+});
+
+export const legacyContactMigrationReasonEnum = z.enum([
+  "matched_employee",
+  "already_in_t3os",
+  "ambiguous_match",
+  "missing_email",
+  "no_hr_match",
+  "business_unresolved",
+]);
+
+export const legacyContactMigrationRunStatusEnum = z.enum([
+  "running",
+  "completed",
+  "failed",
+]);
+
+export const legacyContactMigrationModeEnum = z.enum(["preview", "execute"]);
+
+export const legacyContactMigrationInputSchema = z.object({
+  workspaceId: z.string(),
+  businessContactId: z.string().optional(),
+  initiativeIds: z.array(z.string()).optional(),
+});
+
+export const legacyContactMigrationHrMatchSchema = z.object({
+  email: z.string().email(),
+  employeeId: z.string().nullable(),
+  fullName: z.string(),
+  employeeTitle: z.string().nullable(),
+  employeeStatus: z.string().nullable(),
+  directManagerName: z.string().nullable(),
+  marketId: z.number().int().nullable(),
+  workPhone: z.string().nullable(),
+  source: z.enum(["EE_COMPANY_DIRECTORY_12_MONTH", "COMPANY_DIRECTORY"]),
+  updatedAt: z.string().nullable(),
+});
+
+export const legacyContactMigrationWorkspaceMemberMatchSchema = z.object({
+  userId: z.string(),
+  email: z.string().email(),
+  roles: z.array(z.string()),
+});
+
+export const legacyContactMigrationContactCandidateSchema = z.object({
+  normalizedEmail: z.string().email(),
+  legacyNames: z.array(z.string()),
+  assignmentCount: z.number().int(),
+  initiativeCount: z.number().int(),
+  status: legacyContactMigrationReasonEnum,
+  existingContactId: z.string().nullable(),
+  existingContactName: z.string().nullable(),
+  hrMatch: legacyContactMigrationHrMatchSchema.nullable(),
+  workspaceMemberMatch: legacyContactMigrationWorkspaceMemberMatchSchema.nullable(),
+});
+
+export const legacyContactMigrationReviewItemSchema = z.object({
+  initiativeId: z.string(),
+  initiativeCode: z.string(),
+  initiativeTitle: z.string(),
+  initiativePersonId: z.string(),
+  legacyDisplayName: z.string(),
+  legacyEmail: z.string().email().nullable(),
+  role: personRoleEnum,
+  reason: legacyContactMigrationReasonEnum,
+  suggestedContacts: z.array(
+    z.object({
+      contactId: z.string(),
+      name: z.string(),
+      email: z.string().email().nullable(),
+    }),
+  ),
+});
+
+export const legacyContactMigrationSummarySchema = z.object({
+  totalLegacyRows: z.number().int(),
+  distinctEmails: z.number().int(),
+  matchedEmployees: z.number().int(),
+  alreadyInT3os: z.number().int(),
+  toCreate: z.number().int(),
+  remappableAssignments: z.number().int(),
+  missingEmail: z.number().int(),
+  ambiguous: z.number().int(),
+  noHrMatch: z.number().int(),
+  createdContacts: z.number().int().optional(),
+  reusedContacts: z.number().int().optional(),
+  remappedAssignments: z.number().int().optional(),
+});
+
+export const legacyContactMigrationBusinessResolutionSchema = z.object({
+  status: z.enum(["resolved", "missing", "ambiguous"]),
+  businessContactId: z.string().nullable(),
+  businessName: z.string().nullable(),
+  matches: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+    }),
+  ),
+});
+
+export const legacyContactMigrationResponseSchema = z.object({
+  runId: z.string(),
+  mode: legacyContactMigrationModeEnum,
+  status: legacyContactMigrationRunStatusEnum,
+  workspaceId: z.string(),
+  businessResolution: legacyContactMigrationBusinessResolutionSchema,
+  summary: legacyContactMigrationSummarySchema,
+  contactCandidates: z.array(legacyContactMigrationContactCandidateSchema),
+  reviewQueue: z.array(legacyContactMigrationReviewItemSchema),
+  createdAt: z.string(),
+  finishedAt: z.string().nullable(),
 });
 
 export const createOrUpdateContactInputSchema = z.discriminatedUnion("contactType", [
@@ -884,9 +1027,25 @@ export type InitiativeKpiResearch = z.infer<typeof initiativeKpiResearchSchema>;
 export type InitiativeRawEvidence = z.infer<typeof initiativeRawEvidenceSchema>;
 export type InitiativeAskRequest = z.infer<typeof initiativeAskRequestSchema>;
 export type InitiativeAskResponse = z.infer<typeof initiativeAskResponseSchema>;
+export type ExecutivePortfolioQueryRequest = z.infer<typeof executivePortfolioQueryRequestSchema>;
+export type ExecutivePortfolioQueryResponse = z.infer<typeof executivePortfolioQueryResponseSchema>;
 export type CurrentUser = z.infer<typeof currentUserSchema>;
 export type ContactSummary = z.infer<typeof contactSummarySchema>;
 export type WorkspaceMemberSummary = z.infer<typeof workspaceMemberSummarySchema>;
+export type LegacyContactMigrationInput = z.infer<typeof legacyContactMigrationInputSchema>;
+export type LegacyContactMigrationHrMatch = z.infer<typeof legacyContactMigrationHrMatchSchema>;
+export type LegacyContactMigrationWorkspaceMemberMatch = z.infer<
+  typeof legacyContactMigrationWorkspaceMemberMatchSchema
+>;
+export type LegacyContactMigrationContactCandidate = z.infer<
+  typeof legacyContactMigrationContactCandidateSchema
+>;
+export type LegacyContactMigrationReviewItem = z.infer<typeof legacyContactMigrationReviewItemSchema>;
+export type LegacyContactMigrationSummary = z.infer<typeof legacyContactMigrationSummarySchema>;
+export type LegacyContactMigrationBusinessResolution = z.infer<
+  typeof legacyContactMigrationBusinessResolutionSchema
+>;
+export type LegacyContactMigrationResponse = z.infer<typeof legacyContactMigrationResponseSchema>;
 export type CreateOrUpdateContactInput = z.infer<typeof createOrUpdateContactInputSchema>;
 export type UpdateContactInput = z.infer<typeof updateContactInputSchema>;
 export type InviteWorkspaceMemberInput = z.infer<typeof inviteWorkspaceMemberInputSchema>;

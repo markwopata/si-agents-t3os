@@ -4,7 +4,7 @@ import { requireScope } from "../plugins/auth.js";
 import {
   ensureInitiativeContributionAccess,
   ensureInitiativeReadAccess,
-  requireExecutive,
+  requireAdmin,
 } from "../services/authorization-service.js";
 import {
   getRun,
@@ -18,7 +18,7 @@ import { getObservationReview, upsertObservationReview } from "../services/obser
 export const agentRoutes: FastifyPluginAsync = async (app) => {
   app.post("/agent/run-all", async (request) => {
     requireScope(request, "run:agents");
-    requireExecutive(request);
+    requireAdmin(request);
     const body = ((request.body ?? {}) as { refreshKpis?: boolean; hydrateLiveEvidence?: boolean });
     return runEvaluationForAllInitiatives({
       requestedByType: request.actor.type,
@@ -30,7 +30,7 @@ export const agentRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/agent/sync-all", async (request) => {
     requireScope(request, "run:agents");
-    requireExecutive(request);
+    requireAdmin(request);
     const body = ((request.body ?? {}) as { staleAfterMinutes?: number });
     return syncEvidenceForAllInitiatives({
       requestedByType: request.actor.type,

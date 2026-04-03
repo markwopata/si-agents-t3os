@@ -45,11 +45,11 @@ function getSlackSetupState(): {
   const missingRequirements: string[] = [];
 
   if (!clientIdConfigured) {
-    missingRequirements.push("Add SLACK_CLIENT_ID to .env.");
+    missingRequirements.push("Add SLACK_CLIENT_ID to .env.local or your deploy secret manager.");
   }
 
   if (!clientSecretConfigured) {
-    missingRequirements.push("Add SLACK_CLIENT_SECRET to .env.");
+    missingRequirements.push("Add SLACK_CLIENT_SECRET to .env.local or your deploy secret manager.");
   }
 
   if (!redirectUriSecure) {

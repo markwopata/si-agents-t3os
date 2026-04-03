@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import { requireScope } from "../plugins/auth.js";
-import { requireExecutive } from "../services/authorization-service.js";
+import { requireAdmin } from "../services/authorization-service.js";
 import {
   getLatestPilotBatch,
   getPilotBatch,
@@ -28,7 +28,7 @@ export const pilotRoutes: FastifyPluginAsync = async (app) => {
 
   app.post("/pilot/run", async (request, reply) => {
     requireScope(request, "run:agents");
-    requireExecutive(request);
+    requireAdmin(request);
     reply.code(202);
     return launchPilotBatch({
       requestedByType: request.actor.type,

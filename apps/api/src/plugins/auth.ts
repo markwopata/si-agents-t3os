@@ -7,10 +7,8 @@ import { db } from "../db/client.js";
 import { serviceTokens } from "../db/schema.js";
 import { env } from "../config/env.js";
 
-type AppRole = "executive" | "participant" | "viewer" | null;
+type AppRole = "admin" | "executive" | "member" | null;
 const T3OS_CLAIMS = {
-  roles: "https://erp.estrack.com/es_erp_roles",
-  permissions: "https://erp.estrack.com/permissions",
   workspaceId: "https://erp.estrack.com/workspace_id",
   userId: "https://erp.estrack.com/user_id",
 } as const;
@@ -55,12 +53,20 @@ function getHeader(request: FastifyRequest, name: string): string | undefined {
   return value;
 }
 
-function executiveEmails(): Set<string> {
+function configuredEmails(value: string): Set<string> {
   return new Set(
-    env.T3OS_EXECUTIVE_EMAILS.split(",")
+    value.split(",")
       .map((value) => value.trim().toLowerCase())
       .filter(Boolean),
   );
+}
+
+function adminEmails(): Set<string> {
+  return configuredEmails(env.T3OS_ADMIN_EMAILS);
+}
+
+function executiveEmails(): Set<string> {
+  return configuredEmails(env.T3OS_EXECUTIVE_EMAILS);
 }
 
 function looksLikeJwt(token: string): boolean {
@@ -82,7 +88,7 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
 }
 
 function deriveHumanScopes(appRole: AppRole): string[] {
-  if (appRole === "executive") {
+  if (appRole === "admin") {
     return [
       "read:initiatives",
       "write:initiatives",
@@ -97,18 +103,31 @@ function deriveHumanScopes(appRole: AppRole): string[] {
     ];
   }
 
-  if (appRole === "participant") {
+  if (appRole === "executive") {
     return [
       "read:initiatives",
+      "write:initiatives",
       "read:knowledge",
       "write:knowledge",
       "read:observations",
+      "write:observations",
       "read:platform",
       "run:agents",
     ];
   }
 
-  return ["read:initiatives", "read:knowledge", "read:observations", "read:platform"];
+  if (appRole === "member") {
+    return [
+      "read:initiatives",
+      "read:knowledge",
+      "write:knowledge",
+      "read:observations",
+      "write:observations",
+      "run:agents",
+    ];
+  }
+
+  return ["read:initiatives", "read:knowledge", "read:observations"];
 }
 
 function normalizeIssuer(issuer: string): string {
@@ -148,22 +167,21 @@ function extractStringArrayClaim(payload: Record<string, unknown>, claim: string
   return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
 }
 
-function deriveJwtAppRole(payload: Record<string, unknown>, email: string | null): AppRole {
+function deriveJwtAppRole(_payload: Record<string, unknown>, email: string | null): AppRole {
+  if (email && adminEmails().has(email)) {
+    return "admin";
+  }
+
   if (email && executiveEmails().has(email)) {
     return "executive";
   }
 
-  const roles = extractStringArrayClaim(payload, T3OS_CLAIMS.roles).map((role) => role.toLowerCase());
-  if (roles.some((role) => role.includes("viewer"))) {
-    return "viewer";
-  }
-
-  return "participant";
+  return "member";
 }
 
 function deriveJwtScopes(payload: Record<string, unknown>, appRole: AppRole): string[] {
-  const permissions = extractStringArrayClaim(payload, T3OS_CLAIMS.permissions);
-  return Array.from(new Set([...deriveHumanScopes(appRole), ...permissions]));
+  void payload;
+  return deriveHumanScopes(appRole);
 }
 
 export const authPlugin = fp(async (app) => {
@@ -172,6 +190,7 @@ export const authPlugin = fp(async (app) => {
   app.addHook("preHandler", async (request) => {
     const header = request.headers.authorization;
     if (!header?.startsWith("Bearer ")) {
+      const configuredAdminEmails = adminEmails();
       const configuredExecutiveEmails = executiveEmails();
       const headerEmail = getHeader(request, env.T3OS_USER_EMAIL_HEADER)?.trim().toLowerCase() ?? null;
       const headerName = getHeader(request, env.T3OS_USER_NAME_HEADER)?.trim() ?? null;
@@ -179,15 +198,17 @@ export const authPlugin = fp(async (app) => {
       const headerWorkspaceId = getHeader(request, env.T3OS_WORKSPACE_ID_HEADER)?.trim() ?? null;
       const requestedRole = getHeader(request, env.T3OS_APP_ROLE_HEADER)?.trim().toLowerCase() ?? null;
       const derivedRole: AppRole =
-        requestedRole === "executive" || requestedRole === "participant" || requestedRole === "viewer"
+        requestedRole === "admin" || requestedRole === "executive" || requestedRole === "member"
           ? requestedRole
-          : headerEmail && configuredExecutiveEmails.has(headerEmail)
-            ? "executive"
-            : headerEmail && env.T3OS_TRUST_HEADER_AUTH
-              ? "participant"
-              : env.DEV_AUTH_BYPASS
-                ? "executive"
-                : null;
+          : headerEmail && configuredAdminEmails.has(headerEmail)
+            ? "admin"
+            : headerEmail && configuredExecutiveEmails.has(headerEmail)
+              ? "executive"
+              : headerEmail && env.T3OS_TRUST_HEADER_AUTH
+                ? "member"
+                : env.DEV_AUTH_BYPASS
+                  ? "admin"
+                  : null;
 
       request.actor = {
         type: "human",
@@ -206,7 +227,6 @@ export const authPlugin = fp(async (app) => {
 
     const token = header.slice("Bearer ".length);
     if (looksLikeJwt(token)) {
-      const configuredExecutiveEmails = executiveEmails();
       let payload: Record<string, unknown>;
 
       try {
@@ -252,7 +272,7 @@ export const authPlugin = fp(async (app) => {
           ? String(payload[T3OS_CLAIMS.workspaceId])
           : null;
       const derivedRole: AppRole = env.DEV_AUTH_BYPASS
-        ? "executive"
+        ? "admin"
         : deriveJwtAppRole(payload, email);
 
       request.actor = {

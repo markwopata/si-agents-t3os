@@ -13,7 +13,6 @@ interface NavItem {
   label: string;
   to: string;
   badge: string;
-  description: string;
 }
 
 const PRIMARY_NAV: NavItem[] = [
@@ -21,25 +20,21 @@ const PRIMARY_NAV: NavItem[] = [
     label: "Portfolio HQ",
     to: "/",
     badge: "P",
-    description: "Ranked portfolio, exceptions, and executive actions",
   },
   {
     label: "Initiatives",
     to: "/initiatives",
     badge: "I",
-    description: "Create, edit, and manage the SI registry",
   },
   {
-    label: "Directory",
+    label: "Contacts",
     to: "/contacts",
     badge: "D",
-    description: "T3OS-backed contacts, ownership, and assignments",
   },
   {
     label: "Settings",
     to: "/settings",
     badge: "S",
-    description: "Import, governance, integrations, and operations",
   },
 ];
 
@@ -48,25 +43,21 @@ const SETTINGS_NAV: NavItem[] = [
     label: "Overview",
     to: "/settings",
     badge: "O",
-    description: "Admin surfaces and governance entrypoints",
   },
   {
     label: "Import",
     to: "/settings/import",
     badge: "I",
-    description: "Workbook-backed registry ingest",
   },
   {
     label: "Knowledge",
     to: "/settings/knowledge",
     badge: "K",
-    description: "Global SI operating model and evaluation guidance",
   },
   {
     label: "Operations",
     to: "/settings/operations",
     badge: "R",
-    description: "Integrations, refresh state, and run health",
   },
 ];
 
@@ -151,21 +142,17 @@ function getPageMeta(pathname: string) {
   };
 }
 
-function UserSummary({ currentUser }: { currentUser: CurrentUser | null }) {
-  return (
-    <div className="meta-card shell-user-card">
-      <div className="meta-label">Identity</div>
-      <div className="meta-value">
-        {currentUser?.displayName ?? currentUser?.email ?? currentUser?.id ?? "Unknown"}
-      </div>
-      <div className="meta-label">Role</div>
-      <div className="meta-value">{currentUser?.appRole ?? currentUser?.type ?? "Unknown"}</div>
-      <div className="meta-label">Auth Source</div>
-      <div className="meta-value">{currentUser?.authSource ?? "Unknown"}</div>
-      <div className="meta-label">API</div>
-      <div className="meta-value">{getApiBaseUrl()}</div>
-    </div>
-  );
+function getIdentityLabel(currentUser: CurrentUser | null): string {
+  return currentUser?.displayName ?? currentUser?.email ?? currentUser?.id ?? "Unknown";
+}
+
+function getInitials(value: string): string {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("") || "U";
 }
 
 export function AppShell({ children, shellState }: AppShellProps) {
@@ -180,96 +167,114 @@ export function AppShell({ children, shellState }: AppShellProps) {
 
   const pageMeta = useMemo(() => getPageMeta(location.pathname), [location.pathname]);
   const canCreateInitiative =
-    currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+    currentUser?.type === "service_token" || currentUser?.appRole === "admin";
   const showingSettingsNav = location.pathname.startsWith("/settings");
+  const identityLabel = getIdentityLabel(currentUser);
 
   return (
-    <div className="workspace-shell">
-      <aside className="workspace-rail">
-        <div className="rail-brand-card">
-          <div className="rail-logo">SI</div>
-          <div>
-            <div className="shell-badge-row">
-              <span className="shell-badge">EquipmentShare</span>
-              <span className="shell-badge shell-badge-muted">T3OS</span>
+    <div className={`workspace-frame${shellState.isFallback ? "" : " workspace-frame-embedded"}`}>
+      {shellState.isFallback ? (
+        <header className="workspace-topbar">
+          <div className="workspace-topbar-left">
+            <div className="workspace-topbar-mark">SI</div>
+            <div className="workspace-topbar-brand">
+              <span className="workspace-topbar-company">EquipmentShare</span>
+              <span className="workspace-topbar-divider" />
+              <span className="workspace-topbar-app">SI Management</span>
             </div>
-            <h1>SI Management</h1>
-            <p>Executive control surface for portfolio decisions, assignments, and governance.</p>
           </div>
-        </div>
+          <div className="workspace-topbar-right" aria-hidden="true">
+            <span className="workspace-topbar-icon">o</span>
+            <span className="workspace-topbar-icon">*</span>
+            <span className="workspace-topbar-icon">[]</span>
+            <span className="workspace-topbar-avatar">{getInitials(identityLabel)}</span>
+          </div>
+        </header>
+      ) : null}
 
-        <nav className="rail-nav-group">
-          <div className="rail-group-label">Primary</div>
-          {PRIMARY_NAV.map((item) => (
-            <NavLink key={item.to} to={item.to} end={item.to === "/"} className="rail-nav-link">
-              <span className="rail-nav-badge">{item.badge}</span>
-              <span className="rail-nav-copy">
-                <span className="rail-nav-title">{item.label}</span>
-                <span className="rail-nav-description">{item.description}</span>
-              </span>
-            </NavLink>
-          ))}
-        </nav>
+      <div className="workspace-shell">
+        <aside className="workspace-rail">
+          <div className="rail-brand-inline">
+            <div className="rail-logo">SI</div>
+            <div className="rail-brand-title">SI Management</div>
+          </div>
 
-        {showingSettingsNav ? (
-          <nav className="rail-nav-group rail-subnav-group">
-            <div className="rail-group-label">Settings</div>
-            {SETTINGS_NAV.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.to === "/settings"} className="rail-nav-link rail-subnav-link">
-                <span className="rail-nav-badge">{item.badge}</span>
-                <span className="rail-nav-copy">
+          <nav className="rail-nav-group">
+            {PRIMARY_NAV.map((item) => (
+              <NavLink key={item.to} to={item.to} end={item.to === "/"} className="rail-nav-link">
+                <span className="rail-nav-main">
+                  <span className="rail-nav-badge">{item.badge}</span>
                   <span className="rail-nav-title">{item.label}</span>
-                  <span className="rail-nav-description">{item.description}</span>
                 </span>
+                {item.to === "/settings" ? (
+                  <span className="rail-nav-chevron" aria-hidden="true">
+                    &gt;
+                  </span>
+                ) : null}
               </NavLink>
             ))}
           </nav>
-        ) : null}
 
-        <div className="rail-spacer" />
+          {showingSettingsNav ? (
+            <nav className="rail-nav-group rail-subnav-group">
+              {SETTINGS_NAV.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.to === "/settings"}
+                  className="rail-nav-link rail-subnav-link"
+                >
+                  <span className="rail-nav-main">
+                    <span className="rail-nav-badge">{item.badge}</span>
+                    <span className="rail-nav-title">{item.label}</span>
+                  </span>
+                </NavLink>
+              ))}
+            </nav>
+          ) : null}
 
-        <div className="meta-card workspace-chip-card">
-          <div className="meta-label">Workspace</div>
-          <div className="meta-value">
-            {shellState.workspaceName ?? shellState.workspaceId ?? "No active workspace"}
-          </div>
-          <div className="meta-label">Session</div>
-          <div className="meta-value">{shellState.modeLabel}</div>
-        </div>
+          <div className="rail-divider" />
 
-        <UserSummary currentUser={currentUser} />
-
-        {shellState.isFallback ? (
-          <div className="notice-card notice-warning rail-notice">
-            <strong>T3OS shell unavailable</strong>
-            <p className="muted">
-              This local session is using the engineering fallback. Open SI Management through T3OS
-              staging for workspace-aware navigation and identity.
-            </p>
-          </div>
-        ) : null}
-      </aside>
-
-      <div className="workspace-stage">
-        <header className="workspace-header">
-          <div className="workspace-header-copy">
-            <div className="eyebrow">{pageMeta.eyebrow}</div>
-            <h2>{pageMeta.title}</h2>
-            <p>{pageMeta.description}</p>
-          </div>
-          <div className="workspace-header-actions">
-            <span className="shell-badge shell-badge-muted">
-              {shellState.workspaceName ?? shellState.workspaceId ?? "Workspace pending"}
-            </span>
-            {canCreateInitiative ? (
-              <Link className="primary-button" to="/initiatives/new">
-                New Initiative
-              </Link>
+          <div className="rail-footer">
+            <div className="rail-footer-group">
+              <div className="meta-label">Workspace</div>
+              <div className="meta-value">
+                {shellState.workspaceName ?? shellState.workspaceId ?? "No active workspace"}
+              </div>
+            </div>
+            <div className="rail-footer-group">
+              <div className="meta-label">Signed In</div>
+              <div className="meta-value">{identityLabel}</div>
+            </div>
+            {shellState.isFallback ? (
+              <div className="rail-footer-notice">
+                Open SI Management through T3OS staging for workspace-aware navigation.
+              </div>
             ) : null}
           </div>
-        </header>
+        </aside>
 
-        <main className="workspace-main">{children}</main>
+        <div className="workspace-stage">
+          <header className="workspace-header">
+            <div className="workspace-header-copy">
+              <div className="eyebrow">{pageMeta.eyebrow}</div>
+              <h2>{pageMeta.title}</h2>
+              <p>{pageMeta.description}</p>
+            </div>
+            <div className="workspace-header-actions">
+              <span className="shell-badge shell-badge-muted">
+                {shellState.workspaceName ?? shellState.workspaceId ?? "Workspace pending"}
+              </span>
+              {canCreateInitiative ? (
+                <Link className="primary-button" to="/initiatives/new">
+                  New Initiative
+                </Link>
+              ) : null}
+            </div>
+          </header>
+
+          <main className="workspace-main">{children}</main>
+        </div>
       </div>
     </div>
   );

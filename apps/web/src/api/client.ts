@@ -24,11 +24,33 @@ import type {
 } from "@si/domain";
 import { getT3osAccessToken } from "../lib/t3os";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+const LOCAL_API_BASE_URL = "http://localhost:3001";
+const HOSTED_API_BASE_URL =
+  import.meta.env.VITE_T3OS_API_BASE_URL || "https://si-agents-api.onrender.com";
+
+function resolveApiBaseUrl(): string {
+  const explicit = import.meta.env.VITE_API_BASE_URL?.trim();
+  if (explicit) {
+    return explicit;
+  }
+
+  if (typeof window === "undefined") {
+    return LOCAL_API_BASE_URL;
+  }
+
+  const isLocalHost = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const hasT3osShell = Boolean(window.T3os?.auth?.getToken);
+
+  if (hasT3osShell) {
+    return HOSTED_API_BASE_URL;
+  }
+
+  return isLocalHost ? LOCAL_API_BASE_URL : HOSTED_API_BASE_URL;
+}
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = await getT3osAccessToken();
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${resolveApiBaseUrl()}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -45,7 +67,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export function getApiBaseUrl(): string {
-  return API_BASE_URL;
+  return resolveApiBaseUrl();
 }
 
 export function getCurrentUser(): Promise<CurrentUser> {
@@ -293,7 +315,7 @@ export async function importWorkbook(file?: File): Promise<ImportSummary> {
 
   const formData = new FormData();
   formData.append("file", file);
-  const response = await fetch(`${API_BASE_URL}/imports/si-workbook`, {
+  const response = await fetch(`${resolveApiBaseUrl()}/imports/si-workbook`, {
     method: "POST",
     body: formData,
   });

@@ -102,7 +102,7 @@ export function InitiativesPage() {
   }, [initiatives]);
 
   const canManage =
-    currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+    currentUser?.type === "service_token" || currentUser?.appRole === "admin";
 
   return (
     <div className="page-stack">

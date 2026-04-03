@@ -167,6 +167,7 @@ export function InitiativePage() {
   const [directoryFilter, setDirectoryFilter] = useState<"all" | "assigned" | "members">("all");
   const [selectedPlatformRole, setSelectedPlatformRole] =
     useState<InitiativeDetail["people"][number]["role"]>("other_invitee");
+  const [legacyAssignmentSelections, setLegacyAssignmentSelections] = useState<Record<string, string>>({});
   const [annotationDraft, setAnnotationDraft] = useState({
     annotationType: "analysis_instruction" as InitiativeDetail["annotations"][number]["annotationType"],
     title: "",
@@ -393,12 +394,22 @@ export function InitiativePage() {
     .filter((finding) => finding.findingClass === "analytics_reference")
     .sort((left, right) => Number(right.provenance.score ?? 0) - Number(left.provenance.score ?? 0));
   const proposalFindings = kpiResearch.findings.filter((finding) => finding.findingClass === "proposal");
-  const canManageRecord = currentUser?.type === "service_token" || currentUser?.appRole === "executive";
-  const canContribute = canManageRecord || currentUser?.appRole === "participant";
+  const isAdmin = currentUser?.type === "service_token" || currentUser?.appRole === "admin";
+  const canManageRecord = isAdmin;
+  const canContribute =
+    canManageRecord ||
+    currentUser?.appRole === "executive" ||
+    currentUser?.appRole === "member";
   const canUsePlatformDirectory =
     currentUser?.type === "human" && currentUser.authSource === "t3os_jwt" && Boolean(currentUser.workspaceId);
   const assignedT3osContactIds = new Set(
     initiative.people.map((person) => person.t3osContactId).filter((value): value is string => Boolean(value)),
+  );
+  const assignedContactPeople = initiative.people.filter(
+    (person) => person.directorySource === "t3os" || person.sourceType === "t3os" || Boolean(person.t3osContactId),
+  );
+  const legacyPeople = initiative.people.filter(
+    (person) => !(person.directorySource === "t3os" || person.sourceType === "t3os" || Boolean(person.t3osContactId)),
   );
   const directoryEntries = workspaceContacts
     .map((contact) => {
@@ -481,6 +492,73 @@ export function InitiativePage() {
     });
   }
 
+  function findSuggestedContactId(person: InitiativeDetail["people"][number]): string {
+    const email = person.email?.toLowerCase() ?? "";
+    if (email) {
+      const emailMatch = workspaceContacts.find((contact) => contact.email?.toLowerCase() === email);
+      if (emailMatch) {
+        return emailMatch.id;
+      }
+    }
+
+    const normalizedName = person.displayName.trim().toLowerCase();
+    if (normalizedName) {
+      const nameMatch = workspaceContacts.find((contact) => contact.name.trim().toLowerCase() === normalizedName);
+      if (nameMatch) {
+        return nameMatch.id;
+      }
+    }
+
+    return "";
+  }
+
+  function handleLegacySelectionChange(personId: string, contactId: string) {
+    setLegacyAssignmentSelections((current) => ({ ...current, [personId]: contactId }));
+  }
+
+  function handleConvertLegacyPerson(personId: string) {
+    const person = initiative.people.find((candidate) => candidate.id === personId);
+    if (!person) {
+      return;
+    }
+
+    const selectedContactId = legacyAssignmentSelections[personId] ?? findSuggestedContactId(person);
+    const contact = workspaceContacts.find((item) => item.id === selectedContactId);
+    if (!contact) {
+      return;
+    }
+
+    const matchingMember = workspaceMembers.find((member) => {
+      const memberEmail = member.user?.email?.toLowerCase();
+      return Boolean(contact.email && memberEmail && memberEmail === contact.email.toLowerCase());
+    });
+
+    setInitiative((current) => ({
+      ...current,
+      people: current.people.map((candidate) =>
+        candidate.id !== personId
+          ? candidate
+          : {
+              ...candidate,
+              displayName: contact.name,
+              email: contact.email,
+              t3osContactId: contact.id,
+              t3osWorkspaceMemberId: matchingMember?.userId ?? null,
+              t3osUserId: matchingMember?.user?.id ?? matchingMember?.userId ?? null,
+              sourceType: "t3os",
+              directorySource: "t3os",
+              directoryResolved: true,
+            },
+      ),
+    }));
+
+    setLegacyAssignmentSelections((current) => {
+      const next = { ...current };
+      delete next[personId];
+      return next;
+    });
+  }
+
   async function handleCreateWorkspaceContact() {
     const workspaceId = currentUser?.workspaceId ?? getCurrentWorkspaceId();
     if (!workspaceId || !newPlatformContact.name.trim() || !newPlatformContact.email.trim() || !newPlatformContact.businessId) {
@@ -536,7 +614,7 @@ export function InitiativePage() {
   }
 
   function canAccessPlatformDirectory(me: CurrentUser | null): boolean {
-    return Boolean(me && me.type === "human" && me.appRole === "executive");
+    return Boolean(me && me.type === "human" && (me.appRole === "admin" || me.appRole === "executive"));
   }
 
   const activeTab = useMemo<InitiativeTab>(() => {
@@ -740,10 +818,12 @@ export function InitiativePage() {
                   <strong>Access model</strong>
                   <p className="muted">
                     {canManageRecord
-                      ? "You have executive-level access. You can update the SI record, ownership, ranking, and evaluation instructions."
-                      : canContribute
-                        ? "You have participant access. You can add SI-specific instructions, tune run settings, backfill evidence, and request KPI analysis."
-                        : "You have read-only access. You can inspect evidence and assessments without changing the configuration."}
+                      ? "You have admin access. You can update the SI record, ownership, and operating configuration."
+                      : currentUser?.appRole === "executive"
+                        ? "You have executive access. You can review any initiative, guide the analysis, and act across the portfolio without using admin-only system controls."
+                        : canContribute
+                          ? "You have member access. You can add SI-specific instructions, tune run settings, backfill evidence, and request KPI analysis for initiatives you belong to."
+                          : "You have read-only access. You can inspect evidence and assessments without changing the configuration."}
                   </p>
                 </div>
                 <div className="summary-quick-links">
@@ -789,41 +869,24 @@ export function InitiativePage() {
             <div>
               <h2>Ownership</h2>
               <p className="panel-subtitle">
-                T3OS is the canonical directory. SI only stores the role mapping.
+                T3OS contacts are canonical. SI stores only the role assignment mapping.
               </p>
             </div>
-            {canManageRecord ? (
-              <div className="button-row">
-                <button
-                  className="secondary-button"
-                  onClick={() =>
-                    setInitiative({
-                      ...initiative,
-                      people: [
-                        ...initiative.people,
-                        {
-                          id: `temp-${Date.now()}`,
-                          role: "other_invitee",
-                          displayName: "",
-                          email: null,
-                          sortOrder: initiative.people.length,
-                          sourceType: "local",
-                          directorySource: "legacy_local",
-                          directoryResolved: true,
-                        },
-                      ],
-                    })
-                  }
-                >
-                  Add Local Person
-                </button>
-              </div>
-            ) : null}
+            <div className="button-row">
+              <span className="shell-badge shell-badge-muted">
+                {assignedContactPeople.length} assigned from T3OS
+              </span>
+              {legacyPeople.length > 0 ? (
+                <span className="status-pill status-needs_attention">
+                  {legacyPeople.length} legacy mapping{legacyPeople.length === 1 ? "" : "s"} to resolve
+                </span>
+              ) : null}
+            </div>
           </div>
           <div className="notice-card notice-info">
             <strong>Workspace Directory</strong>
             <p className="muted">
-              Browse the T3OS workspace directory, assign contacts into SI roles, and keep local-only entries clearly marked as legacy exceptions.
+              Create contacts in T3OS, then assign them to initiative roles here. Name and email are hydrated from the contact record instead of being edited in SI.
             </p>
             <div className="directory-stats-grid">
               <div className="directory-stat">
@@ -996,78 +1059,149 @@ export function InitiativePage() {
               {workspaceDirectoryStatus ||
                 (canAccessPlatformDirectory(currentUser)
                   ? "Open inside T3OS staging to load workspace contacts."
-                  : "Only executive users can sync the workspace directory into SI ownership management.")}
+                  : "Only admins and executives can sync the workspace directory into SI ownership management.")}
             </p>
           </div>
           <div className="stack-list">
-            {initiative.people.map((person, index) => (
-              <div className="initiative-person-card" key={person.id}>
-                <div className="initiative-person-header">
-                  <div>
-                    <span className="metric-label">
-                      {person.directorySource === "t3os" ? "T3OS Contact Mapping" : "Legacy Local Entry"}
-                    </span>
-                    <strong>{person.displayName || "Unresolved person"}</strong>
-                  </div>
-                  {canManageRecord ? (
-                    <button className="ghost-button" onClick={() => handleRemovePerson(person.id)}>
-                      Remove
-                    </button>
-                  ) : null}
+            <section className="panel-subsection">
+              <div className="section-header">
+                <div>
+                  <h3>Assigned Contacts</h3>
+                  <p className="panel-subtitle">
+                    These are the active T3OS-backed ownership assignments for this initiative.
+                  </p>
                 </div>
-                <div className="row-grid">
-                  <select
-                    value={person.role}
-                    disabled={!canManageRecord}
-                    onChange={(event) => {
-                      const next = [...initiative.people];
-                      next[index] = { ...person, role: event.target.value as typeof person.role };
-                      setInitiative({ ...initiative, people: next });
-                    }}
-                  >
-                    <option value="exec_owner">Exec Owner</option>
-                    <option value="group_owner">Group Owner</option>
-                    <option value="initiative_owner">Initiative Owner</option>
-                    <option value="si_analytics_owner">SI Analytics Owner</option>
-                    <option value="sales_lead">Sales Lead</option>
-                    <option value="ops_lead">Ops Lead</option>
-                    <option value="analytics_lead">Analytics Lead</option>
-                    <option value="pm">PM</option>
-                    <option value="other_invitee">Other Invitee</option>
-                  </select>
-                  <input
-                    value={person.displayName}
-                    disabled={person.directorySource === "t3os" || !canManageRecord}
-                    onChange={(event) => {
-                      const next = [...initiative.people];
-                      next[index] = { ...person, displayName: event.target.value };
-                      setInitiative({ ...initiative, people: next });
-                    }}
-                    placeholder={person.directorySource === "t3os" ? "Hydrated from T3OS" : "Name"}
-                  />
-                  <input
-                    value={person.email ?? ""}
-                    disabled={person.directorySource === "t3os" || !canManageRecord}
-                    onChange={(event) => {
-                      const next = [...initiative.people];
-                      next[index] = { ...person, email: event.target.value || null };
-                      setInitiative({ ...initiative, people: next });
-                    }}
-                    placeholder={person.directorySource === "t3os" ? "Hydrated from T3OS" : "Email"}
-                  />
-                </div>
-                <p className="muted" style={{ marginBottom: 0 }}>
-                  Source: {person.directorySource === "t3os" ? "T3OS workspace" : "Local SI record"}
-                  {person.directorySource === "t3os"
-                    ? person.directoryResolved === false
-                      ? " • unresolved"
-                      : " • resolved"
-                    : ""}
-                  {person.t3osContactId ? ` • Contact ${person.t3osContactId}` : ""}
-                  {person.t3osWorkspaceMemberId ? ` • Member ${person.t3osWorkspaceMemberId}` : ""}
-                </p>
               </div>
-            ))}
+              {assignedContactPeople.length === 0 ? (
+                <div className="directory-empty-state">
+                  <strong>No contacts assigned yet.</strong>
+                  <p className="muted">
+                    Select a T3OS contact above, choose a role, and add the assignment.
+                  </p>
+                </div>
+              ) : (
+                <div className="stack-list">
+                  {assignedContactPeople.map((person, index) => {
+                    const realIndex = initiative.people.findIndex((candidate) => candidate.id === person.id);
+                    return (
+                      <div className="initiative-person-card" key={person.id}>
+                        <div className="initiative-person-header">
+                          <div>
+                            <span className="metric-label">T3OS Contact</span>
+                            <strong>{person.displayName || "Unresolved contact"}</strong>
+                            <p className="muted" style={{ margin: "0.25rem 0 0" }}>
+                              {person.email || "No email on file"}
+                            </p>
+                          </div>
+                          {canManageRecord ? (
+                            <button className="ghost-button" onClick={() => handleRemovePerson(person.id)}>
+                              Remove
+                            </button>
+                          ) : null}
+                        </div>
+                        <div className="assignment-grid">
+                          <select
+                            value={person.role}
+                            disabled={!canManageRecord}
+                            onChange={(event) => {
+                              const next = [...initiative.people];
+                              if (realIndex >= 0) {
+                                next[realIndex] = {
+                                  ...person,
+                                  role: event.target.value as typeof person.role,
+                                };
+                                setInitiative({ ...initiative, people: next });
+                              }
+                            }}
+                          >
+                            <option value="exec_owner">Exec Owner</option>
+                            <option value="group_owner">Group Owner</option>
+                            <option value="initiative_owner">Initiative Owner</option>
+                            <option value="si_analytics_owner">SI Analytics Owner</option>
+                            <option value="sales_lead">Sales Lead</option>
+                            <option value="ops_lead">Ops Lead</option>
+                            <option value="analytics_lead">Analytics Lead</option>
+                            <option value="pm">PM</option>
+                            <option value="other_invitee">Other Invitee</option>
+                          </select>
+                          <div className="assignment-meta-card">
+                            <span className="metric-label">Directory identity</span>
+                            <strong>{person.displayName || "Unresolved contact"}</strong>
+                            <span className="muted">
+                              {person.t3osContactId ? `Contact ${person.t3osContactId}` : "No contact id"}
+                              {person.t3osWorkspaceMemberId
+                                ? ` • Member ${person.t3osWorkspaceMemberId}`
+                                : ""}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+
+            {legacyPeople.length > 0 ? (
+              <section className="panel-subsection">
+                <div className="section-header">
+                  <div>
+                    <h3>Legacy Local Assignments</h3>
+                    <p className="panel-subtitle">
+                      These came from the old duplicated person model. Map each one to a T3OS contact or remove it.
+                    </p>
+                  </div>
+                </div>
+                <div className="stack-list">
+                  {legacyPeople.map((person) => {
+                    const suggestedContactId =
+                      legacyAssignmentSelections[person.id ?? ""] || findSuggestedContactId(person);
+                    return (
+                      <div className="initiative-person-card legacy-assignment-card" key={person.id}>
+                        <div className="initiative-person-header">
+                          <div>
+                            <span className="metric-label">Legacy Local Assignment</span>
+                            <strong>{person.displayName || "Unnamed local record"}</strong>
+                            <p className="muted" style={{ margin: "0.25rem 0 0" }}>
+                              {person.email || "No email stored"} • {person.role.replace(/_/g, " ")}
+                            </p>
+                          </div>
+                          {canManageRecord ? (
+                            <button className="ghost-button" onClick={() => handleRemovePerson(person.id)}>
+                              Remove
+                            </button>
+                          ) : null}
+                        </div>
+                        <div className="assignment-grid">
+                          <select
+                            value={suggestedContactId}
+                            disabled={!canUsePlatformDirectory}
+                            onChange={(event) =>
+                              handleLegacySelectionChange(person.id ?? "", event.target.value)
+                            }
+                          >
+                            <option value="">Select T3OS contact</option>
+                            {workspaceContacts.map((contact) => (
+                              <option key={contact.id} value={contact.id}>
+                                {contact.name}
+                                {contact.email ? ` • ${contact.email}` : ""}
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            className="secondary-button"
+                            disabled={!canUsePlatformDirectory || !suggestedContactId}
+                            onClick={() => handleConvertLegacyPerson(person.id ?? "")}
+                          >
+                            Map To T3OS Contact
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            ) : null}
           </div>
         </section>
       ) : null}
@@ -1660,7 +1794,7 @@ export function InitiativePage() {
             />
             {!canContribute ? (
               <p className="muted">
-                Initiative-specific notes are editable by SI participants and executives.
+                Initiative-specific notes are editable by SI members, executives, and admins.
               </p>
             ) : null}
           </section>

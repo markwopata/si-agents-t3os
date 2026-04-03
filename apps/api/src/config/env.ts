@@ -10,16 +10,33 @@ loadDotenv({ path: resolve(repoRoot, ".env") });
 loadDotenv({ path: resolve(repoRoot, ".env.local"), override: true });
 loadDotenv();
 
+function firstDefined(...values: Array<string | undefined>): string | undefined {
+  return values.find((value) => typeof value === "string" && value.trim().length > 0);
+}
+
+function defaultBooleanEnv(value: string | undefined, fallback: boolean): string {
+  if (typeof value === "string") {
+    return value;
+  }
+  return fallback ? "true" : "false";
+}
+
+const hostedRuntime = process.env.NODE_ENV === "production" || Boolean(process.env.RENDER);
+const defaultDevAuthBypass = !hostedRuntime;
+const defaultTokenEncryptionSecret = hostedRuntime ? undefined : "local-dev-encryption-secret";
+
 const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().default(3001),
   HOST: z.string().default("0.0.0.0"),
   CORS_ALLOWED_ORIGINS: z.string().default("http://localhost:3000"),
+  CORS_ALLOWED_ORIGIN_PATTERNS: z.string().default(""),
   DATABASE_URL: z
     .string()
     .default("postgresql://si_management:si_management@localhost:54329/si_management"),
   DEV_AUTH_BYPASS: z
     .string()
-    .default("true")
+    .default(defaultDevAuthBypass ? "true" : "false")
     .transform((value) => value === "true"),
   T3OS_TRUST_HEADER_AUTH: z
     .string()
@@ -30,14 +47,19 @@ const envSchema = z.object({
   T3OS_USER_NAME_HEADER: z.string().default("x-t3os-user-name"),
   T3OS_APP_ROLE_HEADER: z.string().default("x-t3os-app-role"),
   T3OS_WORKSPACE_ID_HEADER: z.string().default("x-t3os-workspace-id"),
-  T3OS_EXECUTIVE_EMAILS: z.string().default(""),
-  T3OS_JWT_ISSUER: z.string().default("https://staging-auth.t3os.ai/"),
-  T3OS_JWT_AUDIENCE: z.string().default("https://staging-api.equipmentshare.com/es-erp-api"),
+  T3OS_ADMIN_EMAILS: z
+    .string()
+    .default("mark.wopata@equipmentshare.com,kim.misher@equipmentshare.com"),
+  T3OS_EXECUTIVE_EMAILS: z
+    .string()
+    .default("lindsey.malhiot@equipmentshare.com,jabbok@equipmentshare.com,willy@equipmentshare.com"),
+  T3OS_JWT_ISSUER: z.string().min(1),
+  T3OS_JWT_AUDIENCE: z.string().min(1),
   T3OS_JWKS_URI: z.string().optional(),
   T3OS_GRAPHQL_URL: z
     .string()
     .default("https://staging-api.equipmentshare.com/es-erp-api/graphql"),
-  TOKEN_ENCRYPTION_SECRET: z.string().default("local-dev-encryption-secret"),
+  TOKEN_ENCRYPTION_SECRET: z.string().min(1),
   WORKBOOK_PATH: z
     .string()
     .default("/Users/mark.wopata/Downloads/Strategic Initiatives_Program Summary & Status.xlsx"),
@@ -101,4 +123,42 @@ const envSchema = z.object({
     .transform((value) => value === "true"),
 });
 
-export const env = envSchema.parse(process.env);
+const envInput = {
+  ...process.env,
+  NODE_ENV: firstDefined(process.env.NODE_ENV, "development"),
+  DEV_AUTH_BYPASS: defaultBooleanEnv(process.env.DEV_AUTH_BYPASS, defaultDevAuthBypass),
+  T3OS_JWT_ISSUER: firstDefined(
+    process.env.T3OS_JWT_ISSUER,
+    process.env.AUTH0_ISSUER_BASE_URL,
+    "https://staging-auth.t3os.ai/",
+  ),
+  T3OS_JWT_AUDIENCE: firstDefined(
+    process.env.T3OS_JWT_AUDIENCE,
+    process.env.AUTH0_AUDIENCE,
+    "https://staging-api.equipmentshare.com/es-erp-api",
+  ),
+  TOKEN_ENCRYPTION_SECRET: firstDefined(
+    process.env.TOKEN_ENCRYPTION_SECRET,
+    defaultTokenEncryptionSecret,
+  ),
+};
+
+export const env = envSchema.parse(envInput);
+
+if (hostedRuntime) {
+  if (env.DEV_AUTH_BYPASS) {
+    throw new Error("DEV_AUTH_BYPASS must be false in hosted environments.");
+  }
+
+  if (env.TOKEN_ENCRYPTION_SECRET === "local-dev-encryption-secret") {
+    throw new Error("TOKEN_ENCRYPTION_SECRET must be explicitly configured in hosted environments.");
+  }
+
+  if (!firstDefined(process.env.T3OS_JWT_ISSUER, process.env.AUTH0_ISSUER_BASE_URL)) {
+    throw new Error("Set T3OS_JWT_ISSUER for hosted environments.");
+  }
+
+  if (!firstDefined(process.env.T3OS_JWT_AUDIENCE, process.env.AUTH0_AUDIENCE)) {
+    throw new Error("Set T3OS_JWT_AUDIENCE for hosted environments.");
+  }
+}

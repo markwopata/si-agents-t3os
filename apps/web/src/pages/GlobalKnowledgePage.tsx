@@ -8,7 +8,7 @@ export function GlobalKnowledgePage() {
   const [slug, setSlug] = useState("global-si-operating-model");
   const [content, setContent] = useState("");
   const [status, setStatus] = useState("");
-  const canEdit = currentUser?.type === "service_token" || currentUser?.appRole === "executive";
+  const canEdit = currentUser?.type === "service_token" || currentUser?.appRole === "admin";
 
   useEffect(() => {
     async function load() {
@@ -47,7 +47,7 @@ export function GlobalKnowledgePage() {
         </div>
         {!canEdit ? (
           <p className="muted">
-            Global scoring and evaluation guidance is editable by executive users only.
+            Global scoring and evaluation guidance is editable by admins only.
           </p>
         ) : null}
         <div className="form-grid">
