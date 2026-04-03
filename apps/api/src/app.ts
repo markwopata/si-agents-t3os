@@ -23,10 +23,33 @@ import { slackRoutes } from "./routes/slack.js";
 export async function buildApp() {
   const app = Fastify({ logger: true });
   await app.register(sensible);
-  const allowedOrigins = env.CORS_ALLOWED_ORIGINS.split(",")
+  const defaultAllowedOrigins = new Set<string>([
+    "http://localhost:3000",
+    "https://si-agents-api.onrender.com",
+    "https://staging-erp.estrack.com",
+  ]);
+
+  try {
+    defaultAllowedOrigins.add(new URL(env.WEB_APP_URL).origin);
+  } catch {
+    // Ignore invalid WEB_APP_URL values and rely on explicit defaults.
+  }
+
+  const allowedOrigins = new Set(
+    env.CORS_ALLOWED_ORIGINS.split(",")
     .map((origin) => origin.trim())
-    .filter(Boolean);
-  const allowedOriginPatterns = env.CORS_ALLOWED_ORIGIN_PATTERNS.split(",")
+    .filter(Boolean),
+  );
+
+  defaultAllowedOrigins.forEach((origin) => allowedOrigins.add(origin));
+
+  const defaultAllowedOriginPatterns = [
+    "https://*.t3os.ai",
+    "https://*.estrack.com",
+    "https://*.equipmentshare.com",
+  ];
+
+  const allowedOriginPatterns = [...defaultAllowedOriginPatterns, ...env.CORS_ALLOWED_ORIGIN_PATTERNS.split(",")]
     .map((pattern) => pattern.trim())
     .filter(Boolean)
     .map((pattern) =>
@@ -44,7 +67,7 @@ export async function buildApp() {
         return;
       }
 
-      if (allowedOrigins.includes(origin)) {
+      if (allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
