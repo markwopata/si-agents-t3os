@@ -290,8 +290,16 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
       return reply.notFound("Initiative not found");
     }
 
-    const { limit } = (request.query as { limit?: string }) ?? {};
-    return getInitiativeRawEvidence(initiativeId, limit ? Number(limit) : undefined);
+    const { limit, offset, all } = (request.query as {
+      limit?: string;
+      offset?: string;
+      all?: string;
+    }) ?? {};
+    return getInitiativeRawEvidence(
+      initiativeId,
+      all === "true" ? null : limit ? Number(limit) : undefined,
+      offset ? Number(offset) : undefined,
+    );
   });
 
   app.get("/initiatives/:initiativeId/document-extracts", async (request, reply) => {

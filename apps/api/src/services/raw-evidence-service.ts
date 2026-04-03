@@ -1,5 +1,5 @@
 import type { InitiativeRawEvidence } from "@si/domain";
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, count, desc, eq, inArray } from "drizzle-orm";
 import { db } from "../db/client.js";
 import {
   agentObservations,
@@ -15,21 +15,40 @@ import {
 
 export async function getInitiativeRawEvidence(
   initiativeId: string,
-  limit = 50,
+  limit: number | null = 50,
+  offset = 0,
 ): Promise<InitiativeRawEvidence> {
-  const safeLimit = Math.min(Math.max(limit, 1), 200);
+  const safeLimit =
+    typeof limit === "number" && Number.isFinite(limit) && limit > 0
+      ? Math.max(Math.trunc(limit), 1)
+      : null;
+  const safeOffset = Number.isFinite(offset) && offset > 0 ? Math.trunc(offset) : 0;
 
-  const [messages, files, latestTrackerRun, latestObservation, latestResearchRun, syncIssues, documentExtracts] =
+  const [
+    messages,
+    files,
+    latestTrackerRun,
+    latestObservation,
+    latestResearchRun,
+    syncIssues,
+    documentExtracts,
+    slackMessageCountResult,
+    googleFileCountResult,
+    syncIssueCountResult,
+    documentExtractCountResult,
+  ] =
     await Promise.all([
     db.query.slackMessageEvents.findMany({
       where: eq(slackMessageEvents.initiativeId, initiativeId),
       orderBy: [desc(slackMessageEvents.messageAt), desc(slackMessageEvents.createdAt)],
-      limit: safeLimit,
+      ...(safeLimit ? { limit: safeLimit } : {}),
+      ...(safeOffset ? { offset: safeOffset } : {}),
     }),
     db.query.googleFileSnapshots.findMany({
       where: eq(googleFileSnapshots.initiativeId, initiativeId),
       orderBy: [desc(googleFileSnapshots.modifiedTime), desc(googleFileSnapshots.createdAt)],
-      limit: safeLimit,
+      ...(safeLimit ? { limit: safeLimit } : {}),
+      ...(safeOffset ? { offset: safeOffset } : {}),
     }),
     db.query.trackerParseRuns.findFirst({
       where: eq(trackerParseRuns.initiativeId, initiativeId),
@@ -46,14 +65,31 @@ export async function getInitiativeRawEvidence(
     db.query.integrationSyncIssues.findMany({
       where: eq(integrationSyncIssues.initiativeId, initiativeId),
       orderBy: [desc(integrationSyncIssues.createdAt)],
-      limit: safeLimit,
+      ...(safeLimit ? { limit: safeLimit } : {}),
+      ...(safeOffset ? { offset: safeOffset } : {}),
     }),
     db.query.documentContentExtracts.findMany({
       where: eq(documentContentExtracts.initiativeId, initiativeId),
       orderBy: [desc(documentContentExtracts.updatedAt)],
-      limit: safeLimit,
+      ...(safeLimit ? { limit: safeLimit } : {}),
+      ...(safeOffset ? { offset: safeOffset } : {}),
     }),
+    db.select({ value: count() }).from(slackMessageEvents).where(eq(slackMessageEvents.initiativeId, initiativeId)),
+    db.select({ value: count() }).from(googleFileSnapshots).where(eq(googleFileSnapshots.initiativeId, initiativeId)),
+    db.select({ value: count() }).from(integrationSyncIssues).where(eq(integrationSyncIssues.initiativeId, initiativeId)),
+    db.select({ value: count() }).from(documentContentExtracts).where(eq(documentContentExtracts.initiativeId, initiativeId)),
   ]);
+
+  const slackMessageCount = Number(slackMessageCountResult[0]?.value ?? 0);
+  const googleFileCount = Number(googleFileCountResult[0]?.value ?? 0);
+  const syncIssueCount = Number(syncIssueCountResult[0]?.value ?? 0);
+  const documentExtractCount = Number(documentExtractCountResult[0]?.value ?? 0);
+  const trackerSheetRowCount = Array.isArray(latestTrackerRun?.rawSheetJson)
+    ? latestTrackerRun.rawSheetJson.length
+    : 0;
+  const nextOffset = safeLimit
+    ? safeOffset + safeLimit
+    : null;
 
   const messageTsSet = new Set(messages.map((message) => message.ts));
   const replies = messages.length
@@ -184,5 +220,30 @@ export async function getInitiativeRawEvidence(
     latestTrackerParseRunId: latestTrackerRun?.id ?? null,
     latestObservationId: latestObservation?.id ?? null,
     latestResearchRunId: latestResearchRun?.id ?? null,
+    pagination: {
+      limit: safeLimit,
+      offset: safeOffset,
+      counts: {
+        slackMessages: slackMessageCount,
+        googleFiles: googleFileCount,
+        syncIssues: syncIssueCount,
+        documentExtracts: documentExtractCount,
+        trackerSheetRows: trackerSheetRowCount,
+      },
+      hasMore: {
+        slackMessages: safeLimit ? safeOffset + messages.length < slackMessageCount : false,
+        googleFiles: safeLimit ? safeOffset + files.length < googleFileCount : false,
+        syncIssues: safeLimit ? safeOffset + syncIssues.length < syncIssueCount : false,
+        documentExtracts: safeLimit ? safeOffset + documentExtracts.length < documentExtractCount : false,
+      },
+      nextOffset:
+        safeLimit &&
+        (safeOffset + messages.length < slackMessageCount ||
+          safeOffset + files.length < googleFileCount ||
+          safeOffset + syncIssues.length < syncIssueCount ||
+          safeOffset + documentExtracts.length < documentExtractCount)
+          ? nextOffset
+          : null,
+    },
   };
 }

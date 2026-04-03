@@ -25,6 +25,14 @@ function asPositiveInt(value: unknown, fallback: number, max: number): number {
   return Math.min(Math.trunc(numeric), max);
 }
 
+function asNonNegativeInt(value: unknown, fallback: number, max: number): number {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric < 0) {
+    return fallback;
+  }
+  return Math.min(Math.trunc(numeric), max);
+}
+
 export const executiveRoutes: FastifyPluginAsync = async (app) => {
   app.post("/executive/portfolio/query", async (request) => {
     requireExecutive(request);
@@ -64,14 +72,24 @@ export const executiveRoutes: FastifyPluginAsync = async (app) => {
       return reply.notFound("Initiative not found");
     }
 
-    const query = request.query as { limit?: string };
+    const query = request.query as { limit?: string; offset?: string; all?: string };
+    const fetchedAt = new Date().toISOString();
+    const rawData = await getInitiativeRawEvidence(
+      initiativeId,
+      query.all === "true" ? null : asPositiveInt(query.limit, 200, 1000),
+      asNonNegativeInt(query.offset, 0, 50_000),
+    );
     return {
       initiativeId,
-      fetchedAt: new Date().toISOString(),
-      rawData: await getInitiativeRawEvidence(
-        initiativeId,
-        asPositiveInt(query.limit, 120, 200),
-      ),
+      fetchedAt,
+      rawData,
+      storedRawData: {
+        label: "stored_raw_evidence",
+        freshness: "stored",
+        generatedAt: null,
+        fetchedAt,
+        data: rawData,
+      },
     };
   });
 

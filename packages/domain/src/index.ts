@@ -650,6 +650,24 @@ export const initiativeRawEvidenceSchema = z.object({
   latestTrackerParseRunId: z.string().nullable(),
   latestObservationId: z.string().nullable(),
   latestResearchRunId: z.string().nullable(),
+  pagination: z.object({
+    limit: z.number().int().nullable(),
+    offset: z.number().int(),
+    counts: z.object({
+      slackMessages: z.number().int(),
+      googleFiles: z.number().int(),
+      syncIssues: z.number().int(),
+      documentExtracts: z.number().int(),
+      trackerSheetRows: z.number().int(),
+    }),
+    hasMore: z.object({
+      slackMessages: z.boolean(),
+      googleFiles: z.boolean(),
+      syncIssues: z.boolean(),
+      documentExtracts: z.boolean(),
+    }),
+    nextOffset: z.number().int().nullable(),
+  }),
 });
 
 export const initiativeAskRequestSchema = z.object({
