@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: int_cip_budgets
+    description: "Construction in Progress budget amounts by project and division. Includes all projects and all possible budget divisions."
+    config:
+      materialized: view
+      tags: ["construction", "cip"]
+    columns:
+      - name: project_id
+        description: "Project identifier. Foreign key to cip_projects."
+      - name: project_code
+        description: "Project code."
+      - name: project_name
+        description: "Project name."
+      - name: market_id
+        description: "Market identifier. Foreign key to es_warehouse.markets."
+      - name: division_code
+        description: "Division code."
+      - name: division_name
+        description: "Division name."
+      - name: budget_amount
+        description: "Budgeted amount for the project/division. Defaults to 0 if not entered."

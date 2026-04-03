@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: stg_t3__category_spend_history
+    description: Line-level purchase order information, with each row containing  details about a specific purchase order line item
+    columns:
+      - name: purchase_order_date_created
+        data_type: timestamp_tz
+        description: "Purchase order created date"
+
+      - name: requesting_branch_id
+        data_type: timestamp_tz
+        description: "Purchase order requesting branch Id"
+
+      - name: created_by_id
+        data_type: number
+        description: "Created by user id"
+
+      - name: purchase_order_status
+        data_type: varchar
+        description: "Purchase order status"
+
+      - name: purchase_order_number
+        data_type: number
+        description: "Purchase order number"
+
+      - name: purchase_order_reference
+        data_type: varchar
+        description: "Purchase order reference"
+
+      - name: purchase_order_id
+        data_type: varchar
+        description: "Purchase order Id"
+
+      - name: purchase_order_line_items_quantity
+        data_type: number
+        description: "Purchase order line item quantity"
+
+      - name: purchase_order_line_items_price_per_unit
+        data_type: number
+        description: "Purchase order line item price per unit"
+
+      - name: item_type
+        data_type: varchar
+        description: "Item type"
+
+      - name: first_name
+        data_type: varchar
+        description: "User's first name"
+
+      - name: last_name
+        data_type: varchar
+        description: "User's last name"
+
+      - name: market_name
+        data_type: varchar
+        description: "Market name"
+
+      - name: market_company_id
+        data_type: number
+        description: "Comapny Id"
+
+      - name: market_region_xwalk_region_name
+        data_type: varchar
+        description: "Market region's name"
+
+      - name: market_region_xwalk_district_name
+        data_type: varchar
+        description: "Market region's disctrict name"
+
+      - name: market_type
+        data_type: varchar
+        description: "market_type"
+
+      - name: purchase_entity_name
+        data_type: varchar
+        description: "Purchasing entity's name"
+
+      - name: top_vendor_mapping_preferred
+        data_type: varchar
+        description: "Top vendor mapping preferred state"
+
+      - name: purchase_order_receivers_date_received
+        data_type: timestamp_tz
+        description: "Purcase order receiver's date received"
+
+      - name: item_service
+        data_type: varchar
+        description: "Item service"

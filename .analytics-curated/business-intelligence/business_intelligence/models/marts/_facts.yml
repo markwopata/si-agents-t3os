@@ -1,0 +1,1502 @@
+version: 2
+
+models: 
+
+  - name: fact_asset_purchase_metrics
+    description: "{{ doc('fact_asset_purchase_metrics') }}"
+    columns:
+      - name: asset_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_assets')
+                field: asset_key
+
+      - name: original_purchase_id
+        data_type: number
+        description: "{{ doc('asset_purchase_original_purchase_id') }}"
+
+      - name: latest_purchase_id
+        data_type: number
+        description: "{{ doc('asset_purchase_latest_purchase_id') }}"
+
+      - name: original_purchase_price
+        data_type: number(14,4)
+        description: "{{ doc('asset_purchase_original_purchase_price') }}"
+
+      - name: latest_purchase_price
+        data_type: number(14,4)
+        description: "{{ doc('asset_purchase_latest_purchase_price') }}"
+
+      - name: highest_purchase_price
+        data_type: number(14,4)
+        description: "{{ doc('asset_purchase_highest_purchase_price') }}"
+
+      - name: lowest_purchase_price
+        data_type: number(14,4)
+        description: "{{ doc('asset_purchase_lowest_purchase_price') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_credit_applications
+    description: "{{ doc('fact_credit_applications') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_key
+        data_type: varchar
+        description: "{{ doc('credit_application_company_key') }}"
+        data_tests:
+          - not_null
+
+      - name: created_by_employee_user_key
+        data_type: varchar
+        description: "{{ doc('credit_application_created_by_employee_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: salesperson_user_key
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: credit_specialist_user_key
+        data_type: varchar
+        description: "{{ doc('credit_application_credit_specialist_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: created_date_key
+        data_type: varchar
+        description: "{{ doc('credit_application_created_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: received_date_key
+        data_type: varchar
+        description: "{{ doc('credit_application_received_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: completed_date_key
+        data_type: varchar
+        description: "{{ doc('credit_application_completed_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: credit_application_camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+
+      - name: credit_application_status
+        data_type: varchar
+        description: "{{ doc('credit_application__application_status') }}"
+
+      - name: credit_application_type
+        data_type: varchar
+        description: "{{ doc('credit_application_type') }}"
+
+      - name: credit_application_source
+        data_type: varchar
+        description: "{{ doc('credit_application__source') }}"
+      
+      - name: credit_application_notes
+        data_type: varchar
+        description: "{{ doc('credit_application__notes') }}"
+
+      - name: duns
+        data_type: varchar
+        description: "{{ doc('credit_application__duns') }}"
+
+      - name: fein
+        data_type: varchar
+        description: "{{ doc('credit_application__fein') }}"
+
+      - name: sic
+        data_type: number
+        description: "{{ doc('credit_application__sic') }}"
+
+      - name: naics_primary
+        data_type: number
+        description: "{{ doc('credit_application__naics_primary') }}"
+
+      - name: naics_secondary
+        data_type: number
+        description: "{{ doc('credit_application__naics_secondary') }}"
+
+      - name: is_government_entity
+        data_type: boolean
+        description: "{{ doc('credit_application__government_entity') }}"
+
+      - name: has_insurance_info
+        data_type: boolean
+        description: "{{ doc('credit_application__insurance_info') }}"
+
+      - name: chas_online_app_status
+        data_type: boolean
+        description: "{{ doc('credit_application__online_app_status') }}"
+
+      - name: is_salesperson_override
+        data_type: boolean
+        description: "{{ doc('credit_application__salesperson_override') }}"
+
+      - name: is_initial_web_self_signup
+        data_type: boolean
+        description: "{{ doc('credit_application__initial_web_self_signup') }}"
+
+      - name: coi_received
+        data_type: boolean
+        description: "{{ doc('credit_application__coi_received') }}"
+
+      - name: credit_safe_no
+        data_type: varchar
+        description: "{{ doc('credit_application__credit_safe_number') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_company_customer_start
+    description: "{{ doc('fact_company_customer_start') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_key
+        data_type: varchar
+        description: "{{ doc('platform__company_key') }}"
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_companies')
+                field: company_key
+
+      - name: first_account_date_ct_key
+        data_type: varchar
+        description: "{{ doc('company_first_account_date_ct_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: salesperson_user_key
+        data_type: varchar
+        description: "{{ doc('salesperson_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: salesperson_key
+        data_type: varchar
+        description: "{{ doc('salesperson_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson_enhanced')
+                field: salesperson_key
+
+      - name: credit_application_type
+        data_type: varchar
+        description: "{{ doc('credit_application_type') }}"
+
+      - name: company_first_account_source
+        data_type: varchar
+        description: "{{ doc('company_first_account_source') }}"
+
+      - name: is_locked
+        data_type: boolean
+        description: "{{ doc('credit_application_is_locked') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_invoice_salesperson_count
+    description: "{{ doc('fact_invoice_salesperson_count') }}"
+    columns:
+      - name: invoice_key
+        data_type: varchar
+        description: "{{ doc('platform__invoice_key') }}"
+
+      - name: num_primary_salesperson
+        data_type: number
+        description: "{{ doc('invoice_num_primary_salesperson') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1]
+              config:
+                severity: warn
+
+      - name: num_secondary_salesperson
+        data_type: number
+        description: "{{ doc('invoice_num_secondary_salesperson') }}"
+
+      - name: total_num_salesperson
+        data_type: number
+        description: "{{ doc('invoice_total_num_salesperson') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_onrent_metrics
+    description: "Denormalized on-rent rental metrics fact table for Looker V3 flat reporting."
+    columns:
+      - name: rental_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_rentals."
+
+      - name: rental_id
+        data_type: number
+        description: "Source rental identifier from ESDB."
+
+      - name: asset_id
+        data_type: number
+        description: "Asset assigned to the rental. Null for bulk orders."
+
+      - name: company_id
+        data_type: number
+        description: "Customer company identifier."
+
+      - name: order_id
+        data_type: number
+        description: "Source order identifier tied to the rental."
+
+      - name: total_invoiced_amount
+        data_type: number(18,2)
+        description: "Total invoiced spend for the rental."
+
+      - name: total_days_on_rent
+        data_type: number(10,0)
+        description: "Number of days the current equipment has been on rent."
+
+      - name: rental_start_date
+        data_type: date
+        description: "Start date of the current equipment assignment on rent."
+
+      - name: previous_day_utilization_utc
+        data_type: float
+        description: "Utilization hours recorded yesterday (UTC)."
+
+      - name: sub_renting_company
+        data_type: varchar
+        description: "Name of the sub-renter company receiving re-rented equipment."
+
+      - name: sub_renting_contact
+        data_type: varchar
+        description: "Contact name associated with the sub-renter."
+
+  - name: fact_quotes
+    description: "{{ doc('fact_quotes') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quotes')
+                field: quote_key
+              config:
+                tags: ['post_build_test']
+
+      - name: created_date_key
+        data_type: varchar
+        description: "{{ doc('quote_created_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+          
+      - name: updated_date_key
+        data_type: varchar
+        description: "{{ doc('quote_updated_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: quote_customer_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quote_customers')
+                field: quote_customer_key
+
+      - name: market_key
+        data_type: varchar
+        description: "{{ doc('platform__market_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_markets')
+                field: market_key
+
+      - name: order_key
+        data_type: varchar
+        description: "{{ doc('platform__order_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_orders')
+                field: order_key
+
+      - name: quote_created_by_user_key
+        data_type: varchar
+        description: "{{ doc('quote_created_by_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: quote_contact_user_key
+        data_type: varchar
+        description: "{{ doc('quote_contact_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: converted_to_order_by_user_key
+        data_type: varchar
+        description: "{{ doc('converted_to_order_by_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: requested_start_date_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_start_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: requested_start_time_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_start_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: requested_end_date_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_end_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: requested_end_time_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_end_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: expiration_date_key
+        data_type: varchar
+        description: "{{ doc('quote_expiration_date_key') }}"
+        data_tests:
+          - not_null 
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: expiration_time_key
+        data_type: varchar
+        description: "{{ doc('quote_expiration_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: num_days_quoted
+        data_type: number
+        description: "{{ doc('num_days_quoted') }}"
+
+      - name: sales_tax
+        data_type: number
+        description: "{{ doc('quotes__sales_tax') }}"
+
+      - name: total_rpp_price
+        data_type: number
+        description:  "{{ doc('quotes__rental_protection_plan_price') }}"
+
+      - name: rental_subtotal
+        data_type: number
+        description: "{{ doc('quotes__rental_subtotal') }}"
+
+      - name: sale_items_subtotal
+        data_type: number
+        description: "{{ doc('quotes__sales_items_subtotal') }}"
+
+      - name: equipment_charges
+        data_type: number
+        description: "{{ doc('quotes__equipment_charges') }}"
+
+      - name: delivery_fee
+        data_type: number
+        description: "{{ doc('quotes__delivery_fee') }}"
+
+      - name: pickup_fee
+        data_type: number
+        description: "{{ doc('quotes__pickup_fee') }}"
+
+      - name: total_price
+        data_type: number
+        description: "{{ doc('quotes__total_amount') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_quote_customer_conversion
+    description: "{{ doc('fact_quote_customer_conversion') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_customer_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_key') }}"
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quote_customers')
+                field: quote_customer_key
+
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quotes')
+                field: quote_key
+
+      - name: company_key
+        data_type: varchar
+        description: "{{ doc('platform__company_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_companies')
+                field: company_key
+
+      - name: converted_date_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_converted_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: converted_time_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_converted_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_quote_line_items
+    description: "{{ doc('fact_quote_line_items') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_line_item_key
+        data_type: varchar
+        description: "{{ doc('quote_line_item_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_quotes')
+                field: quote_key
+              config:
+                tags: ['post_build_test']
+
+      - name: created_date_key
+        data_type: varchar
+        description: "{{ doc('quote_item_created_date_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: requested_start_date_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_start_date_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: requested_start_time_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_start_time_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: requested_end_date_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_end_date_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: requested_end_time_key
+        data_type: varchar
+        description: "{{ doc('quote_requested_end_time_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: expiration_date_key
+        data_type: varchar
+        description: "{{ doc('quote_expiration_date_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: expiration_time_key
+        data_type: varchar
+        description: "{{ doc('quote_expiration_time_key') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: quote_line_item_id
+        data_type: varchar
+        description: "{{ doc('quote_line_item_id') }}"
+
+      - name: line_item_description
+        data_type: varchar
+        description: "{{ doc('quote_line_item_description') }}"
+
+      - name: line_item_type_name
+        data_type: varchar
+        description: "{{ doc('platform__line_item_type_name') }}"
+
+      - name: flat_rate
+        data_type: number
+        description: "{{ doc('quote_flat_rate') }}"
+
+      - name: quote_customer_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quote_customers')
+                field: quote_customer_key
+
+      - name: quote_contact_user_key
+        data_type: varchar
+        description: "{{ doc('quote_contact_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: market_key
+        data_type: varchar
+        description: "{{ doc('platform__market_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_markets')
+                field: market_key
+
+      - name: order_key
+        data_type: varchar
+        description: "{{ doc('platform__order_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_orders')
+                field: order_key
+
+      - name: part_key
+        data_type: varchar
+        description: "{{ doc('platform__part_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_parts')
+                field: part_key
+
+      - name: equipment_class_key
+        data_type: varchar
+        description: "{{ doc('equipment_class_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_equipment_classes')
+                field: equipment_class_key
+
+      - name: note
+        data_type: varchar
+        description: "{{ doc('quote_line_item_note') }}"
+
+      - name: quantity
+        data_type: number
+        description: "{{ doc('quote_line_item_quantity') }}"
+        data_tests:
+          - not_null
+
+      - name: shift_id
+        data_type: number
+        description: "{{ doc('quotes__shift_type_id') }}"
+
+      - name: multiplier
+        data_type: number
+        description: "{{ doc('quotes__shift_type_multiplier') }}"
+
+      - name: shift_name
+        data_type: varchar
+        description: "{{ doc('quotes__shift_type_name') }}"
+
+      - name: selected_rate_type_name
+        data_type: varchar
+        description: "{{ doc('quotes__rate_type_name') }}"
+
+      - name: day_rate
+        data_type: number
+        description: "{{ doc('quote_line_item_day_rate') }}"
+
+      - name: week_rate
+        data_type: number
+        description: "{{ doc('quote_line_item_week_rate') }}"
+
+      - name: four_week_rate
+        data_type: number
+        description: "{{ doc('quote_line_item_four_week_rate') }}"
+
+      - name: num_days_quoted
+        data_type: number
+        description: "{{ doc('num_days_quoted') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_quote_escalations
+    description: "{{ doc('fact_quote_escalations') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_escalation_key
+        data_type: varchar
+        description: "{{ doc('quote_escalation_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quotes')
+                field: quote_key
+
+      - name: quote_created_date_key
+        data_type: varchar
+        description: "{{ doc('quote_created_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: quote_escalated_date_key
+        data_type: varchar
+        description: "{{ doc('quote_escalated_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: escalated_by_user_key
+        data_type: varchar
+        description: "{{ doc('quote_escalated_by_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: quote_customer_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quote_customers')
+                field: quote_customer_key
+
+      - name: quote_escalation_id
+        data_type: varchar
+        description: "{{ doc('quotes__escalation_id') }}"
+
+      - name: num_days_to_escalation
+        data_type: number
+        description: "{{ doc('quote_num_days_to_escalation') }}"
+
+      - name: escalation_reason
+        data_type: varchar
+        description: "{{ doc('quotes__escalation_reason') }}"
+
+      - name: has_attachment
+        data_type: boolean
+        description: "{{ doc('quote_escalation_has_attachment') }}"
+
+      - name: attachment_filepath
+        data_type: varchar
+        description: "{{ doc('quotes__escalation_attachment_file') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_safety_observation_details
+    description: "{{ doc('fact_safety_observation_details') }}"
+    config:
+      tags: ['safety_observation']
+    columns:
+      - name: safety_observation_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: safety_observation_id
+        data_type: number
+        description: "{{ doc('safety_observation__id') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: safety_observation_submission_date_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_submission_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: safety_observation_submission_time_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_submission_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: safety_observation_employee_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_employee_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_employees')
+                field: employee_key
+
+      - name: safety_observation_market_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_market_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_markets')
+                field: market_key
+
+      - name: safety_observation_observation_date_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_observation_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: safety_observation_observation_time_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_observation_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: safety_observation_observation_date_final_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_observation_date_final_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: safety_observation_observation_time_final_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_observation_time_final_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: observation_category
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_category') }}"
+
+      - name: observation_type
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_type') }}"
+
+      - name: observation_location
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_location') }}"
+
+      - name: observation_description_summary
+        data_type: varchar
+        description: "{{ doc('safety_observation_observation_description_summary') }}"
+
+      - name: observation_description
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_description') }}"
+
+      - name: corrective_action
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action') }}"
+
+      - name: corrective_action_type
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action_type') }}"
+
+      - name: corrective_action_explanation
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action_explanation') }}"
+
+      - name: requires_safety_manager_escalation
+        data_type: boolean
+        description: "{{ doc('safety_observation_requires_safety_manager_escalation') }}"
+
+      - name: has_uploaded_photos
+        data_type: boolean
+        description: "{{ doc('safety_observation_has_uploaded_photos') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_safety_observation_photos
+    description: "{{ doc('fact_safety_observation_photos') }}"
+    config:
+      tags: ['safety_observation']
+    columns:
+      - name: safety_observation_photo_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_photo_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: safety_observation_key
+        data_type: varchar
+        description: "{{ doc('safety_observation_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fact_safety_observation_details')
+                field: safety_observation_key
+
+      - name: photo
+        data_type: varchar
+        description: "{{ doc('safety_observation_photo') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: fact_asset_transfers_accumulating_snapshot
+    description: "{{ doc('fact_asset_transfers_accumulating_snapshot') }}"
+    columns:
+      - name: asset_transfer_order_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_key') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: asset_transfer_order_id
+        data_type: varchar
+        description: "{{ doc('asset_transfer__transfer_order_id') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: asset_transfer_order_number
+        data_type: number
+        description: "{{ doc('asset_transfer__transfer_order_number') }}"
+        data_tests:
+          - not_null
+
+      - name: asset_transfer_order_asset_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_asset_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_assets')
+                field: asset_key
+
+      - name: asset_transfer_order_company_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_company_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_companies')
+                field: company_key
+
+      - name: asset_transfer_order_from_market_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_from_market_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_markets')
+                field: market_key
+
+      - name: asset_transfer_order_to_market_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_to_market_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_markets')
+                field: market_key
+
+      - name: asset_transfer_status
+        data_type: varchar
+        description: "{{ doc('asset_transfer__status') }}"
+
+      - name: asset_transfer_type
+        data_type: varchar
+        description: "{{ doc('asset_transfer__transfer_type_name') }}"
+
+      - name: is_rental_transfer
+        data_type: boolean
+        description: "{{ doc('asset_transfer__is_rental_transfer') }}"
+
+      - name: is_active_transfer
+        data_type: boolean
+        description: "{{ doc('asset_transfer_is_active_transfer') }}"
+
+      - name: asset_transfer_order_created_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_created_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_created_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_created_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: asset_transfer_order_requester_user_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_requester_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: requester_note
+        data_type: varchar
+        description: "{{ doc('asset_transfer__requester_note') }}"
+
+      - name: asset_transfer_order_request_cancelled_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_request_cancelled_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_request_cancelled_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_request_cancelled_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: asset_transfer_order_rejected_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_rejected_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_rejected_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_rejected_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: asset_transfer_order_approved_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_approved_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_approved_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_approved_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: asset_transfer_order_approver_note
+        data_type: varchar
+        description: "{{ doc('asset_transfer__approver_note') }}"
+
+      - name: asset_transfer_order_approver_user_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_approver_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: asset_transfer_order_transfer_cancelled_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_transfer_cancelled_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_transfer_cancelled_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_transfer_cancelled_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: cancellation_note
+        data_type: varchar
+        description: "{{ doc('asset_transfer__cancellation_note') }}"
+
+      - name: asset_transfer_order_received_date_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_received_date_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_dates')
+                field: dt_key
+
+      - name: asset_transfer_order_received_time_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_received_time_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_times')
+                field: tm_key
+
+      - name: asset_transfer_order_receiver_user_key
+        data_type: varchar
+        description: "{{ doc('asset_transfer_order_receiver_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+  
+  - name: fact_tracker_vbus_events
+    description: "{{ doc('fact_tracker_vbus_events') }}"
+    columns:
+      - name: tracker_key
+        data_type: varchar
+        description: "{{ doc('platform__tracker_key') }}"
+
+      - name: event_count
+        data_type: number
+        description: "{{ doc('tracker_vbus__valid_event_count') }}"
+
+      - name: average_fuel_economy
+        data_type: number
+        description: "{{ doc('tracker_vbus__average_fuel_economy') }}"
+
+      - name: average_fuel_economy_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__average_fuel_economy_latest_event_time') }}"
+
+      - name: battery_voltage
+        data_type: number
+        description: "{{ doc('tracker_vbus__battery_voltage') }}"
+
+      - name: battery_voltage_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__battery_voltage_latest_event_time') }}"
+
+      - name: coolant_level_percent
+        data_type: number
+        description: "{{ doc('tracker_vbus__coolant_level_percent') }}"
+
+      - name: coolant_level_percent_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__coolant_level_percent_latest_event_time') }}"
+
+      - name: coolant_temperature
+        data_type: number
+        description: "{{ doc('tracker_vbus__coolant_temperature') }}"
+
+      - name: coolant_temperature_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__coolant_temperature_latest_event_time') }}"
+
+      - name: engine_active
+        data_type: boolean
+        description: "{{ doc('tracker_vbus__engine_active') }}"
+
+      - name: engine_active_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_active_latest_event_time') }}"
+
+      - name: engine_oil_pressure
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_oil_pressure') }}"
+
+      - name: engine_oil_pressure_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_oil_pressure_latest_event_time') }}"
+
+      - name: engine_oil_temperature
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_oil_temperature') }}"
+
+      - name: engine_oil_temperature_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_oil_temperature_latest_event_time') }}"
+
+      - name: engine_rpm
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_rpm') }}"
+
+      - name: engine_rpm_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_rpm_latest_event_time') }}"
+
+      - name: fuel_consumption_rate_gph
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_consumption_rate_gph') }}"
+
+      - name: fuel_consumption_rate_gph_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_consumption_rate_gph_latest_event_time') }}"
+
+      - name: fuel_economy_instantaneous_mpg
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_economy_instantaneous_mpg') }}"
+
+      - name: fuel_economy_instantaneous_mpg_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_economy_instantaneous_mpg_latest_event_time') }}"
+
+      - name: fuel_level
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_level') }}"
+
+      - name: fuel_level_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_level_latest_event_time') }}"
+
+      - name: max_speed_mph
+        data_type: number
+        description: "{{ doc('tracker_vbus__max_speed_mph') }}"
+
+      - name: max_speed_mph_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__max_speed_mph_latest_event_time') }}"
+
+      - name: odometer
+        data_type: number
+        description: "{{ doc('tracker_vbus__odometer') }}"
+
+      - name: odometer_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__odometer_latest_event_time') }}"
+
+      - name: total_engine_hours
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_engine_hours') }}"
+
+      - name: total_engine_hours_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_engine_hours_latest_event_time') }}"
+
+      - name: total_fuel_used_liters
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_fuel_used_liters') }}"
+
+      - name: total_fuel_used_liters_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_fuel_used_liters_latest_event_time') }}"
+
+      - name: total_idle_fuel_used_liters
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_idle_fuel_used_liters') }}"
+
+      - name: total_idle_fuel_used_liters_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_idle_fuel_used_liters_latest_event_time') }}"
+
+      - name: total_idle_hours
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_idle_hours') }}"
+
+      - name: total_idle_hours_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_idle_hours_latest_event_time') }}"
+
+      - name: vbus_speed
+        data_type: number
+        description: "{{ doc('tracker_vbus__vbus_speed') }}"
+
+      - name: vbus_speed_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__vbus_speed_latest_event_time') }}"
+
+      - name: vin
+        data_type: varchar
+        description: "{{ doc('tracker_vbus__vin') }}"
+
+      - name: vin_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__vin_latest_event_time') }}"

@@ -1,0 +1,56 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_segment
+    description: Staging model for Navan booking segment information, containing details about individual segments or legs of travel bookings
+    columns:
+      - name: booking_uuid
+        description: ''
+      - name: index
+        description: ''
+      - name: _fivetran_deleted
+        description: ''
+      - name: _fivetran_synced
+        description: ''
+      - name: departure_address
+        description: ''
+      - name: start_local_date_time
+        description: ''
+      - name: start_timestamp
+        description: ''
+      - name: departure_state
+        description: ''
+      - name: end_local_date_time
+        description: ''
+      - name: departure_city
+        description: ''
+      - name: hotel_chain
+        description: ''
+      - name: arrival_airport_code
+        description: ''
+      - name: hotel_super_chain
+        description: ''
+      - name: arrival_address
+        description: ''
+      - name: end_timestamp
+        description: ''
+      - name: arrival_state
+        description: ''
+      - name: arrival_city
+        description: ''
+      - name: airline_alliance
+        description: ''
+      - name: provider_name
+        description: ''
+      - name: departure_airport_code
+        description: ''
+      - name: departure_country
+        description: ''
+      - name: arrival_country
+        description: ''
+      - name: departure_postal_code
+        description: ''
+      - name: provider_code
+        description: ''
+      - name: flight_number
+        description: ''

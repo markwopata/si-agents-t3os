@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_invoice_salespersons
+    description: Model for es_warehouse.scd.scd_invoice_salespersons
+    columns:
+      - name: invoice_id
+        description: ""
+      - name: primary_salesperson_id
+        description: ""
+      - name: secondary_salesperson_ids
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

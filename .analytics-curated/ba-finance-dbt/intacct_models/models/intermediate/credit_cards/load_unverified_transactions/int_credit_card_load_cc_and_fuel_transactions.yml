@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: int_credit_card_load_cc_and_fuel_transactions
+    description: >
+      Selects the credit card transactions from cc swipe data that have not been reallocated. Also filters out
+      transactions that are less than $1.
+    columns:
+      - name: pk_transaction
+        description: >
+          Unique identifier for each credit card transaction that maps it to a subdepartment and expense line item id
+        data_tests:
+          - unique
+      - name: employee_id
+        description: "Workday employee identifier linked to the cardholder."
+      - name: full_name
+        description: "Employee full name (first & last)."
+      - name: work_email
+        description: "Employee work email address (lower-case)."
+      - name: transaction_default_cost_centers_full_path
+        description: ""
+      - name: transaction_card_holder_name
+        description: ""
+      - name: transaction_user_id
+        description: "User ID of the cardholder (from users table)."
+      - name: transaction_id
+        description: "Unique credit card transaction identifier."
+      - name: transaction_card_type
+        description: "Four-letter abbreviation of card type (fuel, citi, amex, etc.)."
+      - name: transaction_merchant_name
+        description: "Merchant name for the transaction."
+      - name: transaction_date
+        description: "Date the transaction occurred."
+      - name: transaction_amount
+        description: "Total amount charged."
+      - name: transaction_mcc_code
+        description: "Merchant category code (numeric)."
+      - name: transaction_mcc
+        description: "Merchant category description."
+      - name: transaction_rank
+        description: >
+          Row number within user/date/amount partition used for pk_transaction. We'll use this to match 
+          same amounts.
+      - name: transaction_matched
+        description: "Flag (0/1) indicating if a receipt upload has been matched."
+      - name: corporate_account_name
+        description: "Corporate card account name associated with the transaction."

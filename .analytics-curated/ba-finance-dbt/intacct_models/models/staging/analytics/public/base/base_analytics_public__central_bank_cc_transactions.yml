@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: base_analytics_public__central_bank_cc_transactions
+    description: cleaned and renamed model of analytics.public.central_bank_cc_transactions
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - transaction_id
+              - card_number
+    columns:
+      - name: employee_number
+        description: ""
+
+      - name: transaction_id
+        description: ""
+
+      - name: first_name
+        description: ""
+
+      - name: last_name
+        description: ""
+
+      - name: full_name
+        description: ""
+
+      - name: mcc
+        description: ""
+
+      - name: card_type
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: merchant_name
+        description: ""
+
+      - name: mcc_code
+        description: ""
+
+      - name: card_number
+        description: ""
+
+      - name: reference_number
+        description: ""
+
+      - name: transaction_amount
+        description: ""
+
+      - name: is_bypass_verification
+        description: ""
+
+      - name: transaction_date
+        description: ""

@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_analytics_ap_accrual__create_receipts_job_results
+    description: "Results of the API requests sent to Sage from the receipt sync to Sage"
+    columns:
+      - name: document_number
+        description: "PO Number Sent to Sage"
+      - name: run_timestamp
+        description: "Date/time the request was submitted through the API"
+      - name: xml
+        description: "Results in xml format"
+      - name: result_status
+        description: "Short extract of the result status"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - document_number
+              - run_timestamp

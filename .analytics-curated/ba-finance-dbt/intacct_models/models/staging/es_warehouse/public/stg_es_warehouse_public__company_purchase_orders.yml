@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_purchase_orders
+    description: >
+      Fleet Track purchase order table. This tracks fleet purchase orders at the header level. EquipmentShare uses
+      Fleet Track to purchase equipment, attachments, and vehicles.
+    columns:
+      - name: company_purchase_order_id
+        description: "Primary key for company purchase order. This id is part of the company purchase order number."
+        data_tests:
+          - not_null
+          - unique
+      - name: pdf_hash
+        description: "Hash of the pdf file needed to generate the url for the pdf."
+      - name: note
+        description: ""
+      - name: created_at
+        description: "Timestamp the purchase order was created."
+      - name: submitted_at
+        description: "Timestamp the purchase order was submitted."
+      - name: approved_at
+        description: "Can be null. This is the timestamp that the purchase order was approved."
+      - name: modified_at
+        description: "Last timestamp the record was modified."
+      - name: vendor_id
+        description: ""
+      - name: company_purchase_order_type_id
+        description: "Foreign key to es_warehouse.public.company_purchase_order_types table."
+      - name: market_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: submitted_by_user_id
+        description: ""
+      - name: approved_by_user_id
+        description: "Can be null. This is the user that approved the purchase order. Foreign key to es_warehouse.public.users"
+      - name: net_terms_id
+        description: "Foreign key to es_warehouse.public.net_terms table."
+      - name: deleted_at
+        description: "Timestamp the record was deleted."
+      - name: deleted_by_user_id
+        description: "User_id of the user that deleted the record. Foreign key to es_warehouse.public.users"
+      - name: is_deleted
+        description: "Boolean to indicate if the purchase order is deleted."
+      - name: url_admin
+        description: "Link to this purchase order in Fleet Track"
+      - name: url_po_pdf
+        description: "Link to this purchase order in PDF format"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

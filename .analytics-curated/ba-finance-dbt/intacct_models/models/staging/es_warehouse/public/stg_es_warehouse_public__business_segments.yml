@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__business_segments
+    description: Model for es_warehouse.public.business_segments
+    columns:
+      - name: business_segment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: business_segment_name
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_group_sorted
+    description: Table for product group hierarchy, sorted by level and position.
+    columns:
+      - name: fivetran_id
+        description: 'Unique identifier for the record.'
+        data_tests:
+          - not_null
+          - unique
+      - name: level_4_id
+        description: 'Identifier for level 4 in the product group hierarchy.'
+      - name: parent_id
+        description: 'Identifier for the parent in the product group hierarchy.'
+      - name: level_position
+        description: 'Position of the level in the product group hierarchy.'
+      - name: product_group_id
+        description: 'Identifier for the product group.'
+      - name: tree_level
+        description: 'Level of the tree in the product group hierarchy.'
+      - name: level_3_id
+        description: 'Identifier for level 3 in the product group hierarchy.'
+      - name: level_2_id
+        description: 'Identifier for level 2 in the product group hierarchy.'
+      - name: level_1_id
+        description: 'Identifier for level 1 in the product group hierarchy.'
+      - name: gl_code
+        description: 'General ledger code associated with the product group.'
+      - name: level_5_id
+        description: 'Identifier for level 5 in the product group hierarchy.'
+      - name: name
+        description: 'Name of the product group.'
+      - name: document_text
+        description: 'Document text associated with the product group.'
+      - name: tree_sequence
+        description: 'Sequence of the tree in the product group hierarchy.'
+      - name: overall_position
+        description: 'Overall position in the product group hierarchy.'
+      - name: deleted
+        description: 'Indicates whether the product group is deleted.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

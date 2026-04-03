@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: int_claims__historic_market_vehicle_claim_count
+    description: >
+      "Counts vehicles and at-fault, material-loss incident claims for each branch by month, then calculates the 12-month average vehicle count, 
+      based on where each vehicle was assigned at the end of the monthand total claims per branch. The 12-month average smooths short-term changes 
+      in fleet size, providing a consistent basis for comparing claim rates and identifying long-term trends."
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_month
+            - market_id        
+
+    columns:
+      - name: date_month
+        description: ""
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+        datatests:
+          - not_null
+
+      - name: avg_vehicle_count_rolling_12mo
+        description: "average vehicle count per branch over the last 12 months based on where the vehicle was assigned at the end of the month"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: claims_count_rolling_12mo
+        description: "total number of claims in the last 12 months where ES is at fault and it is a material loss"
+        datatests:
+          - not_null
+
+      - name: monthly_vehicle_count
+        description: "average vehicle count per branch for the month"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: monthly_claims_count
+        description: "number of claims in the month where ES is at fault and it is a material loss"
+        datatests:
+          - not_null          

@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__branch_rental_rates
+    description: Model for es_warehouse.public.branch_rental_rates
+    columns:
+      - name: branch_rental_rate_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: rate_type_id
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: price_per_hour
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: date_voided
+        description: ""
+      - name: voided_by_user_id
+        description: ""
+      - name: call_for_pricing
+        description: ""
+      - name: active
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

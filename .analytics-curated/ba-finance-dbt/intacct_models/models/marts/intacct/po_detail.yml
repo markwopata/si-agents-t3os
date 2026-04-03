@@ -1,0 +1,180 @@
+---
+version: 2
+models:
+  - name: po_detail
+    description:
+      'Materializes a table for purchase order details from Sage Intacct tables. Granularity is at a line level.
+      This table is used for reporting on purchasing objects (receipts ("Purchase Order"), Vendor Invoice, etc). One big table
+      style'
+    config:
+      tags: ["intacct", "hourly"]
+      snowflake_warehouse: 'PROD_ANALYTICS_LARGE_PROCESSESING_WH'
+    columns:
+      - name: pk_po_detail_id
+        description: "Primary key for table - hash of fk_po_header_id + fk_po_line_id"
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_po_header_id
+        description: "Foreign key to po_header table. Original sage tables call this recordno for the header/document."
+        data_tests:
+          - not_null
+      - name: fk_po_line_id
+        description:
+          "Foreign key to po_line table. Original sage tables call this recordno for the line. Also unique in this
+          table. Most self joins should use this."
+        data_tests:
+          - not_null
+          - unique
+      - name: receipt_number
+        description:
+          "If this is a Purchase Order object, this field will contain the document number. Purchase Order objects
+          in Sage are receipts"
+      - name: vendor_invoice_number
+        description: ""
+      - name: purchase_order_number
+        description:
+          'If this is a Purchase Order Entry (POE)  object, this field will contain the document number. POEs are
+          purchase orders and convert to "Purchase Order" objects.'
+      - name: document_number
+        description:
+          "This is the document number (part after the hyphen). Document name is a combination of document type
+          and document number."
+        data_tests:
+          - not_null
+      - name: document_type
+        description:
+          "This is the document type (part before the hyphen). Document name is a combination of document type
+          and document number."
+      - name: document_name
+        description: "This is the full document name (<document type>-<document number>)."
+      - name: gl_date
+        description: |
+          GL date is the date the transaction was posted to the general ledger. For Vendor Invoice objects, this is whenposted.
+          For Purchase Order objects, this is whencreated because when it's created, it's posted to the GL.
+      - name: invoice_date
+        description: ""
+      - name: quantity
+        description: "Quantity of items on the line. For Purchase Order objects, this is the quantity received."
+      - name: unit_price
+        description: "The price per unit of the item, good, or service."
+      - name: extended_amount
+        description: "The total amount of the line. This is the quantity * unit price."
+      - name: quantity_remaining
+        description:
+          "Quantity left to be converted. For Purchase Order objects, this is quantity - quantity converted. In
+          layman's terms, this is the quantity not matched yet."
+      - name: quantity_converted
+        description:
+          "Quantity converted to another object. For Purchase Order objects, this is the quantity matched to an
+          invoice (or closed)."
+      - name: line_number
+        description: "Line number of the line. These count up from 0 instead of 1."
+      - name: item_id
+        description: |
+          We use item_id in Sage Intacct to determine what account to hit in the GL. For item_id T6300, 6300 is the account number.
+          For invoices, the T<account> posts directly the account. For POs hitting A<account>, Sage hits the account directly, with the offset posting to 2014 (Goods Received Not Invoiced).
+          For invoices hitting the A<account>, Sage hits 2014 (GRNI) and moves the amount to the accounts payable account (2000).
+      - name: account_number
+        description:
+          'The expense account for the transaction (see item_id for more details). ("Expense Account" could be
+          a balance sheet account too, like inventory)'
+      - name: account_name
+        description: "Name of the account (see account_number, item_id for more details)"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+      - name: fk_expense_type_id
+        description: "{{ doc('fk_expense_type_id') }}"
+      - name: expense_type
+        description: "{{ doc('expense_type') }}"
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"
+      - name: extended_entity_name
+        description: "{{ doc('extended_entity_name') }}"
+      - name: item_description
+        description: "Description for item_id which is just the account name."
+      - name: item_type
+        description:
+          "Indicate if item is inventory or non-inventory. As of 2024, this should only be non-inventory (even
+          for stuff hitting the inventory account)."
+      - name: line_description
+        description: "Line level description (Memo on the front end)"
+      - name: unit_of_measure
+        description: "Unit of measure for the item. e.g. Each, Gallon, etc. (Only Each for now)"
+      - name: vendor_id
+        description: '{{ doc("vendor_id") }}'
+      - name: vendor_name
+        description: '{{ doc("vendor_name") }}'
+      - name: fk_sage_po_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: po_state
+        description: |
+          Document or header status (Pending, Converted, Submitted, Draft, Closed, etc). Do not expect this to be 100% accurate. Sage does always not send us full updates on the header or document.
+          e.g. The document_status could still say pending, but all the lines/quantity have been converted.
+      - name: line_status
+        description: "Status of line, active or inactive - in 2024, always active"
+      - name: document_status
+        description: "Status of header/document, active or inactive - in 2024, always active"
+      - name: is_blanket_po
+        description:
+          "Flag for determining if PO is a blanket PO. (Need verification =>)  Blanket POs don't automatically
+          count as receipts and so have no direct GL activity."
+      - name: invoice_number
+        description: "Invoice number generated off the Vendor Invoice.  (AKA AP bill number)"
+      - name: po_message
+        description: 'Header level "message" for the PO. This is a free text field that can be used for any purpose.'
+      - name: reference
+        description: |
+          Reference field on the PO header. For non-converted purchasing objects, this is a free text field. Some people enter invoice numbers (incosistent formats), work orders, or just descriptions.
+          For purchasing objects converted from something (e.g. Vendor Invoice), this will be the document number it was converted from.
+      - name: terms
+        description: "Expected payment terms for purchase order."
+      - name: source_document_name
+        description:
+          "If this PO object was converted from another PO object, this field will contain the source document_name
+          (which is <document_type-document_number>). createdfrom field in original intacct table."
+      - name: sage_po_created_by_name
+        description: "Sage PO {{ doc('created_by_name') }}"
+      - name: fk_t3_po_created_by_user_id
+        description:
+          "Foreign key to es warehouse users table. Populated if this PO came from T3 CostCapture. User is the
+          one who created the PO in CostCapture."
+      - name: t3_po_created_by_name
+        description: "T3 PO {{ doc('created_by_name') }}"
+      - name: fk_t3_pr_created_by_user_id
+        description: "Foreign key to es warehouse users table."
+      - name: t3_pr_created_by_name
+        description: "T3 PR {{ doc('created_by_name') }} (never different from t3_po_created_by_name in 2024)"
+      - name: fk_source_po_line_id
+        description: |
+          This is the foreign key back to po_detail table, fk_po_line_id. If this po was converted from another po document, fk_source_po_line_id should be populated.
+          e.g. If a vendor invoice is converted from a purchase order object (in layman's terms, the invoice purchasing detail was matched to a receipt in Sage),
+          the lines are matched to original purchase order lines.
+      - name: fk_t3_purchase_order_receiver_item_id
+        description:
+          "Foreign key to T3 CostCapture purchase orders receivers item table. This is the line level/item of the
+          receipt in CostCapture."
+      - name: fk_t3_purchase_order_id
+        description: "Foreign key to T3 CostCapture purchase orders table"
+      - name: fk_ap_header_id
+        description:
+          "Foreign key to ap_header table. Can also join in the combined detail table, ap_detail. This is always
+          populated if purchasing object is a Vendor Invoice which is used to create an AP bill (AP invoice)."
+      - name: date_created_header
+        description: "{{ doc('date_created') }} (header)"
+      - name: date_updated_header
+        description: "{{ doc('date_updated') }} (header)"
+      - name: date_created_line
+        description: "{{ doc('date_created') }} (line)"
+      - name: date_updated_line
+        description: "{{ doc('date_updated') }} (line)"
+      - name: url_sage
+        description: "Sage intacct url for this purchasing document."
+      - name: url_t3
+        description: "{{ doc('url_t3_purchase_order') }}"
+      - name: url_concur
+        description: "{{ doc('url_concur') }}"

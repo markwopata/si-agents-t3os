@@ -1,0 +1,60 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ar_line
+    description: ""
+    columns:
+      - name: pk_ar_line_id
+        description: ""
+        data_tests:
+          - unique
+      - name: fk_ar_header_id
+        description: ""
+      - name: ar_line_type
+        description: ""
+      - name: line_description
+        description: ""
+      - name: debit_credit_sign
+        description: "{{ doc('debit_credit_sign') }}"
+      - name: line_number
+        description: ""
+      - name: amount
+        description: ""
+      - name: account_number
+        description: ""
+      - name: offset_account_number
+        description: ""
+      - name: fk_customer_id
+        description: ""
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: fk_parent_ar_line_id
+        description: ""
+      - name: secondary_line_number
+        description:
+          "This line uniquely orders lines in a record, partitioned by fk_ar_header_id, debit_credit_sign, line
+          amount\n  ordered by fk_ar_line_id. For some overpaymententry records, one of half of the transactions (the -1 or
+          the\n  1 debit_credit_sign transactions) don't have any detail on them. This secondary_line_number gives you an\n\
+          \  join back so you can see which line equates to which offset line. The lines without info are basically\n  arbitrary
+          - you can't tell them apart. If they have the same amount, it doesn't matter which one gets paired\n  with which
+          line. We just need the unique pairing.\n"
+      - name: fk_entity_id
+        description: "{{ doc('fk_entity_id') }}"
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: fk_department_id
+        description: "{{ doc('fk_department_id') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: fk_admin_line_item_id
+        description: "Line item id in admin - which is a line on an invoice. Foreign key to es_warehouse line items."
+      - name: fk_admin_asset_id
+        description: "Asset id in admin. Foregin key to es_warehouse assets."
+      - name: fk_admin_adj_line_item_id
+        description: >
+          If this came from a credit note, this is populated with the credit note line item id in admin. Foreign key to
+          es_warehouse credit_note_line_items.
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

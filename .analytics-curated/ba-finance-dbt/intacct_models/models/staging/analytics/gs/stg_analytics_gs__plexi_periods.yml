@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__plexi_periods
+    description: Model for analytics.gs.plexi_periods
+    columns:
+      - name: _row
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: trunc
+        description: ""
+      - name: year
+        description: ""
+      - name: display
+        description: ""
+      - name: month_num
+        description: ""
+      - name: _fivetran_synced
+        description: ""
+      - name: quarter
+        description: ""
+      - name: period_published
+        description: ""

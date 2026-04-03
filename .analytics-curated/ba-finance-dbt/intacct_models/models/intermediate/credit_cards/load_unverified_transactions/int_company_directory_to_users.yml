@@ -1,0 +1,31 @@
+---
+version: 2
+
+models:
+  - name: int_company_directory_to_users
+    description: >
+      The goal of this model is to map employee_id to users.user_id.
+      The users table has an employee_id, but it's not always populated.
+      We catch any missed employees by also joining on email.
+      We will allow there to be multiple users for a single employee_id (if a single employee has multiple users, all of their transactions should count together.)
+    columns:
+      - name: employee_id
+        description: "Employee ID from the company directory."
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                severity: warn
+                # Known instance of 1 employee with multiple user_ids
+                where: "employee_id != 8513"
+              meta:
+                # Error once a day because if there's a problem, just want to research it.
+                alert_suppression_interval: 24
+      - name: user_id
+        description: "Unique identifier for the user."
+        data_tests:
+          - not_null
+      - name: email_address
+        description: "Email address of the user, normalized to lowercase and trimmed."
+      - name: join_type
+        description: "Type of match used to associate the user with the company directory (e.g., employee_id_match or email_match)."

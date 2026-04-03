@@ -1,0 +1,55 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__store_parts
+    description: ""
+    columns:
+      - name: store_part_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: part_id
+        description: ""
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'parts')
+              field: part_id
+              config:
+                severity: WARN
+      - name: store_id
+        description: Foreign key to inventory_locations.inventory_location_id
+      - name: quantity
+        description: ""
+      - name: threshold
+        description: ""
+      - name: location
+        description: ""
+      - name: note
+        description: ""
+      - name: search_vector
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: max
+        description: ""
+      - name: available_quantity
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: rental_location_id
+        description: ""
+      - name: inventory_location_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: item_type_id
+        description: ""
+      - name: serial_number
+        description: ""
+      - name: date_archived
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

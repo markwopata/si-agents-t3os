@@ -1,0 +1,245 @@
+version: 2
+
+models:
+  - name: stg_webex_contact_center_call_details
+    description: "Incremental model for Webex contact center call details"
+    columns:
+      - name: id
+        data_type: text
+        description: ""
+
+      - name: origin
+        data_type: text
+        description: ""
+
+      - name: phone_number
+        data_type: text
+        description: ""
+
+      - name: abandoned_sl_count
+        data_type: number
+        description: ""
+
+      - name: abandoned_type
+        data_type: text
+        description: ""
+
+      - name: agent_hangup_count
+        data_type: number
+        description: ""
+
+      - name: agent_to_dn_transfer_count
+        data_type: number
+        description: ""
+
+      - name: agent_to_queue_transfer_count
+        data_type: number
+        description: ""
+
+      - name: agent_transfered_in_count
+        data_type: number
+        description: ""
+
+      - name: barged_in_duration
+        data_type: number
+        description: ""
+
+      - name: call_completed_count
+        data_type: number
+        description: ""
+
+      - name: callback_request_time
+        data_type: number
+        description: ""
+
+      - name: callback_retry_count
+        data_type: number
+        description: ""
+
+      - name: conference_duration
+        data_type: number
+        description: ""
+
+      - name: connected_duration
+        data_type: number
+        description: ""
+
+      - name: consult_duration
+        data_type: number
+        description: ""
+
+      - name: consult_to_ep_duration
+        data_type: number
+        description: ""
+
+      - name: created_at
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: ended_at
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: flow_activity_name
+        data_type: text
+        description: ""
+
+      - name: hold_duration
+        data_type: number
+        description: ""
+
+      - name: is_active
+        data_type: boolean
+        description: ""
+
+      - name: is_callback
+        data_type: boolean
+        description: ""
+
+      - name: is_outdial
+        data_type: boolean
+        description: ""
+
+      - name: is_recording_deleted
+        data_type: boolean
+        description: ""
+
+      - name: ivr_ended_count
+        data_type: number
+        description: ""
+
+      - name: ivr_script_id
+        data_type: text
+        description: ""
+
+      - name: ivr_script_name
+        data_type: text
+        description: ""
+
+      - name: matched_skills
+        data_type: variant
+        description: ""
+
+      - name: matched_skill_name
+        data_type: text
+        description: ""
+
+      - name: matched_skill_value
+        data_type: number
+        description: ""
+
+      - name: outdial_conference_count
+        data_type: number
+        description: ""
+
+      - name: outdial_conference_duration
+        data_type: number
+        description: ""
+
+      - name: outdial_consult_count
+        data_type: number
+        description: ""
+
+      - name: outdial_consult_to_ep_duration
+        data_type: number
+        description: ""
+
+      - name: outdial_consult_to_queue_count
+        data_type: number
+        description: ""
+
+      - name: outdial_consult_to_queue_duration
+        data_type: number
+        description: ""
+
+      - name: overflow_count
+        data_type: number
+        description: ""
+
+      - name: paused_duration
+        data_type: number
+        description: ""
+
+      - name: post_call_consult_duration
+        data_type: number
+        description: ""
+
+      - name: post_call_duration
+        data_type: number
+        description: ""
+
+      - name: queue_count
+        data_type: number
+        description: ""
+
+      - name: queue_duration
+        data_type: number
+        description: ""
+
+      - name: required_skills
+        data_type: variant
+        description: ""
+
+      - name: required_skill_name
+        data_type: text
+        description: ""
+
+      - name: required_skill_value
+        data_type: number
+        description: ""
+
+      - name: required_skill_operand
+        data_type: text
+        description: ""
+
+      - name: ringing_duration
+        data_type: number
+        description: ""
+
+      - name: selfservice_duration
+        data_type: number
+        description: ""
+
+      - name: short_in_ivr_count
+        data_type: number
+        description: ""
+
+      - name: short_in_queue_count
+        data_type: number
+        description: ""
+
+      - name: terminating_end
+        data_type: text
+        description: ""
+
+      - name: termination_reason
+        data_type: text
+        description: ""
+
+      - name: termination_type
+        data_type: text
+        description: ""
+
+      - name: total_bnr_duration
+        data_type: number
+        description: ""
+
+      - name: total_duration
+        data_type: number
+        description: ""
+
+      - name: wrapup_duration
+        data_type: number
+        description: ""
+
+      - name: is_branch_call
+        data_type: boolean
+        description: ""
+
+      - name: extraction_started_at
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: extraction_completed_at
+        data_type: timestamp_ntz
+        description: ""

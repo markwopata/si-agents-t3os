@@ -1,0 +1,108 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_assets_keypads
+    description: Model for es_warehouse.public.v_assets_keypads
+    columns:
+      - name: asset_id
+        description: ""
+      - name: asset_type_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: description
+        description: ""
+      - name: year
+        description: ""
+      - name: model
+        description: ""
+      - name: company_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: asset_settings_id
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: time_fence_id
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: deleted
+        description: ""
+      - name: market_id
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: camera_id
+        description: ""
+      - name: elog_device_id
+        description: ""
+      - name: analog_to_digital_fuel_level_curve_id
+        description: ""
+      - name: payout_percentage
+        description: ""
+      - name: vin
+        description: ""
+      - name: driver_name
+        description: ""
+      - name: name
+        description: ""
+      - name: serial_number
+        description: ""
+      - name: price_per_hour
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: available_for_rent
+        description: ""
+      - name: purchase_price
+        description: ""
+      - name: weekly_minimum
+        description: ""
+      - name: weight_lbs
+        description: ""
+      - name: category_id
+        description: ""
+      - name: location_id
+        description: ""
+      - name: equipment_condition_id
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: elogs_certified
+        description: ""
+      - name: service_branch_id
+        description: ""
+      - name: inventory_branch_id
+        description: ""
+      - name: rental_branch_id
+        description: ""
+      - name: placed_in_service
+        description: ""
+      - name: available_to_rapid_rent
+        description: ""
+      - name: dot_number_id
+        description: ""
+      - name: battery_voltage_type_id
+        description: ""
+      - name: make
+        description: ""
+      - name: asset_class
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: keypad_id
+        description: ""
+      - name: keypad_firmware_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

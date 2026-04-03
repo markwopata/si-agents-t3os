@@ -1,0 +1,19 @@
+SELECT
+    ve.tracker_id,
+    ve.device_serial,
+    ve.tracker_type_id,
+    ve.asset_id,
+    ve.year,
+    ve.equipment_make_id,
+    ve.make_name,
+    ve.model,
+    ve.equipment_model_id,
+    ve.model_name,
+    ve.equipment_class_id,
+    ve.class_name,
+    ve.category_id,
+    ve.category_name,
+    ve.cat_canonical_name,
+    ve.cat_singular_name,
+    ve.bus_type
+FROM {{ source('es_warehouse_public', 'v_excavators') }} as ve

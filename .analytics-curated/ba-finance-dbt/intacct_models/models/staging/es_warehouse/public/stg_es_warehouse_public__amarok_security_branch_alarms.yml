@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__amarok_security_branch_alarms
+    description: Model for es_warehouse.public.amarok_security_branch_alarms
+    columns:
+      - name: amarok_security_branch_alarm_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: hash_key
+        description: ""
+      - name: branch
+        description: ""
+      - name: branchserialno
+        description: ""
+      - name: grpcode
+        description: ""
+      - name: serialno
+        description: ""
+      - name: contid
+        description: ""
+      - name: rldes
+        description: ""
+      - name: txid
+        description: ""
+      - name: custname
+        description: ""
+      - name: area
+        description: ""
+      - name: descr
+        description: ""
+      - name: areaoc
+        description: ""
+      - name: lastsignal
+        description: ""
+      - name: lopen
+        description: ""
+      - name: lclose
+        description: ""
+      - name: lastburg
+        description: ""
+      - name: alarmcnt
+        description: ""
+      - name: custstate
+        description: ""
+      - name: error
+        description: ""
+      - name: errordesc
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

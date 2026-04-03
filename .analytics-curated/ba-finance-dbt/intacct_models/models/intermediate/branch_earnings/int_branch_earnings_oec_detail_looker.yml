@@ -1,0 +1,69 @@
+---
+version: 2
+models:
+  - name: int_branch_earnings_oec_detail_looker
+    description: >
+      Branch earnings OEC detail for use in Looker. This is at the asset by month level. It ensures we don't get 
+      static and trending for the same month (there are certain timing instances where this may happen)
+    columns:
+      - name: pk
+        description: Primary key composed of asset_id, gl_date, and load_section.
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                where: "gl_date >= '2024-01-01'" # 2021 and 2023 have some doubled assets. We aren't back-correcting.
+      - name: market_id
+        description: Market ID at the time of the OEC snapshot.
+      - name: gl_date
+        description: Month date for the OEC snapshot (first day of month).
+        data_tests:
+          - not_null
+      - name: asset_id
+        description: Unique identifier for the asset.
+        data_tests:
+          - not_null
+      - name: make
+        description: Asset make.
+      - name: model
+        description: Asset model.
+      - name: year
+        description: Asset year.
+      - name: asset_class
+        description: Asset class.
+      - name: asset_type
+        description: Asset type (e.g., vehicle, equipment).
+      - name: company_id
+        description: Company identifier owning the asset.
+      - name: company_name
+        description: Company name owning the asset.
+      - name: inventory_status
+        description: Inventory status based on asset type and historical mapping.
+      - name: amount
+        description: Original Equipment Cost (OEC) amount for the asset.
+      - name: equipment_charge
+        description: Calculated equipment charge based on OEC.
+      - name: is_current_asset
+        description: This is a dummy column to prevent looker from breaking with this change in model.
+      - name: is_new_asset
+        description: Indicates if the asset is new in the period.
+      - name: url_admin
+        description: Link to the asset in Admin.
+      - name: url_track
+        description: Link to the asset in Track.
+      - name: rental_market_id
+        description: Rental branch market ID.
+      - name: rental_market
+        description: Rental branch market name.
+      - name: inventory_market_id
+        description: Inventory branch market ID.
+      - name: inventory_market
+        description: Inventory branch market name.
+      - name: service_market_id
+        description: Service branch market ID.
+      - name: service_market
+        description: Service branch market name.
+      - name: problem_note
+        description: Data quality note when branch assignments are inconsistent.
+      - name: load_section
+        description: Load section identifier used to note where the asset detail came from - trending or static BE.

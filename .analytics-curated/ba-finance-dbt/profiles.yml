@@ -1,0 +1,37 @@
+---
+intacct_models:
+  outputs:
+    prod:
+      account: $account
+      database: analytics
+      password: $password
+      role: business_analyst
+      schema: intacct_models
+      threads: 8
+      type: snowflake
+      user: $user
+      warehouse: dbt_dev_wh
+    dev:
+      account: $account
+      database: analytics
+      password: $password
+      role: business_analyst
+      schema: default_dev_schema
+      threads: 8
+      type: snowflake
+      user: $user
+      warehouse: dbt_prod_wh
+  target: prod
+
+elementary:
+  outputs:
+    default:
+      type: "snowflake"
+      account: $account
+      user: $user
+      password: $password
+      role: "business_analyst"
+      warehouse: "dbt_prod_wh"
+      database: "analytics"
+      schema: "elementary"
+      threads: 8

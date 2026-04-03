@@ -1,0 +1,118 @@
+---
+version: 2
+models:
+  - name: base_analytics_vehicle_solutions__turo_rentals
+    description: Rentals done through Turo. Contains reservation details.
+    columns:
+      - name: reservation_id
+        description: ""
+      - name: guest
+        description: ""
+      - name: vehicle_name
+        description: ""
+      - name: vehicle_model
+        description: ""
+      - name: license_plate_state
+        description: ""
+      - name: license_plate_number
+        description: ""
+      - name: license_plate_unknown_id
+        description: ""
+      - name: vehicle_rental_indicator
+        description: ""
+      - name: trip_start
+        description: "Start timestamp of trip"
+      - name: trip_end
+        description: "End timestamp of trip"
+      - name: trip_days
+        description: >
+          Calculated trip days by getting the minutes datediff between trip_start and trip_end and dividing by 24 * 60.
+          We then take the ceiling of this number as turo charges a minimum period of 1 day.
+
+          Independent calculation requested by accounting.
+
+          Reference: https://help.turo.com/en_us/trip-pricing-ByXmVNgN5
+      - name: trip_days_original
+        description: "Original trip days provided by Turo. Kept for reference."
+      - name: pickup_location
+        description: ""
+      - name: return_location
+        description: ""
+      - name: trip_status
+        description: ""
+      - name: check_in_odometer
+        description: ""
+      - name: check_out_odometer
+        description: ""
+      - name: distance_traveled
+        description: ""
+      - name: trip_price
+        description: ""
+      - name: boost_price
+        description: ""
+      - name: discount_3_day
+        description: ""
+      - name: discount_1_week
+        description: ""
+      - name: discount_2_week
+        description: ""
+      - name: discount_3_week
+        description: ""
+      - name: discount_1_month
+        description: ""
+      - name: discount_2_month
+        description: ""
+      - name: discount_3_month
+        description: ""
+      - name: early_bird_discount
+        description: ""
+      - name: host_promotional_credit
+        description: ""
+      - name: delivery
+        description: ""
+      - name: excess_distance
+        description: ""
+      - name: extras
+        description: ""
+      - name: cancellation_fee
+        description: ""
+      - name: additional_usage
+        description: ""
+      - name: late_fee
+        description: ""
+      - name: improper_return_fee
+        description: ""
+      - name: airport_operations_fee
+        description: ""
+      - name: tolls_and_tickets
+        description: ""
+      - name: on_trip_ev_charging
+        description: ""
+      - name: post_trip_ev_charging
+        description: ""
+      - name: smoking
+        description: ""
+      - name: cleaning
+        description: ""
+      - name: fines_paid_to_host
+        description: ""
+      - name: gas_reimbursement
+        description: ""
+      - name: gas_fee
+        description: ""
+      - name: other_fees
+        description: ""
+      - name: non_refundable_discount
+        description: ""
+      - name: sales_tax
+        description: ""
+      - name: total_earnings
+        description: ""
+      - name: file_name
+        description: ""
+      - name: turo_account_short_code
+        description: >
+          Short code for the Turo account - MO, ATX, ATL, etc. This does not match any other table. Unique to Turo csv
+          pulls. Generated from file_name. Use seed_vsg_turo_to_branch_mapping to map to market or region.
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,60 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_work_orders
+    tags: ["sources"]
+    database: es_warehouse
+    schema: work_orders
+    description: es_warehouse schema for all es_warehouse (T3/Admin) work order-related topics
+    tables:
+      - name: work_orders
+        description: list of work orders. one row is one work order
+        columns:
+          - name: work_order_id
+            data_tests:
+              - unique
+      - name: work_order_types
+        description: list of work order types. one row is one work order type
+        columns:
+          - name: work_order_type_id
+            data_tests:
+              - unique
+      - name: work_order_events
+        description: ""
+      - name: work_order_single_select_options
+        description: ""
+      - name: work_order_user_assignments
+        description: ""
+      - name: work_orders_by_tag
+        description: ""
+      - name: work_order_notes
+        description: ""
+      - name: work_order_state_items
+        description: ""
+      - name: work_order_state_item_types
+        description: ""
+      - name: work_order_user_times
+        description: ""
+      - name: urgency_levels
+        description: ""
+      - name: work_order_files
+        description: ""
+      - name: work_order_single_select_items
+        description: ""
+      - name: work_order_statuses
+        description: ""
+      - name: billing_types
+        description: ""
+      - name: company_tags
+        description: ""
+      - name: originator_types
+        description: ""
+      - name: work_order_checklist_items
+        description: ""
+      - name: work_order_company_tags
+        description: ""
+      - name: work_order_originators
+        description: ""
+      - name: work_order_text_items
+        description: ""

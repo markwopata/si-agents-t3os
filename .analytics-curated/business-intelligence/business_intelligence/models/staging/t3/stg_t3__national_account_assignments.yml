@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: stg_t3__national_account_assignments
+    description: "Core National Account assignments table combining company, user, and account info to represent current account relationships."
+
+    columns:
+      - name: company_id
+        data_type: number
+        description: "Unique identifier for the company."
+
+      - name: company
+        data_type: varchar
+        description: "Name of the company."
+
+      - name: parent_company_id
+        data_type: number
+        description: "Unique identifier for the parent company."
+
+      - name: parent_company
+        data_type: varchar
+        description: "Name of the parent company."
+
+      - name: region
+        data_type: number
+        description: "Region associated with the national account."
+
+      - name: sales_director_user_id
+        data_type: number
+        description: "User ID of the assigned Sales Director."
+
+      - name: sales_director
+        data_type: varchar
+        description: "Name of the assigned Sales Director, defaults to 'Unassigned' if not available."
+
+      - name: commissioned_nam_user_id
+        data_type: number
+        description: "User ID of the assigned National Account Manager according to nam_commission_assignments."
+
+      - name: commissioned_nam
+        data_type: varchar
+        description: "Name of the commissioned National Account Manager, defaults to 'Unassigned' if not available."
+
+      - name: commissioned_nam_email
+        data_type: varchar
+        description: "Email address of the commissioned National Account Manager."
+
+      - name: effective_nam_user_id
+        data_type: number
+        description: "User ID of the effective National Account Manager: coalesce nam nam_commission_assignments, then parent company's nam."
+
+      - name: effective_nam
+        data_type: varchar
+        description: "Name of the effective National Account Manager, defaults to 'Unassigned' if not available." 
+        # Removed the following level of detail:
+        # Is primarily the commissioned NAM, but--when not present--returns one of three other options: 'Unassigned NAM | No Parent Company Exists'; 'Unassigned NAM | Parent Company Has No NAM'; `'Unassigned NAM | Parent Company NAM: ' || parent_nam_name`."
+
+      - name: effective_nam_email
+        data_type: varchar
+        description: "Email address of the effective National Account Manager."
+
+      - name: coordinator_user_id
+        data_type: number
+        description: "User ID of the assigned National Account Coordinator."
+
+      - name: national_account_coordinator
+        data_type: varchar
+        description: "Name of the assigned National Account Coordinator, defaults to 'Unassigned' if not available."
+
+      - name: nac_2_user_id
+        data_type: number
+        description: "User ID of the secondary National Account Coordinator."
+
+      - name: nac_2
+        data_type: varchar
+        description: "Name of the secondary National Account Coordinator, defaults to 'Unassigned' if not available."
+
+      - name: nac_3_user_id
+        data_type: number
+        description: "User ID of the tertiary National Account Coordinator."
+
+      - name: nac_3
+        data_type: varchar
+        description: "Name of the tertiary National Account Coordinator, defaults to 'Unassigned' if not available."
+
+      - name: notes
+        data_type: varchar
+        description: "Notes associated with the national account information."
+
+      - name: account_folder_url
+        data_type: varchar
+        description: "URL to the company’s account folder."
+
+      - name: managed_billing
+        data_type: boolean
+        description: "Indicates if the national account has managed billing toggled in Admin."
+
+      - name: gsa
+        data_type: boolean
+        description: "Indicates if the national account has general services administration toggled in Admin."
+
+

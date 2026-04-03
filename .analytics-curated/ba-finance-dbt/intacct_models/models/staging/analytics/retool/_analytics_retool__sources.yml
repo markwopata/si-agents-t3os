@@ -1,0 +1,37 @@
+---
+version: 2
+sources:
+  - name: analytics_retool
+    tags: ["sources"]
+    database: analytics
+    schema: retool
+    description: data artifacts in snowflake created by the retool app
+    tables:
+      - name: fuel_cards_cc_driver_adjustments
+        description: >
+          historical table of fuel card driver corrections (duplicate driver id fixes) by financial systems
+        meta:
+          retool_link: https://equipmentshare-dev.retool-hosted.com/apps/af81d03c-7051-11ef-beca-9fecefd06338/fuel_cc_trans_mismatches
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - transaction_id
+                - es_update_timestamp
+      - name: cip_projects
+        description: ''
+      - name: cip_budget_amounts
+        description: ''
+      - name: cip_division_codes
+        description: ''
+      - name: cip_budget_division_bcodes
+        description: ''
+      - name: cip_budget_division_codes
+        description: ''
+      - name: cip_expense_classifications
+        description: ''
+      - name: cip_accounting_categories
+        description: ''
+      - name: cip_project_statuses
+        description: 'Lookup table for CIP project statuses'
+

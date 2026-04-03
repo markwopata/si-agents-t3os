@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg_procurement_public__purchase_transactions
+    description: 
+      "Model for procurement.public.purchase_transactions. This contains the credit card transactions mapped to 
+      the external_transaction_id used in the transaction verification script."
+    columns:
+      - name: purchase_transaction_id
+        description: "Unique identifier for the purchase transaction."
+
+      - name: external_transaction_id
+        description: "External identifier for the purchase transaction."
+
+      - name: purchase_account_id
+        description: "Unique identifier for the purchase account."
+
+      - name: amount
+        description: "total monetary amount ($USD) of the purchase transaction."
+
+      - name: merchant
+        description: "Name of the merchant where the purchase transaction took place."
+
+      - name: mcc_code
+        description: "MCC (Merchant Category Code) of the merchant where the purchase transaction took place."
+
+      - name: mcc_name
+        description: "Name of the MCC (Merchant Category Code) of the merchant where the purchase transaction took place."
+
+      - name: metadata
+        description: "Additional metadata related to the purchase transaction (JSON). Includes things such as the currency, transaction type (credit or debit) and merchant ICA code"
+
+      - name: is_purchase_verified
+        description: "flag to indicate if the purchase transaction has been verified."
+
+      - name: is_credit
+        description: "flag to indicate whether the transaction is a credit."
+
+      - name: purchase_date
+        description: "date in which the purchase transaction occurred."
+
+      - name: date_created
+        description: "date in which the record was created."
+
+      - name: _es_update_timestamp
+        description: "daily timestamp of when the record was last updated."
+
+      - name: _es_load_timestamp
+        description: "daily timestamp of when the record was loaded into snowflake."
+
+      - name: acquirer_reference_number
+        description: "reference number provided by the acquirer for the transaction."

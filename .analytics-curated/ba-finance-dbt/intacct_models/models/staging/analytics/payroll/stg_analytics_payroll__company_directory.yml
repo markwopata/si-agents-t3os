@@ -1,0 +1,101 @@
+---
+version: 2
+models:
+  - name: stg_analytics_payroll__company_directory
+    description: >
+      Cleaned and renamed version of payroll.company_directory. Ensures certain columns are validated with correct data
+      types.
+    columns:
+      - name: employee_id
+        description: >
+          Unique identifier for the employee in the payroll system. In Workday there is a concept of contingent workers
+          (e.g. Contractors). These have employee_ids >= 100000. In workday their employee id is in 
+          the format: CW100000.
+        data_tests:
+          - not_null
+          - unique
+      - name: direct_manager_employee_id
+        description: "Employee ID of this employee's direct manager."
+      - name: market_id
+        description: "Identifier for the market or department_id to which the employee is assigned."
+      - name: market_company_id
+        description: the company id associated with the entered market ID
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["1854"]
+                severity: warn
+        meta:
+          owner: "@andrew.pruchinski"
+      - name: account_id
+        description: "Workday account ID associated with the employee."
+      - name: greenhouse_application_id
+        description: "ID of the candidate's application record in Greenhouse"
+      - name: market_company_name
+        description: the company name associated with the entered market ID
+      - name: first_name
+        description: "Employee's first name."
+      - name: last_name
+        description: "Employee's last name."
+      - name: full_name
+        description: "Employee's full name (first + last)."
+      - name: nickname
+        description: "Employee's preferred or informal name, if any."
+      - name: work_email
+        description: >
+          Official corporate email address. EquipmentShare employees' email addresses end in @equipmentshare.com
+      - name: personal_email
+        description: "Employee's personal email address on file."
+      - name: employee_type
+        description: "Employment category (e.g., Full Time Employee, Part Time Employee, Part Time Seasonal)."
+      - name: employee_status
+        description: "Current status in system (e.g., Active, Terminated, Never Started)."
+      - name: is_active_employee
+        description: >
+          Flag indicating if the employee is currently active (true/false). This is based on employee status and
+          includes active, seasonal, apprentices, external payroll, and employees on leave.
+      - name: employee_title
+        description: "Official job title or role."
+      - name: worker_type
+        description: "Union designation or employment classification (e.g., Non-Union Hourly)."
+      - name: location
+        description: >
+          Location name. For branch employees, this looks like Miami, FL. For corporate employees, it is something like
+          Data Org. It's always a part of the cost center. For newer employees, it should be the 4th element of cost
+          center.
+      - name: default_cost_centers_full_path
+        description: "Hierarchy path of default cost centers for labor allocation."
+      - name: direct_manager_name
+        description: "Full name (and ID) of the direct manager."
+      - name: work_phone
+        description: "Work phone number."
+      - name: home_phone
+        description: "Personal/home phone number."
+      - name: wage_type
+        description: "Pay calculation method (e.g., Salary, Hourly)."
+      - name: pay_calc
+        description: "Alias for wage_type. Pay calculation method (e.g., Salary, Hourly)."
+      - name: employee_state
+        description: "Employee's state of residence for payroll purposes."
+      - name: ee_state
+        description: "Alias for employee_state. Employee's state of residence for payroll purposes."
+      - name: doc_uname
+        description: "This appears to just be work email for active employees."
+      - name: tax_location
+        description: "Tax jurisdiction or location code."
+      - name: labor_distribution_profile
+        description: >
+          Profile used to determine labor cost distribution rules. e.g. Region 5 Rentals. This is not populated for
+          enough people to be actually in use.
+      - name: is_on_leave
+        description: "Flag indicating if the employee is currently on leave (true/false)."
+      - name: date_hired
+        description: "Original hire date."
+      - name: date_rehired
+        description: "Date of rehire if the employee was previously terminated."
+      - name: date_terminated
+        description: "Date employment ended, if applicable."
+      - name: position_effective_date
+        description: "Date when the current position or title took effect."
+      - name: last_updated_date
+        description: "Timestamp of the last update to this record."

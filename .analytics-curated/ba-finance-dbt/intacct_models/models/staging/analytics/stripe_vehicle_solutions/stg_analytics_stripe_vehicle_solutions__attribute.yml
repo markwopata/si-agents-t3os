@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__attribute
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: ""
+      - name: name
+        description: ""
+      - name: value
+        description: ""
+      - name: _fivetran_synced
+        description: ""

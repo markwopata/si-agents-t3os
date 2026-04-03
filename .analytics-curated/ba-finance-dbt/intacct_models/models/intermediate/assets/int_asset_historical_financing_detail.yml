@@ -1,0 +1,50 @@
+---
+version: 2
+models:
+  - name: int_asset_historical_financing_detail
+    description: >
+      Historical financing details of assets with relevant financial schedules.
+      Includes daily timestamps and links to purchase history.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "delete+insert"
+      unique_key: "daily_timestamp"
+      cluster_by: ["daily_timestamp", "asset_id"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - daily_timestamp
+    columns:
+      - name: pk_asset_daily_timestamp_id
+        description: "Primary key for the asset and daily timestamp"
+      - name: asset_id
+        description: "Unique identifier for the asset"
+      - name: daily_timestamp
+        description: "Daily timestamp for the historical record"
+      - name: month_end_date
+        description: "This will be not null for month end records, allowing us to quickly get to EOM numbers."
+      - name: finance_status
+        description: "The financial status of the asset (e.g. Paid in Cash, Net Terms, etc.)"
+      - name: financial_schedule_id
+        description: "Identifier for the financial schedule."
+      - name: po_number
+        description: "Purchase order number"
+      - name: oec
+        description: "Original equipment cost or purchase price"
+      - name: financing_facility_type
+        description: "Type of financing facility"
+      - name: schedule_commencement_date
+        description: "Commencement date of the financial schedule"
+      - name: schedule_sage_account_number
+        description: "Sage account number associated with the schedule"
+      - name: schedule_number
+        description: "Current schedule number"
+      - name: lender
+        description: "Lender associated with the financial schedule"
+      - name: loan_name
+        description: "Loan name associated with the financial schedule"
+      - name: sage_lender_vendor_id
+        description: "Sage vendor ID for the lender"

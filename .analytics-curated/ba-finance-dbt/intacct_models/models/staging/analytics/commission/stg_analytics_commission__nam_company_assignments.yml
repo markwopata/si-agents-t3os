@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__nam_company_assignments
+    description: Model for analytics.commission.nam_company_assignments
+    columns:
+      - name: nam_assignment_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: nam_user_id
+        description: ""
+      - name: director_user_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: effective_start_date
+        description: ""
+      - name: effective_end_date
+        description: ""
+      - name: record_creation_date
+        description: ""
+      - name: created_by_email
+        description: ""

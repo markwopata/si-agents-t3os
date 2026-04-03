@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_t3__po_summary
+    description: "stg_t3__po_summary table"
+    columns:
+      - name: po_list_select_flag
+        data_type: varchar
+      - name: purchase_order_id
+        data_type: varchar
+      - name: purchase_order_number
+        data_type: number
+      - name: reference
+        data_type: varchar
+      - name: status
+        data_type: varchar
+      - name: promise_date
+        data_type: timestamp_tz
+      - name: date_created
+        data_type: timestamp_tz
+      - name: created_by
+        data_type: varchar
+      - name: vendor
+        data_type: varchar
+      - name: preferred
+        data_type: varchar
+      - name: cost_center
+        data_type: varchar
+      - name: region_name
+        data_type: varchar
+      - name: market_type
+        data_type: varchar
+      - name: district
+        data_type: varchar
+      - name: item_type
+        data_type: varchar
+      - name: line_item_description
+        data_type: varchar
+      - name: quantity
+        data_type: number
+      - name: price_per_unit
+        data_type: number
+      - name: market_id
+        data_type: number
+      - name: company_id
+        data_type: number        
+      - name: total_po_cost
+        data_type: number
+      - name: item_service
+        data_type: varchar
+      - name: date_received
+        data_type: timestamp_tz
+      - name: part_number
+        data_type: varchar
+      - name: branch_earnings_start_month
+        data_type: date

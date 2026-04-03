@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: int_account_targets_actuals_and_targets
+    description: >
+      Combines static and live actuals, enriches with market attributes and period status,
+      maps markets to comp market groups, and joins account-level target percentages.
+      Produces both actual and (when available) projected month-end amounts and comp-metric amounts.
+    columns:
+      - name: region_id
+        description: Region identifier from the market dimension.
+
+      - name: region
+        description: Region name from the market dimension.
+      - name: district
+        description: District from the market dimension.
+
+      - name: market_id
+        description: Market identifier (child market id from source actuals).
+
+      - name: market_name
+        description: Market name from the market dimension.
+
+      - name: market_type
+        description: Market type (used for historical MTD projection logic upstream).
+
+      - name: gl_month
+        description: Month (date_trunc month) for the actuals/projection period.
+
+      - name: month_status
+        description: >
+          Indicates whether the month is from published (Static) periods or unpublished (Trending) periods.
+
+      - name: account_no
+        description: Source GL account number.
+
+      - name: account_name
+        description: Source GL account name.
+
+      - name: rev_exp
+        description: Revenue/Expense category (REV/EXP).
+
+      - name: account_category
+        description: Department/bucket label for the account (from actuals type).
+
+      - name: cost_type
+        description: Cost type classification, either controllable or fixed
+
+      - name: actual_amount
+        description: Actual amount for the account for the month (M/TD for trending depending on upstream model).
+
+      - name: comp_metric
+        description: Metric flag determining which denominator is used for comp_metric_amount.
+
+      - name: comp_metric_amount
+        description: Denominator amount (OEC or revenue metric) used for target calculations.
+
+      - name: month_end_projected_amount
+        description: Projected month-end amount (populated for live/trending actuals; null for static).
+
+      - name: month_end_projected_comp_metric_amount
+        description: Projected month-end denominator amount (populated for live/trending actuals; null for static).
+
+      - name: account_target_pct
+        description: Account-level target percentage for the mapped comp market group (may be null when no mapping/target exists).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - market_id
+            - gl_month
+            - account_no
+            - comp_metric

@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: trackers__public
+    config:
+      freshness: # default freshness
+        warn_after: {count: 12, period: hour}
+        error_after: {count: 24, period: hour}
+      loaded_at_field: _es_update_timestamp
+    database: trackers
+    schema: public
+    tables:
+      - name: peripheral_devices
+        columns:
+          - name: peripheral_device_id
+            data_type: number
+
+          - name: serial_number
+            data_type: varchar
+
+          - name: lot_number
+            data_type: varchar
+
+          - name: vendor
+            data_type: varchar
+
+          - name: vendor_programmed_date
+            data_type: timestamp_ntz
+
+          - name: hardware_name
+            data_type: varchar
+
+          - name: hardware_version
+            data_type: varchar
+
+          - name: app_name
+            data_type: varchar
+
+          - name: app_version
+            data_type: varchar
+
+          - name: bootloader_name
+            data_type: varchar
+
+          - name: bootloader_version
+            data_type: varchar
+
+          - name: tracker_id
+            data_type: number
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+
+          - name: date_created
+            data_type: timestamp_tz

@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: abs_lsd_payment_tracking_board
+    description: >
+        ABS (Asset Based Securitization) LSD (lost stolen destroyed) payment monday board exposed as a table. this board facilitates the identification and payment of proceeds for total loss assets within an ABS financing facility.
+        It is part of a collection of Monday boards managing LSD asset processes across insurance, fleet ops, asset management, and secops.
+        Sam Giroux of Treasury manually adds all of the pending ABS LSD items
+    meta:
+        point_of_contact: Sam Giroux
+        owner: "@erik.chu"
+        monday_board_url: https://equipmentshare.monday.com/boards/7183462981  # ask Sam for Monday board access
+    columns:
+      - name: board_id
+        description: id for the monday board. this will match what's in the url
+
+      - name: item_id
+        description: unique id for the item. an item is a row in a board
+
+      - name: group_id
+        description: name of the item grouping
+
+      - name: group_title
+        description: ""
+
+      - name: item_name
+        description: ""
+
+      - name: ownership_changed
+        description: ""

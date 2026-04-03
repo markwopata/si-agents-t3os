@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: base_data_science_fleet_opt__all_equipment_rouse_estimates
+    description: cleaned and renamed model of data_science.fleet_opt.all_equipment_rouse_estimates
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+                - asset_id
+                - date_created
+    columns:
+      - name: asset_id
+        description: ""
+
+      - name: cost_with_attachments
+        description: ""
+
+      - name: net_book_value
+        description: ""
+
+      - name: predictions_retail
+        description: ""
+
+      - name: predictions_retail_lower_25
+        description: ""
+
+      - name: predictions_retail_upper_75
+        description: ""
+
+      - name: rouse_retail
+        description: ""
+
+      - name: four_pct_commission_bound
+        description: ""
+
+      - name: predictions_wholesale
+        description: ""
+
+      - name: predictions_wholesale_lower_25
+        description: ""
+
+      - name: predictions_wholesale_upper_75
+        description: ""
+
+      - name: orderly_liquidation_value
+        description: "{{ doc('orderly_liquidation_value') }}"
+
+      - name: buyout_price
+        description: "{{ doc('buyout_price') }}"
+
+      - name: predictions_auction_lower_25
+        description: ""
+
+      - name: predictions_auction
+        description: ""
+
+      - name: predictions_auction_upper_75
+        description: ""
+
+      - name: rouse_auction
+        description: ""
+
+      - name: five_pct_commission_bound
+        description: ""
+
+      - name: lower_sale_cutoff
+        description: ""
+
+      - name: date_created
+        description: ""

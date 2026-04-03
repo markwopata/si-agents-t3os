@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_accounts
+    description: >
+      There should be one purchase account per credit card. You can find the user who owns the credit
+      card on this table. A single user could have multiple credit cards.
+    columns:
+      - name: purchase_account_id
+        description: Unique identifier for the purchase account.
+      - name: user_id
+        description: Identifier for the user who owns the purchase account. Foreign key to es_warehouse.public.users
+        data_tests:
+          - not_null        
+      - name: account_type
+        description: Type of account (e.g., CITI, FUEL).
+      - name: company_id
+        description: Company the purchase account belongs to. Foreign key to es_warehouse.public.companies
+      - name: last_four
+        description: Last four digits of the account number (masked for security).
+      - name: enrollment_date
+        description: Date when the purchase account was enrolled.
+      - name: closed_date
+        description: Date when the purchase account was closed (if applicable).
+      - name: metadata
+        description: Additional metadata related to the purchase account (JSON).
+      - name: date_created
+        description: Timestamp when the purchase account record was created.
+      - name: date_updated
+        description: Timestamp when the purchase account record was last updated.
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: _es_load_timestamp
+        description: Timestamp when the record was loaded into snowflake.

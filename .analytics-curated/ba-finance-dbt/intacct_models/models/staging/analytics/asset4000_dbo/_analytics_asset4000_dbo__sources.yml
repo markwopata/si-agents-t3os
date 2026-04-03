@@ -1,0 +1,183 @@
+---
+version: 2
+
+sources:
+  - name: analytics_asset4000_dbo
+    tags: ["sources"]
+    database: analytics
+    schema: asset4000_dbo
+    description: >
+      specialized fixed asset management software. where depreciation is calculated on our assets for the balance sheet. These assets are owned by ES and are fully paid off. 
+      These assets are added to AS4K in bulk during the first week of month-end close (i.e., the month after payment). i.e. in early January, Fixed Accounting reviews December activity and loads the eligible assets into AS4K.
+      This process is manual to ensure all AS4K entries meet audit requirements and are fully reviewed before being added.
+      On May 20, 2025, Fixed Accounting archived Asset GLs 1619, 1705, and asset class MFP since they were deprecated and no longer in use.
+    tables:
+      - name: gl_asset_grps
+        description: list of asset codes and groupings
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - assg_date
+      - name: gl_asset_descs
+        description: list of asset descriptons
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        columns:
+          - name: ass_code
+            description: '{{ doc("asset_code") }}'
+            data_tests:
+              - unique
+      - name: fa_transfers
+        description: list of fixed assets transfers
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - tfr_timestamp
+      - name: fa_costs
+        description: list of fixed assets costs at a point in time
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - _fivetran_synced
+                - cost_perseq
+                - book_code
+                - cost_year
+                - tfr_perseq
+                - tfr_year
+
+      - name: gl_asset_bk
+        description: >
+          list of asset codes and corresponding book code (identifiers used in accounting systems to distinguish between different sets of financial records or rules applied to assets for accounting purposes)
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - book_code
+
+      - name: gl_asset
+        description: >
+          list of asset codes with relevant date fields
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        columns:
+          - name: ass_code
+            data_tests:
+              - unique
+
+      - name: fa_revaluations_bk
+        description: >
+          list of fixed assets that have their salvage_value / nbv / gbv re-evaluated. Contains the actual re-evaluated values
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - reval_year
+
+      - name: fa_revaluations
+        description: >
+          list of fixed assets that have their salvage_value / nbv / gbv re-evaluated. Does not include the re-evaluated values, only the re-evaluation date and re-evaluation reason
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - reval_date
+
+      - name: gl_grp_tags
+        description: >
+          the table provides the name of the group_tag (fk grptag_order and ent_name in other tables )
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ent_name
+                - grptag_order
+
+      - name: gl_grpcde_crossref
+        description: >
+          cross ref group codes. can get the accounts for ME from this
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - cref_tag_order
+                - grp_code
+
+      - name: gl_grpcodes
+        description: >
+          list of group codes and their names. one row is one distinct group classification
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - grp_order
+                - grp_code
+
+      - name: gl_ass_grpdetail_bk
+        description: >
+          Asset group details, including flags and defaults by book, used to determine default life, residual, etc
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - grptag_order
+                - grp_code
+                - book_code
+
+      - name: gl_acct_period
+        description: >
+          Accounting periods listing. This can be used to get period sequence, period start and end dates, period closed status.
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - period_seq
+                - year_ram
+
+      - name: fa_disposals
+        description: >
+          List of assets disposed of in AS4K. Each asset can be disposed only once,
+          but the disposal record may be edited, recreated, or deleted — hence the need for a disposal timestamp.
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ass_code
+                - dsp_timestamp

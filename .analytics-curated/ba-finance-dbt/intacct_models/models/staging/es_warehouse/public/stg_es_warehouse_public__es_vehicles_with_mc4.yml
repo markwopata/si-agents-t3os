@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__es_vehicles_with_mc4
+    description: Model for es_warehouse.public.es_vehicles_with_mc4
+    columns:
+      - name: device_serial
+        description: ""
+      - name: tracker_type_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: make
+        description: ""
+      - name: model
+        description: ""
+      - name: year
+        description: ""

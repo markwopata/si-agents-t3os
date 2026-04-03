@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_condition_snapshots
+    description: Model for es_warehouse.public.asset_condition_snapshots
+    columns:
+      - name: asset_condition_snapshot_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: reporting_user_id
+        description: ""
+      - name: new_damage_description
+        description: ""
+      - name: notes
+        description: ""
+      - name: hours_reading
+        description: ""
+      - name: odometer_reading
+        description: ""
+      - name: fuel_reading
+        description: ""
+      - name: photos
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

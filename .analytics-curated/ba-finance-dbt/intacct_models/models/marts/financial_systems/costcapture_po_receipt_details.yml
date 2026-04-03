@@ -1,0 +1,86 @@
+---
+version: 2
+models:
+  - name: costcapture_po_receipt_details
+    description: >
+      Detail table for purchase order reciepts originating in the T3 CostCapture system. Limited to EquipmentShare Internal records (company 1854). Used downstream for integration to Sage Intacct
+    columns:
+      - name: cc_po_number
+        description: "PO number in CostCapture"
+      - name: intacct_po_number
+        description: "PO number in Sage Intacct. A suffix is added so that the po number is unique if multiple receipts are made in CostCapture."
+      - name: purchase_order_receiver_id
+        description: "Unique ID of the receipt in CostCapture."
+      - name: purchase_order_id
+        description: "Unique ID of the purchase order in CostCapture."
+      - name: fk_t3_purchase_order_receiver_item_id
+        description: "Unique ID of the line on the receipt in CostCapture."
+        data_tests:
+          - not_null
+          - unique
+      - name: received_to_store
+        description: "Store ID on the purchase order in CostCapture. Used to map to the branch for inventory items."
+      - name: INTACCT_DEPT_FROM_STORE
+        description: "Resulting Intacct Department ID mapped from the Store ID on the PO in CostCapture."
+      - name: INTACCT_DEPT_NAME_FROM_STORE
+        description: "Intacct Department Name (from the store ID on the PO in CostCapture)"
+      - name: INTACCT_DEPT_STATUS_FROM_STORE
+        description: "Intacct Department Status (from the store ID on the PO in CostCapture)"
+      - name: ORDER_BRANCH_ID
+        description: "Requesting Branch ID on the Purchase Order in CostCapture. Used to map to the Intacct department ID for non-inventory items."
+      - name: INTACCT_DEPT_FROM_PO_BRANCH
+        description: "Resulting Intacct Department ID mapped from the Requesting Branch ID on the PO in CostCapture."
+      - name: INTACCT_DEPT_NAME_FROM_PO_BRANCH
+        description: "Intacct Department Name (from the requesting branch ID on the PO in CostCapture)"
+      - name: INTACCT_DEPT_STATUS_FROM_PO_BRANCH
+        description: "Intacct Department Status (from the requesting branch ID on the PO in CostCapture)"
+      - name: FINAL_DEPARTMENT_ID
+        description: "Final Intacct Department ID used for the integration to Sage Intacct."
+      - name: PR_DATE_RECEIVED
+        description: "Date of the receipt in CostCapture."
+      - name: PR_DATE_CREATED
+        description: "Date the receipt was created in CostCapture."
+      - name: CC_VENDOR_ID
+        description: "ID of the Vendor in the T3 CostCapture System."
+      - name: VENDOR_ID
+        description: "External (Sage Intacct) Vendor ID"
+      - name: VENDOR_NAME
+        description: "Name of the Vendor"
+      - name: VENDOR_STATUS
+        description: "Status of the Vendor in Sage Intacct."
+      - name: VENDOR_TERM
+        description: "Vendor's payment terms"
+      - name: RETURNTO_CONTACTNAME
+        description: ""
+      - name: PAYTO_CONTACTNAME
+        description: ""
+      - name: REFERENCENO
+        description: ""
+      - name: ITEM_TYPE
+        description: "Inventory or Non-inventory"
+      - name: part_number
+        description: ""
+      - name: part_name
+        description: ""
+      - name: full_part_description
+        description: "part number, part name and manufacturer"
+      - name: part_id
+        description: ""
+      - name: NON_INV_ITEM
+        description: "Item ID and description for non-inventory items."
+      - name: ITEM_ID
+        description: "Item ID that maps to Sage Intacct."
+      - name: MEMO
+        description: ""
+      - name: ACCEPTED_QUANTITY
+        description: "Number of units accepted on the receipt."
+      - name: REJECTED_QUANTITY
+        description: "Number of units reported as damaged on the receipt."
+      - name: PRICE_PER_UNIT
+        description: ""
+      - name: T3_PO_CREATED_BY
+        description: "ID and name of the user who created the purchase order."
+      - name: T3_PR_CREATED_BY
+        description: "ID and name of the user who created the receipt."
+      - name: T3_PO_URL
+        description: "URL for the PO in CostCapture."

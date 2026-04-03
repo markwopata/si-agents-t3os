@@ -1,0 +1,37 @@
+---
+version: 2
+
+models:
+  - name: vsg_stripe_bank_reconciliation
+    description: "Stripe bank reconciliation combined view for VSG accounts"
+    columns:
+      - name: bank_statement_date
+        description: "Bank statement arrival date for the payout"
+      - name: period_start_date
+        description: "Start date of the period (month-truncated)"
+      - name: total_payout_amount
+        description: "Total amount of the payout as reported by Stripe"
+      - name: payout_id
+        description: "Stripe payout identifier"
+      - name: balance_transaction_description
+        description: "Description of the balance transaction"
+      - name: balance_transaction_type
+        description: "Type of the balance transaction (e.g., charge, fee, refund)"
+      - name: reporting_category
+        description: "Reporting category from the balance transaction"
+      - name: balance_transaction_date
+        description: "Timestamp when the balance transaction was created"
+      - name: amount
+        description: "Gross amount for the balance transaction"
+      - name: fee_amount
+        description: "Fee amount applied to the balance transaction"
+      - name: net_amount
+        description: "Net amount after fees for the balance transaction"
+      - name: source
+        description: "Source id of the balance transaction (charge/refund/dispute id)"
+      - name: reservation_id
+        description: "Reservation identifier when available"
+      - name: prefixed_id
+        description: "Prefixed platform id or metadata-prefixed id when present"
+      - name: stripe_account
+        description: "Logical Stripe account name the record belongs to"

@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__central_bank_cc_transactions
+    description: base_analytics_public__central_bank_cc_transactions enhanced with full list of employees from company_directory
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - transaction_id
+              - card_number
+    columns:
+      - name: employee_id
+        description: ""
+      - name: transaction_id
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: full_name
+        description: ""
+      - name: mcc
+        description: ""
+      - name: card_type
+        description: ""
+      - name: status
+        description: ""
+      - name: merchant_name
+        description: ""
+      - name: mcc_code
+        description: ""
+      - name: card_number
+        description: ""
+      - name: transaction_amount
+        description: ""
+      - name: is_bypass_verification
+        description: ""

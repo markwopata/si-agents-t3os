@@ -1,0 +1,218 @@
+---
+version: 2
+
+sources:
+  - name: analytics_branch_earnings
+    tags: ["sources"]
+    database: analytics
+    schema: branch_earnings
+    description: >
+      are all BA scripts owned that relate to Branch Earnings landed into (analytics database branch_earnings schema). For
+      more background, visit https://drive.google.com/file/d/1XBDHPlY0UH-3sFZCN1E_7NlFbK3TxeAJ/view
+    tables:
+      - name: live_compensation_summary
+        description:
+          live BE's people analytics new table for payroll data. built by People Analytics. trending payroll data
+          by pay period and branch/market
+        meta:
+          point_of_contact: Nicole Ferguson
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-ukg-etl/-/blob/main/ba_ukg_etl/daily_wage_accruals.py
+        columns:
+          - name: intacct
+            description: "Department ID from Intacct"
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - intacct
+                - gl_code
+                - pay_period_start
+                - pay_period_end
+                - pay_period_profile
+
+      - name: account_categories
+        description: mapping of accounts categories for branch earnings
+        meta:
+          point_of_contact: Vishesh Mathur
+        columns:
+          - name: pk_account_category_id
+            description: "The primary key for the account categories table"
+            data_tests:
+              - unique
+              - not_null
+          - name: account_category
+            description: "Account category name"
+            data_tests:
+              - not_null
+          - name: sort_order
+            description: "Order that the account category should be displayed in Looker"
+            data_tests:
+              - not_null
+
+      - name: segments
+        description: mapping of segments for branch earnings
+        meta:
+          point_of_contact: Vishesh Mathur
+        columns:
+          - name: pk_segment_id
+            description: "The primary key for the segments table"
+            data_tests:
+              - unique
+              - not_null
+          - name: segment
+            description: "Segment name"
+            data_tests:
+              - not_null
+
+      - name: account_mapping
+        description: mapping of accounts for branch earnings. Maintained in a Retool app.
+        meta:
+          point_of_contact: Vishesh Mathur
+        columns:
+          - name: pk_account_mapping_id
+            description: "The primary key for the account mapping table"
+            data_tests:
+              - unique
+              - not_null
+          - name: account_number
+            description: "Account Number"
+            data_tests:
+              - not_null
+              - unique
+          - name: gaap_account_number
+            description: "GAAP Account Number that ties to Intacct"
+          - name: is_branch_earnings_account
+            description: "Is the account used in branch earnings"
+            data_tests:
+              - not_null
+          - name: revenue_expense
+            description: "Revenue, Expense or Intercompany"
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ["revenue", "expense", "interco"]
+          - name: override_account_name
+            description: "An account name that can be used to override the account name in Intacct"
+          - name: fk_segment_id
+            description: "The segment that the account belongs to"
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('analytics_branch_earnings', 'segments')
+                  field: pk_segment_id
+          - name: fk_account_category_id
+            description: "The account category that the account belongs to"
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('analytics_branch_earnings', 'account_categories')
+                  field: pk_account_category_id
+
+      - name: asset_detail
+        description: "Contains detailed information about assets including market, inventory status, and financial details."
+        columns:
+          - name: market_id
+            description: "Identifier for the market in which the asset is located."
+            data_tests:
+              - not_null
+
+          - name: asset_id
+            description: "Unique identifier for the asset."
+            data_tests:
+              - not_null
+
+          - name: contractor_flag
+            description: "Flag indicating whether the asset is contractor owned."
+
+          - name: inventory_status
+            description: "Inventory status of the asset (e.g. On Rent, Hard Down, etc.)."
+
+          - name: company_id
+            description: "Company ID of the company owning the asset."
+            data_tests:
+              - not_null
+
+          - name: company_name
+            description: "Name of the company owning or managing the asset."
+
+          - name: make
+            description: "Manufacturer of the asset."
+
+          - name: model
+            description: "Model of the asset."
+
+          - name: year
+            description: "Year of manufacture of the asset."
+
+          - name: asset_class
+            description: "Class of the asset"
+
+          - name: asset_type
+            description: "Type of the asset"
+
+          - name: oec
+            description: '{{ doc("oec") }}'
+
+          - name: gl_date
+            description: "When the asset data is to be used"
+            data_tests:
+              - not_null
+
+          - name: load_section
+            description: "Section of the data load process this asset detail belongs to."
+
+      - name: real_property_tax_charge
+        description: "Estimated Real Property Tax Charge for each branch"
+        columns:
+          - name: market_id
+            description: "Identifier for the market"
+            data_tests:
+              - not_null
+
+          - name: market_name
+            description: "Name of the Market (branch)"
+
+          - name: start_date
+            description: "Start date for when the charge is applicable"
+
+          - name: end_date
+            description: "End date for when the charge is applicable"
+
+          - name: yearly_rpt_charge
+            description: "Yearly Real Property Tax Charge"
+            data_tests:
+              - not_null
+
+          - name: monthly_rpt_charge
+            description: "Monthly Real Property Tax Charge"
+            data_tests:
+              - not_null
+
+      - name: parent_market
+        identifier: parent_market
+        description: >
+          list of parent companies and their sub-companies (ie Phoenix is the parent company of Yuma and Phoenix). Data is maintained via Retool app
+          Historical market relationships are useful for accurate profit sharing, especially when a child market rolls under a parent and then transitions into a stand-alone market.
+        meta:
+          point_of_contact: Brody Cridlebaugh
+          owner: ["@zack.larimore", "@brody.cridlebaugh", "@erik.chu"]
+          retool_app_link: https://equipmentshare.retool-hosted.com/apps/12559247-244e-4c7c-946b-b8b9d05a47d9/Financial%20Analytics/Parent%20Market%20Retool%20App/page1
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - market_id
+                  - start_date
+          - test_parent_market
+
+      - name: profit_sharing_assignment_overrides
+        description: >
+          Table for overriding employee assignments for profit sharing. The table is populated via appending to the table as needed.
+        meta:
+          point_of_contact: Brody Cridlebaugh
+        columns:
+          - name: employee_id
+            description: "{{ doc('employee_id') }}"
+            data_tests:
+              - not_null

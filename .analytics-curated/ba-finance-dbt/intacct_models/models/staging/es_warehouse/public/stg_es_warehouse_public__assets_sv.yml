@@ -1,0 +1,92 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__assets_sv
+    description: Model for es_warehouse.public.assets_sv
+    columns:
+      - name: asset_id
+        description: ""
+      - name: asset_type_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: description
+        description: ""
+      - name: year
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: model
+        description: ""
+      - name: company_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: asset_settings_id
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: make
+        description: ""
+      - name: deleted
+        description: ""
+      - name: market_id
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: time_fence_id
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: camera_id
+        description: ""
+      - name: elog_device_id
+        description: ""
+      - name: vin
+        description: ""
+      - name: driver_name
+        description: ""
+      - name: name
+        description: ""
+      - name: serial_number
+        description: ""
+      - name: available_for_rent
+        description: ""
+      - name: weekly_minimum
+        description: ""
+      - name: weight_lbs
+        description: ""
+      - name: category_id
+        description: ""
+      - name: location_id
+        description: ""
+      - name: equipment_condition_id
+        description: ""
+      - name: service_branch_id
+        description: ""
+      - name: inventory_branch_id
+        description: ""
+      - name: rental_branch_id
+        description: ""
+      - name: placed_in_service
+        description: ""
+      - name: dot_number_id
+        description: ""
+      - name: available_to_rapid_rent
+        description: ""
+      - name: asset_class
+        description: ""
+      - name: category_name
+        description: ""
+      - name: odometer
+        description: ""
+      - name: hours
+        description: ""
+      - name: ownership_type
+        description: ""
+      - name: is_on_rent
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""

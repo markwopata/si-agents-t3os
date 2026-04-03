@@ -1,0 +1,18 @@
+---
+version: 2
+sources:
+  - name: analytics_intacct__etl
+    tags:
+      - sources
+    database: analytics
+    schema: intacct__etl
+    description: >
+      This is the production schema for the Intacct ETL. Contains metadata/config tables for the DDS job/ETL process.
+    tables:
+      - name: dds_job_run_history
+        description: >
+          This table contains metadata about the DDS job run history. It is used to track the status of the DDS job run.
+      - name: dds_job_control
+        description: >
+          This table contains a record for each DDS job with a unique key of dds job number. It tracks statuses of
+          various phases of the Intacct ETL - dds_job_status, landed_status, merge_status. (ingest_status is unused).

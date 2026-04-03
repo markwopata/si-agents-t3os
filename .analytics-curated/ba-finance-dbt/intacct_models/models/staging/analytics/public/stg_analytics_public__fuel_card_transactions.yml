@@ -1,0 +1,13 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__fuel_card_transactions
+    description: fuel card transactions with fuel card driver information
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - transaction_id
+              - _es_update_timestamp
+    config:
+      materialized: table

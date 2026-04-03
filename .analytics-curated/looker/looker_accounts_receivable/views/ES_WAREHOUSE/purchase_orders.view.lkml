@@ -1,0 +1,93 @@
+view: purchase_orders {
+  sql_table_name: "ES_WAREHOUSE"."PUBLIC"."PURCHASE_ORDERS" ;;
+
+
+  dimension: purchase_order_id {
+    primary_key: yes
+    type: number
+    sql: ${TABLE}."PURCHASE_ORDER_ID" ;;
+  }
+
+  dimension: active {
+    type: yesno
+    sql: ${TABLE}."ACTIVE" ;;
+  }
+
+  dimension: budget_amount {
+    type: number
+    sql: ${TABLE}."BUDGET_AMOUNT" ;;
+  }
+
+  dimension: company_id {
+    type: number
+    sql: ${TABLE}."COMPANY_ID" ;;
+  }
+
+  dimension: created_by {
+    type: number
+    sql: ${TABLE}."CREATED_BY" ;;
+  }
+
+  dimension: currency_type {
+    type: string
+    sql: ${TABLE}."CURRENCY_TYPE" ;;
+  }
+
+  dimension_group: date_created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."DATE_CREATED" ;;
+  }
+
+  dimension: domain_id {
+    type: number
+    sql: ${TABLE}."DOMAIN_ID" ;;
+  }
+
+  dimension_group: end {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."END_DATE" ;;
+  }
+
+  dimension: name {
+    label: "PO"
+    type: string
+    sql: ${TABLE}."NAME" ;;
+  }
+
+  dimension_group: start {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}."START_DATE" ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [purchase_order_id, name]
+  }
+}

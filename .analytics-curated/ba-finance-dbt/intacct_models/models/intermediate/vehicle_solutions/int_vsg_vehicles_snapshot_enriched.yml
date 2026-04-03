@@ -1,0 +1,149 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_vehicles_snapshot_enriched
+    description: >
+      Enriched SCD2 snapshot of VSG vehicles. Adds region metadata,
+      latest return date, days since last return, and derived date fields to support
+      daily operational reporting and vehicle analysis.
+
+    columns:
+      - name: dbt_scd_id
+        description: Unique surrogate key for the SCD2 snapshot record.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: id
+        description: "Unique identifier for the vehicle in the source system."
+
+      - name: vin
+        description: "Vehicle identification number."
+
+      - name: region_id
+        description: "Unique identifier for the region in the source system."
+
+      - name: region_name
+        description: "Name of the region."
+
+      - name: latest_return_date
+        description: "Timestamp of the latest return date for the vehicle."
+
+      - name: days_since_last_return
+        description: "Number of days since the latest return date for the vehicle."
+
+      - name: status
+        description: "Current status of the vehicle."
+
+      - name: notes
+        description: "Notes associated with the vehicle."
+
+      - name: cleaning_start
+        description: "Timestamp when the vehicle was last cleaned."
+
+      - name: color
+        description: "Color of the vehicle."
+
+      - name: model
+        description: "Model of the vehicle."
+
+      - name: cleaning_end
+        description: "Timestamp when the vehicle was last cleaned."
+
+      - name: license_plate
+        description: "License plate number of the vehicle."
+
+      - name: address
+        description: "Address of the vehicle."
+
+      - name: location_id
+        description: "Unique identifier for the location in the source system."
+
+      - name: created_at
+        description: "Timestamp when the vehicle was created."
+
+      - name: year
+        description: "Year of the vehicle."
+
+      - name: platform
+        description: "Platform of the vehicle."
+
+      - name: polled_at
+        description: "Timestamp when the vehicle was last polled."
+
+      - name: location_at
+        description: "Timestamp when the vehicle was last located at a location."
+
+      - name: updated_at
+        description: "Timestamp when the vehicle was last updated."
+
+      - name: battery_level
+        description: "Battery level of the vehicle."
+
+      - name: battery_range
+        description: "Battery range of the vehicle."
+
+      - name: charging_state
+        description: "Current charging state of the vehicle."
+
+      - name: locked
+        description: "Whether the vehicle is locked."
+
+      - name: odometer
+        description: "Odometer reading of the vehicle."
+
+      - name: state
+        description: "State of the vehicle."
+
+      - name: latitude
+        description: "Latitude of the vehicle."
+
+      - name: longitude
+        description: "Longitude of the vehicle."
+
+      - name: front_driver_tread_depth
+        description: "Front driver tread depth of the vehicle."
+
+      - name: front_passenger_tread_depth
+        description: "Front passenger tread depth of the vehicle."
+
+      - name: back_driver_tread_depth
+        description: "Back driver tread depth of the vehicle."
+
+      - name: back_passenger_tread_depth
+        description: "Back passenger tread depth of the vehicle."
+
+      - name: rack_rate
+        description: "Rack rate of the vehicle in dollars."
+
+      - name: purchase_value
+        description: "Purchase value of the vehicle in dollars."
+
+      - name: model_id
+        description: "Unique identifier for the model in the source system."
+
+      - name: license_plate_state
+        description: "State of the license plate."
+
+      - name: pickup_photos_at
+        description: "Timestamp when the vehicle was last picked up."
+
+      - name: show_on_website
+        description: "Whether the vehicle is shown on the website."
+
+      - name: _fivetran_deleted
+        description: "Whether the vehicle is deleted in the source system."
+
+      - name: _fivetran_synced
+        description: "Timestamp of the last synchronization from Fivetran."
+
+      - name: dbt_snapshot_date
+        description: "Date (day-truncated) of the snapshot run."
+
+      - name: dbt_valid_from
+        description: "Timestamp when this snapshot version became valid."
+
+      - name: dbt_valid_to
+        description: "Timestamp when this snapshot version was invalidated (null if current at snapshot time)."
+    

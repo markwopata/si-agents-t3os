@@ -1,0 +1,27 @@
+---
+version: 2
+
+models:
+  - name: balance_sheet_by_department_v
+    description: "Balance sheet grouped by account, department, entity, period"
+    config:
+      tags: ["hourly", "intacct"]
+    columns:
+      - name: account_number
+        description: "GL account number"
+      - name: account_title
+        description: "Name or title for the account"
+      - name: period_start_date
+        description: "Start date of the period"
+      - name: amount
+        description: "Amount aggregated by account, department, entity, period"
+      - name: category
+        description: "Account category"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: department_title
+        description: ""
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"

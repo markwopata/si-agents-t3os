@@ -1,0 +1,811 @@
+version: 2
+
+sources:
+  - name: quotes
+    description: "The quote database stores data specifically related to quotes.
+      Quote source code repo: https://gitlab.internal.equipmentshare.com/demand-capture-and-orders/quotes-web-api 
+      Technical backend implementation details can be found in
+        * https://www.notion.so/equipmentshare/Quotes-Backend-Architecture-5264ba24e02445c6a4b5d155769743cd
+        * https://www.notion.so/equipmentshare/Bulk-Parts-and-Equipment-Classes-1fddc456b79d4dc6aa1123244441324f
+        * https://www.notion.so/equipmentshare/Quote-Calculator-Service-cb35c85720454d3f8a504858ecf52467#bda0241bb2734971a276a09a5b3e4cea 
+      Quotes can be requested via Looker (https://equipmentshare.looker.com/dashboards/479).
+      After the quote request is submitted, an EquipmentShare employee creates a quote via https://quotes.estrack.com/new.
+      "
+    database: quotes
+    schema: quotes
+    tables:
+
+      - name: audit_event_type
+        description: "{{ doc('quotes__audit_event_type') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__audit_event_type_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__audit_event_type_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Created', 'Generated', 'Order_Created', 'Sent_To_Branch', 'Sent_To_Customer', 'Updated', 'Viewed']
+                  config:
+                    severity: warn
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: audit_history
+        description: "{{ doc('quotes__audit_history') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__audit_history_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: audit_event_type_id
+            data_type: varchar
+            description: "{{ doc('quotes__audit_event_type_id') }}"
+
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+
+          - name: quote_json
+            data_type: variant
+            description: "{{ doc('quotes__quote_json') }}"
+
+          - name: time_stamp
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__audit_event_timestamp') }}"
+            
+          - name: user_id
+            data_type: number
+            description: "{{ doc('platform__user_id') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+      
+      - name: customer
+        description: "{{ doc('quotes__customer') }}"
+        columns:
+          - name: _es_load_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('is_null') }}"
+
+          - name: customer_id
+            data_type: varchar
+            description: "{{ doc('quotes__customer_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: esdb_billing_location_id
+            data_type: number
+            description: "{{ doc('quotes__customer_company_billing_location_id') }}"
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_created_at') }}"
+
+          - name: archived_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_archived_at') }}"
+
+          - name: updated_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_updated_at') }}"
+
+          - name: created_by
+            data_type: number
+            description: "{{ doc('quotes__customer_created_by') }}"
+
+          - name: esdb_company_id
+            data_type: number
+            description: "{{ doc('quotes__customer_esdb_company_id') }}"
+
+          - name: net_terms_id
+            data_type: number
+            description: "{{ doc('quotes__customer_company_net_terms_id') }}"
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__customer_company_name') }}"
+
+          - name: updated_by
+            data_type: number
+            description: "{{ doc('quotes__customer_updated_by') }}"
+
+          - name: do_not_rent
+            data_type: boolean
+            description: "{{ doc('quotes__customer_company_do_not_rent') }}"
+          
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: equipment_type
+        description: "{{ doc('quotes__equipment_types') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__equipment_type_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: parent_line_item_id
+            data_type: varchar
+            description: "{{ doc('quotes__equipment_parent_line_item_id') }}"
+
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+
+          - name: selected_rate_type_id
+            data_type: varchar
+            description: "{{ doc('quotes__equipment_selected_rate_type_id') }}"
+            
+          - name: equipment_class_id
+            data_type: number
+            description: "{{ doc('equipment_class_id') }}"
+
+          - name: equipment_class_name
+            data_type: varchar
+            description: "{{ doc('equipment_class_name') }}"
+
+          - name: part_id
+            data_type: number
+            description: "{{ doc('quotes__part_id') }}"
+
+          - name: part_name
+            data_type: varchar
+            description: "{{ doc('quotes__part_name') }}"
+
+          - name: part_type_id
+            data_type: number
+            description: "{{ doc('quotes__part_type_id') }}"
+
+          - name: cat_class
+            data_type: varchar
+            description: "{{ doc('quotes__equipment_cat_class') }}"
+
+          - name: quantity
+            data_type: number
+            description: "{{ doc('quotes__equipment_item_quantity') }}"
+
+          - name: day_rate
+            data_type: float
+            description: "{{ doc('quotes__equipment_day_rate') }}"
+
+          - name: week_rate
+            data_type: float
+            description: "{{ doc('quotes__equipment_week_rate') }}"
+
+          - name: four_week_rate
+            data_type: float
+            description: "{{ doc('quotes__equipment_month_rate') }}"
+
+          - name: note
+            data_type: varchar
+            description: "{{ doc('quotes__equipment_note') }}"
+
+          - name: order_index
+            data_type: number
+            description: "{{ doc('quotes__equipment_order_index') }}"
+
+          - name: purchase_price
+            data_type: float
+            description: "{{ doc('quotes__bulk_part_purchase_price') }}"
+
+          - name: shift_id
+            data_type: varchar
+            description: "{{ doc('quotes__shift_type_id') }}"
+
+          - name: suggested_advertised_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__advertised_rate_description') }}"
+
+          - name: suggested_advertised_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__advertised_rate_description') }}"
+
+          - name: suggested_advertised_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__advertised_rate_description') }}"
+
+          - name: suggested_bench_mark_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__benchmark_rate_description') }}"
+
+          - name: suggested_bench_mark_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__benchmark_rate_description') }}"
+
+          - name: suggested_bench_mark_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__benchmark_rate_description') }}"
+
+          - name: suggested_book_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__book_rate_description') }}"
+
+          - name: suggested_book_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__book_rate_description') }}"
+
+          - name: suggested_book_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__book_rate_description') }}"
+
+          - name: suggested_company_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__company_rate_description') }}"
+
+          - name: suggested_company_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__company_rate_description') }}"
+
+          - name: suggested_company_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__company_rate_description') }}"
+
+          - name: suggested_deal_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__deal_rate_description') }}"
+
+          - name: suggested_deal_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__deal_rate_description') }}"
+
+          - name: suggested_deal_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__deal_rate_description') }}"
+
+          - name: suggested_floor_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__floor_rate_description') }}"
+
+          - name: suggested_floor_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__floor_rate_description') }}"
+
+          - name: suggested_floor_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__floor_rate_description') }}"
+
+          - name: suggested_online_daily_rate
+            data_type: float
+            description: "{{ doc('quotes__online_rate_description') }}"
+
+          - name: suggested_online_weekly_rate
+            data_type: float
+            description: "{{ doc('quotes__online_rate_description') }}"
+
+          - name: suggested_online_monthly_rate
+            data_type: float
+            description: "{{ doc('quotes__online_rate_description') }}"
+
+          - name: _equipment_type_effective_start_utc_datetime
+            data_type: timestamp_ltz
+            description: "{{ doc('_effective_start_utc_datetime') }}"
+
+          - name: _equipment_type_effective_delete_utc_datetime
+            data_type: timestamp_ltz
+            description: "{{ doc('_effective_delete_utc_datetime') }}"
+
+      - name: escalations
+        description: "{{ doc('quotes__escalations') }}"
+        columns:
+          - name: escalation_id
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: email
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_email') }}"
+
+          - name: attachment_filepath
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_attachment_file') }}"
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__escalation_created_at') }}"
+
+          - name: message
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_reason') }}"
+
+          - name: user_id
+            data_type: number
+            description: "{{ doc('quotes__escalation_user_id') }}"
+
+          - name: updated_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__escalation_updated_at') }}"
+
+          - name: user_name
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_user_name') }}"
+
+      - name: quote
+        description: "{{ doc('quotes__quote') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: branch_id
+            data_type: number
+            description: "{{ doc('platform__market_id') }}"
+
+          - name: company_id
+            data_type: number
+            description: "{{ doc('platform__company_id') }}"
+
+          - name: company_name
+            data_type: varchar
+            description: "{{ doc('platform__company_name') }}"
+
+          - name: contact_email
+            data_type: varchar
+            description: "{{ doc('quotes__contact_email') }}"
+
+          - name: contact_id
+            data_type: number
+            description: "{{ doc('quotes__contact_id') }}"
+
+          - name: contact_name
+            data_type: varchar
+            description: "{{ doc('quotes__contact_name') }}"
+
+          - name: contact_phone
+            data_type: varchar
+            description: "{{ doc('quotes__contact_phone') }}"
+
+          - name: created_by
+            data_type: number
+            description: "{{ doc('quotes__quote_created_by_user_id') }}"
+
+          - name: created_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_created_datetime') }}"
+
+          - name: delivery_fee
+            data_type: float
+            description: "{{ doc('quotes__delivery_fee') }}"
+
+          - name: delivery_mileage
+            data_type: float
+            description: "{{ doc('is_null') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [null]
+                  config:
+                    severity: warn
+
+          - name: delivery_type_id
+            data_type: number
+            description: "{{ doc('quotes__delivery_type_id') }}"
+            
+          - name: delivery_type_name
+            data_type: varchar
+            description: "{{ doc('quotes__delivery_type') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Internal', 'Third Party', 'Customer', 'Customer Pickup', 'ES Delivery', 'Third Party Delivery']
+                  config:
+                    severity: warn
+
+          - name: deliver_to
+            data_type: varchar
+            description: "{{ doc('quotes__contact_location_name') }}"
+
+          - name: deliver_to_address
+            data_type: varchar
+            description: "{{ doc('quotes__contact_location_address') }}"
+
+          - name: deliver_to_latitude
+            data_type: float
+            description: "{{ doc('quotes__contact_location_coordinates') }}"
+
+          - name: deliver_to_longitude
+            data_type: float
+            description: "{{ doc('quotes__contact_location_coordinates') }}"
+
+          - name: end_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_end_time') }}"
+
+          - name: escalation_id
+            data_type: varchar
+            description: "{{ doc('quotes__escalation_id') }}"
+
+          - name: expiry_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_expiration_time') }}"
+
+          - name: has_pdf
+            data_type: boolean
+            description: "{{ doc('quotes__has_pdf') }}"
+
+          - name: is_tax_exempt
+            data_type: boolean
+            description: "{{ doc('quotes__quote_is_tax_exempt') }}"
+
+          - name: last_modified_by
+            data_type: number
+            description: "{{ doc('quotes__quote_last_modified_by_user_id') }}"
+
+          - name: last_modified_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_last_modified_time') }}"
+
+          - name: location_description
+            data_type: varchar
+            description: "{{ doc('quotes__contact_location_description') }}"
+
+          - name: location_id
+            data_type: number
+            description: "{{ doc('quotes__contact_location_id') }}"
+            
+          - name: missed_rental_reason
+            data_type: varchar
+            description: "{{ doc('quotes__missed_quote_reason') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Availability', 'Lack of Transport', 'Rate', 'Other']
+                  config:
+                    severity: warn
+
+          - name: missed_rental_reason_other
+            data_type: varchar
+            description: "{{ doc('quotes__missed_quote_reason_other') }}"
+
+          - name: new_company_name
+            data_type: varchar
+            description: "{{ doc('quotes__contact_new_company_name') }}"
+
+          - name: new_location_info
+            data_type: variant
+            description: "{{ doc('quotes__contact_new_location_info') }}"
+
+          - name: ordered_by
+            data_type: varchar
+            description: "{{ doc('quotes__contact_name') }}"
+
+          - name: ordered_by_email
+            data_type: varchar
+            description: "{{ doc('quotes__contact_email') }}"
+
+          - name: ordered_by_phone
+            data_type: varchar
+            description: "{{ doc('quotes__contact_phone') }}"
+
+          - name: order_created_by
+            data_type: number
+            description: "{{ doc('quotes__order_created_by_user_id') }}"
+
+          - name: order_created_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__order_created_time') }}"
+
+          - name: order_id
+            data_type: number
+            description: "{{ doc('platform__order_id') }}"
+
+          - name: pickup_fee
+            data_type: float
+            description: "{{ doc('quotes__pickup_fee') }}"
+
+          - name: po_id
+            data_type: number
+            description: "{{ doc('purchase_order_id') }}"
+
+          - name: po_name
+            data_type: varchar
+            description: "{{ doc('purchase_order_name') }}"
+            
+          - name: project_type
+            data_type: varchar
+            description: "{{ doc('quotes__project_type') }}"
+
+          - name: quote_number
+            data_type: number
+            description: "{{ doc('quotes__quote_number') }}"
+
+          - name: rpp_id
+            data_type: number
+            description: "{{ doc('rental_protection_plan_id') }}"
+
+          - name: rpp_name
+            data_type: varchar
+            description: "{{ doc('rental_protection_plan_name') }}"
+
+          - name: rsp_company_id
+            data_type: number
+            description: "{{ doc('quotes__rental_service_provider_company_id') }}"
+
+          - name: sales_rep_id
+            data_type: number
+            description: "{{ doc('quotes__salesperson_user_id') }}"
+
+          - name: sales_tax_percentage
+            data_type: float
+            description: "{{ doc('is_null') }}"
+
+          - name: site_contact_name
+            data_type: varchar
+            description: "{{ doc('quotes__site_contact_name') }}"
+            
+          - name: site_contact_phone
+            data_type: varchar
+            description: "{{ doc('quotes__site_contact_phone') }}"
+
+          - name: start_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_start_time') }}"
+
+          - name: state_specific_tax_percentage
+            data_type: float
+            description: "{{ doc('is_null') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [null]
+                  config:
+                    severity: warn
+
+          - name: request_source_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_request_source_id') }}"
+
+          - name: duplicated_from_quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__duplicated_from_quote_id') }}"
+
+          - name: customer_id
+            data_type: varchar
+            description: "{{ doc('quotes__customer_id') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: quote_pricing
+        description: "{{ doc('quotes__quote_pricing') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__pricing_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: created_by
+            data_type: number
+            description: "{{ doc('quotes__quote_pricing_created_by_user_id') }}"
+
+          - name: created_date
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__quote_pricing_created_time') }}"
+
+          - name: equipment_charges
+            data_type: float
+            description: "{{ doc('quotes__equipment_charges') }}"
+
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+
+          - name: rental_subtotal
+            data_type: float
+            description: "{{ doc('quotes__rental_subtotal') }}"
+            
+          - name: rpp
+            data_type: float
+            description: "{{ doc('quotes__rental_protection_plan_price') }}"
+
+          - name: rpp_tax
+            data_type: float
+            description: "{{ doc('quotes__rental_protection_plan_tax') }}"
+
+          - name: sales_tax
+            data_type: float
+            description: "{{ doc('quotes__sales_tax') }}"
+
+          - name: sale_items_subtotal
+            data_type: float
+            description: "{{ doc('quotes__sales_items_subtotal') }}"
+
+          - name: total
+            data_type: float
+            description: "{{ doc('quotes__total_amount') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: rate_type
+        description: "{{ doc('quotes__rate_type') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__rate_type_id') }}"
+            data_tests:
+              - not_null
+              - unique
+            
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__rate_type_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Advertised', 'Benchmark', 'Book', 'Combo', 'Company', 'Custom', 'Deal', 'Floor', 'Optimal']
+                  config:
+                    severity: warn
+            
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: request_source
+        description: "{{ doc('quotes__request_source') }}"
+        columns:
+          - name: request_source_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_request_source_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__quote_source_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['ESMAX', 'RETAIL', 'UNKNOWN']
+                  config:
+                    severity: warn
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+
+      - name: role
+        description: "{{ doc('quotes__role') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__role_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__role_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['edit', 'owner', 'read-only']
+                  config:
+                    severity: warn
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: sale_item
+        description: "{{ doc('quotes__sale_item') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__sale_item_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: line_item_type_id
+            data_type: number
+            description: "{{ doc('platform__line_item_type_id') }}"
+
+          - name: price
+            data_type: float
+            description: "{{ doc('quotes__sale_item_price') }}"
+
+          - name: quantity
+            data_type: number
+            description: "{{ doc('quotes__sale_item_quantity') }}"
+            
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+            
+          - name: sale_item
+            data_type: varchar
+            description: "{{ doc('quotes__sale_item_description') }}"
+
+          - name: part_id
+            data_type: number
+            description: "{{ doc('quotes__sale_item_part_id') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: secondary_sales_rep
+        description: "{{ doc('quotes__secondary_salesperson_user_id') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__secondary_salesperson_user_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('quotes__quote_id') }}"
+            
+          - name: user_id
+            data_type: number
+            description: "{{ doc('platform__user_id') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: shift
+        description: "{{ doc('quotes__shift') }}"
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('quotes__shift_type_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: multiplier
+            data_type: float
+            description: "{{ doc('quotes__shift_type_multiplier') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [1, 1.5, 2]
+                  config:
+                    severity: warn
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__shift_type_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Single', 'Double', 'Triple']
+                  config:
+                    severity: warn
+
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"

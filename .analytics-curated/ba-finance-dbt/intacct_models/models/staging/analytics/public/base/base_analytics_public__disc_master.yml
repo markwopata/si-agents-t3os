@@ -1,0 +1,40 @@
+version: 2
+
+models:
+
+  - name: base_analytics_public__disc_master
+    description: ""
+    columns:
+      - name: pk_disc_master_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: disc_code
+        description: ""
+        data_tests:
+          - not_null
+      - name: email_address
+        description: ""
+        data_tests:
+          - not_null
+      - name: disc_sent_date
+        description: ""
+      - name: completed_date
+        description: ""
+      - name: environment_style
+        description: ""
+      - name: basic_style
+        description: ""
+      - name: blend
+        description: ""
+      - name: main_strength
+        description: ""
+      - name: applicant
+        description: ""
+      - name: status
+        description: ""
+      - name: updated_date
+        description: ""
+      - name: url_disc
+        description: ""

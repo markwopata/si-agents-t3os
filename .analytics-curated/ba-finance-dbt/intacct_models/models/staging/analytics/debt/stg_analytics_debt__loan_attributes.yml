@@ -1,0 +1,46 @@
+---
+version: 2
+models:
+  - name: stg_analytics_debt__loan_attributes
+    description: Loan attributes table. Owner Brandon Howard
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - financial_schedule_id
+              - is_gaap
+              - version
+    columns:
+      - name: payment_schedule_id
+        description: "Payment schedule id "
+        data_tests:
+          - not_null
+          - unique
+      - name: financial_schedule_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: version
+        description: "Version number"
+      - name: is_gaap
+        description: "Boolean for whether this loan is GAAP"
+      - name: entity_code
+        description: "Entity - not the same as entity_id"
+      - name: financing_facility_type
+        description: ""
+      - name: nominal_rate
+        description: ""
+      - name: anual_percentage_rate
+        description: "AKA APR"
+      - name: tval_folder
+        description: ""
+      - name: is_pending
+        description: "Boolean to indicate if loan is pending"
+      - name: updated_by
+        description: ""
+      - name: approved_by
+        description: 'Approved by email address. Can also be "NOT APPROVED YET"'
+      - name: record_start_timestamp
+        description: ""
+      - name: record_stop_timestamp
+        description: ""

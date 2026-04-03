@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__commission_dbt
+    description: Model for analytics.commission.commission_dbt
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: commission_rate
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: amount
+        description: ""
+      - name: split
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: is_finalized
+        description: ""
+      - name: reimbursement_factor
+        description: ""
+      - name: exception
+        description: ""
+      - name: credit_note_line_item_id
+        description: ""
+      - name: credit_transaction_type
+        description: ""
+      - name: override_rat
+        description: ""

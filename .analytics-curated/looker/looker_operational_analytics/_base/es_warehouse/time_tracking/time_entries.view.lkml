@@ -1,0 +1,103 @@
+view: time_entries {
+  sql_table_name: "ES_WAREHOUSE"."TIME_TRACKING"."TIME_ENTRIES" ;;
+  drill_fields: [time_entry_id]
+
+  dimension: time_entry_id {
+    primary_key: yes
+    type: number
+    sql: ${TABLE}."TIME_ENTRY_ID" ;;
+  }
+  dimension_group: _es_update_timestamp {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."_ES_UPDATE_TIMESTAMP" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: approval_status {
+    type: string
+    sql: ${TABLE}."APPROVAL_STATUS" ;;
+  }
+  dimension: archived {
+    type: yesno
+    sql: ${TABLE}."ARCHIVED" ;;
+  }
+  dimension_group: archived {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."ARCHIVED_DATE" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: asset_id {
+    type: number
+    sql: ${TABLE}."ASSET_ID" ;;
+  }
+  dimension: branch_id {
+    type: number
+    sql: ${TABLE}."BRANCH_ID" ;;
+  }
+  dimension: created_by_id {
+    type: number
+    sql: ${TABLE}."CREATED_BY_ID" ;;
+  }
+  dimension_group: created {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."CREATED_DATE" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension_group: end {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."END_DATE" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: event_type_id {
+    type: number
+    sql: ${TABLE}."EVENT_TYPE_ID" ;;
+  }
+  dimension: is_revision {
+    type: yesno
+    sql: ${TABLE}."IS_REVISION" ;;
+  }
+  dimension: job_id {
+    type: number
+    sql: ${TABLE}."JOB_ID" ;;
+  }
+  dimension: needs_revision {
+    type: yesno
+    sql: ${TABLE}."NEEDS_REVISION" ;;
+  }
+  dimension: note_id {
+    type: number
+    sql: ${TABLE}."NOTE_ID" ;;
+  }
+  dimension: overtime_hours {
+    type: number
+    sql: ${TABLE}."OVERTIME_HOURS" ;;
+  }
+  dimension: overtime_json {
+    type: string
+    sql: ${TABLE}."OVERTIME_JSON" ;;
+  }
+  dimension: overtime_state {
+    type: string
+    sql: ${TABLE}."OVERTIME_STATE" ;;
+  }
+  dimension: regular_hours {
+    type: number
+    sql: ${TABLE}."REGULAR_HOURS" ;;
+  }
+  dimension: source_application_id {
+    type: number
+    sql: ${TABLE}."SOURCE_APPLICATION_ID" ;;
+  }
+  dimension_group: start {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."START_DATE" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}."USER_ID" ;;
+  }
+  dimension: work_order_id {
+    type: number
+    sql: ${TABLE}."WORK_ORDER_ID" ;;
+  }
+}

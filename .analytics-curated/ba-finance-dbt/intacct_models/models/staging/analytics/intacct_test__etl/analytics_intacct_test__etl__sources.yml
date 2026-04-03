@@ -1,0 +1,13 @@
+---
+version: 2
+sources:
+  - name: analytics_intacct_test__etl
+    tags:
+      - sources
+    database: analytics
+    schema: intacct_test__etl
+    description: >
+      This is the test schema for the Intacct ETL. Contains metadata/config tables for the DDS job/ETL process.
+    tables:
+      - name: dds_job_run_history
+        description: ""

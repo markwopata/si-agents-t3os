@@ -1,0 +1,59 @@
+---
+version: 2
+exposures:
+  - name: db_branch_earnings_dashboard__warranty
+    label: Branch Earnings Dashboard::Warranty
+    type: dashboard
+    url: "https://equipmentshare.looker.com/dashboards/180"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+      - source('analytics_gs', 'plexi_periods')
+    owner:
+      name: "@vishesh.mathur"
+      email: vishesh.mathur@equipmentshare.com
+    meta:
+      looker_type: dashboard_element
+      folder: Branch Earnings
+      folder_id: "9021"
+      folder_url: https://equipmentshare.looker.com/folders/9021
+      looker_project: service
+      looker_model: service_warranty
+      looker_view: monthly_missed_opportunity_by_market
+      explore_lookml_url: https://equipmentshare.looker.com/projects/service/files/Models%2Fservice_warranty.model.lkml?line=214
+      tables_not_in_dbt:
+        - analytics.warranties.monthly_branch_warranty_oec
+        - analytics.warranties.new_missed_warranty_opportunity_tmp
+      dashboard_id: "180"
+      element_type: vis/marketplace_viz_multiple_value::multiple_value-marketplace
+      dashboard_title: Branch Earnings Dashboard
+      dashboard_url: https://equipmentshare.looker.com/dashboards/180
+      element_id: "14852"
+  - name: db_trending_branch_earnings__warranty
+    label: Trending Branch Earnings::Warranty
+    type: dashboard
+    url: "https://equipmentshare.looker.com/dashboards/1423"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+      - source('analytics_gs', 'plexi_periods')
+    owner:
+      name: "@loren.severs"
+      email: loren.severs@equipmentshare.com
+    meta:
+      looker_type: dashboard_element
+      folder: Trending Branch Earnings
+      folder_id: "9023"
+      folder_url: https://equipmentshare.looker.com/folders/9023
+      looker_project: service
+      looker_model: service_warranty
+      looker_view: monthly_missed_opportunity_by_market
+      explore_lookml_url: https://equipmentshare.looker.com/projects/service/files/Models%2Fservice_warranty.model.lkml?line=214
+      tables_not_in_dbt:
+        - analytics.warranties.monthly_branch_warranty_oec
+        - analytics.warranties.new_missed_warranty_opportunity_tmp
+      dashboard_id: "1423"
+      element_type: vis/marketplace_viz_multiple_value::multiple_value-marketplace
+      dashboard_title: Trending Branch Earnings
+      dashboard_url: https://equipmentshare.looker.com/dashboards/1423
+      element_id: "14580"

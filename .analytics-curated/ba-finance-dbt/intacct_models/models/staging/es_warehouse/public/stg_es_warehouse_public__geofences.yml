@@ -1,0 +1,65 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__geofences
+    description: Model for es_warehouse.public.geofences
+    columns:
+      - name: geofence_id
+        description: "Primary key for geofences table"
+        data_tests:
+          - not_null
+          - unique
+      - name: geom
+        description: ""
+      - name: time_fence_id
+        description: ""
+      - name: location_id
+        description: ""
+      - name: alert_exit
+        description: ""
+      - name: name
+        description: ""
+      - name: deleted
+        description: ""
+      - name: alert_enter
+        description: ""
+      - name: company_id
+        description: ""
+      - name: geojson
+        description: ""
+      - name: deleted_date
+        description: ""
+      - name: geofence_type_id
+        description: ""
+      - name: state_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: url_t3
+        description: "Link to the geofence in the T3 UI"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: geojson__geometry
+        description: Extracted from json in column geojson (roughly geojson:geometry)
+      - name: geojson__geometry__coordinates
+        description: Extracted from json in column geojson (roughly geojson:geometry:coordinates)
+      - name: geojson__geometry__type
+        description: Extracted from json in column geojson (roughly geojson:geometry:type)
+      - name: geojson__properties__fill__color
+        description: Extracted from json in column geojson (roughly geojson:properties:fill:color)
+      - name: geojson__properties__fill
+        description: Extracted from json in column geojson (roughly geojson:properties:fill)
+      - name: geojson__properties__stroke__weight
+        description: Extracted from json in column geojson (roughly geojson:properties:stroke:weight)
+      - name: geojson__type
+        description: Extracted from json in column geojson (roughly geojson:type)
+      - name: geojson__properties__fill__opacity
+        description: Extracted from json in column geojson (roughly geojson:properties:fill:opacity)
+      - name: geojson__properties
+        description: Extracted from json in column geojson (roughly geojson:properties)
+      - name: geojson__name
+        description: Extracted from json in column geojson (roughly geojson:name)
+      - name: geojson__properties__stroke
+        description: Extracted from json in column geojson (roughly geojson:properties:stroke)
+      - name: geojson__properties__stroke__color
+        description: Extracted from json in column geojson (roughly geojson:properties:stroke:color)

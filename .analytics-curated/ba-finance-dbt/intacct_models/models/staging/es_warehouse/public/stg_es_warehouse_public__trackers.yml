@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__trackers
+    description: Model for es_warehouse.public.trackers
+    columns:
+      - name: tracker_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: device_serial
+        description: ""
+      - name: vendor_id
+        description: Links to the type of vendor that supplies the tracker
+      - name: company_id
+        description: ""
+      - name: phone_number
+        description: ""
+      - name: tracker_type_id
+        description: Links to the type of tracker.
+      - name: created
+        description: ""
+      - name: updated
+        description: ""
+      - name: battery_voltage_type_id
+        description: ""
+      - name: twilio_sid
+        description: ""
+      - name: iccid
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

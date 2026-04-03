@@ -1,0 +1,42 @@
+---
+version: 2
+
+models:
+  - name: vsg_reservations_daily_realized_rentals
+    description: >
+        This table is used to track the number of reservations that have realized rentals on a given day. 
+        It is updated daily with the count of reservations that have a status of 'On Rent' or 'Returned' in the source snapshot table and on a given pick_up_date
+        Previously tracked manually by Nick Bauman via ops.resla.com by counting same-day reservations with a status of On Rent or Returned, for every region.
+        The reason why Nick tracks this is because tracking historical performance for a specific city can provide a general idea of what the market is likely to do in the future, since rental car trends are often similar year-over-year.
+        He then can apply dynamic pricing - pricing up to drive more profit, and they can price down if reservations are low 
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - platform_id
+              - pick_up_date
+              - region_name
+    columns:
+      - name: reservation_id
+        description: Unique identifier of the reservation.
+
+      - name: platform
+        description: Booking platform through which the reservation was created (e.g., Turo, internal platform).
+
+      - name: platform_id
+        description: Platform-specific reservation identifier (e.g., TURO-54010472). May differ from reservation_id; for example, HQ reservation_id 19058 corresponds to platform_id HQ-19157.
+
+      - name: dbt_snapshot_date
+        description: Day-truncated snapshot date representing when the reservation state was captured.
+
+      - name: pick_up_date
+        description: Day-truncated local pickup date for the reservation.
+
+      - name: region_name
+        description: Human-readable name of the region associated with the reservation.
+
+      - name: list_of_statuses
+        description: Array of distinct reservation statuses observed for the reservation within the snapshot context.
+
+      - name: rental_occurred
+        description: Indicator (1/0) showing whether the reservation resulted in an actual rental (status reached 'On Rent' or 'Returned').

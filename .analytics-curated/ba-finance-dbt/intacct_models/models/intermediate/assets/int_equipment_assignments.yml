@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: int_equipment_assignments
+    description: >
+      Historical rental assignments for an asset
+    columns:
+      - name: equipment_assignment_id
+        description: >
+          Unique identifier for the equipment assignment record
+        data_tests:
+          - unique
+      - name: asset_id
+        description: "{{ doc('admin_asset_id') }}"
+      - name: rental_id
+        description: "{{ doc('rental_id') }}"
+      - name: is_intercompany
+        description: Indicates whether the asset was owned by another company. True if so; false / null if it has a null company
+      - name: drop_off_delivery_id
+        description: "{{ doc('drop_off_delivery_id') }}"
+      - name: return_delivery_id
+        description: "{{ doc('return_delivery_id') }}"
+      - name: date_start
+        description: "{{ doc('rental_start_date') }}"
+      - name: next_date_start
+        description: "{{ doc('asset_next_rental_start_date') }}"
+      - name: date_end
+        description: "{{ doc('rental_end_date') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: rental_duration
+        description: "{{ doc('rental_duration') }}"
+      - name: is_last_assignment_on_day
+        description: >
+          Boolean to indicate if the asset is the last one assigned to the rental on the day. Assets can be swapped on
+          rentals and for OEC purposes, we don't want to double count the OEC. We will only count the last one on rent
+          for OEC.
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

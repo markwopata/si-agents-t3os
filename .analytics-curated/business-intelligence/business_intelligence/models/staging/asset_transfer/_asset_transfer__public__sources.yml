@@ -1,0 +1,177 @@
+version: 2
+
+sources:
+  - name: asset_transfer
+    description: "Movement of assets via ES Admin, allowing ownership changes between rental and inventory branches."
+    database: asset_transfer
+    schema: public
+    tables:
+      - name: transfer_orders
+        description: "{{ doc('asset_transfer_orders') }}"
+        columns:
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+          - name: transfer_order_id
+            data_type: varchar
+            description: "{{ doc('asset_transfer__transfer_order_id') }}"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: to_branch_id
+            data_type: number
+            description: "{{ doc('asset_transfer__to_branch_id') }}"
+            data_tests:
+              - not_null
+
+          - name: requester_note
+            data_type: varchar
+            description: "{{ doc('asset_transfer__requester_note') }}"
+
+          - name: requester_id
+            data_type: number
+            description: "{{ doc('asset_transfer__requester_user_id') }}"
+            data_tests:
+              - not_null
+
+          - name: status
+            data_type: varchar
+            description: "{{ doc('asset_transfer__status') }}"
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values:
+                      - 'Approved'
+                      - 'Received'
+                      - 'Rejected'
+                      - 'Request Cancelled'
+                      - 'Requested'
+                      - 'Transfer Cancelled'
+                  config:
+                    severity: warn
+
+          - name: date_approved
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_approved') }}"
+
+          - name: is_rental_transfer
+            data_type: boolean
+            description: "{{ doc('asset_transfer__is_rental_transfer') }}"
+            data_tests:
+              - not_null
+
+          - name: received_by_id
+            data_type: number
+            description: "{{ doc('asset_transfer__receiver_user_id') }}"
+
+          - name: date_rejected
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_rejected') }}"
+
+          - name: from_branch_id
+            data_type: number
+            description: "{{ doc('asset_transfer__from_branch_id') }}"
+            data_tests:
+              - not_null
+
+          - name: date_updated
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_updated') }}"
+            data_tests:
+              - not_null
+
+          - name: transfer_type_id
+            data_type: number
+            description: "{{ doc('asset_transfer__transfer_type_id') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [1,2]
+                  config:
+                    severity: warn
+              - not_null
+
+          - name: date_transfer_cancelled
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_transfer_cancelled') }}"
+
+          - name: cancellation_note
+            data_type: varchar
+            description: "{{ doc('asset_transfer__cancellation_note') }}"
+
+          - name: is_closed
+            data_type: boolean
+            description: "{{ doc('asset_transfer__is_closed') }}"
+            data_tests:
+              - not_null
+
+          - name: company_id
+            data_type: number
+            description: "{{ doc('es_company_id') }}"
+            data_tests:
+              - not_null
+
+          - name: date_request_cancelled
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_request_cancelled') }}"
+
+          - name: date_received
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__date_received') }}"
+
+          - name: approver_note
+            data_type: varchar
+            description: "{{ doc('asset_transfer__approver_note') }}"
+
+          - name: transfer_order_number
+            data_type: number
+            description: "{{ doc('asset_transfer__transfer_order_number') }}"
+            data_tests:
+              - not_null
+
+          - name: date_created
+            data_type: timestamp_tz
+            description: "{{ doc('asset_transfer__request_date_created') }}"
+            data_tests:
+              - not_null
+
+          - name: approver_id
+            data_type: number
+            description: "{{ doc('asset_transfer__approver_user_id') }}"
+
+          - name: asset_id
+            data_type: number
+            description: "{{ doc('platform__asset_id') }}"
+            data_tests:
+              - not_null
+      - name: transfer_types
+        description:  "{{ doc('asset_transfer_types') }}"
+        columns:
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+          - name: id
+            data_type: number
+            description: "{{ doc('asset_transfer__transfer_type_id') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [1,2]
+                  config:
+                    severity: warn
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('asset_transfer__transfer_type_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values:
+                      - 'Internal Ownership'
+                      - 'Internal Custody'
+                  config:
+                    severity: warn

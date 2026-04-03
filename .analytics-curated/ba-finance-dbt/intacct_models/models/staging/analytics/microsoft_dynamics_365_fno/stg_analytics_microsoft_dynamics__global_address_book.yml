@@ -1,0 +1,117 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__global_address_book
+    description: ""
+    columns:
+      - name: partynumber
+        description: ""
+        data_tests:
+          - unique
+      - name: id
+        description: ""
+
+      - name: languageid
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: recid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: instancerelationtype
+        description: ""
+
+      - name: knownas
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: namealias
+        description: ""
+
+      - name: primaryaddresslocation
+        description: ""
+
+      - name: primarycontactemail
+        description: ""
+
+      - name: primarycontactfax
+        description: ""
+
+      - name: primarycontactphone
+        description: ""
+
+      - name: primarycontacttelex
+        description: ""
+
+      - name: primarycontacturl
+        description: ""
+
+      - name: primarycontactfacebook
+        description: ""
+
+      - name: primarycontacttwitter
+        description: ""
+
+      - name: primarycontactlinkedin
+        description: ""
+
+      - name: legacyinstancerelationtype
+        description: ""
+
+      - name: modifiedby
+        description: ""
+
+      - name: createdby
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: versionnumber
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""

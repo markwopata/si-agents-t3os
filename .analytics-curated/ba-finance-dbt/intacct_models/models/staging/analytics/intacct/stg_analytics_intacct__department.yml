@@ -1,0 +1,65 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__department
+    description: Cleaned table for intacct department data
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    columns:
+      - name: pk_department_id
+        description: Primary key for table
+        data_tests:
+          - unique
+          - not_null
+        constraints:
+          - type: primary_key
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+        data_tests:
+          - not_null
+      - name: department_status
+        description: Active/inactive status
+      - name: fk_parent_department_id
+        description: Parent department key - can be used to determine hierarchy of department
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+      - name: department_custom_name
+        description: Custom name for department
+      - name: department_type
+        description: Type of department (e.g., Branch - T3, Forge & Build)
+      - name: state_id
+        description: State identifier for the department (e.g., Texas (TX), Illinois (IL))
+      - name: build_to_suit_type
+        description: Build to suit type classification (e.g., BTS - A, BTS - B)
+      - name: prevent_new_purchasing_transactions
+        description: Flag indicating whether new purchasing transactions are prevented
+      - name: t3_platform_inactive
+        description: T3 platform inactive status flag
+      - name: sga_segment
+        description: SGA (Selling, General & Administrative) segment classification (e.g., Corporate, Rental, Hardware)
+      - name: date_no_longer_new_market
+        description: Date when the market is no longer considered a "New Market"
+      - name: date_vic_migration
+        description: Date when the department was migrated to Vic.ai
+      - name: date_accounting_start
+        description: Date department is eligible for accounting transactions
+      - name: date_accounting_end
+        description: Date department is no longer eligible for accounting transactions

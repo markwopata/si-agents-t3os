@@ -1,0 +1,37 @@
+---
+version: 2
+sources:
+  - name: analytics_vehicle_solutions
+    tags:
+      - sources
+    database: analytics
+    schema: vehicle_solutions
+    description: >
+      Data in analytics.vehicle_solutions schema related to Vehicle Solutions Group (The Resla Acquisition.)
+      via BA ETL scripts. They have data coming from multiple sources - Flete, Standardfleet, HQ Rental, Turo, Stripe.
+      All raw tables in this schema are built using append only strategy. We will need to deduplicate.
+    tables:
+      - name: flete_claims
+        description: "Flete insurance claims data."
+      - name: standardfleet_supercharging_reimbursements
+        description: "Standardfleet reimburses us for supercharging costs."
+      - name: hq_rental_reservations
+        description: "Reservations from hq rental"
+      - name: hq_rental_vehicles
+        description: "Vehicle list from hq rental"
+      - name: hq_reservations_payments__landing
+        description: "Payments data for hq rental reservations. ETL: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-vsg-etl/-/blob/main/app/main.py?ref_type=heads"
+      - name: turo_rentals
+        description: "Rentals done through Turo. Contains reservation details."
+
+      - name: turo_earnings
+        description: "Earnings details for Turo rentals. Not an automated process - Turo accounting has to export this data
+          manually via email and our team uploads it to Snowflake"
+      - name: bank_deposits
+        description: >
+          Turo bank deposit data - contains deposits made by Turo to our bank account (from Stripe payouts to banks Capital One and Central Bank)
+          Manually uploaded via python script
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-financial-analytics/-/blob/main/projects/vsg_rental_revenue/upload_bank_deposits.ipynb?ref_type=heads
+        

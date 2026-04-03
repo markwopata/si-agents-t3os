@@ -1,0 +1,159 @@
+---
+version: 2
+models:
+  - name: int_admin_invoice_line_detail
+    description: "Detailed view of invoice line items, including account, asset, rental, and salesperson information. Used for financial and operational reporting."
+    config:
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    columns:
+      - name: invoice_id
+        description: "Unique identifier for the invoice."
+      - name: invoice_number
+        description: "Invoice number is the number we use to identify the invoice. This is the number we send to customers."
+      - name: billing_approved_date
+        description: >
+          Date when the invoice was billing approved. The invoice must be billing approved for us to count it
+          internally. It will be copied to Sage once billing approved.
+      - name: gl_date
+        description: "General ledger date for the invoice."
+      - name: is_billing_approved
+        description: "Boolean indicates if the invoice has been approved."
+      - name: is_deleted
+        description: >
+          Boolean to indicate if invoice has been deleted. Deleted invoices have a deleted date in extended_data.
+      - name: is_pending
+        description: >
+          Boolean to indicate if an invoice is pending. Pending invoices are not billing approved and not deleted.
+      - name: invoice_date
+        description:
+          "The invoice date is the date we billed the customer. We typically do not use this field, as we \
+          wait for the invoice to be billing_approved to count it (see billing_approved_date). Once an invoice is \
+          billing approved, the invoice would be copied to Sage."
+      - name: market_id
+        description: "Market this invoice was billed from. Foreign key to markets table. (derived from ship_from:branch_id)"
+      - name: market_name
+        description: "Ship from market name."
+      - name: company_id
+        description: "company_id is the id for the customer we billed on this invoice."
+      - name: customer_name
+        description: "Name of the customer. Synonym for company_name."
+      - name: invoice_memo
+        description: "Memo or notes associated with the invoice. Can be blank or null."
+      - name: line_item_id
+        description: "Unique identifier for the invoice line item."
+        data_tests:
+          - not_null
+          - unique
+      - name: line_item_type_id
+        description: "Foreign key to the line_item_types table"
+      - name: line_item_type_name
+        description: "Line item type name - also known as admin charge type"
+      - name: avalara_transaction_id
+        description: "Avalara transaction ID associated with the invoice."
+      - name: account_number
+        description: "GL account number associated with the line item."
+      - name: account_name
+        description: "GL account name."
+      - name: amount
+        description: "Amount at a line item level. This is the amount before tax."
+      - name: tax_amount
+        description: "Tax amount for the line item."
+      - name: is_taxable
+        description: "Indicates if the line item is taxable."
+      - name: line_item_description
+        description: "Description on the line item."
+      - name: invoice_date_created
+        description: "Datetime the invoice was created."
+      - name: invoice_date_updated
+        description: "Datetime the invoice was last updated."
+      - name: line_item_date_created
+        description: "Datetime the line item was created."
+      - name: line_item_date_updated
+        description: "Datetime the line item was last updated."
+      - name: asset_id
+        description: "Indicates what asset the line item is for. Foreign key to assets table."
+      - name: rental_id
+        description: "Indicates what rental the line item is for. Foreign key to rentals table."
+      - name: invoice_cycle_start_date
+        description: "For rentals, we bill on a cycle. This date typically marks the start of the rental. This is the start_date on the invoice. There are some non-rental invoices with start/end_dates."
+      - name: invoice_cycle_end_date
+        description: "For rentals, we bill on a cycle. This date typically marks the end of the rental. This is the end_date on the invoice. There are some non-rental invoices with start/end_dates."
+      - name: rental_bill_type
+        description:
+          "For rentals, this indicates the type of billing. Billing types include final, cycle, \
+          partial-return. If billing is final, it's the last invoice for the rental. If it's a cycle invoice, \
+          it's a bill for an ongoing rental."
+      - name: rental_cheapest_period_hour_count
+        description: "Number of hours billed for rental, based on the cheapest total combination of periods at the time of billing. Billing may use a mix of hours, days, weeks, etc., always selecting the cheapest total combination."
+      - name: rental_cheapest_period_day_count
+        description: "Number of days billed for rental, based on the cheapest total combination of periods at the time of billing. Billing may use a mix of days, weeks, etc., always selecting the cheapest total combination."
+      - name: rental_cheapest_period_week_count
+        description: "Number of weeks billed for rental, based on the cheapest total combination of periods at the time of billing. Billing may use a mix of weeks, days, etc., always selecting the cheapest total combination."
+      - name: rental_cheapest_period_four_week_count
+        description: "Number of four-week periods billed for rental, based on the cheapest total combination of periods at the time of billing. Billing may use a mix of four-week periods, weeks, etc., always selecting the cheapest total combination."
+      - name: rental_cheapest_period_month_count
+        description: "Number of months billed for rental, based on the cheapest total combination of periods at the time of billing. Billing may use a mix of months, weeks, etc., always selecting the cheapest total combination."
+      - name: rental_price_per_hour
+        description: "Price applied per hour for the rental, used when hours are part of the cheapest total combination of periods billed."
+      - name: rental_price_per_day
+        description: "Price applied per day for the rental, used when days are part of the cheapest total combination of periods billed."
+      - name: rental_price_per_week
+        description: "Price applied per week for the rental, used when weeks are part of the cheapest total combination of periods billed."
+      - name: rental_price_per_four_weeks
+        description: "Price applied per four weeks for the rental, used when four-week periods are part of the cheapest total combination of periods billed."
+      - name: rental_price_per_month
+        description: "Price applied per month for the rental, used when months are part of the cheapest total combination of periods billed."
+      - name: paid_date
+        description: "Date the invoice was paid."
+      - name: is_intercompany
+        description: "Indicates if the transaction is intercompany (or billed to EquipmentShare or one of its subs.)."
+      - name: primary_salesperson_id
+        description: "Primary salesperson ID on the invoice."
+      - name: secondary_salesperson_ids
+        description: "Secondary salesperson IDs on the invoice as an array."
+      - name: order_id
+        description: >
+          Every invoice is generated from an order. Foreign key to orders table. The flow is typically
+          order -> rental -> invoice, but it can also go order -> invoice.
+      - name: url_admin
+        description: "URL to the invoice in admin"
+      - name: ship_to_branch_id
+        description: "Branch ID for the asset ship to location from the invoice."
+      - name: ship_to_location_id
+        description: "Location ID for the asset ship to location from the invoice."
+      - name: ship_to_nickname
+        description: "Nickname for the asset ship to location from the invoice."
+      - name: ship_to_country
+        description: "Country for the asset ship to location from the invoice."
+      - name: ship_to_state
+        description: "State for the asset ship to location from the invoice."
+      - name: ship_to_city
+        description: "City for the asset ship to location from the invoice."
+      - name: ship_to_street
+        description: "Street for the asset ship to location from the invoice."
+      - name: ship_to_zip_code
+        description: "Zip code for the asset ship to location from the invoice."
+      - name: ship_to_longitude
+        description: "Longitude for the asset ship to location from the invoice."
+      - name: ship_to_latitude
+        description: "Latitude for the asset ship to location from the invoice."
+      - name: ship_from_branch_id
+        description: "Branch ID for the asset ship from location from the invoice."
+      - name: ship_from_location_id
+        description: "Location ID for the asset ship from location from the invoice."
+      - name: ship_from_nickname
+        description: "Nickname for the asset ship from location from the invoice."
+      - name: ship_from_country
+        description: "Country for the asset ship from location from the invoice."
+      - name: ship_from_state
+        description: "State for the asset ship from location from the invoice."
+      - name: ship_from_city
+        description: "City for the asset ship from location from the invoice."
+      - name: ship_from_street
+        description: "Street for the asset ship from location from the invoice."
+      - name: ship_from_zip_code
+        description: "Zip code for the asset ship from location from the invoice."
+      - name: ship_from_longitude
+        description: "Longitude for the asset ship from location from the invoice."
+      - name: ship_from_latitude
+        description: "Latitude for the asset ship from location from the invoice."

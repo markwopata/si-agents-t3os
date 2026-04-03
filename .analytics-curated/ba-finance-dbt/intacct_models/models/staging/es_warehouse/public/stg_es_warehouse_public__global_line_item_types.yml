@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__global_line_item_types
+    description: Model for es_warehouse.public.global_line_item_types
+    columns:
+      - name: domain_id
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

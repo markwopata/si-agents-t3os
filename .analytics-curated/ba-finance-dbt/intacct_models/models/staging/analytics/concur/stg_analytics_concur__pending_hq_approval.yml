@@ -1,0 +1,48 @@
+---
+version: 2
+models:
+  - name: stg_analytics_concur__pending_hq_approval
+    description: ""
+    columns:
+      - name: vendor_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: request_id
+        description: ""
+      - name: request_key
+        description: ""
+      - name: request_legacy_key
+        description: ""
+      - name: approver_name
+        description: ""
+      - name: approver_email
+        description: ""
+      - name: vendor_name
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: po_number
+        description: ""
+      - name: location
+        description: ""
+      - name: account_code
+        description: ""
+      - name: amt_breakdown
+        description: ""
+      - name: request_total
+        description: ""
+      - name: days_pending_approval
+        description: ""
+      - name: invoice_received
+        description: ""
+      - name: invoice_received_date
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: latest_submit_date
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: cognos_date
+        description: ""

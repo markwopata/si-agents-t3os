@@ -1,0 +1,21 @@
+select
+    abp.recordno as pk_ap_bill_payment_id,
+    abp.amount,
+    abp.state,
+    abp.paymentdate as payment_date,
+    abp.paymentkey as payment_key,
+    abp.payitemkey as pay_item_key,
+    abp.recordkey as record_key,
+    abp.paiditemkey as paid_item_key,
+    abp.parentpymt as parent_payment,
+    abp.currency as currency_code,
+    abp.trx_amount as transaction_amount,
+    abp.invbaseamt as invoice_base_amount,
+    abp.invtrxamt as invoice_transaction_amount,
+    abp.whenmodified as date_updated,
+    abp.whencreated as date_created,
+    abp.createdby as fk_created_by_user_id,
+    abp.modifiedby as fk_modified_by_user_id,
+    abp.ddsreadtime as dds_read_timestamp,
+    abp._es_update_timestamp
+from {{ source('analytics_intacct', 'ap_bill_payment') }} as abp

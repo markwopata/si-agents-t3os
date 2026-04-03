@@ -1,0 +1,78 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_orders
+    description: ""
+    config:
+      tags:
+        - work_orders
+        - hourly
+        - source
+    columns:
+      - name: work_order_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: urgency_level_id
+        description: ""
+      - name: work_order_status_id
+        description: ""
+      - name: description
+        description: ""
+      - name: due_date
+        description: ""
+      - name: date_completed
+        description: ""
+      - name: billing_notes
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: date_billed
+        description: ""
+      - name: _work_order_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: customer_user_id
+        description: ""
+      - name: creator_user_id
+        description: ""
+      - name: _work_order_status_id
+        description: ""
+      - name: work_order_status_name
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: archived_date
+        description: ""
+      - name: severity_level_id
+        description: ""
+      - name: work_order_type_id
+        description: ""
+      - name: billing_type_id
+        description: ""
+      - name: solution
+        description: ""
+      - name: urgency_level_name
+        description: ""
+      - name: severity_level_name
+        description: ""
+      - name: work_order_type_name
+        description: ""
+      - name: scheduled_date
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: cost
+        description: ""
+      - name: mileage_at_service
+        description: ""
+      - name: hours_at_service
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,48 @@
+---
+version: 2
+models:
+  - name: alteryx_navan_weekly_email
+    description: >
+      Weekly email report data for Navan bookings, aggregating booking information with passenger details.
+      This model provides a consolidated view of travel bookings for reporting purposes.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - booking_uuid
+              - manager_email
+    columns:
+      - name: booking_uuid
+        description: "Unique identifier for the booking"
+      - name: traveling_users
+        description: "Comma-separated list of traveling users"
+      - name: booking_type
+        description: "Type of booking (e.g., HOTEL, CAR)"
+      - name: per_day_price
+        description: "Unitary price per day for hotel/car bookings"
+      - name: total_price
+        description: "Total price of the booking in USD"
+      - name: booking_status
+        description: "Current status of the booking"
+      - name: out_of_policy_violation
+        description: "Indicates if there's a policy violation"
+      - name: traveled_cabin_class
+        description: "Cabin class for travel bookings"
+      - name: vendor
+        description: "Vendor providing the service"
+      - name: booking_start_date
+        description: "Start date of the booking"
+      - name: booking_end_date
+        description: "End date of the booking"
+      - name: date_purchased
+        description: "Date and time when the booking was purchased (Central Time)"
+      - name: trip_name
+        description: "Name of the trip"
+      - name: trip_purpose
+        description: "Purpose of the trip"
+      - name: manager_name
+        description: "Name of the manager"
+      - name: manager_email
+        description: "Email address of the manager"
+      - name: traveling_user_emails
+        description: "Comma-separated list of traveling users' emails"

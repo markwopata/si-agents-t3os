@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: int_quote_customer_conversion
+    description: "{{ doc('int_quote_customer_conversion') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_customers
+    description: "{{ doc('int_quote_customers') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_equipment_rentals
+    description: "{{ doc('int_quote_equipment_rentals') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_line_items
+    description: "{{ doc('int_quote_line_items') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_prices
+    description: "{{ doc('int_quote_prices') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_sale_items
+    description: "{{ doc('int_quote_sale_items') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quote_sources
+    description: "{{ doc('int_quote_sources') }}"
+    config:
+      tags: ['quotes']
+
+  - name: int_quotes
+    description: "{{ doc('int_quotes') }}"
+    config:
+      tags: ['quotes']

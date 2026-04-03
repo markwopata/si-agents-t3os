@@ -1,0 +1,74 @@
+models:
+  - name: stg_analytics_lease_accelerator__ledger_export_api_download
+    description: >
+      cleaned and renamed model of analytics.lease_accelerator.ledger_export_api_download
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - ledger_entry_id
+              - ledger_entry_sub_id
+          where: ledger_entry_id != '0'
+    columns:
+      - name: ledger_entry_id
+        description: ""
+
+      - name: ledger_entry_sub_id
+        description: ""
+
+      - name: transactional_currency
+        description: ""
+
+      - name: functional_currency
+        description: ""
+
+      - name: reporting_currency
+        description: ""
+
+      - name: account_description
+        description: ""
+
+      - name: comments
+        description: ""
+
+      - name: journal_entry_description
+        description: ""
+
+      - name: fx_rate_type
+        description: ""
+
+      - name: schedule
+        description: ""
+
+      - name: posting_code
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: asset_number
+        description: ""
+
+      - name: debit_amount
+        description: ""
+
+      - name: credit_amount
+        description: ""
+
+      - name: net_amount
+        description: ""
+
+      - name: gl_account_number
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: ledger_date
+        description: ""
+
+      - name: related_period
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""

@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: stg_t3__tracker_status_key_values
+    description: "stg_t3__tracker_status_key_values report table" 
+    columns:
+      - name: tracker_id
+        data_type: number
+
+      - name: device_serial
+        data_type: varchar
+
+      - name: phone_number
+        data_type: varchar
+
+      - name: tracker_type
+        data_type: varchar
+
+      - name: tracker_vendor
+        data_type: varchar
+
+      - name: asset_id
+        data_type: number
+
+      - name: tracker_last_date_installed
+        data_type: timestamp_tz
+
+      - name: latest_report_timestamp
+        data_type: timestamp_tz
+
+      - name: battery_voltage
+        data_type: number
+
+      - name: tracker_firmware_version
+        data_type: varchar
+
+      - name: ble_on_off
+        data_type: varchar
+
+      - name: geofences
+        data_type: varchar
+
+      - name: last_location
+        data_type: varchar
+
+      - name: address
+        data_type: varchar
+
+      - name: is_ble_node
+        data_type: varchar
+
+      - name: out_of_lock_reason
+        data_type: varchar
+
+      - name: out_of_lock_timestamp
+        data_type: timestamp_tz
+
+      - name: unplugged
+        data_type: varchar
+
+      - name: street
+        data_type: varchar
+
+      - name: city
+        data_type: varchar
+
+      - name: state
+        data_type: varchar
+
+      - name: zip_code
+        data_type: varchar
+
+      - name: location
+        data_type: varchar
+
+      - name: last_checkin_timestamp
+        data_type: timestamp_tz
+
+      - name: asset_battery_voltage
+        data_type: number
+
+      - name: start_stale_gps_fix_timestamp
+        data_type: timestamp_tz
+
+      - name: last_location_timestamp
+        data_type: timestamp_tz
+
+      - name: latest_gps_fix_timestamp
+        data_type: timestamp_tz
+
+      - name: latest_satellites
+        data_type: number
+
+      - name: rssi
+        data_type: number
+
+      - name: rssi_timestamp
+        data_type: timestamp_tz
+
+      - name: hours
+        data_type: number
+
+      - name: odometer
+        data_type: number
+              
+      - name: hdop
+        data_type: number 
+
+      - name: hdop_timestamp
+        data_type: timestamp_tz 
+

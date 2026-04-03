@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_analytics_asset4000_dbo__gl_grp_tags
+    description: staging model of base_analytics_asset4000_dbo__gl_grp_tags that that includes only records that have not been marked as deleted
+    columns:
+      - name: entity_name
+        description: ""
+
+      - name: group_id
+        description: ""
+
+      - name: grptag_mandatory
+        description: ""
+
+      - name: grptag_exemptgrp
+        description: ""
+
+      - name: grptag_option2
+        description: ""
+
+      - name: group_tag_name
+        description: ""
+
+      - name: grptag_restrict
+        description: ""
+
+      - name: grptag_option1
+        description: ""
+
+      - name: grptag_accessgrp
+        description: ""
+
+      - name: grptag_restrict_group
+        description: ""
+
+      - name: grptag_security
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

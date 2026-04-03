@@ -1,0 +1,40 @@
+version: 2
+models:
+  - name: int_claims__historic_market_employee_claim_count
+    description: > 
+      "This model tracks monthly headcount and lost-time workers compensation claims for each branch. It then calculates a 12-month average headcount, 
+      based on where each employee was assigned at the end of the month, and total claims per branch. Using a 12-month average smooths short-term 
+      fluctuations in staffing, providing a stable and consistent basis for comparing claim rates across branches and identifying long-term trends."
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_month
+            - market_id
+    
+    columns:
+      - name: date_month
+        description: ""
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+        datatests:
+          - not_null
+
+      - name: avg_headcount_rolling_12mo
+        description: "average employee count for the last 12 months based on where the employee was assigned at the end of the month"
+        datatests:
+          - not_null
+          - not_zero        
+
+      - name: claims_count_rolling_12mo
+        description: "total claim count (number of claims) for the last 12 months that resulted in a loss time accident"
+        datatests:
+          - not_null
+
+      - name: momthly_employee_count
+        description: "number of employees for the month"
+
+      - name: monthly_claims_count
+        description: "total number of loss time accidents for the month"
+        

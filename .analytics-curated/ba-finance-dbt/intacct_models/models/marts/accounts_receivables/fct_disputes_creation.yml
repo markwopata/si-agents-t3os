@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: fct_disputes_creation
+    description: "This model contains numerical data on disputes\n"
+    columns:
+      - name: dispute_id
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: days_to_resolve
+        description: ""
+      - name: invoice_amount
+        description: ""

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+
+  - name: base_analytics_public__disc_gh_ukg
+    description: "Report in UKG - employee id with disc code"
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: disc_code
+        description: ""
+      - name: employee_status
+        description: ""
+      - name: external_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

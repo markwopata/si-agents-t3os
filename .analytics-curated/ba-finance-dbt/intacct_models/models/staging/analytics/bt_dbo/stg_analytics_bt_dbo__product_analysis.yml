@@ -1,0 +1,48 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_analysis
+    description: staging table for BisTrack built in product analysis
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: calendar_month
+        description: 'Month in the calendar year.'
+      - name: calendar_year
+        description: 'Year in the calendar.'
+      - name: customer_id
+        description: 'Identifier for the customer.'
+      - name: department_id
+        description: 'Identifier for the department.'
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: purchase_analysis_code_id
+        description: 'Identifier for the purchase analysis code.'
+      - name: sale_type
+        description: 'Type of sale.'
+      - name: sales_analysis_code_id
+        description: 'Identifier for the sales analysis code.'
+      - name: total_reporting_cost
+        description: 'Total cost reported.'
+      - name: transfer_quantity_used
+        description: 'Quantity used in transfers.'
+      - name: total_cost
+        description: 'Total cost incurred.'
+      - name: quantity_sold
+        description: 'Quantity of products sold.'
+      - name: total_weight
+        description: 'Total weight of products.'
+      - name: quantity_used
+        description: 'Quantity of products used.'
+      - name: total_volume
+        description: 'Total volume of products.'
+      - name: total_internal_cost
+        description: 'Total internal cost incurred.'
+      - name: quantity_received
+        description: 'Quantity of products received.'
+      - name: total_sales
+        description: 'Total sales amount.'
+      - name: _fivetran_deleted
+        description: 'Indicator for deletion by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Indicator for synchronization by Fivetran.'

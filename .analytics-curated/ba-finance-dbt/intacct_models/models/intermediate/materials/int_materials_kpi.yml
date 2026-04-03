@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: int_materials_kpi
+    description: "Key performance indicators for Materials by market and month: net income, revenue, DSO, inventory, payroll and other KPIs aggregated at month level."
+    data_tests:
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+            - mkt_id
+            - be_month
+    columns:
+      - name: mkt_id
+        description: "Market identifier (from branch / earnings source)."
+        tests:
+          - not_null
+
+      - name: mkt_name
+        description: "Market / store human-readable name."
+
+      - name: be_month
+        description: "Business month bucket (first day of the month). Produced with date_trunc('month', ...)."
+        tests:
+          - not_null
+
+      - name: net_income
+        description: "Net income for the market and month (sum of amt from branch earnings snapshot)."
+
+      - name: revenue
+        description: "Revenue for the market and month (sum of amt where revexp = 'REV')."
+
+      - name: days_in_month
+        description: "Number of days in the month (derived using DATE_PART and LAST_DAY)."
+
+      - name: ar_running_total
+        description: "Running total of accounts receivable for the market up to and including the month (used to calculate DSO)."
+
+      - name: cogs
+        description: "Cost of goods sold for the market and month (sum of cogs GL accounts)."
+
+      - name: inventory_change_amount
+        description: "Inventory change for the month (sum of inventory GL entry_amount for the month)."
+
+      - name: inventory_amount
+        description: "Running inventory amount (running_total) for the market at the month end."
+
+      - name: avg_last_2mo_running_total
+        description: "Average of the running inventory total between the current and previous month (used for inventory KPIs)."
+
+      - name: square_footage
+        description: "Store square footage (from store branch/staging table) used to compute sales per square foot."
+
+      - name: total_payroll
+        description: "Total payroll costs for the market and month (sum of payroll-related GL entries)."
+
+      - name: manager
+        description: "Store manager full name for the market (from company directory)."
+
+      - name: employee_count
+        description: "Count of active employees for the market (from company directory)."
+
+      - name: months_open
+        description: "Number of months the store has been open as of the given month."
+

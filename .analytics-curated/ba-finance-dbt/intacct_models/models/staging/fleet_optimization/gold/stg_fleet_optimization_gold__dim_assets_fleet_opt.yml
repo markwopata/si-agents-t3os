@@ -1,0 +1,228 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_assets_fleet_opt
+    description: Model for fleet_optimization.gold.dim_assets_fleet_opt
+    columns:
+      - name: asset_key
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+        data_tests:
+          - unique
+      - name: asset_source
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_id
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_active
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_year
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_description
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_vin
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_serial_number
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_inventory_market_id
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_inventory_market_key
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_rental_market_id
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_rental_market_key
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_maintenance_service_provider_market_id
+        description: This can be refered to as 'Service Market' or MSP (Maintenance Service Provider)
+      - name: asset_maintenance_service_provider_market_key
+        description: This can be refered to as 'Service Market' or MSP (Maintenance Service Provider)
+      - name: asset_market_id
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_market_key
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_company_id
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_company_key
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_make
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_make_id
+        description: ID associated with the asset's equipment make name
+      - name: asset_equipment_type
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_model_name
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_model_id
+        description: ID associated with the asset's equipment model name
+      - name: asset_equipment_make_and_model
+        description: ''
+      - name: equipment_class_key
+        description: Foreign key which connects to dim_equipment_classes_fleet_opt
+      - name: equipment_class_id
+        description: Unique identifier for each equipment class in the dim_equipment_classes_fleet_opt table. Can be 
+          numeric (equipment_class_id) or string (equipment_class_key)
+      - name: asset_equipment_class_name
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_subcategory_name
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_category_name
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_equipment_contractor_owned
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_payout_program
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_payout_program_type
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_payout_program_billing_type
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_payout_program_percentage
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_oem_delivery_date
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_purchase_date
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_current_oec
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_rentable
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_first_rental_start_date
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_most_recent_on_rent_date
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_inventory_status
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_inventory_status_date
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_hours
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_odometer
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_underperforming_flag
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_never_rented
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_net_book_value_descriptive
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets
+      - name: asset_current_finance_status
+        description: "Categorical field representing the most recent finance status recorded for the purchase order line.\
+          \ \nPossible values include paid in cash, net terms purchase, dealership floor plan, financed, etc. \nDefault value
+          is No Finance Status, indicating the field is NULL at the source.\nAs this field can change over time, certain statuses
+          indicating Dealership finance plans can be erased. \nUse po_line_purchase_purpose to track historical statuses related
+          to Dealership or Rental purpose rather than finance_status."
+      - name: asset_own_flag
+        description: "Logical column describing if asset is currently member of OWN program or not. \nWhen used in dim_asset_company_pit,
+          indicates if asset was associated with program at any point of the company assignment window.\nLogic depends on
+          asset having an associated payout program or the asset company ID to be part of the OWN program. \nIf asset_own_flag
+          is false the asset is not part of the OWN program."
+      - name: asset_current_net_book_value
+        description: "Estimated net book value as derived from asset4000 or LAS system. \nThis is calculated at the asset
+          code level, so fleet_optimization models use an aggregated value at the asset_id level.\nThis measure should mirror
+          Finance's understanding of NBV better than the net_book_value_descriptive value used in dim_assets_fleet_opt.\n\
+          For sales, this is the NBV for the depreciation/report month of the sale date.\nFor dim_assets_fleet_opt, this is
+          the NBV for the most recent whole month (e.g. March 2025 will use the February 2025 depreciation/report date)."
+      - name: asset_deal_sales_flag
+        description: Logical column describing if asset has an associated deal from an OEM or not. Logic depends on list
+          of asset ids with associated deal (see seed_current_deal_table)
+      - name: asset_oem_deal_flag
+        description: Logical column describing if asset has an associated buyback deal from the OEM. Logic depends on 
+          list of asset ids with associated buyback (see seed_oem_buyback_table)
+      - name: asset_oef_deal_flag
+        description: "The OEF list comprises approximately 14,000 assets expected to reach a certain value in the future.\
+          \ \nThrough agreements with investors, these assets are involved in a structure similar to a lease, \nwhere rental
+          revenues are profit-shared until the assets are bought back at an unspecified future point. \nThese assets are generally
+          not intended for frequent sale, making their identification and flagging in dim_assets critical for operational
+          and tracking purposes.\nThis list was formerly known as the ABS list; name changed in Jan 2025."
+      - name: asset_has_operational_lease
+        description: Indicates if an asset has an operational lease. If so, the asset is not CapEx.
+      - name: asset_abs_flag
+        description: "Indicates if an asset is currently part of the asset-based security program. \nWhen used in dim_asset_company_pit,
+          indicates if asset was associated with program at any point of the company assignment window.\nCurrent logic includes
+          any assets affiliated with the Crockett Partners II or OWN Equipment Fund I payout programs."
+      - name: asset_abl_flag
+        description: "Indicates if an asset is part of the asset-based loan program. The program is a financing deal with
+          Capital One. \nEquipmentShare requires assets be owned by an 1854 branch and have been paid for in cash.\nCapital
+          One-financed assets are associated with the financial schedule id 2594.\nThe intermediary step filters a list of
+          assets that are associated with the program; the assets dimension includes a boolean flag if the asset is associated
+          with the program."
+      - name: asset_pie_flag
+        description: "PIE indicates Premiere Industrial Equipment, a company participating in the OWN program. \nLogic is
+          determined by company ID."
+      - name: is_asset_eligible_for_sale
+        description: "True or False value indicating if the asset is eligible for sale.\nIf the asset does not fall under
+          any exclusion or force inclusion rules, then we consider it to be eligible for sale."
+      - name: asset_floor_target_price
+        description: "In dim_assets_fleet_opt, a field that indicates the price based on team recommendations and type.\n\
+          Floor Target Price: \n--the minimum allowable sale price\n--sales personnel achieve 1% commission\n--typically represents
+          asset_current_net_book_value + 10%\nBench Target Price:\n--sales personnel achieve 4% commission\n--typically represents
+          predicted retail price from asset rate estimation model\nOnline Target Price:\n--sales personnel achieve 5% commission\n\
+          --typically represents predicted retail price from asset rate estimation model + 10%\n*note: formulas noted above
+          can differ from the stated value and are not calculated through dbt workflows"
+      - name: asset_bench_target_price
+        description: "In dim_assets_fleet_opt, a field that indicates the price based on team recommendations and type.\n\
+          Floor Target Price: \n--the minimum allowable sale price\n--sales personnel achieve 1% commission\n--typically represents
+          asset_current_net_book_value + 10%\nBench Target Price:\n--sales personnel achieve 4% commission\n--typically represents
+          predicted retail price from asset rate estimation model\nOnline Target Price:\n--sales personnel achieve 5% commission\n\
+          --typically represents predicted retail price from asset rate estimation model + 10%\n*note: formulas noted above
+          can differ from the stated value and are not calculated through dbt workflows"
+      - name: asset_online_target_price
+        description: "In dim_assets_fleet_opt, a field that indicates the price based on team recommendations and type.\n\
+          Floor Target Price: \n--the minimum allowable sale price\n--sales personnel achieve 1% commission\n--typically represents
+          asset_current_net_book_value + 10%\nBench Target Price:\n--sales personnel achieve 4% commission\n--typically represents
+          predicted retail price from asset rate estimation model\nOnline Target Price:\n--sales personnel achieve 5% commission\n\
+          --typically represents predicted retail price from asset rate estimation model + 10%\n*note: formulas noted above
+          can differ from the stated value and are not calculated through dbt workflows"
+      - name: asset_most_recent_pricing_date
+        description: ''
+      - name: asset_has_subsidy
+        description: "Represents asset that has an OEM-provided subsidy for sale of specific make/model combination. \nIn
+          dim_assets_fleet_opt, will be represented by boolean flag (asset_has_subsidy) indicating the asset's make/model
+          is eligible for a subsidy.\nCan also be represented as the subsidy value provided by the OEM based on the make/model.\n\
+          As of April 2025, Wacker Neuson skid steers and track loaders, and certain Sany excavators, are party to the subsidy.\
+          \ \nSee seed_asset_subsidy_models_and_values for most up-to-date list."
+      - name: asset_subsidy_value
+        description: "Represents asset that has an OEM-provided subsidy for sale of specific make/model combination. \nIn
+          dim_assets_fleet_opt, will be represented by boolean flag (asset_has_subsidy) indicating the asset's make/model
+          is eligible for a subsidy.\nCan also be represented as the subsidy value provided by the OEM based on the make/model.\n\
+          As of April 2025, Wacker Neuson skid steers and track loaders, and certain Sany excavators, are party to the subsidy.\
+          \ \nSee seed_asset_subsidy_models_and_values for most up-to-date list."
+      - name: asset_recordtimestamp
+        description: See documentation of platform's dim_assets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_assets

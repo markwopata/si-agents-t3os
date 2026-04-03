@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: employee_greenhouse_link
+    description: "Grab the latest greenhouse link for each employee."
+    config:
+      tags: ["branch_earnings", "hourly"]
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: greenhouse_application_id
+        description: "Unique id for the employee's application in Greenhouse"
+      - name: candidate_id
+        description: "Foreign key to greenhouse candidate table."
+      - name: greenhouse_link
+        description: "Link to employee's page in Greenhouse"

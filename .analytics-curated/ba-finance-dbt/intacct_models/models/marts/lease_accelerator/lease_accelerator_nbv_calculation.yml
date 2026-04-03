@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: lease_accelerator_nbv_calculation
+    description: >
+      this mart is used to calculate the ROUA, accumulated depreciation, and lease liability for LAS assets in a market.
+      The NBV is an estimate because buyout_price comes from Rouse and is itself an estimated resale value (since the actual buyout price isn’t available at calculation time)
+      Note: A LAS source data issue affected lease liabilities. Records dated before 2024-04-30 are incorrect and show positive lease liabilities.
+      For details, see: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance-dbt/-/merge_requests/647 https://equipmentshare.slack.com/archives/D0758NZ8KGE/p1747862864637229
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - starting_fiscal_period
+              - admin_asset_id
+    columns:
+      - name: starting_fiscal_period
+        description: ""
+
+      - name: lease
+        description: ""
+
+      - name: admin_asset_id
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: source
+        description: ""
+
+      - name: las_asset_id
+        description: ""
+
+      - name: serial_number
+        description: ""
+
+      - name: asset_cost_local
+        description: ""
+
+      - name: total_oec
+        description: ""
+
+      - name: oec_allocation
+        description: ""
+
+      - name: roua
+        description: ""
+
+      - name: accumulated_depreciation
+        description: ""
+
+      - name: lease_liability
+        description: ""
+        data_tests:
+          - dbt_utils.accepted_range:
+              max_value: 300
+              inclusive: false
+              config:
+                where: "starting_fiscal_period > '2025-04-30 00:00:00.000 Z'"
+        # Ensure lease liabilities are not positive (allowing a $300 margin) for records after 2024-04-30, when LAS resolved data issues.
+
+      - name: buyout_price
+        description: ""
+
+      - name: nbv_estimated_book_value
+        description: ""

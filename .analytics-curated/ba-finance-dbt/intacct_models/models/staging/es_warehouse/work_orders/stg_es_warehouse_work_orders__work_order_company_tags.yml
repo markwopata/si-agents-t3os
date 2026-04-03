@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_company_tags
+    description: Model for es_warehouse.work_orders.work_order_company_tags
+    columns:
+      - name: work_order_id
+        description: ""
+      - name: company_tag_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

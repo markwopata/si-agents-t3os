@@ -1,0 +1,103 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__api_media_request_logs
+    description: Model for es_warehouse.public.api_media_request_logs
+    columns:
+      - name: api_media_request_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: camera_id
+        description: ""
+      - name: camera_vendor_id
+        description: ""
+      - name: tracking_incident_id
+        description: ""
+      - name: tracking_incident_notification_log_id
+        description: ""
+      - name: feed_id
+        description: ""
+      - name: request_id
+        description: ""
+      - name: post_url
+        description: ""
+      - name: data
+        description: ""
+      - name: response
+        description: ""
+      - name: send_error_msg
+        description: ""
+      - name: requested_timestamp
+        description: ""
+      - name: acknowledged_timestamp
+        description: ""
+      - name: requester_user_id
+        description: ""
+      - name: response_status_code
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: data__recorderid
+        description: Extracted from json in column data (roughly data:recorderid)
+      - name: data__storage
+        description: Extracted from json in column data (roughly data:storage)
+      - name: data__cameraid
+        description: Extracted from json in column data (roughly data:cameraid)
+      - name: data__totime
+        description: Extracted from json in column data (roughly data:totime)
+      - name: data__gotodatetime
+        description: Extracted from json in column data (roughly data:gotodatetime)
+      - name: data__timestamp
+        description: Extracted from json in column data (roughly data:timestamp)
+      - name: data__title
+        description: Extracted from json in column data (roughly data:title)
+      - name: data__fromtime
+        description: Extracted from json in column data (roughly data:fromtime)
+      - name: data__camerachannel
+        description: Extracted from json in column data (roughly data:camerachannel)
+      - name: data__camera
+        description: Extracted from json in column data (roughly data:camera)
+      - name: data__duration
+        description: Extracted from json in column data (roughly data:duration)
+      - name: response__errortype
+        description: Extracted from json in column response (roughly response:errortype)
+      - name: response__exception__helplink
+        description: Extracted from json in column response (roughly response:exception:helplink)
+      - name: response__exception__message
+        description: Extracted from json in column response (roughly response:exception:message)
+      - name: response__moreinfo__servicestatus
+        description: Extracted from json in column response (roughly response:moreinfo:servicestatus)
+      - name: response__moreinfo__targetid
+        description: Extracted from json in column response (roughly response:moreinfo:targetid)
+      - name: response__exception
+        description: Extracted from json in column response (roughly response:exception)
+      - name: response__moreinfo
+        description: Extracted from json in column response (roughly response:moreinfo)
+      - name: response__moreinfo__requestid
+        description: Extracted from json in column response (roughly response:moreinfo:requestid)
+      - name: response__exception__data__traceid
+        description: Extracted from json in column response (roughly response:exception:data:traceid)
+      - name: response__exception__hresult
+        description: Extracted from json in column response (roughly response:exception:hresult)
+      - name: response__code
+        description: Extracted from json in column response (roughly response:code)
+      - name: response__message
+        description: Extracted from json in column response (roughly response:message)
+      - name: response__requestid
+        description: Extracted from json in column response (roughly response:requestid)
+      - name: response__exception__data
+        description: Extracted from json in column response (roughly response:exception:data)
+      - name: response__exception__innerexception
+        description: Extracted from json in column response (roughly response:exception:innerexception)
+      - name: response__moreinfo__source
+        description: Extracted from json in column response (roughly response:moreinfo:source)
+      - name: response__exception__source
+        description: Extracted from json in column response (roughly response:exception:source)
+      - name: response__exception__data__traceindex
+        description: Extracted from json in column response (roughly response:exception:data:traceindex)
+      - name: response__exception__stacktrace
+        description: Extracted from json in column response (roughly response:exception:stacktrace)

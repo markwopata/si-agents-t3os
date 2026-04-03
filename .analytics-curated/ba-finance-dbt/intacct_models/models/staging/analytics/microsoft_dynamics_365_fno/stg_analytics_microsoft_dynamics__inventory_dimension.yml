@@ -1,0 +1,104 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__inventory_dimension
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - inventdimid
+              - createddatetime
+    columns:
+      - name: id
+        description: ""
+
+      - name: inventbatchid
+        description: ""
+
+      - name: inventdimid
+        description: ""
+
+      - name: inventlocationid
+        description: ""
+
+      - name: inventserialid
+        description: ""
+
+      - name: inventsiteid
+        description: ""
+
+      - name: inventstatusid
+        description: ""
+
+      - name: licenseplateid
+        description: ""
+
+      - name: wmslocationid
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: recid
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: sha_1_hashhex
+        description: ""
+
+      - name: sha_3_hashhex
+        description: ""
+
+      - name: modifiedby
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: inventdimension_9
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: versionnumber
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

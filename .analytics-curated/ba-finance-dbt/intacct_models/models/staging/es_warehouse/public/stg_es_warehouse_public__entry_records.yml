@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__entry_records
+    description: Model for es_warehouse.public.entry_records
+    columns:
+      - name: entry_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: event_type_id
+        description: ""
+      - name: source_application_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: needs_revision
+        description: ""
+      - name: is_revision
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: job_id
+        description: ""
+      - name: note_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: previous_overtime_state
+        description: ""
+      - name: overtime_hours
+        description: ""
+      - name: regular_hours
+        description: ""
+      - name: approval_status
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

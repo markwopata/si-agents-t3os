@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__ideal
+    description: Unused as of 2025-10-16
+    columns:
+      - name: payment_method_id
+        description: "ID of the payment method associated with this iDEAL payment."
+        data_tests:
+          - not_null
+          - unique
+      - name: bank
+        description: "Bank used for the iDEAL payment."
+      - name: bic
+        description: "Bank Identifier Code (BIC)."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

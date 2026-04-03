@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__payout_balance_transaction
+    description: >
+      Table that contains the complete mapping between `payout_id` and `balance_transaction_id`.
+      The payout to balance_transaction relationship is 1:many.
+    meta:
+      documentation_url: https://docs.stripe.com/api/payouts
+    columns:
+      - name: payout_id
+        description: "Foreign key to payout.id"
+      - name: balance_transaction_id
+        description: "Foreign key to balance_transaction.id"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

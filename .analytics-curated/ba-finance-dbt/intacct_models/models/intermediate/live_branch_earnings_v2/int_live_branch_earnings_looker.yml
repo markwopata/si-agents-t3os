@@ -1,0 +1,80 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_looker
+    description: the live BE table that has line-level transactions
+    columns:
+      - name: pk_id
+        data_tests:
+          - unique
+        description: ""
+      - name: region
+        description: ""
+      - name: region_name
+        description: ""
+      - name: district
+        description: ""
+      - name: market_type
+        description: ""
+      - name: market_id
+        description: ""
+      - name: market_name
+        description: ""
+      - name: revenue_expense
+        description: ""
+      - name: segment
+        description: ""
+      - name: account_category_id
+        description: ""
+      - name: account_category
+        description: ""
+      - name: category_sort_order
+        description: ""
+      - name: account_number
+        description: ""
+      - name: account_name
+        description: ""
+      - name: gl_date
+        description: ""
+      - name: gl_month
+        description: ""
+      - name: filter_month
+        description: ""
+      - name: is_payroll_expense
+        description: ""
+      - name: is_overtime_wage
+        description: ""
+      - name: is_paid_delivery_revenue
+        description: ""
+      - name: is_delivery_expense_account
+        description: ""
+      - name: additional_data
+        description: ""
+      - name: description
+        description: ""
+      - name: transaction_number_format
+        description: ""
+      - name: transaction_number
+        description: ""
+      - name: source_model
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: url_concur
+        description: ""
+      - name: url_sage
+        description: ""
+      - name: url_t3
+        description: ""
+      - name: url_gitlab
+        description: ""
+      - name: market_greater_than_12_months
+        description: ""
+      - name: admin_only_data
+        description: ""
+      - name: original_equipment_cost
+        description: ""
+      - name: amount
+        description: ""
+      - name: timestamp
+        description: ""

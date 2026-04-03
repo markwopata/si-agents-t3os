@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_card_holder
+    description: ""
+    columns:
+      - name: employee_id
+        description: ""
+
+      - name: corporate_account_number
+        description: ""
+
+      - name: full_name
+        description: ""
+
+      - name: card_status
+        description: ""
+
+      - name: account_open_date
+        description: ""
+
+      - name: card_activation_date
+        description: ""
+
+      - name: card_closed_date
+        description: ""
+
+      - name: card_expiration_date
+        description: ""
+
+      - name: card_status_description
+        description: "Detailed description of the open or closed status of the card."
+
+      - name: account_open_or_closed_date
+        description: "cardholder status open or closed whether the card is open or closed."        

@@ -1,0 +1,23 @@
+select
+    c.cashdrawerlodgementid as cash_drawer_lodgement_id,
+    c.paymentmethodid as payment_method_id,
+    c.reference,
+    c.chequeamount as cheque_amount,
+    c.branchid as bt_branch_id,
+    c.cardamountincurrency as card_amount_in_currency,
+    c.cashamountincurrency as cash_amount_in_currency,
+    c.currencyid as currency_id,
+    c.cardamount as card_amount,
+    c.createdbyid as created_by_id,
+    c.chequeamountincurrency as cheque_amount_in_currency,
+    c.cashdrawerid as cash_drawer_id,
+    c.lodgementpostingdate as lodgement_posting_date,
+    c.bankreconcilliationid as bank_reconciliation_id,
+    c.reasonid as reason_id,
+    c.datetimecreated as datetime_created,
+    c.notes,
+    c.cashdrawertotalid as cash_drawer_total_id,
+    c.cashamount as cash_amount,
+    c._fivetran_deleted,
+    c._fivetran_synced
+from {{ source('analytics_bt_dbo', 'cashdrawerlodgement') }} as c

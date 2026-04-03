@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_payout_programs
+    description: Model for es_warehouse.public.v_payout_programs
+    columns:
+      - name: payout_program_assignment_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: payout_program_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: replaced_or_removed_reason
+        description: ""
+      - name: updated_by_user_id
+        description: ""
+      - name: payout_program_schedule_id
+        description: ""
+      - name: replaced_by_asset_id
+        description: ""
+      - name: payout_program_billing_type
+        description: ""
+      - name: payout_program_name
+        description: ""
+      - name: asset_payout_percentage
+        description: ""
+      - name: payout_program_type_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

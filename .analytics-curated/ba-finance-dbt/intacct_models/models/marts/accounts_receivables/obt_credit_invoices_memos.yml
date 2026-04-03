@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: obt_credit_invoices_memos
+    description:
+      "one big table joining customer dimensional and numerical info. includes customer's credit limit and aging
+      buckets\n"
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: market_id
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: created_by_user
+        description: ""
+      - name: list_of_salespersons
+        description: ""
+      - name: customer_credit_category
+        description: ""
+      - name: do_not_rent_flag
+        description: ""
+      - name: last_customer_payment_date
+        description: ""

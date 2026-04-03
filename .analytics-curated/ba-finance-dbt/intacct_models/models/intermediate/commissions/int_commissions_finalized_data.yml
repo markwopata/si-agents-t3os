@@ -1,0 +1,147 @@
+---
+version: 2
+models:
+  - name: int_commissions_finalized_data
+    description: Finalized commission data. Union of details final and manual adjustments.
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: invoice_no
+        description: ""
+      - name: order_id
+        description: ""
+      - name: order_date
+        description: ""
+      - name: market_id
+        description: ""
+      - name: market_name
+        description: ""
+      - name: parent_market_id
+        description: ""
+      - name: parent_market_name
+        description: ""
+      - name: region
+        description: ""
+      - name: region_name
+        description: ""
+      - name: district
+        description: ""
+      - name: ship_to_state
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: line_item_type
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: invoice_asset_make
+        description: ""
+      - name: invoice_class_id
+        description: ""
+      - name: invoice_class
+        description: ""
+      - name: rental_class_id_from_rental
+        description: ""
+      - name: rental_class_from_line_item
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: amount
+        description: ""
+      - name: email_address
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: full_name
+        description: ""
+      - name: employee_title
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: employee_manager_id
+        description: ""
+      - name: employee_manager
+        description: ""
+      - name: salesperson_type_id
+        description: ""
+      - name: salesperson_type
+        description: ""
+      - name: employee_type
+        description: ""
+      - name: secondary_rep_count
+        description: ""
+      - name: rate_tier_id
+        description: ""
+      - name: rate_tier_name
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: rental_date_created
+        description: ""
+      - name: rental_start_date
+        description: ""
+      - name: rental_billed_days
+        description: ""
+      - name: cheapest_period
+        description: ""
+      - name: quoted_rates
+        description: ""
+      - name: override_rate
+        description: ""
+      - name: is_exception
+        description: ""
+      - name: is_override
+        description: ""
+      - name: allocation_cost_center
+        description: ""
+      - name: commission_rate
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: billing_approved_date
+        description: ""
+      - name: split
+        description: ""
+      - name: transaction_type_id
+        description: ""
+      - name: is_payable
+        description: ""
+      - name: reimbursement_factor
+        description: ""
+      - name: credit_note_line_item_id
+        description: ""
+      - name: transaction_description
+        description: ""
+      - name: commission_month
+        description: ""
+      - name: commission_amount
+        description: ""
+      - name: paycheck_date
+        description: ""
+      - name: hidden
+        description: ""
+      - name: manual_adjustment_id
+        description: ""
+      - name: commission_type_id
+        description: ""

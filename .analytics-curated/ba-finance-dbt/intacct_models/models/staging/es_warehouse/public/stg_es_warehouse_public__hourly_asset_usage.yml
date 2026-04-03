@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__hourly_asset_usage
+    description: Model for es_warehouse.public.hourly_asset_usage
+    columns:
+      - name: asset_usage_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: on_time
+        description: ""
+      - name: hauled_time
+        description: ""
+      - name: hauling_time
+        description: ""
+      - name: idle_time
+        description: ""
+      - name: report_range
+        description: ""
+      - name: source_metadata
+        description: ""
+      - name: miles_driven
+        description: ""
+      - name: hauled_distance
+        description: ""
+      - name: hauling_distance
+        description: ""
+      - name: overspeed_duration
+        description: ""
+      - name: speeding_incident_count
+        description: ""
+      - name: aggressive_incident_count
+        description: ""
+      - name: impact_incident_count
+        description: ""
+      - name: idle_incident_count
+        description: ""
+      - name: trip_ids
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: report_range__end_bound
+        description: Extracted from json in column report_range (roughly report_range:end_bound)
+      - name: report_range__start_bound
+        description: Extracted from json in column report_range (roughly report_range:start_bound)
+      - name: report_range__end_range
+        description: Extracted from json in column report_range (roughly report_range:end_range)
+      - name: report_range__start_range
+        description: Extracted from json in column report_range (roughly report_range:start_range)
+      - name: source_metadata__trip_ids
+        description: Extracted from json in column source_metadata (roughly source_metadata:trip_ids)
+      - name: source_metadata__asset_idle_ids
+        description: Extracted from json in column source_metadata (roughly source_metadata:asset_idle_ids)

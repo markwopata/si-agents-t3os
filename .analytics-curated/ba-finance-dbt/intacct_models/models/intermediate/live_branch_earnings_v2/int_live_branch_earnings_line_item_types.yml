@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_line_item_types
+    description: "Model combines standard line item type erp refs with the overrides"
+    columns:
+      - name: line_item_type_id
+        description: "Foreign key to line item type, a negative integer indicates a cogs line item"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: intacct_gl_account_no
+        description: "Standard GL account number from Intacct for this line item type"
+        data_tests:
+          - not_null
+

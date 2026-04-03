@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__billing_providers
+    description: Model for es_warehouse.public.billing_providers
+    columns:
+      - name: billing_provider_id
+        description: "Unique identifier for the billing provider"
+        data_tests:
+          - unique
+      - name: _es_update_timestamp
+        description: "Timestamp the billing provider record was updated in snowflake"
+      - name: _es_load_timestamp
+        description: "Timestamp the billing provider record was loaded in snowflake"
+      - name: name
+        description: "Name of the billing provider"
+      - name: remit_location_id
+        description: "Identifier for the remit location"

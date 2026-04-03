@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: dim_customer
+    description: "a collection of data that describe ES customers\n"
+    columns:
+      - name: customer_id
+        description: "{{ doc('company_id') }}"
+        data_tests:
+          - "not_null"
+          - "unique"
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: customer_name
+        description: "Name of customer in admin."
+      - name: url_admin
+        description: "Link to customer page in admin."
+      - name: last_customer_payment_date
+        description: "Last payment date for customer."
+      - name: do_not_rent_flag
+        description: "Flag to indicate if we should not rent to this customer."
+      - name: created_by_user
+        description: "User who created the customer."

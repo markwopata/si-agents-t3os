@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__shipping_rate
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: active
+        description: ""
+      - name: display_name
+        description: ""
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: currency
+        description: ""
+      - name: type
+        description: ""
+      - name: created
+        description: ""
+      - name: delivery_estimate_maximum_unit
+        description: ""
+      - name: delivery_estimate_maximum_value
+        description: ""
+      - name: delivery_estimate_minimum_unit
+        description: ""
+      - name: delivery_estimate_minimum_value
+        description: ""
+      - name: livemode
+        description: ""
+      - name: tax_behavior
+        description: ""
+      - name: tax_code
+        description: ""
+      - name: _fivetran_synced
+        description: ""

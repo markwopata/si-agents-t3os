@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__dispute_balance_transaction
+    description: Model for analytics.stripe_vsg_resla_com.dispute_balance_transaction
+    columns:
+      - name: dispute_id
+        description: ""
+      - name: balance_transaction_id
+        description: ""
+      - name: _fivetran_synced
+        description: ""

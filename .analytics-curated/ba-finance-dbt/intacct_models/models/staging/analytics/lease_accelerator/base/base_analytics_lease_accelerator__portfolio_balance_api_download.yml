@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: base_analytics_lease_accelerator__portfolio_balance_api_download
+    description: cleaned and renamed model of analytics.lease_accelerator.portfolio_balance_api_download
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+                - deal_id
+                - cost_center
+                - account_number_and_name
+                - market_id
+                - starting_fiscal_period
+                - _es_update_timestamp
+    columns:
+      - name: ledger_id
+        description: ""
+
+      - name: deal_id
+        description: ""
+
+      - name: schedule
+        description: ""
+
+      - name: account_code
+        description: ""
+
+      - name: cost_center
+        description: ""
+
+      - name: gl_account_number
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: statement_sequencer
+        description: ""
+
+      - name: account_description
+        description: ""
+
+      - name: account_number_and_name
+        description: ""
+
+      - name: financial_statement
+        description: ""
+
+      - name: statement_section
+        description: ""
+
+      - name: gl_coding_convention
+        description: ""
+
+      - name: deal_status
+        description: ""
+
+      - name: entity
+        description: ""
+
+      - name: lessee
+        description: ""
+
+      - name: business_unit
+        description: ""
+
+      - name: currency_measured_in
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: functional_currency
+        description: ""
+
+      - name: ledgerlist
+        description: ""
+
+      - name: amount
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: month_end_date
+        description: ""
+
+      - name: as_at_date
+        description: >
+          to view changes made to the system/database as of a specific point in time. For example, you could set the As At Date to 12/31/2024 and see all the buyouts that occurred in December 2024
+
+      - name: starting_fiscal_period
+        description: >
+          the starting point in time that the data is being pulled from
+
+      - name: ending_fiscal_period
+        description: >
+          the ending point in time that the data is being pulled from
+
+      - name: _es_update_timestamp
+        description: ""

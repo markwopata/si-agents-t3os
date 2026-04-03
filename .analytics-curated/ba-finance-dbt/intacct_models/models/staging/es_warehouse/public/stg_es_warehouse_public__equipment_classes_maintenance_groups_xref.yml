@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__equipment_classes_maintenance_groups_xref
+    description: Model for es_warehouse.public.equipment_classes_maintenance_groups_xref
+    columns:
+      - name: equipment_classes_maintenance_groups_xref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: equipment_class_id
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

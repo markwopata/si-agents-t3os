@@ -1,0 +1,34 @@
+---
+version: 2
+sources:
+  - name: analytics_vsg_postgres__public
+    tags:
+      - sources
+    database: analytics
+    schema: vsg_postgres__public
+    description: >
+      Resla's supabase postgres database for reservations and related data. Streamed into Snowflake via Fivetran
+    meta:
+      generated_from: Fivetran
+      url: https://fivetran.com/dashboard/connections/introduce_loudly/schema?groupId=revisable_roamed&service=postgres
+    tables:
+      - name: reservations
+        description: "Reservations for rentals from HQ rental, Turo, and their home grown platform."
+      - name: locations
+        description: "Physical addresses for pickup/delivery/branches"
+      - name: vehicles
+        description: "List of vehicles"
+      - name: transactions
+        description: ""
+      - name: regions
+        description: "This is a list of their branches"
+      - name: models
+        description: "Models contains information about the vehicle models."
+
+      - name: vehicle_rack_rates
+        identifier: vehiclerackrates
+        description: >
+          determines the rack rate (starting, standard rental price) depending on the date. The rack rate transactions are initialized with the dynamic pricing.
+          Every VIN in the system has a dynamic rack rate, even when it is not on rent.
+        meta:
+          more_context: https://equipmentshare.slack.com/archives/C0A9LJNRARW/p1769442222858279

@@ -1,0 +1,80 @@
+---
+version: 2
+models:
+  - name: dds_job_run_history_latest_v
+    description: >
+      Latest record per `dds_job_number` from `stg_analytics_intacct__etl__dds_job_run_history`, based on the most recent
+      `_es_update_timestamp`.
+    config:
+      materialized: view
+      schema: intacct__etl
+    columns:
+      - name: dds_job_number
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: object
+        description: ""
+      - name: job_type
+        description: ""
+      - name: run_by
+        description: ""
+      - name: queue_time
+        description: ""
+      - name: start_time
+        description: ""
+      - name: end_time
+        description: ""
+      - name: record_created
+        description: ""
+      - name: record_updated
+        description: ""
+      - name: record_deleted
+        description: ""
+      - name: status
+        description: ""
+      - name: error
+        description: ""
+      - name: file_list
+        description: ""
+      - name: file_count
+        description: ""
+      - name: params
+        description: ""
+      - name: params__file_configuration
+        description: ""
+      - name: params__file_configuration__delimiter
+        description: ""
+      - name: params__file_configuration__file_format
+        description: ""
+      - name: params__file_configuration__include_headers
+        description: ""
+      - name: params__file_configuration__compress
+        description: ""
+      - name: params__file_configuration__enclosure
+        description: ""
+      - name: params__cloud_delivery
+        description: ""
+      - name: params__job_type
+        description: ""
+      - name: params__file_configuration__split_size
+        description: ""
+      - name: params__objects
+        description: ""
+      - name: params__synchronized
+        description: ""
+      - name: filters
+        description: ""
+      - name: level
+        description: ""
+      - name: fields
+        description: ""
+      - name: dds_job_name
+        description: ""
+      - name: subscription_key
+        description: ""
+      - name: dds_history_key
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

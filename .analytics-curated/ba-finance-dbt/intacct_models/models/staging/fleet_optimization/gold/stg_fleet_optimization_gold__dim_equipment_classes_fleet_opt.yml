@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_equipment_classes_fleet_opt
+    description: Model for fleet_optimization.gold.dim_equipment_classes_fleet_opt
+    columns:
+      - name: equipment_class_key
+        description: Hashed key consisting of equipment_class_id and name. Used as a primary key of the 
+          dim_equipment_classes_fleet_opt table
+        data_tests:
+          - unique
+      - name: equipment_class_id
+        description: Unique identifier for each equipment class in the dim_equipment_classes_fleet_opt table. Can be 
+          numeric (equipment_class_id) or string (equipment_class_key)
+      - name: equipment_class_name
+        description: Text name of the equipment class
+      - name: equipment_class_description
+        description: Description of equipment class
+      - name: business_segment_id
+        description: "Refers to the foreign key ID or name for the business segment associated with the class.\nBusiness segment
+          is a type of EquipmentShare branch (e.g. Advanced, Gen Rental, ITL), or, if not assigned, N/A."
+      - name: business_segment_name
+        description: "Refers to the foreign key ID or name for the business segment associated with the class.\nBusiness segment
+          is a type of EquipmentShare branch (e.g. Advanced, Gen Rental, ITL), or, if not assigned, N/A."
+      - name: equipment_class_category_id
+        description: "Refers to the two-level hierarchy (category, sub-category) associated with the asset's equipment class.\
+          \ \nThere may be differences between asset and class category/sub-category due to data discrepancy errors at source."
+      - name: sub_category_id
+        description: "Refers to the two-level hierarchy (category, sub-category) associated with the asset's equipment class.\
+          \ \nThere may be differences between asset and class category/sub-category due to data discrepancy errors at source."
+      - name: sub_category_name
+        description: "Refers to the two-level hierarchy (category, sub-category) associated with the asset's equipment class.\
+          \ \nThere may be differences between asset and class category/sub-category due to data discrepancy errors at source."
+      - name: parent_category_id
+        description: "Refers to the two-level hierarchy (category, sub-category) associated with the asset's equipment class.\
+          \ \nThere may be differences between asset and class category/sub-category due to data discrepancy errors at source."
+      - name: parent_category_name
+        description: "Refers to the two-level hierarchy (category, sub-category) associated with the asset's equipment class.\
+          \ \nThere may be differences between asset and class category/sub-category due to data discrepancy errors at source."
+      - name: is_equipment_class_rentable
+        description: True of False flag indicating if the equipment class is rentable or not
+      - name: is_equipment_class_ideal_current_quarter
+        description: True of False flag indicating if the equipment class is ideal for the first quarter or not
+      - name: is_equipment_class_ideal_previous_quarter
+        description: True of False flag indicating if the equipment class is ideal for the previous quarter or not
+      - name: is_equipment_class_ideal_all_four_quarters
+        description: True of False flag indicating if the equipment class is ideal for the past four quarters or not

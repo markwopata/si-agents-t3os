@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__disputes
+    description: ""
+    columns:
+      - name: dispute_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: requested_by_user_id
+        description: ""
+      - name: date_resolved
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: _es_load_timestamp
+        description: ""

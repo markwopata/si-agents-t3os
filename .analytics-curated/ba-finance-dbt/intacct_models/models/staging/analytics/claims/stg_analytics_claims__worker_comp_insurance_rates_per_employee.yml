@@ -1,0 +1,40 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_claims__worker_comp_insurance_rates_per_employee
+    description: >
+      "List of Workers Compensation insurance rates per employee calculated based on claims data and 
+      employee count. This table is used to allocate insurance costs to branches and is filtered by the latest update timestamp per policy period."
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - lower_bound
+            - policy_period_start  
+
+    columns:
+      - name: lower_bound
+        description: ""
+
+      - name: upper_bound
+        description: ""
+
+      - name: per_employee_rate
+        description: ""
+
+      - name: per_employee_rate_monthly
+        description: "Monthly rate calculated by dividing the annual per_employee_rate by 12."
+
+      - name: policy_period_start
+        description: ""
+
+      - name: policy_period_end
+        description: ""
+
+      - name: branch_earnings_month
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""
+        

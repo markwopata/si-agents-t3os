@@ -1,0 +1,56 @@
+models:
+  - name: stg_analytics_lease_accelerator__leasing_summary_api_download
+    description: >
+      the most recent downloaded report of LAS' Leasing Summary Report
+    # Skipping test because this data is at the asset level but lacks unique asset identifiers
+    columns:
+      - name: schedule_number
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: funder
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: cost_center
+        description: ""
+
+      - name: equipment_value_reporting_currency
+        description: ""
+
+      - name: equipment_value_local
+        description: ""
+
+      - name: lease_rate_factor
+        description: ""
+
+      - name: equipment_value
+        description: ""
+
+      - name: total_rent_reporting_currency
+        description: ""
+
+      - name: total_rent_local
+        description: ""
+
+      - name: term
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: booking_ledger_date
+        description: ""
+
+      - name: rental_start
+        description: ""
+
+      - name: rental_end
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""

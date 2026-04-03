@@ -1,0 +1,20 @@
+---
+version: 2
+
+models:
+  - name: trending_be_snapshot
+    description: >
+      This model captures metadata for the trending BE model, identifying PK changes between consecutive snapshots.
+    config:
+      materialized: "incremental"
+      unique_key: ["pk_id", "timestamp", "snapshot_day"]
+      enabled: true
+      tags: ["daily", "branch_earnings"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - pk_id
+              - timestamp
+              - snapshot_day

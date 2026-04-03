@@ -1,0 +1,70 @@
+---
+version: 2
+models:
+  - name: int_cip_budget_v_actual_summary
+    description: >
+      Summary of Construction in Progress budgets vs. actuals, joined to project, market, and division details.
+      Actuals that aren't classified are also included. This model is at a project-division code level.
+    config:
+      materialized: view
+      tags: ["construction", "cip"]
+    columns:
+      - name: pk_id
+        description: "Primary key for the summary row, composed of project_code, market_id, and division_code."
+        data_tests:
+          - unique
+          - not_null
+      - name: project_id
+        description: "Project identifier. Foreign key to cip_projects"
+      - name: project_code
+        description: "Project code."
+      - name: description
+        description: "Project description."
+      - name: market_id
+        description: "Market identifier. Foreign key to es_warehouse.markets"
+      - name: market_name
+        description: "Market name."
+      - name: is_active_project
+        description: "Indicates if the market is an active project (true/false)."
+      - name: launch_phase
+        description: "Launch phase of the project."
+      - name: address
+        description: "Market address, or fallback to master markets if not entered in T3."
+      - name: url_drive
+        description: "URL to the market's Google Drive folder."
+      - name: close_date
+        description: "Market close date."
+      - name: possession_date
+        description: "Market possession date."
+      - name: target_construction_completion_date
+        description: "Target construction completion date."
+      - name: bor_date
+        description: "Basic operational readiness completed date."
+      - name: days_to_open
+        description: "Days between possession date and BOR date."
+      - name: days_to_completion
+        description: "Days between possession date and target construction completion date."
+      - name: market_grouping
+        description: "Market grouping name."
+      - name: cpm_project_completion_date
+        description: "CPM project completion date."
+      - name: cpm
+        description: "Construction project manager name."
+      - name: email_unified
+        description: "Unified email address (coalesced from various sources)."
+      - name: cpm_hire_date
+        description: "Construction project manager hire date."
+      - name: division_code
+        description: "Division code."
+      - name: division_name
+        description: "Division name."
+      - name: budget_amount
+        description: "Budgeted amount for the project/division."
+      - name: actual_amount
+        description: "Actual amount spent for the project/division."
+      - name: committed_amount
+        description: "Committed amount per market."
+      - name: budget_delta
+        description: "Difference between budget and actual (budget - actual)."
+      - name: is_multi_cpm
+        description: "Boolean indicating if there are multiple construction project managers."

@@ -1,0 +1,105 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__invoice_line
+    description: invoice line items with details for each line in an invoice, including tax, settlement amounts, and product details.
+    tags: [bisTrack]
+    columns:
+      - name: invoice_line_id
+        description: "Unique identifier for the invoice line."
+      - name: vat_amount
+        description: "Value-added tax amount for the invoice line."
+      - name: settlement_amount_in_currency
+        description: "Settlement amount in the transaction currency."
+      - name: description
+        description: "Description of the invoice line item."
+      - name: settlement_discount
+        description: "Discount applied to the settlement of the invoice line."
+      - name: vat_amount_in_currency
+        description: "VAT amount in the transaction currency."
+      - name: tax_group_id
+        description: "Identifier for the tax group applied to the invoice line."
+      - name: vmi_rule_id
+        description: "Identifier for the VMI (Vendor Managed Inventory) rule."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: unit_amount
+        description: "Unit amount for the invoice line item."
+      - name: per_id
+        description: "Identifier for the unit of measure."
+      - name: total_tax_in_currency
+        description: "Total tax amount in the transaction currency."
+      - name: line_number
+        description: "Line number of the invoice."
+      - name: total_cost
+        description: "Total cost for the invoice line."
+      - name: quantity_credited
+        description: "Quantity credited for the invoice line."
+      - name: item_number
+        description: "Item number for the product or service."
+      - name: tax_codes
+        description: "Tax codes applied to the invoice line."
+      - name: total_tax
+        description: "Total tax amount for the invoice line."
+      - name: delivery_note_line_id
+        description: "Identifier for the related delivery note line."
+      - name: order_line_id
+        description: "Identifier for the related order line."
+      - name: manual_charge_amount_in_currency_credited
+        description: "Manual charge amount credited in the transaction currency."
+      - name: datetime_created
+        description: "Timestamp when the invoice line was created."
+      - name: internal_cost_total_margin
+        description: "Total margin based on internal cost."
+      - name: line_type
+        description: "Type of the invoice line (e.g., product, service, charge)."
+      - name: non_sales_amount_in_currency
+        description: "Non-sales amount in the transaction currency."
+      - name: notes
+        description: "Additional notes or comments for the invoice line."
+      - name: total_vmi_cost_in_currency
+        description: "Total VMI (Vendor Managed Inventory) cost in the transaction currency."
+      - name: settlement_amount
+        description: "Settlement amount for the invoice line."
+      - name: sales_analysis_code_id
+        description: "Identifier for the sales analysis code."
+      - name: total_reporting_cost
+        description: "Total reporting cost for the invoice line."
+      - name: picking_note_line_id
+        description: "Identifier for the related picking note line."
+      - name: non_sales_amount
+        description: "Non-sales amount for the invoice line."
+      - name: unit_amount_in_currency
+        description: "Unit amount in the transaction currency."
+      - name: quantity
+        description: "Quantity for the invoice line."
+      - name: product_id
+        description: "Identifier for the product."
+      - name: total_amount_in_currency
+        description: "Total amount in the transaction currency."
+      - name: total_amount
+        description: "Total amount for the invoice line."
+      - name: invoice_id
+        description: "Identifier for the related invoice."
+      - name: exported_to_data_warehouse
+        description: "Indicates if the invoice line was exported to the data warehouse."
+      - name: total_weight
+        description: "Total weight for the invoice line."
+      - name: total_vmi_cost
+        description: "Total VMI (Vendor Managed Inventory) cost."
+      - name: created_by_id
+        description: "Identifier for the user who created the invoice line."
+      - name: vat_rate_id
+        description: "Identifier for the VAT rate."
+      - name: total_volume
+        description: "Total volume for the invoice line."
+      - name: total_margin
+        description: "Total margin for the invoice line."
+      - name: punch_card_coupon_id
+        description: "Identifier for the punch card coupon applied."
+      - name: vmi_exchange_rate
+        description: "Exchange rate for VMI (Vendor Managed Inventory) transactions."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

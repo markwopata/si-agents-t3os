@@ -1,0 +1,22 @@
+SELECT
+    vcr.make,
+    vcr.model,
+    vcr.class,
+    vcr.asset_id,
+    vcr.rental_start_date,
+    vcr.billing_days_remaining,
+    vcr.days_rented,
+    vcr.next_cycle,
+    vcr.end_date,
+    vcr.rental_id,
+    vcr.reference,
+    vcr.nickname,
+    vcr.street,
+    vcr.city,
+    vcr.state,
+    vcr.zip_code,
+    vcr.price_per_day,
+    vcr.price_per_week,
+    vcr.price_per_month,
+    vcr.invoiced
+FROM {{ source('es_warehouse_public', 'v_current_rental') }} as vcr

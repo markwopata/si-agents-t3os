@@ -1,0 +1,183 @@
+---
+version: 2
+
+models:
+  - name: retail_sales_quotes
+    description: >
+        Retail Sales Quotes Model. This model contains all the quotes related to retail sales.
+    config:
+      tags: ["retail_sales"]
+    columns:
+      - name: quote_pk_id
+        description: >
+          The primary key for the record.
+        data_tests:
+          - not_null
+          - unique
+      - name: quote_id
+        description: >
+          The id for the record. This is unique because we are only capturing the most recent version of the quote.
+        data_tests:
+          - not_null
+          - unique
+      - name: _es_update_timestamp
+        description: >
+          Timestamp when the record was last updated in the source system.
+      - name: _es_load_timestamp
+        description: >
+          Timestamp when the record was loaded into the data warehouse.
+      - name: created_at
+        description: >
+          Timestamp when the quote was created.
+      - name: estimated_delivery_date
+        description: >
+          The estimated date for delivery of the quoted assets.
+      - name: gm_dsm_approved_at
+        description: >
+          Timestamp when the quote was approved by GM/DSM.
+      - name: is_deleted
+        description: >
+          Boolean flag indicating if the quote has been deleted.
+      - name: saas_taxable
+        description: >
+          Boolean flag indicating if the quote is subject to SaaS taxes.
+      - name: company_id
+        description: >
+          The ID of the company associated with the quote.
+      - name: salesperson_user_id
+        description: >
+          The user ID of the salesperson who created the quote.
+      - name: secondary_salesperson_user_id
+        description: >
+          The user ID of the secondary salesperson responsible for the quote. Foreign key to the users table.
+      - name: market_id
+        description: >
+          The ID of the market where the quote was created.
+      - name: delivery_zip_code
+        description: >
+          The zip code for delivery of the quoted assets.
+      - name: invoice_id
+        description: >
+          The invoice ID if the quote has been converted to an invoice.
+      - name: payment_method
+        description: "{{ doc('retail_sales_payment_method') }}"
+      - name: delivery_location_id
+        description: >
+          The ID of the delivery location.
+      - name: down_payment
+        description: >
+          The down payment amount for the quote.
+      - name: fuel_surcharge
+        description: >
+          The fuel surcharge amount applied to the quote.
+      - name: other_tax
+        description: >
+          Other tax amounts applied to the quote.
+      - name: tax_amount
+        description: >
+          The total tax amount for the quote.
+      - name: delivery_latitude
+        description: >
+          The latitude coordinate for the delivery location.
+      - name: delivery_longitude
+        description: >
+          The longitude coordinate for the delivery location.
+      - name: payment_method
+        description: >
+          The payment method selected for the quote.
+      - name: delivery_state
+        description: >
+          The state for delivery of the quoted assets.
+      - name: denial_reason
+        description: >
+          The reason for denial if the quote was denied.
+      - name: delivery_street_1
+        description: >
+          The primary street address for delivery.
+      - name: delivery_street_2
+        description: >
+          The secondary street address for delivery.
+      - name: delivery_city
+        description: >
+          The city for delivery of the quoted assets.
+      - name: status
+        description: >
+          The current status of the quote (e.g., draft, pending, complete, denied).
+      - name: created_by
+        description: >
+          The user who created the quote.
+      - name: sales_folder_url
+        description: >
+          URL to the sales folder containing quote documentation.
+      - name: billing_provider
+        description: >
+          The billing provider for the quote.
+      - name: internal_note
+        description: >
+          Internal notes related to the quote.
+      - name: company_name
+        description: >
+          The name of the company associated with the quote.
+      - name: customer_phone_number
+        description: >
+          The customer's phone number.
+      - name: customer_email_address
+        description: >
+          The customer's email address.
+      - name: customer_denial_category
+        description: >
+          The category of denial from the customer's perspective.
+      - name: customer_notes
+        description: >
+          Notes provided by the customer.
+      - name: type_of_sale
+        description: >
+          The type of sale (e.g., retail, wholesale).
+      - name: gm_dsm_approved_by
+        description: >
+          The user who approved the quote at GM/DSM level.
+      - name: version_rank
+        description: >
+          The ranking of quote versions, with 1 being the most recent.
+      - name: is_current
+        description: >
+          Boolean flag indicating if this is the current/latest version of the quote.
+      - name: quote_created_at
+        description: >
+          The timestamp when the quote was first created (earliest version).
+      - name: quote_completed_at
+        description: >
+          The timestamp when the quote was completed.
+      - name: days_to_complete
+        description: >
+          The number of days it took to complete the quote from creation to complete status.
+      - name: asset_count
+        description: >
+          The total number of assets included in the quote.
+      - name: total_price
+        description: >
+          The total price of all assets and additional items in the quote.
+      - name: total_cost
+        description: >
+          The total cost of all assets and additional items in the quote.
+      - name: total_rebate
+        description: >
+          The total rebate amount for all assets in the quote.
+      - name: total_margin
+        description: >
+          The total margin (price - (cost - rebate)) for all assets in the quote.
+      - name: salesperson_name
+        description: >
+          The full name of the salesperson (first name + last name).
+      - name: salesperson_email
+        description: >
+          The email address of the salesperson.
+      - name: market_name
+        description: >
+          The name of the child market where the quote was created.
+      - name: parent_market_id
+        description: >
+          The ID of the parent market.
+      - name: parent_market_name
+        description: >
+          The name of the parent market.

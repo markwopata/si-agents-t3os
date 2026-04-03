@@ -1,0 +1,23 @@
+SELECT
+    dv.vendor_key,
+    dv.vendor_sage_id,
+    dv.vendor_original_name,
+    dv.vendor_non_dba_name,
+    dv.vendor_dba_names,
+    dv.vendor_legal_name,
+    dv.vendor_parent_name,
+    dv.vendor_type,
+    dv.vendor_payment_term,
+    dv.vendor_category,
+    dv.vendor_is_related_party,
+    dv.vendor_created_date_in_sage,
+    dv.vendor_updated_date_in_sage,
+    dv.vendor_intacct_user_creating_record,
+    dv.vendor_intacct_user_updating_record,
+    dv.vendor_data_source,
+    dv.vendor_most_recent_payment_date,
+    dv.vendor_is_active_in_intacct,
+    dv.vendor_is_not_coded_as_vendor,
+    dv.vendor_company_key,
+    dv.vendor_recordtimestamp
+FROM {{ source('fleet_optimization_gold', 'dim_vendors') }} as dv

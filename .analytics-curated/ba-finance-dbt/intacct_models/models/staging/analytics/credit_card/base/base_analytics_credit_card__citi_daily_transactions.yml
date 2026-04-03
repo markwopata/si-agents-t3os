@@ -1,0 +1,35 @@
+---
+version: 2
+
+models:
+  - name: base_analytics_credit_card__citi_daily_transactions
+    description: cleaned and renamed model of analytics.credit_card.citi_daily_transactions
+    columns:
+      - name: employee_id
+        description: ""
+      - name: transaction_id
+        data_tests:
+          - unique
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: full_name
+        description: ""
+      - name: transaction_amount
+        description: ""
+      - name: merchant_name
+        description: ""
+      - name: card_type
+        description: ""
+      - name: mcc_code
+        description: ""
+      - name: corporate_account_number
+        description: ""
+      - name: is_bypass_verification
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: last_4_card_digits
+        description: "Last 4 digits of the credit card used in the transaction."

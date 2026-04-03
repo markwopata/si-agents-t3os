@@ -1,0 +1,82 @@
+---
+version: 2
+models:
+  - name: fleet_ops_lsd_board
+    description: "Lost/Stolen/Destroyed Fleet Ops Monday board exposed as a table."
+    meta:
+      point_of_contact: Kimberly Johnson
+      owner: "@nick.logan"
+      monday_board_url: https://equipmentshare.monday.com/boards/6737047445
+    columns:
+      - name: item_id
+        description: "Unique identifier of the item (row) on the Monday board."
+        data_tests:
+          - unique
+      - name: serial_number
+        description: "Numeric count or quantity."
+      - name: fleet_inbox
+        description: "Field from Monday board: fleet inbox."
+      - name: days_since_quote_sent
+        description: "Field from Monday board: days since quote sent."
+      - name: customer_name
+        description: "Name/title for customer name."
+      - name: lsd_insurance
+        description: "Field from Monday board: lsd insurance."
+      - name: customer_quote_needed
+        description: "Customer or account reference."
+      - name: total_days
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: today
+        description: "Field from Monday board: today."
+      - name: customer_signed_quote
+        description: "Customer or account reference."
+      - name: fmv_quote
+        description: "Field from Monday board: fmv quote."
+      - name: sales_invoice_number
+        description: "Numeric count or quantity."
+      - name: make
+        description: "Field from Monday board: make."
+      - name: model
+        description: "Field from Monday board: model."
+      - name: date_complete
+        description: "Field from Monday board: date complete."
+      - name: date_of_incident
+        description: "Field from Monday board: date of incident."
+      - name: assets_owner
+        description: "Assignment/owner field (person or team)."
+      - name: gm_email
+        description: "Email address."
+      - name: fmv_needed
+        description: "Field from Monday board: fmv needed."
+      - name: documents_and_photos
+        description: "Field from Monday board: documents and photos."
+      - name: tam_email
+        description: "Email address."
+      - name: person
+        description: "Field from Monday board: person."
+      - name: overall_status
+        description: "Status or state for overall status."
+      - name: name
+        description: "Name/title for name."
+      - name: ins_file_notes
+        description: "Freeform notes or description for ins file notes."
+      - name: report_date
+        description: "Date associated with report."
+      - name: location_of_incident
+        description: "Field from Monday board: location of incident."
+      - name: non_insurance_status
+        description: "Status or state for non insurance status."
+      - name: type_of_loss
+        description: "Field from Monday board: type of loss."
+      - name: asset_year
+        description: "Field from Monday board: asset year."
+      - name: customer_quote
+        description: "Customer or account reference."
+      - name: sales_invoice_status
+        description: "Status or state for sales invoice status."
+      - name: yard_location
+        description: "Field from Monday board: yard location."
+      - name: date_customer_quote_sent_to_yard
+        description: "Customer or account reference."
+      - name: subitems
+        description: "Field from Monday board: subitems."

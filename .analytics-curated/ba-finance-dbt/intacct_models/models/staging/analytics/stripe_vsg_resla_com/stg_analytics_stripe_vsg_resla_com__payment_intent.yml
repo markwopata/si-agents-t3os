@@ -1,0 +1,129 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__payment_intent
+    description:
+      A PaymentIntent guides you through collecting a payment from your customer. We
+      recommend creating exactly one PaymentIntent for each order or customer session in
+      your system. You can reference the PaymentIntent later to see the history of
+      payment attempts for a particular session.
+
+      A PaymentIntent transitions through multiple statuses throughout its lifetime as
+      it interfaces with Stripe.js to perform authentication flows and ultimately creates at
+      most one successful charge.
+    meta:
+      documentation_url: https://docs.stripe.com/api/payment_intents
+    columns:
+      - name: id
+        description: "Unique identifier for the PaymentIntent."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with this PaymentIntent."
+      - name: payment_method_types
+        description: "List of allowed payment method types for this PaymentIntent."
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: amount_capturable_in_cents
+        description: "Amount capturable in cents."
+      - name: amount_capturable
+        description: "Amount capturable in dollars (amount_capturable_in_cents / 100.0)."
+      - name: amount_received_in_cents
+        description: "Amount received in cents."
+      - name: amount_received
+        description: "Amount received in dollars (amount_received_in_cents / 100.0)."
+      - name: application
+        description: "ID of the Connect application that created the PaymentIntent."
+      - name: application_fee_amount
+        description: "Amount of the application fee, if any."
+      - name: canceled_at
+        description: "Time at which the PaymentIntent was canceled (when status=canceled)."
+      - name: cancellation_reason
+        description: "Reason the PaymentIntent was canceled."
+      - name: capture_method
+        description: "When funds are captured from the customer's account."
+      - name: confirmation_method
+        description: "Whether the PaymentIntent is confirmed automatically or manually."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the PaymentIntent, useful for display."
+      - name: last_payment_error_type
+        description: ""
+      - name: last_payment_error_code
+        description: ""
+      - name: last_payment_error_decline_code
+        description: ""
+      - name: last_payment_error_doc_url
+        description: ""
+      - name: last_payment_error_message
+        description: ""
+      - name: last_payment_error_param
+        description: ""
+      - name: last_payment_error_source_id
+        description: ""
+      - name: last_payment_error_charge_id
+        description: ""
+      - name: livemode
+        description: "Indicates if this is a test PaymentIntent."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: on_behalf_of
+        description: "The account on whose behalf the payment is made."
+      - name: receipt_email
+        description: "Email that the receipt for the resulting payment will be sent to."
+      - name: statement_descriptor
+        description: "Complete statement descriptor for non-card charges."
+      - name: status
+        description: "Status of the PaymentIntent."
+      - name: transfer_data_destination
+        description: "ID of the destination account for funds transfer."
+      - name: transfer_group
+        description: "A string identifying this transaction as part of a group."
+      - name: payment_method_id
+        description: "ID of the payment method used in this PaymentIntent."
+      - name: customer_id
+        description: "ID of the Customer this PaymentIntent belongs to, if any."
+      - name: source_id
+        description: "ID of the legacy payment source, if used."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: metadata__customer_name
+        description: Extracted from json in column metadata (roughly metadata:customer_name)
+      - name: metadata__email
+        description: Extracted from json in column metadata (roughly metadata:email)
+      - name: metadata__total_insurances
+        description: Extracted from json in column metadata (roughly metadata:total_insurances)
+      - name: metadata__pick_up_location
+        description: Extracted from json in column metadata (roughly metadata:pick_up_location)
+      - name: metadata__brand
+        description: Extracted from json in column metadata (roughly metadata:brand)
+      - name: metadata__return_date
+        description: Extracted from json in column metadata (roughly metadata:return_date)
+      - name: metadata__total_taxes
+        description: Extracted from json in column metadata (roughly metadata:total_taxes)
+      - name: metadata__phone
+        description: Extracted from json in column metadata (roughly metadata:phone)
+      - name: metadata__pick_up_date
+        description: Extracted from json in column metadata (roughly metadata:pick_up_date)
+      - name: metadata__total_extras
+        description: Extracted from json in column metadata (roughly metadata:total_extras)
+      - name: metadata__total_price
+        description: Extracted from json in column metadata (roughly metadata:total_price)
+      - name: metadata__total_revenue
+        description: Extracted from json in column metadata (roughly metadata:total_revenue)
+      - name: metadata__return_location
+        description: Extracted from json in column metadata (roughly metadata:return_location)
+      - name: metadata__total_rack_rate
+        description: Extracted from json in column metadata (roughly metadata:total_rack_rate)
+      - name: metadata__prefixed_id
+        description: Extracted from json in column metadata (roughly metadata:prefixed_id)
+      - name: metadata__transaction_type
+        description: Extracted from json in column metadata (roughly metadata:transaction_type)
+      - name: metadata__vehicle
+        description: Extracted from json in column metadata (roughly metadata:vehicle)

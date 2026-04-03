@@ -1,0 +1,160 @@
+version: 2
+models:
+  - name: stg_analytics_commission__commission_details_final
+    description: "Final commission details table containing all commission-related information including sales, employee, and transaction details"
+    columns:
+      - name: commission_id
+        description: "Unique identifier for each commission record"
+        data_tests:
+          - unique
+          - not_null
+      - name: line_item_id
+        description: "ID of the associated invoice line item"
+      - name: salesperson_user_id
+        description: "User ID of the salesperson who earned the commission"
+      - name: invoice_id
+        description: "ID of the associated invoice"
+      - name: invoice_no
+        description: "Invoice number for reference"
+      - name: order_id
+        description: "ID of the associated order"
+      - name: order_date
+        description: "Date when the order was placed"
+      - name: market_id
+        description: "ID of the market where the sale occurred"
+      - name: market_name
+        description: "Name of the market"
+      - name: parent_market_id
+        description: "ID of the parent market"
+      - name: parent_market_name
+        description: "Name of the parent market"
+      - name: region
+        description: "Region ID"
+      - name: region_name
+        description: "Name of the region"
+      - name: district
+        description: "District name"
+      - name: ship_to_state
+        description: "State where the order was shipped"
+      - name: company_id
+        description: "ID of the customer company"
+      - name: company_name
+        description: "Name of the customer company"
+      - name: line_item_type_id
+        description: "ID of the line item type"
+      - name: line_item_type
+        description: "Type of line item"
+      - name: asset_id
+        description: "ID of the associated asset"
+      - name: invoice_asset_make
+        description: "Make of the asset on the invoice"
+      - name: invoice_class_id
+        description: "ID of the invoice class"
+      - name: invoice_class
+        description: "Class of the invoice"
+      - name: rental_class_id_from_rental
+        description: "Rental class ID from rental record"
+      - name: rental_class_from_line_item
+        description: "Rental class from line item"
+      - name: line_item_amount
+        description: "Amount of the line item"
+      - name: amount
+        description: "Commission amount before applying rates and splits"
+      - name: email_address
+        description: "Email address of the salesperson"
+      - name: employee_id
+        description: "Employee ID of the salesperson"
+      - name: full_name
+        description: "Full name of the salesperson"
+      - name: employee_title
+        description: "Title of the employee"
+      - name: transaction_type
+        description: "Type of transaction"
+      - name: employee_manager_id
+        description: "ID of the employee's manager"
+      - name: employee_manager
+        description: "Name of the employee's manager"
+      - name: salesperson_type_id
+        description: "ID indicating the type of salesperson"
+      - name: salesperson_type
+        description: "Type of salesperson"
+      - name: employee_type
+        description: "Type of employee"
+      - name: secondary_rep_count
+        description: "Number of secondary representatives"
+      - name: rate_tier_id
+        description: "ID of the commission rate tier"
+      - name: rate_tier_name
+        description: "Name of the commission rate tier"
+      - name: book_rate
+        description: "Standard commission rate"
+      - name: benchmark_rate
+        description: "Benchmark commission rate for comparison"
+      - name: floor_rate
+        description: "Minimum allowed commission rate"
+      - name: business_segment_id
+        description: "ID of the business segment"
+      - name: rental_id
+        description: "ID of the associated rental"
+      - name: rental_date_created
+        description: "Date when the rental was created"
+      - name: rental_start_date
+        description: "Start date of the rental"
+      - name: rental_billed_days
+        description: "Number of days billed for the rental"
+      - name: cheapest_period
+        description: "Cheapest rental period"
+      - name: quoted_rates
+        description: "Quoted rental rates"
+      - name: override_rate
+        description: "Override commission rate if applicable"
+      - name: is_exception
+        description: "Flag indicating if this is an exception case"
+        data_tests:
+          - not_null
+      - name: is_override
+        description: "Flag indicating if the rate was overridden"
+        data_tests:
+          - not_null
+      - name: allocation_cost_center
+        description: "Cost center for allocation"
+      - name: commission_rate
+        description: "Final applied commission rate"
+      - name: transaction_date
+        description: "Date of the transaction"
+        data_tests:
+          - not_null
+      - name: billing_approved_date
+        description: "Date when billing was approved"
+      - name: split
+        description: "Commission split percentage"
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+      - name: transaction_type_id
+        description: "ID of the transaction type"
+      - name: is_payable
+        description: "Flag indicating if commission is payable"
+        data_tests:
+          - not_null
+      - name: reimbursement_factor
+        description: "Factor applied for reimbursement calculations"
+      - name: credit_note_line_item_id
+        description: "ID of associated credit note line item"
+      - name: transaction_description
+        description: "Description of the transaction"
+      - name: commission_month
+        description: "Month for which commission is calculated"
+        data_tests:
+          - not_null
+      - name: commission_amount
+        description: "Final commission amount to be paid"
+      - name: paycheck_date
+        description: "Date when commission will be paid"
+      - name: hidden
+        description: "Flag indicating if commission record is hidden"
+        data_tests:
+          - not_null
+      - name: manual_adjustment_id
+        description: "ID of any manual adjustments applied"

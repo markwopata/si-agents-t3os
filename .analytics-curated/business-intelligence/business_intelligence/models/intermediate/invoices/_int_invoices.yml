@@ -1,0 +1,206 @@
+version: 2
+
+models:
+  - name: int_invoice_rental_location_overlaps
+    description: |
+      Intermediate model calculating temporal overlaps between invoice periods and rental location assignments.
+      
+      Grain: One row per invoice × rental × location × time_period overlap.
+      
+      Note: A rental can visit the same location multiple times during an invoice period,
+      so (invoice_id, rental_id, location_id) is NOT unique. Each row represents a distinct time period.
+    config:
+      contract:
+        enforced: false
+    columns:
+      - name: invoice_rental_location_overlap_key
+        description: "Surrogate key for invoice × rental × location × time_period overlap"
+        tests:
+          - not_null
+          - unique
+      
+      - name: invoice_key
+        description: "Foreign key to dim_invoices"
+        tests:
+          - not_null
+      
+      - name: invoice_id
+        description: "Natural key for invoice"
+        tests:
+          - not_null
+      
+      - name: rental_id
+        description: "Natural key for rental"
+        tests:
+          - not_null
+      
+      - name: location_id
+        description: "Natural key for location"
+        tests:
+          - not_null
+      
+      - name: overlap_seconds
+        description: "Number of seconds the rental was at this location during the invoice period"
+        tests:
+          - not_null
+      
+      - name: allocation_percentage
+        description: "Percentage of invoice period that overlaps (0.0 to 1.0)"
+        tests:
+          - not_null
+
+  - name: int_invoice_line_item_allocations
+    description: |
+      Intermediate model for invoice line item allocations.
+      
+      Grain: One row per invoice line item × location × time_period allocation
+      
+      Note: A rental can visit the same location multiple times during an invoice period,
+      so (invoice_line_item_id, location_id) is NOT unique. Each row represents allocation 
+      for a distinct time period when the rental was at that location.
+      
+      This intermediate model contains natural keys and detailed allocation logic.
+      The fact table (fact_invoice_line_allocations) references this and adds surrogate keys.
+    columns:
+      - name: invoice_line_item_id
+        data_type: number
+        description: "Natural key for invoice line item"
+        tests:
+          - not_null
+      
+      - name: invoice_id
+        data_type: number
+        description: "Natural key for invoice"
+        tests:
+          - not_null
+      
+      - name: rental_id
+        data_type: number
+        description: "Natural key for rental"
+        tests:
+          - not_null
+      
+      - name: asset_id
+        data_type: number
+        description: "Natural key for asset (nullable - some line items are fees/delivery, not asset rentals)"
+      
+      - name: location_id
+        data_type: number
+        description: "Natural key for location"
+        tests:
+          - not_null
+      
+      - name: invoice_line_item_type_name
+        data_type: varchar
+        description: "Type of invoice line item charge"
+      
+      - name: invoice_line_item_rental_revenue
+        data_type: boolean
+        description: "Indicator if this line item is rental revenue"
+        tests:
+          - not_null
+      
+      - name: line_item_amount
+        data_type: number
+        description: "Actual line item amount (for CLASS flow support)"
+        tests:
+          - not_null
+      
+      - name: line_item_tax_amount
+        data_type: number
+        description: "Actual line item tax amount"
+      
+      - name: company_id
+        data_type: number
+        description: "Company ID for filtering"
+      
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: "Billing approved date for filtering"
+      
+      - name: purchase_order_id
+        data_type: number
+        description: "Purchase Order ID"
+      
+      - name: purchase_order_start_date
+        data_type: timestamp_ntz
+        description: "Purchase Order start date for filtering"
+      
+      - name: rental_location_start_date
+        data_type: timestamp_tz
+        description: "When rental arrived at this location"
+      
+      - name: rental_location_end_date
+        data_type: timestamp_tz
+        description: "When rental left this location (or current timestamp if still there)"
+      
+      - name: overlap_seconds
+        data_type: number
+        description: "Seconds of overlap between invoice period and rental at this location"
+        tests:
+          - not_null
+      
+      - name: invoice_total_seconds
+        data_type: number
+        description: "Total seconds in invoice period"
+        tests:
+          - not_null
+      
+      - name: allocation_percentage
+        data_type: float
+        description: "Percentage of invoice period overlapping with this location (0.0 to 1.0)"
+        tests:
+          - not_null
+      
+      - name: original_line_item_amount
+        data_type: number
+        description: "Original invoice total amount (for JOBSITE flow)"
+        tests:
+          - not_null
+      
+      - name: original_line_item_tax
+        data_type: number
+        description: "Original invoice total tax"
+      
+      - name: total_line_item_count
+        data_type: number
+        description: "Total number of line items on this invoice (for pro-rata calculation)"
+        tests:
+          - not_null
+      
+      - name: prorated_amount
+        data_type: float
+        description: "Amount after pro-rating by line item count, before temporal allocation"
+      
+      - name: allocated_line_item_amount
+        data_type: number
+        description: "Line item amount allocated to this location (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        tests:
+          - not_null
+      
+      - name: allocated_tax_amount
+        data_type: number
+        description: "Tax amount allocated to this location (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        tests:
+          - not_null
+      
+      - name: allocated_total_amount
+        data_type: number
+        description: "Total allocated amount including tax (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        tests:
+          - not_null
+      
+      - name: _created_recordtimestamp
+        data_type: timestamp_ltz
+        description: "Timestamp when this record was first created"
+        tests:
+          - not_null
+      
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ltz
+        description: "Timestamp when this record was last updated"
+        tests:
+          - not_null
+
+
+

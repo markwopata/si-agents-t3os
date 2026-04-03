@@ -1,0 +1,104 @@
+---
+version: 2
+models:
+  - name: base_analytics_vehicle_solutions__standardfleet_supercharging_reimbursements
+    description: Standardfleet reimburses us for supercharging costs.
+    columns:
+      - name: id
+        description: ""
+      - name: period_start_date
+        description: ""
+      - name: charge_session_start
+        description: ""
+      - name: charge_session_end
+        description: ""
+      - name: payment_created
+        description: ""
+      - name: status
+        description: ""
+      - name: amount_cents
+        description: ""
+      - name: currency
+        description: ""
+      - name: amount_paid_by_reserve_cents
+        description: ""
+      - name: upcharge_cents
+        description: ""
+      - name: sf_processing_fee_cents
+        description: ""
+      - name: reservation_id
+        description: ""
+      - name: tesla_invoice_number
+        description: ""
+      - name: reserve_applied_id
+        description: ""
+      - name: partner_reference
+        description: ""
+      - name: charge_session_id
+        description: ""
+      - name: category
+        description: ""
+      - name: supercharge_amount
+        description: ""
+      - name: amount_paid
+        description: ""
+      - name: file_name
+        description: ""
+      - name: ck_payments_enabled
+        description: ""
+      - name: payment_complete
+        description: ""
+      - name: payment_started
+        description: ""
+      - name: vin
+        description: ""
+      - name: charge_session_created
+        description: ""
+      - name: total_cost
+        description: ""
+      - name: reservation_charges_category
+        description: ""
+      - name: upcharge
+        description: ""
+      - name: sf_fee
+        description: ""
+      - name: net_payout
+        description: ""
+      - name: session_id
+        description: ""
+      - name: ck_id
+        description: ""
+      - name: ck_created
+        description: ""
+      - name: ck_updated
+        description: ""
+      - name: ck_start
+        description: ""
+      - name: ck_end
+        description: ""
+      - name: partner_ref
+        description: ""
+      - name: reservation_charge_id
+        description: ""
+      - name: payment_intent_id
+        description: ""
+      - name: kwh
+        description: ""
+      - name: row_num
+        description: ""
+      - name: payment_status
+        description: ""
+      - name: unnamed_28
+        description: ""
+      - name: unnamed_29
+        description: ""
+      - name: unnamed_30
+        description: ""
+      - name: unnamed_31
+        description: ""
+      - name: amount_paid_by_deposit
+        description: ""
+      - name: sf_account_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

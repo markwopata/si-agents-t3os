@@ -1,0 +1,15 @@
+
+version: 2
+
+models:
+
+  - name: stg_market_data__division_types
+    description: "{{ doc('analytics__market_data__division_types') }}"
+    columns:
+      - name: division_id
+        data_type: number
+        description: "{{ doc('market_data__market_division_id') }}"
+
+      - name: division_name
+        data_type: varchar
+        description: "{{ doc('market_data__market_division_name') }}"

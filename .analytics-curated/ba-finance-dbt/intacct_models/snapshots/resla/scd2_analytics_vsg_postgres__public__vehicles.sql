@@ -1,0 +1,53 @@
+{% snapshot scd2_analytics_vsg_postgres__public__vehicles %}
+
+{{
+    config(
+        target_database=generate_database_name(),
+        unique_key="id",
+        strategy='timestamp',
+        updated_at='_fivetran_synced',
+        invalidate_hard_deletes=True
+    )
+}}
+
+select
+    v.id,
+    v.vin,
+    v.region_id,
+    v.status,
+    v.notes,
+    v.cleaning_start,
+    v.color,
+    v.model,
+    v.cleaning_end,
+    v.license_plate,
+    v.address,
+    v.location_id,
+    v.created_at,
+    v.year,
+    v.platform,
+    v.polled_at,
+    v.location_at,
+    v.updated_at,
+    v.battery_level,
+    v.battery_range,
+    v.charging_state,
+    v.locked,
+    v.odometer,
+    v.state,
+    v.latitude,
+    v.longitude,
+    v.front_driver_tread_depth,
+    v.front_passenger_tread_depth,
+    v.back_driver_tread_depth,
+    v.back_passenger_tread_depth,
+    v.rack_rate / 100 as rack_rate,
+    v.purchase_value,
+    v.model_id,
+    v.license_plate_state,
+    v.pickup_photos_at,
+    v.show_on_website,
+    v._fivetran_deleted,
+    v._fivetran_synced
+from {{ source('analytics_vsg_postgres__public', 'vehicles') }} as v
+{% endsnapshot %}

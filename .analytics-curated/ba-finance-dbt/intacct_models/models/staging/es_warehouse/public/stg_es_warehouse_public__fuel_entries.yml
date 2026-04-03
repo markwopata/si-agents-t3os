@@ -1,0 +1,59 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__fuel_entries
+    description: Model for es_warehouse.public.fuel_entries
+    columns:
+      - name: fuel_entry_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: fueled_asset_id
+        description: ""
+      - name: fueled_asset_tracker_serial
+        description: ""
+      - name: fueled_asset_custom_name
+        description: ""
+      - name: fuel_source_asset_id
+        description: ""
+      - name: fuel_source_tracker_serial
+        description: ""
+      - name: company_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: amount
+        description: ""
+      - name: fuel_unit_id
+        description: ""
+      - name: fuel_date
+        description: ""
+      - name: notes
+        description: ""
+      - name: duration_seconds
+        description: ""
+      - name: price_per_gallon
+        description: ""
+      - name: total_cost
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: fuel_source_tracker_id
+        description: ""
+      - name: fuel_type_id
+        description: ""
+      - name: fuel_entry_type_id
+        description: ""
+      - name: date_modified
+        description: ""
+      - name: location
+        description: ""
+      - name: asset_keypad_entry_id
+        description: ""
+      - name: company_keypad_code_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

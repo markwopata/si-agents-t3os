@@ -1,0 +1,52 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_billing_company_preferences
+    description: Model for es_warehouse.scd.scd_billing_company_preferences
+    columns:
+      - name: scd_billing_company_preference_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: prefs
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: prefs__bad_debt
+        description: Extracted from json in column prefs (roughly prefs:bad_debt)
+      - name: prefs__four_week_billing_date
+        description: Extracted from json in column prefs (roughly prefs:four_week_billing_date)
+      - name: prefs__internal_company
+        description: Extracted from json in column prefs (roughly prefs:internal_company)
+      - name: prefs__legal_audit
+        description: Extracted from json in column prefs (roughly prefs:legal_audit)
+      - name: prefs__managed_billing
+        description: Extracted from json in column prefs (roughly prefs:managed_billing)
+      - name: prefs__rental_billing_cycle_strategy
+        description: Extracted from json in column prefs (roughly prefs:rental_billing_cycle_strategy)
+      - name: prefs__is_paperless_billing
+        description: Extracted from json in column prefs (roughly prefs:is_paperless_billing)
+      - name: prefs__monthly_statement_contacts
+        description: Extracted from json in column prefs (roughly prefs:monthly_statement_contacts)
+      - name: prefs__in_bankruptcy
+        description: Extracted from json in column prefs (roughly prefs:in_bankruptcy)
+      - name: prefs__national_account
+        description: Extracted from json in column prefs (roughly prefs:national_account)
+      - name: prefs__legal_audit_time
+        description: Extracted from json in column prefs (roughly prefs:legal_audit_time)
+      - name: prefs__cycle_billing_only
+        description: Extracted from json in column prefs (roughly prefs:cycle_billing_only)
+      - name: prefs__disable_monthly_statements
+        description: Extracted from json in column prefs (roughly prefs:disable_monthly_statements)
+      - name: prefs__general_services_administration
+        description: Extracted from json in column prefs (roughly prefs:general_services_administration)
+      - name: prefs__invoice_contacts
+        description: Extracted from json in column prefs (roughly prefs:invoice_contacts)
+      - name: prefs__primary_billing_contact_user_id
+        description: Extracted from json in column prefs (roughly prefs:primary_billing_contact_user_id)

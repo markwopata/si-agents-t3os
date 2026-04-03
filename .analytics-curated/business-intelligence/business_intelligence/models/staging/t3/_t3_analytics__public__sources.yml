@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: analytics__public
+    database: analytics
+    schema: public
+    tables:
+      - name: market_region_xwalk
+        columns:
+          - name: market_id
+            data_type: number
+          - name: market_name
+            data_type: varchar
+          - name: state
+            data_type: varchar
+          - name: abbreviation
+            data_type: varchar
+          - name: region
+            data_type: number
+          - name: region_name
+            data_type: varchar
+          - name: area_code
+            data_type: varchar
+          - name: district
+            data_type: number
+          - name: region_district
+            data_type: number
+          - name: _id_dist
+            data_type: number
+          - name: market_type_id
+            data_type: number
+          - name: market_type
+            data_type: varchar
+          - name: is_dealership
+            data_type: boolean
+          - name: division_id
+            data_type: number
+          - name: division_name
+            data_type: varchar
+          - name: date_updated
+            data_type: timestamp_tz  

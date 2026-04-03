@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracking_obd_dtc_codes
+    description: Model for es_warehouse.public.tracking_obd_dtc_codes
+    columns:
+      - name: tracking_obd_dtc_code_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: code
+        description: ""
+      - name: description
+        description: ""
+      - name: manufacturer
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

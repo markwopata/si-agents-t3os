@@ -1,0 +1,271 @@
+view: unreceived_pos {
+  derived_table: {
+    sql: --Code is as received from Eric Prieto with request by Mark W to put it on Markets Dashboard - PB
+    with t3_POs as (SELECT VEND.EXTERNAL_ERP_VENDOR_REF                                             AS "Vendor_ID",
+                       VENDINT.NAME,
+                       POH.PURCHASE_ORDER_NUMBER                                                AS "PO_Number",
+                       POH.PURCHASE_ORDER_ID                                                    AS "PO_ID",
+                       POH.DATE_CREATED                                                         AS "PO_Date",
+                       BERP1.INTACCT_DEPARTMENT_ID                                              AS "Requesting_Branch",
+                       BERP2.INTACCT_DEPARTMENT_ID                                              AS "Deliver_To_Branch",
+                       CONCAT(POH.CREATED_BY_ID, ' - ', USER1.FIRST_NAME, ' ', USER1.LAST_NAME) AS "Created_By",
+                       USER1.EMAIL_ADDRESS                                                      AS "Email_Address",
+                       ITM.ITEM_TYPE                                                            AS "Item_Type",
+                       NII.NAME                                                                 AS "Item_Name",
+                       PA.PART_NUMBER                                                           AS "Part_Number",
+                       POL.DESCRIPTION                                                          AS "Description",
+                       POL.MEMO                                                                 AS "Memo",
+                       POL.QUANTITY                                                             AS "Quantity_Ordered",
+                       PORL.ACCEPTED_QUANTITY                                                   AS "Accepted_Quantity",
+                       PORL.REJECTED_QUANTITY                                                   AS "Rejected_Quantity",
+                       POL.PRICE_PER_UNIT                                                       AS "Price_Per_Unit",
+                       POH.STATUS                                                               AS "PO_Status",
+                       POH.AMOUNT_APPROVED                                                      AS "Amount"
+
+      FROM "PROCUREMENT"."PUBLIC"."PURCHASE_ORDERS" POH
+      LEFT JOIN "ES_WAREHOUSE"."PURCHASES"."ENTITY_VENDOR_SETTINGS" VEND
+      ON POH.VENDOR_ID = VEND.ENTITY_ID
+      LEFT JOIN "ANALYTICS"."INTACCT"."VENDOR" VENDINT
+      ON VEND.EXTERNAL_ERP_VENDOR_REF = VENDINT.VENDORID
+      LEFT JOIN "ES_WAREHOUSE"."PUBLIC"."USERS" USER1 ON POH.CREATED_BY_ID = USER1.USER_ID
+      LEFT JOIN "ES_WAREHOUSE"."PUBLIC"."BRANCH_ERP_REFS" BERP1
+      ON POH.REQUESTING_BRANCH_ID = BERP1.BRANCH_ID
+      LEFT JOIN "ES_WAREHOUSE"."PUBLIC"."BRANCH_ERP_REFS" BERP2
+      ON POH.DELIVER_TO_ID = BERP2.BRANCH_ID
+      LEFT JOIN "ES_WAREHOUSE"."PUBLIC"."MARKETS" BRCH1 ON POH.REQUESTING_BRANCH_ID = BRCH1.MARKET_ID
+      LEFT JOIN "ES_WAREHOUSE"."PUBLIC"."MARKETS" BRCH2 ON POH.DELIVER_TO_ID = BRCH2.MARKET_ID
+      LEFT JOIN "PROCUREMENT"."PUBLIC"."PURCHASE_ORDER_LINE_ITEMS" POL
+      ON POH.PURCHASE_ORDER_ID = POL.PURCHASE_ORDER_ID
+      LEFT JOIN "PROCUREMENT"."PUBLIC"."ITEMS" ITM ON POL.ITEM_ID = ITM.ITEM_ID
+      LEFT JOIN "ES_WAREHOUSE"."INVENTORY"."PARTS" PA ON POL.ITEM_ID = PA.ITEM_ID
+      LEFT JOIN "PROCUREMENT"."PUBLIC"."NON_INVENTORY_ITEMS" NII ON POL.ITEM_ID = NII.ITEM_ID
+      LEFT JOIN "PROCUREMENT"."PUBLIC"."PURCHASE_ORDER_RECEIVER_ITEMS" PORL
+      ON POL.PURCHASE_ORDER_LINE_ITEM_ID = PORL.PURCHASE_ORDER_LINE_ITEM_ID)
+      --    select * from t3_POs;
+
+      , PO_receipt_quantities as (select "PO_Number", sum("Accepted_Quantity") as Accepted_Quantity
+      from t3_POs
+      group by "PO_Number")
+      , with_partial_receipts as (select p."PO_Number"
+      , p."Requesting_Branch"
+      , p."PO_Status"
+      , case
+      when sum(coalesce(r.Accepted_Quantity, 0)) = 0 then false
+      else true end as some_acceptance
+      from t3_POs p
+      left join PO_receipt_quantities r
+      on p."PO_Number" = r."PO_Number"
+      group by p."PO_Number", p."Requesting_Branch", p."PO_Status")
+      , inventory_amount as (select "PO_Number"
+      , sum("Quantity_Ordered") as amount
+      from t3_POs
+      where "Item_Type" = 'INVENTORY'
+      group by "PO_Number")
+      -- select  * from with_partial_receipts
+      -- where "PO_Number" = '480960';
+      select pr."PO_Number"
+      , i.*
+      , ia.amount                                        as inventory_amount
+      , case when ia.amount > 0 then true else false end as inventory_po
+      , pr."Requesting_Branch"
+      , id.MAX_INVOICE_DATE
+      from with_partial_receipts pr
+      left join "ANALYTICS"."CONCUR"."DAILY_SNAPSHOT_INV_HEADER" i
+      on pr."PO_Number"::STring = i.PURCHASE_ORDER_NUMBER::STRING
+      left join inventory_amount ia
+      on pr."PO_Number" = ia."PO_Number"
+      left join (select SUPPLIER_CODE, INVOICE_NUMBER, max(INVOICE_DATE::DATE) as MAX_INVOICE_DATE
+      from "ANALYTICS"."CONCUR"."DAILY_SNAPSHOT_INV_HEADER"
+      group by SUPPLIER_CODE, INVOICE_NUMBER) id
+      on i.INVOICE_NUMBER = id.INVOICE_NUMBER
+      and i.SUPPLIER_CODE = id.SUPPLIER_CODE
+      where pr."PO_Status" = 'OPEN'
+      and pr.some_acceptance = false
+      and i.PURCHASE_ORDER_NUMBER is not null
+      ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [markets_detail*]
+  }
+
+  measure: operations_count {
+    type: count
+  }
+
+  dimension: invoice_link {
+    type: string
+    sql: ${request_id} ;;
+    html: <a href="https://api.equipmentshare.com/skunkworks/invoices/request-image/{{ rendered_value }}/?redirect=1" style="color: blue;" target="_blank">Invoice PDF</a> ;;
+  }
+
+  dimension: po_number {
+    type: number
+    sql: ${TABLE}."PO_Number" ;;
+  }
+
+  dimension: request_id {
+    type: string
+    sql: ${TABLE}."REQUEST_ID" ;;
+  }
+
+  dimension: supplier_code {
+    type: string
+    sql: ${TABLE}."SUPPLIER_CODE" ;;
+  }
+
+  dimension: invoice_number {
+    type: string
+    sql: ${TABLE}."INVOICE_NUMBER" ;;
+  }
+
+  dimension: invoice_date {
+    type: date
+    sql: ${TABLE}."INVOICE_DATE" ;;
+  }
+
+  dimension: purchase_order_number {
+    type: string
+    sql: ${TABLE}."PURCHASE_ORDER_NUMBER" ;;
+  }
+
+  dimension: employee_email_address {
+    type: string
+    sql: ${TABLE}."EMPLOYEE_EMAIL_ADDRESS" ;;
+  }
+
+  dimension: request_total {
+    type: number
+    sql: ${TABLE}."REQUEST_TOTAL" ;;
+  }
+
+  dimension: shipping_amt {
+    type: number
+    sql: ${TABLE}."SHIPPING_AMT" ;;
+  }
+
+  dimension: tax_amt {
+    type: number
+    sql: ${TABLE}."TAX_AMT" ;;
+  }
+
+  dimension: request_key {
+    type: string
+    sql: ${TABLE}."REQUEST_KEY" ;;
+  }
+
+  dimension: request_legacy_key {
+    type: string
+    sql: ${TABLE}."REQUEST_LEGACY_KEY" ;;
+  }
+
+  dimension: approval_status {
+    type: string
+    sql: ${TABLE}."APPROVAL_STATUS" ;;
+  }
+
+  dimension: payment_status {
+    type: string
+    sql: ${TABLE}."PAYMENT_STATUS" ;;
+  }
+
+  dimension: exception_count {
+    type: number
+    sql: ${TABLE}."EXCEPTION_COUNT" ;;
+  }
+
+  dimension: cleared_exception_count {
+    type: number
+    sql: ${TABLE}."CLEARED_EXCEPTION_COUNT" ;;
+  }
+
+  dimension: created_date {
+    type: date
+    sql: ${TABLE}."CREATED_DATE" ;;
+  }
+
+  dimension: policy {
+    type: string
+    sql: ${TABLE}."POLICY" ;;
+  }
+
+  dimension_group: _es_update_timestamp {
+    type: time
+    sql: ${TABLE}."_ES_UPDATE_TIMESTAMP" ;;
+  }
+
+  dimension: inventory_amount {
+    type: number
+    sql: ${TABLE}."INVENTORY_AMOUNT" ;;
+  }
+
+  dimension: inventory_po {
+    type: yesno
+    sql: ${TABLE}."INVENTORY_PO" ;;
+  }
+
+  dimension: requesting_branch {
+    type: string
+    sql: ${TABLE}."Requesting_Branch" ;;
+  }
+
+  dimension: max_invoice_date {
+    type: date
+    sql: ${TABLE}."MAX_INVOICE_DATE" ;;
+  }
+
+  set: markets_detail {
+    fields: [
+      market_region_xwalk.market_name,
+      # po_number,
+      # request_id,
+      supplier_code,
+      invoice_number,
+      invoice_date,
+      invoice_link,
+      purchase_order_number,
+      employee_email_address,
+      request_total,
+      shipping_amt,
+      tax_amt,
+      # request_key,
+      # request_legacy_key,
+      approval_status,
+      payment_status,
+      exception_count,
+      cleared_exception_count,
+      created_date,
+      # policy,
+      # _es_update_timestamp_time,
+      inventory_amount,
+      inventory_po,
+      requesting_branch,
+      max_invoice_date
+    ]
+  }
+
+  set: operations_detail {
+    fields: [
+      market_region_xwalk.selected_hierarchy_dimension,
+      market_region_xwalk.market_name,
+      po_number,
+      request_id,
+      supplier_code,
+      invoice_number,
+      invoice_date,
+      purchase_order_number,
+      employee_email_address,
+      request_total,
+      shipping_amt,
+      tax_amt,
+      approval_status,
+      payment_status,
+      created_date,
+      inventory_amount,
+      inventory_po,
+      requesting_branch,
+      max_invoice_date
+    ]
+  }
+}

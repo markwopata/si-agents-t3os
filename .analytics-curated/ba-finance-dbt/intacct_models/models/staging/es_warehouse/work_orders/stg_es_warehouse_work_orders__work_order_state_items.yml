@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_state_items
+    description: Model for es_warehouse.work_orders.work_order_state_items
+    columns:
+      - name: work_order_state_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: work_order_state_item_type_id
+        description: ""
+      - name: task_id
+        description: ""
+      - name: task_type_id
+        description: ""
+      - name: note
+        description: ""
+      - name: display_name
+        description: ""
+      - name: priority
+        description: ""
+      - name: user_id
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: required
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

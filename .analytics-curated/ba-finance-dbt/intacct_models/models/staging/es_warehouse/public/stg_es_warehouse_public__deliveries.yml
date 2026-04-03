@@ -1,0 +1,83 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__deliveries
+    description: Model for es_warehouse.public.deliveries
+    columns:
+      - name: asset_condition_snapshot_id
+        description: ""
+      - name: domain_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: delivery_status_id
+        description: ""
+      - name: contact_phone_number
+        description: ""
+      - name: driver_user_id
+        description: ""
+      - name: scheduled_date
+        description: ""
+      - name: delivery_creation_type_id
+        description: ""
+      - name: delivery_company_id
+        description: ""
+      - name: facilitator_type_id
+        description: ""
+      - name: contact_name
+        description: ""
+      - name: location_id
+        description: ""
+      - name: run_name
+        description: ""
+      - name: note
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: delivery_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: completed_date
+        description: ""
+      - name: charge
+        description: ""
+      - name: completed_by_user_id
+        description: ""
+      - name: quantity
+        description: ""
+      - name: assignment_id
+        description: ""
+      - name: assignment_type_id
+        description: ""
+      - name: part_id
+        description: ""
+      - name: delivery_details
+        description: ""
+      - name: origin_location_id
+        description: ""
+      - name: delivery_type_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: delivery_details__damage_description
+        description: Extracted from json in column delivery_details (roughly delivery_details:damage_description)
+      - name: delivery_details__hours_reading
+        description: Extracted from json in column delivery_details (roughly delivery_details:hours_reading)
+      - name: delivery_details__fuel_reading
+        description: Extracted from json in column delivery_details (roughly delivery_details:fuel_reading)
+      - name: delivery_details__notes
+        description: Extracted from json in column delivery_details (roughly delivery_details:notes)
+      - name: delivery_details__odometer_reading
+        description: Extracted from json in column delivery_details (roughly delivery_details:odometer_reading)
+      - name: delivery_details__reporting_user_id
+        description: Extracted from json in column delivery_details (roughly delivery_details:reporting_user_id)

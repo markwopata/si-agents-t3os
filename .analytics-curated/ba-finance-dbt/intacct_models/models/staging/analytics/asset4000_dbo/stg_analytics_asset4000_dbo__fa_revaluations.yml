@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_analytics_asset4000_dbo__fa_revaluations
+    description: cleaned and renamed model of analytics.asset4000_dbo.fa_revaluations
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: revaluation_modified_by
+        description: ""
+
+      - name: revaluation_reason
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: revaluation_year
+        description: ""
+
+      - name: revaluation_date
+        description: ""
+
+      - name: revaluation_timestamp
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

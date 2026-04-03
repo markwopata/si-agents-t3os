@@ -1,0 +1,20 @@
+---
+version: 2
+
+description: Retail Sales data sources are all owned by Financial Analytics. The table(s) are ETL'd using the WAL consumer from postgres tools_trailer db.
+sources:
+  - name: tools_trailer_retail_sales
+    description: public is the default Snowflake schema when databases are created - has no business context
+    tags: ["sources"]
+    database: tools_trailer
+    schema: retail_sales
+    tables:
+      - name: quotes
+        description: >
+          The quotes table contains all quotes that have been created in the retail sales application.
+        columns:
+          - name: pk_id
+            description: "Primary key for each quote record version. Each quote can have many versions."
+            data_tests:
+              - unique
+              - not_null

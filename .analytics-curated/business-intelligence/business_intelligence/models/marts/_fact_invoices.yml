@@ -1,0 +1,238 @@
+version: 2
+
+models:
+  - name: fact_invoice_line_allocations
+    description: |
+      Core fact table for invoice spend analysis and allocation.
+      
+      Grain: One row per invoice line item × location allocation
+      
+      Note: Each invoice line item typically represents one asset rental charge.
+      A rental order can have multiple assets (and thus multiple line items).
+      When a rental asset moves between locations during the invoice period,
+      the line item amount is allocated proportionally across those locations.
+      
+      This fact table replaces the legacy rentals_spend_by derived table and provides:
+      - Consistent allocation logic across all dimensions
+      - Cross-dimensional analysis capability (jobsite × class × PO)
+      - Time-based allocation when rentals move between locations
+      - Full audit trail with overlap calculations
+      
+      Key Features:
+      - All measures are additive
+      - No double-counting risk
+      - Single grain enables any dimensional grouping
+      - Integrates with platform dimensions
+    config:
+      contract:
+        enforced: false  # TODO: Update contract with new columns, then re-enable
+    columns:
+      - name: invoice_line_allocation_key
+        data_type: varchar
+        description: "Surrogate key for invoice line × location allocation"
+        constraints:
+          - type: not_null
+          - type: primary_key
+        tests:
+          - unique
+      
+      - name: invoice_line_item_key
+        data_type: varchar
+        description: "Foreign key to platform.int_invoices_line_items"
+        constraints:
+          - type: not_null
+      
+      - name: invoice_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_invoices"
+        constraints:
+          - type: not_null
+      
+      - name: rental_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_rentals"
+        constraints:
+          - type: not_null
+      
+      - name: asset_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_assets"
+        constraints:
+          - type: not_null
+      
+      - name: location_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_locations"
+        constraints:
+          - type: not_null
+      
+      - name: purchase_order_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_purchase_orders"
+        constraints:
+          - type: not_null
+      
+      - name: company_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_companies (customer company that ordered the rental)"
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            expression: "platform.gold.dim_companies(company_key)"
+      
+      - name: billing_approved_date_key
+        data_type: varchar
+        description: "Foreign key to platform.dim_dates (invoice billing approved date)"
+        constraints:
+          - type: foreign_key
+            expression: "platform.gold.dim_dates(dt_key)"
+      
+      - name: invoice_line_item_id
+        data_type: number
+        description: "Natural key for invoice line item (degenerate dimension)"
+        constraints:
+          - type: not_null
+      
+      - name: invoice_id
+        data_type: number
+        description: "Natural key for invoice (degenerate dimension)"
+        constraints:
+          - type: not_null
+      
+      - name: rental_id
+        data_type: number
+        description: "Natural key for rental (degenerate dimension)"
+        constraints:
+          - type: not_null
+      
+      - name: asset_id
+        data_type: number
+        description: "Natural key for asset (degenerate dimension - nullable for non-asset line items like fees/delivery)"
+      
+      - name: location_id
+        data_type: number
+        description: "Natural key for location (degenerate dimension)"
+        constraints:
+          - type: not_null
+      
+      - name: invoice_line_item_type_name
+        data_type: varchar
+        description: "Type of invoice line item charge"
+      
+      - name: invoice_line_item_rental_revenue
+        data_type: boolean
+        description: "Indicator if this line item is rental revenue (always TRUE in this fact)"
+        constraints:
+          - type: not_null
+      
+      - name: line_item_amount
+        data_type: number
+        description: "Actual line item amount (for CLASS flow support)"
+        constraints:
+          - type: not_null
+      
+      - name: line_item_tax_amount
+        data_type: number
+        description: "Actual line item tax amount"
+      
+      - name: purchase_order_id
+        data_type: number
+        description: "Purchase Order ID (degenerate dimension - high cardinality natural key)"
+      
+      - name: company_id
+        data_type: number
+        description: "Customer Company ID (degenerate dimension - natural key for the company that ordered the rental)"
+        constraints:
+          - type: not_null
+      
+      - name: invoice_no
+        data_type: varchar
+        description: "Invoice number (for display and filtering)"
+      
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: "Date when invoice was approved for billing (used for date dimension joins)"
+      
+      - name: invoice_start_date
+        data_type: timestamp_tz
+        description: "Invoice period start date (used for temporal overlap calculations)"
+      
+      - name: invoice_end_date
+        data_type: timestamp_tz
+        description: "Invoice period end date (used for temporal overlap calculations)"
+
+      - name: rental_location_start_date
+        data_type: timestamp_tz
+        description: "When rental arrived at this location"
+      
+      - name: rental_location_end_date
+        data_type: timestamp_tz
+        description: "When rental left this location (or current timestamp if still there)"
+      
+      - name: overlap_seconds
+        data_type: number
+        description: "Seconds of overlap between invoice period and rental at this location"
+        constraints:
+          - type: not_null
+      
+      - name: invoice_total_seconds
+        data_type: number
+        description: "Total seconds in invoice period"
+        constraints:
+          - type: not_null
+      
+      - name: allocation_percentage
+        data_type: float
+        description: "Percentage of invoice period overlapping with this location (0.0 to 1.0)"
+        constraints:
+          - type: not_null
+      
+      - name: original_line_item_amount
+        data_type: number
+        description: "Original invoice total amount (for JOBSITE flow)"
+        constraints:
+          - type: not_null
+      
+      - name: original_line_item_tax
+        data_type: number
+        description: "Original invoice total tax"
+      
+      - name: total_line_item_count
+        data_type: number
+        description: "Total number of line items on this invoice (for pro-rata calculation)"
+        constraints:
+          - type: not_null
+      
+      - name: prorated_amount
+        data_type: float
+        description: "Amount after pro-rating by line item count, before temporal allocation"
+      
+      - name: allocated_line_item_amount
+        data_type: number
+        description: "Line item amount allocated to this location (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        constraints:
+          - type: not_null
+      
+      - name: allocated_tax_amount
+        data_type: number
+        description: "Tax amount allocated to this location (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        constraints:
+          - type: not_null
+      
+      - name: allocated_total_amount
+        data_type: number
+        description: "Total allocated amount including tax (ADDITIVE MEASURE) - uses float division for mathematical correctness"
+        constraints:
+          - type: not_null
+      
+      - name: _created_recordtimestamp
+        data_type: timestamp_ltz
+        description: "Timestamp when this record was first created"
+        constraints:
+          - type: not_null
+      
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ltz
+        description: "Timestamp when this record was last updated"
+        constraints:
+          - type: not_null

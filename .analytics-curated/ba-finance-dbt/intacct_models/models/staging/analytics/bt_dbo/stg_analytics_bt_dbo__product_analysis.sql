@@ -1,0 +1,23 @@
+select
+    p.branchid as bt_branch_id,
+    p.calendarmonth as calendar_month,
+    p.calendaryear as calendar_year,
+    p.customerid as customer_id,
+    p.departmentid as department_id,
+    p.productid as product_id,
+    p.purchaseanalysiscodeid as purchase_analysis_code_id,
+    p.saletype as sale_type,
+    p.salesanalysiscodeid as sales_analysis_code_id,
+    p.totalreportingcost as total_reporting_cost,
+    p.transferquantityused as transfer_quantity_used,
+    p.totalcost as total_cost,
+    p.quantitysold as quantity_sold,
+    p.totalweight as total_weight,
+    p.quantityused as quantity_used,
+    p.totalvolume as total_volume,
+    p.totalinternalcost as total_internal_cost,
+    p.quantityreceived as quantity_received,
+    p.totalsales as total_sales,
+    p._fivetran_deleted,
+    p._fivetran_synced
+from {{ source('analytics_bt_dbo', 'productanalysis') }} as p

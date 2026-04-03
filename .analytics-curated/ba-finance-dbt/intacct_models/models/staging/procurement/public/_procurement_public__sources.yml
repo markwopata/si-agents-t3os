@@ -1,0 +1,85 @@
+---
+version: 2
+
+sources:
+  - name: procurement_public
+    tags: ["sources"]
+    database: procurement
+    schema: public
+    description: data of the process of obtaining or purchasing goods or services. originates from T3/Admin
+    tables:
+      - name: purchase_orders
+        description: limited purchase orders. one row is one PO id
+        columns:
+          - name: purchase_order_id
+            data_tests:
+              - unique
+
+      - name: purchase_order_line_items
+        description: limited purchase order line items. one row is one PO line item id
+        columns:
+          - name: purchase_order_line_item_id
+            data_tests:
+              - unique
+
+      - name: purchase_order_receiver_items
+        description: list of received purchase order line items
+        columns:
+          - name: purchase_order_receiver_item_id
+            data_tests:
+              - unique
+      - name: purchase_order_allocation_snapshot
+        description: ""
+      - name: purchase_order_event_logs
+        description: ""
+      - name: policy_grants
+        description: ""
+      - name: purchase_receipts
+        description: ""
+      - name: purchase_receipt_items
+        description: ""
+      - name: service_items
+        description: ""
+      - name: authorized_submitters
+        description: ""
+      - name: business_unit_snapshots
+        description: ""
+      - name: items
+        description: ""
+      - name: non_inventory_items
+        description: ""
+      - name: price_list_entries
+        description: ""
+      - name: purchases
+        description: "Purchases contains credit card uploads through costcapture mobile or the expense management app."
+      - name: purchase_order_receivers
+        description: ""
+      - name: purchase_line_items
+        description: ""
+      - name: purchase_accounts
+        description:
+          "There should be one purchase account per credit card. You can find the user who owns the credit card
+          on this table. A single user could have multiple credit cards."
+      - name: matched_purchase_transactions
+        description: "Table ontains the credit card transactions matched to the purchase receipts in the Expenses app."
+        columns:
+          - name: matched_purchase_transaction_id
+            data_tests:
+              - unique
+      - name: purchase_transactions
+        description:
+          "Table contains the credit card transactions mapped to the external_transaction_id used in the transaction
+          verification script."
+        columns:
+          - name: purchase_transaction_id
+            data_tests:
+              - unique
+      - name: purchase_transaction_adjustments
+        description: |
+          Credit card transaction adjustments including refunds, chargebacks, credits, and other modifications
+          to original credit card transactions. Links to purchase_transactions via adjusted_transaction_id
+          and to credit card feeds via external_transaction_id.
+        columns:
+          - name: purchase_transaction_adjustment_id
+            data_tests:
+              - unique

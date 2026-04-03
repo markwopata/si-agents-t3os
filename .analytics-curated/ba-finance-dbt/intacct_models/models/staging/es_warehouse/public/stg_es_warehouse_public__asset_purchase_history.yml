@@ -1,0 +1,147 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_purchase_history
+    description: Model for es_warehouse.public.asset_purchase_history
+    columns:
+      - name: previous_company_id
+        description: ""
+      - name: financial_lender
+        description: ""
+      - name: delivery_date
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: financial_contract_number
+        description: ""
+      - name: purchase_order_number
+        description: ""
+      - name: purchase_history_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: financial_contract_date
+        description: ""
+      - name: financial_term
+        description: ""
+      - name: purchase_date
+        description: ""
+      - name: payment_interval_1_months
+        description: ""
+      - name: payment_interval_2_months
+        description: ""
+      - name: payment_interval_3_months
+        description: ""
+      - name: payment_interval_4_months
+        description: ""
+      - name: payment_interval_5_months
+        description: ""
+      - name: payment_interval_6_months
+        description: ""
+      - name: payment_interval_7_months
+        description: ""
+      - name: is_financed
+        description: ""
+      - name: is_owned
+        description: ""
+      - name: ebo_date
+        description: ""
+      - name: has_ebo_discount
+        description: ""
+      - name: ebo_notification_date
+        description: ""
+      - name: fppo_spo_balloon_date
+        description: ""
+      - name: fppo_spo_balloon_notification_date
+        description: ""
+      - name: loss_or_damage_remedies
+        description: ""
+      - name: purchase_order_url
+        description: ""
+      - name: asset_invoice_url
+        description: ""
+      - name: notes
+        description: ""
+      - name: financing_facility_type_id
+        description: ""
+      - name: financial_schedule_id
+        description: ""
+      - name: equipment_type_id
+        description: ""
+      - name: loan_status_type_id
+        description: ""
+      - name: has_fppo_spo_balloon_payment
+        description: ""
+      - name: invoice_purchase_date
+        description: ""
+      - name: po_number
+        description: ""
+      - name: finance_status
+        description: ""
+      - name: order_number
+        description: ""
+      - name: invoice_number
+        description: Invoice number tied to the sale of the asset.
+      - name: pending_schedule
+        description: ""
+      - name: ebo_discount_percent
+        description: ""
+      - name: ebo_amount
+        description: ""
+      - name: loan_origination_fee
+        description: ""
+      - name: payment_interval_4_monthly_payment
+        description: ""
+      - name: payment_interval_6_monthly_payment
+        description: ""
+      - name: payment_interval_5_monthly_payment
+        description: ""
+      - name: sales_tax
+        description: ""
+      - name: advance_payment_percent
+        description: ""
+      - name: financial_interest_rate
+        description: ""
+      - name: document_preparation_fee
+        description: ""
+      - name: purchase_price
+        description: ""
+      - name: payment_interval_7_monthly_payment
+        description: ""
+      - name: financed_amount
+        description: ""
+      - name: oec
+        description: ""
+      - name: downpayment_amount
+        description: ""
+      - name: freight_amount
+        description: ""
+      - name: downpayment_percent
+        description: ""
+      - name: fppo_spo_balloon_percent
+        description: ""
+      - name: fppo_spo_balloon_amount
+        description: ""
+      - name: ebo_percent
+        description: ""
+      - name: advance_payment_amount
+        description: ""
+      - name: interim_rent
+        description: ""
+      - name: payment_interval_3_monthly_payment
+        description: ""
+      - name: security_deposit
+        description: ""
+      - name: payment_interval_2_monthly_payment
+        description: ""
+      - name: payment_interval_1_monthly_payment
+        description: ""
+      - name: registration_amount
+        description: ""
+      - name: purchase_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

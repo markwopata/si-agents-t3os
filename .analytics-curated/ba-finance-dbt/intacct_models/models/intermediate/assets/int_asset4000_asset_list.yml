@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: int_asset4000_asset_list
+    description: list of most recently assigned asset4000 assets with admin_asset_id
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+        data_tests:
+          - unique
+      - name: gl_account
+        description: '{{ doc("gl_account_number") }}'
+      - name: admin_asset_id
+        description: '{{ doc("admin_asset_id") }}'

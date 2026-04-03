@@ -1,0 +1,115 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__wms_location
+    description: ""
+    columns:
+      - name: recid
+        description: Primary key for this table
+        data_tests:
+          - not_null
+          - unique
+      - name: id
+        description: ""
+      - name: sink_created_on
+        description: ""
+      - name: sink_modified_on
+        description: ""
+      - name: locationtype
+        description: ""
+      - name: manualname
+        description: ""
+      - name: manualsortcode
+        description: ""
+      - name: sysdatastatecode
+        description: ""
+      - name: absoluteheight
+        description: ""
+      - name: aisleid
+        description: ""
+      - name: checktext
+        description: ""
+      - name: depth
+        description: ""
+      - name: height
+        description: ""
+      - name: inputblockingcauseid
+        description: ""
+      - name: inputlocation
+        description: ""
+      - name: inventlocationid
+        description: ""
+      - name: lastcountedutcdatetime
+        description: ""
+      - name: level
+        description: ""
+      - name: locprofileid
+        description: ""
+      - name: maxpalletcount
+        description: ""
+      - name: maxvolume
+        description: ""
+      - name: maxweight
+        description: ""
+      - name: mcrreservationpriority
+        description: ""
+      - name: outputblockingcauseid
+        description: ""
+      - name: pallettypegroupid
+        description: ""
+      - name: pickingareaid
+        description: ""
+      - name: position
+        description: ""
+      - name: rack
+        description: ""
+      - name: sortcode
+        description: ""
+      - name: storeareaid
+        description: ""
+      - name: volume
+        description: ""
+      - name: width
+        description: ""
+      - name: wmslocationid
+        description: ""
+      - name: zoneid
+        description: ""
+      - name: additionalzone_1
+        description: ""
+      - name: additionalzone_2
+        description: ""
+      - name: additionalzone_3
+        description: ""
+      - name: modifieddatetime
+        description: ""
+      - name: modifiedby
+        description: ""
+      - name: modifiedtransactionid
+        description: ""
+      - name: createddatetime
+        description: ""
+      - name: createdby
+        description: ""
+      - name: createdtransactionid
+        description: ""
+      - name: dataareaid
+        description: ""
+      - name: recversion
+        description: ""
+      - name: partition
+        description: ""
+      - name: sysrowversion
+        description: ""
+      - name: tableid
+        description: ""
+      - name: versionnumber
+        description: ""
+      - name: createdon
+        description: ""
+      - name: modifiedon
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

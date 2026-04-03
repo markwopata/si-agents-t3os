@@ -1,0 +1,351 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__customer_table
+    description: ""
+    columns:
+      - name: accountnum
+        description: ""
+        data_tests:
+          - unique
+      - name: id
+        description: ""
+
+      - name: credmancustcreditmaxalt
+        description: ""
+
+      - name: recid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: vatnumrecid
+        description: ""
+
+      - name: paymtermid
+        description: ""
+
+      - name: companynafcode
+        description: ""
+
+      - name: custgroup
+        description: ""
+
+      - name: custtradingpartnercode
+        description: ""
+
+      - name: defaultdimension
+        description: ""
+
+      - name: defaultdirectdebitmandate
+        description: ""
+
+      - name: invoiceaddress
+        description: ""
+
+      - name: invoicepostingtype_ru
+        description: ""
+
+      - name: inventlocation
+        description: ""
+
+      - name: inventsiteid
+        description: ""
+
+      - name: intercompanyautocreateorders
+        description: ""
+
+      - name: lvpaymtranscodes
+        description: ""
+
+      - name: party
+        description: ""
+
+      - name: partystate
+        description: ""
+
+      - name: vendaccount
+        description: ""
+
+      - name: vatnumtabletype
+        description: ""
+
+      - name: vatnumrecid_2
+        description: ""
+
+      - name: esadminid_custom
+        description: ""
+
+      - name: taxgroup
+        description: ""
+
+      - name: accountstatement
+        description: ""
+
+      - name: companytype_mx
+        description: ""
+
+      - name: girotype
+        description: ""
+
+      - name: partycountry
+        description: ""
+
+      - name: currency
+        description: ""
+
+      - name: defaultdimension_2
+        description: ""
+
+      - name: dlvmode
+        description: ""
+
+      - name: dlvterm
+        description: ""
+
+      - name: einvoice
+        description: ""
+
+      - name: einvoiceattachment
+        description: ""
+
+      - name: fiscaldoctype_pl
+        description: ""
+
+      - name: girotypeaccountstatement
+        description: ""
+
+      - name: girotypecollectionletter
+        description: ""
+
+      - name: girotypefreetextinvoice
+        description: ""
+
+      - name: girotypeinterestnote
+        description: ""
+
+      - name: girotypeprojinvoice
+        description: ""
+
+      - name: incltax
+        description: ""
+
+      - name: lvpaymtranscodes_2
+        description: ""
+
+      - name: maincontactworker
+        description: ""
+
+      - name: presencetype_br
+        description: ""
+
+      - name: taxgstreliefgroupheading_my
+        description: ""
+
+      - name: taxwithholdcalculate_in
+        description: ""
+
+      - name: taxwithholdcalculate_th
+        description: ""
+
+      - name: printdynamicqrcode_in
+        description: ""
+
+      - name: invoicetype_w
+        description: ""
+
+      - name: cfditemporaryexport_mx
+        description: ""
+
+      - name: credmantitleheld
+        description: ""
+
+      - name: credmanwithagency
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: affiliated_ru
+        description: ""
+
+      - name: blocked
+        description: ""
+
+      - name: creditcardaddressverification
+        description: ""
+
+      - name: creditcardaddressverificationlevel
+        description: ""
+
+      - name: custexcludecollectionfee
+        description: ""
+
+      - name: custexcludeinterestcharges
+        description: ""
+
+      - name: custfinaluser_br
+        description: ""
+
+      - name: custwhtcontributiontype_br
+        description: ""
+
+      - name: entrycertificaterequired_w
+        description: ""
+
+      - name: exportsales_pl
+        description: ""
+
+      - name: expressbilloflading
+        description: ""
+
+      - name: fednonfedindicator
+        description: ""
+
+      - name: forecastdmpinclude
+        description: ""
+
+      - name: foreignresident_ru
+        description: ""
+
+      - name: generateincomingfiscaldocument_br
+        description: ""
+
+      - name: icmscontributor_br
+        description: ""
+
+      - name: intercompanyallowindirectcreation
+        description: ""
+
+      - name: intercompanydirectdelivery
+        description: ""
+
+      - name: isresident_lv
+        description: ""
+
+      - name: issueownentrycertificate_w
+        description: ""
+
+      - name: mandatorycreditlimit
+        description: ""
+
+      - name: mandatoryvatdate_pl
+        description: ""
+
+      - name: onetimecustomer
+        description: ""
+
+      - name: packagedepositexcempt_pl
+        description: ""
+
+      - name: pdsfreightaccrued
+        description: ""
+
+      - name: rfidcasetagging
+        description: ""
+
+      - name: rfiditemtagging
+        description: ""
+
+      - name: rfidpallettagging
+        description: ""
+
+      - name: servicecodeondlvaddress_br
+        description: ""
+
+      - name: shipcarrierblindshipment
+        description: ""
+
+      - name: shipcarrierfuelsurcharge
+        description: ""
+
+      - name: suframa_br
+        description: ""
+
+      - name: suframapiscofins_br
+        description: ""
+
+      - name: taxwithholdcalculate_th_2
+        description: ""
+
+      - name: unitedvatinvoice_lt
+        description: ""
+
+      - name: usecashdisc
+        description: ""
+
+      - name: usepurchrequest
+        description: ""
+
+      - name: websalesorderdisplay
+        description: ""
+
+      - name: cfdienabled_mx
+        description: ""
+
+      - name: foreigntrade_mx
+        description: ""
+
+      - name: useoriginaldocumentasfacture_ru
+        description: ""
+
+      - name: overridesalestax
+        description: ""
+
+      - name: usualexporter_it
+        description: ""
+
+      - name: ispublicsector_it
+        description: ""
+
+      - name: simplifytaxintgrexportdocvalidation_cn
+        description: ""
+
+      - name: simplenational_br
+        description: ""
+
+      - name: simplifytaxintgrexporttaxregvalidation_cn
+        description: ""
+
+      - name: credmanexclude
+        description: ""
+
+      - name: credmancustunlimitedcredit
+        description: ""
+
+      - name: revrecdisableintercompany
+        description: ""
+
+      - name: credmaneligiblecreditlimitdate
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: credmanbusinessstarted
+        description: ""
+
+      - name: credmancustomersince
+        description: ""

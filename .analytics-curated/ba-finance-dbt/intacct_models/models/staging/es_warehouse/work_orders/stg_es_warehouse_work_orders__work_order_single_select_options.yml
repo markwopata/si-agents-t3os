@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_single_select_options
+    description: Model for es_warehouse.work_orders.work_order_single_select_options
+    columns:
+      - name: work_order_single_select_option_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: work_order_single_select_item_id
+        description: ""
+      - name: task_select_option_id
+        description: ""
+      - name: display_name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: int_materials_sage
+    description: "Intermediate model to match Sage entries with bisTrack entries for revenue and expenses."
+    columns:
+      - name: market_id
+        description: "Identifier for the market associated with the transaction, populated from Sage."
+      - name: line_id
+        description: "Unique identifier for the line item, fk_gl_entry_id from Sage."
+      - name: header_number
+        description: "Identifier for the related header, entry_description from Sage."
+      - name: header_id
+        description: "Identifier for the related header, pk_gl_detail_id from Sage."
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: "entry_description from Sage."
+      - name: unit_amount
+        description: "Unit amount for the line item, null in this case."
+      - name: total_cost
+        description: "Total cost for the line item, calculated from Sage cost accounts."
+      - name: total_amount
+        description: "Total amount for the line item, calculated from Sage revenue accounts."
+      - name: total_tax
+        description: "Total tax for the line item, null in this case."
+      - name: total_margin
+        description: "Total margin for the line item, null in this case."
+      - name: datetime_created
+        description: "Timestamp when the record was created, entry_date from Sage."
+      - name: quantity
+        description: "Quantity for the line item, null in this case."
+      - name: product_id
+        description: "Product identifier for the line item, null in this case."
+      - name: rev_gl_code
+        description: "Revenue GL code, populated from Sage Revenue accounts."
+      - name: exp_gl_code
+        description: "Expense GL code, populated from Sage Cost accounts."
+      - name: line_type
+        description: "Type of the line item, 'sage' in this case."

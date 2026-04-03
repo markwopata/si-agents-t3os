@@ -1,0 +1,108 @@
+---
+version: 2
+
+models:
+  - name: retail_sales_assets
+    description: >
+        Retail Sales Assets Model. This model contains all the assets related to retail sales.
+    config:
+      tags: ["retail_sales"]
+    columns:
+      - name: pk_id
+        description: >
+          The primary key for the record.
+        data_tests:
+          - not_null
+          - unique
+      - name: quote_created_at
+        description: >
+          The timestamp when the quote was first created (earliest version).
+      - name: quote_completed_at
+        description: >
+          The timestamp when the quote was completed.
+      - name: status
+        description: >
+          The current status of the quote (e.g., draft, pending gm approval, complete, denied).
+      - name: quote_pk_id
+        description: >
+          The primary key ID of the quote this asset belongs to.
+      - name: quote_id
+        description: >
+          The ID of the quote this asset belongs to.
+      - name: invoice_id
+        description: >
+          The invoice ID if the quote has been converted to an invoice.
+      - name: payment_method
+        description: "{{ doc('retail_sales_payment_method') }}"
+      - name: asset_pk_id
+        description: >
+          The primary key ID of the asset.
+      - name: asset_id
+        description: >
+          The unique identifier of the asset.
+      - name: serial_number
+        description: >
+          The serial number of the asset.
+      - name: make
+        description: >
+          The manufacturer/make of the asset (uppercase and trimmed).
+      - name: model
+        description: >
+          The model of the asset (uppercase and trimmed).
+      - name: description
+        description: >
+          A concatenated description of the asset in the format: make-model-serial_number.
+      - name: rebate_oec
+        description: >
+          The original equipment cost (OEC) used for rebate calculations.
+      - name: sale_price
+        description: >
+          The sale price of the asset.
+      - name: oec
+        description: >
+          The original equipment cost of the asset.
+      - name: line_description
+        description: >
+          An array of additional cost line items with details including line type, price, cost, and description.
+      - name: additional_items_price
+        description: >
+          The total price of additional items associated with this asset.
+      - name: additional_items_cost
+        description: >
+          The total cost of additional items associated with this asset.
+      - name: rebate_description
+        description: >
+          An array of rebate items with details including type, dollar amount, percentage, and description.
+      - name: total_trade_in_value
+        description: >
+          The total value of trade-ins applied to this asset.
+      - name: total_trade_in_over_allowance
+        description: >
+          The total amount of trade-in over allowance for this asset.
+      - name: total_asset_price
+        description: >
+          The total price for this asset including sale price and additional items.
+      - name: total_asset_cost
+        description: >
+          The total cost for this asset including OEC, additional items cost, and trade-in over allowance.
+      - name: total_rebate
+        description: >
+          The total rebate amount for this asset calculated from percentage and dollar rebates.
+      - name: total_margin
+        description: >
+          The total margin for this asset (total price minus total cost plus rebates).
+      - name: is_current
+        description: >
+          Boolean flag indicating if this is from the current/latest version of the quote.
+      - name: equipment_class_id
+        description: >
+          The ID of the equipment class this asset belongs to.
+      - name: equipment_class
+        description: >
+          The name of the equipment class this asset belongs to.
+      - name: category_id
+        description: >
+          The ID of the category this asset belongs to.
+      - name: category
+        description: >
+          The name of the category this asset belongs to.

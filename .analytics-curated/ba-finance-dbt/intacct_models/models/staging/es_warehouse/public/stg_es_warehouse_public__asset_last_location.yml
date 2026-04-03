@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_last_location
+    description: Model for es_warehouse.public.asset_last_location
+    columns:
+      - name: asset_id
+        description: ""
+      - name: geofences
+        description: ""
+      - name: address
+        description: ""
+      - name: location
+        description: ""
+      - name: last_location_timestamp
+        description: ""
+      - name: last_checkin_timestamp
+        description: ""

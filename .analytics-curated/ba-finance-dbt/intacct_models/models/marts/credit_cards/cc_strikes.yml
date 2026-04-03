@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: cc_strikes
+    description: >
+      This model is a mart of all credit card strikes (if ES has not received an uploaded  receipt within a certain
+      amount of days, the employee will receive a strike)
+    columns:
+      - name: employee_id
+        description: ""
+        data_tests:
+          - unique
+      - name: email_address
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: ""
+      - name: user_full_name
+        description: ""
+      - name: card_type
+        description: ""
+      - name: corporate_account_name
+        description: ""
+      - name: corporate_account_number
+        description: ""
+      - name: status
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: shutoff_date
+        description: ""
+      - name: days_until_shutoff
+        description: ""
+      - name: total_receipts_not_received
+        description: ""

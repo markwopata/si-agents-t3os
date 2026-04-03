@@ -1,0 +1,121 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_purchase_order_line_items
+    description: Model for es_warehouse.public.company_purchase_order_line_items
+    columns:
+      - name: company_purchase_order_line_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_purchase_order_line_item_number
+        description: "Used in the line level purchase order number. e.g. SPO123456-1"
+      - name: company_purchase_order_id
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: year
+        description: ""
+      - name: factory_build_specifications
+        description: ""
+      - name: attachments
+        description: ""
+      - name: market_id
+        description: ""
+      - name: quantity
+        description: ""
+      - name: release_date
+        description: ""
+      - name: order_status
+        description: ""
+      - name: serial
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: finance_status
+        description: ""
+      - name: reconciliation_status
+        description: ""
+      - name: note
+        description: ""
+      - name: deleted_at
+        description: ""
+      - name: net_price
+        description: ""
+      - name: freight_cost
+        description: ""
+      - name: toll_transponder
+        description: ""
+      - name: fuel_card
+        description: ""
+      - name: odometer
+        description: ""
+      - name: titled_owner
+        description: ""
+      - name: vin
+        description: ""
+      - name: license_state_id
+        description: ""
+      - name: license_plate
+        description: ""
+      - name: license_expiration
+        description: ""
+      - name: fhwt
+        description: ""
+      - name: dot_unit_number
+        description: ""
+      - name: registration_cost
+        description: ""
+      - name: tax
+        description: ""
+      - name: pending_schedule
+        description: ""
+      - name: financial_schedule_id
+        description: ""
+      - name: deleted_by_user_id
+        description: ""
+      - name: title_status
+        description: ""
+      - name: lienholder_on_title
+        description: ""
+      - name: sales_tax
+        description: ""
+      - name: rebate
+        description: ""
+      - name: original_promise_date
+        description: ""
+      - name: current_promise_date
+        description: ""
+      - name: title_processed
+        description: ""
+      - name: gvwr
+        description: ""
+      - name: tire_rim_size
+        description: ""
+      - name: payment_type
+        description: ""
+      - name: sage_record_id
+        description: ""
+      - name: tire_size
+        description: ""
+      - name: paid_date
+        description: ""
+      - name: invoice_due_date
+        description: ""
+      - name: week_to_be_paid
+        description: ""
+      - name: reconciliation_status_date
+        description: ""
+      - name: aftermarket_oec
+        description: ""
+      - name: due_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__camera_event_medias
+    description: Model for es_warehouse.public.camera_event_medias
+    columns:
+      - name: camera_event_media_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: feed_id
+        description: ""
+      - name: start_date_time
+        description: ""
+      - name: end_date_time
+        description: ""
+      - name: altitude
+        description: ""
+      - name: heading
+        description: ""
+      - name: location
+        description: ""
+      - name: speed
+        description: ""
+      - name: mdt_url
+        description: ""
+      - name: url
+        description: ""
+      - name: camera_event_id
+        description: ""
+      - name: smartwitness_api_media_request_log_id
+        description: ""
+      - name: tracking_incident_id
+        description: ""
+      - name: clip_id
+        description: ""
+      - name: media_request_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__user_groups
+    description: Model for es_warehouse.inventory.user_groups
+    columns:
+      - name: user_group_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: group_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

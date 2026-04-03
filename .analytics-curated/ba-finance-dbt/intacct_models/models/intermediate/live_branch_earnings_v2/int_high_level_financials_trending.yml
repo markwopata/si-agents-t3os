@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: int_high_level_financials_trending
+    description: "High-level financial trending data aggregated by market and month, showing key revenue and expense metrics for live branch earnings analysis"
+    columns:
+      - name: pk_id
+        data_type: string
+        description: "Primary key combining market_id and gl_month (format: 'market_id-gl_month')"
+        data_tests:
+          - not_null
+          - unique
+      - name: market_id
+        data_type: number
+        description: "Unique identifier for the market/branch location"
+        data_tests:
+          - not_null
+      - name: gl_date
+        data_type: date
+        description: "General ledger month for the financial data"
+        data_tests:
+          - not_null
+      - name: rental_revenue
+        data_type: number
+        description: "Total rental revenue from accounts FAAA, TAIR, and 5000"
+      - name: delivery_revenue
+        data_type: number
+        description: "Total paid delivery revenue"
+      - name: nonintercompany_delivery_revenue
+        data_type: number
+        description: "Non-intercompany delivery revenue from account 5009"
+      - name: delivery_expense
+        data_type: number
+        description: "Total delivery-related expenses"
+      - name: sales_revenue
+        data_type: number
+        description: "Total sales revenue from accounts FBAA, FCAA, FCBA, FCCA, and FDJJ"
+      - name: sales_expense
+        data_type: number
+        description: "Total sales-related expenses from accounts GBAA, GCAA, GCBA, GCCA, 6101, 6047, and GCJJ"
+      - name: total_revenue
+        data_type: number
+        description: "Sum of all revenue line items"
+      - name: payroll_compensation_expense
+        data_type: number
+        description: "Total payroll and compensation expenses"
+      - name: payroll_wage_expense
+        data_type: number
+        description: "Payroll wage expenses excluding commission expenses"
+      - name: payroll_overtime_expense
+        data_type: number
+        description: "Overtime wage expenses"
+      - name: outside_hauling_expense
+        data_type: number
+        description: "Outside hauling expenses from accounts 6014 and 6031"
+      - name: net_income
+        data_type: number
+        description: "Net income calculated as sum of all amounts (revenue minus expenses)"

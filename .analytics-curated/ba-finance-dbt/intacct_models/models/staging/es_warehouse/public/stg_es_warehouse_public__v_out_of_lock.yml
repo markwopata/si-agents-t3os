@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_out_of_lock
+    description: Model for es_warehouse.public.v_out_of_lock
+    columns:
+      - name: asset_id
+        description: ""
+      - name: out_of_lock_timestamp
+        description: ""
+      - name: hours_out_of_lock
+        description: ""
+      - name: over_72_hours_flag
+        description: ""
+      - name: out_of_lock_reason
+        description: ""
+      - name: unplugged_flag
+        description: ""

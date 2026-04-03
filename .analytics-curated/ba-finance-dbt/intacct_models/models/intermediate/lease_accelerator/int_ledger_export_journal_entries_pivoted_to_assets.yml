@@ -1,0 +1,31 @@
+---
+version: 2
+
+models:
+  - name: int_ledger_export_journal_entries_pivoted_to_assets
+    description: >
+      Re-graining the ledger export report from the journal entry to the asset level
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_number
+              - account_description
+    columns:
+      - name: asset_number
+        description: ""
+
+      - name: account_description
+        description: ""
+
+      - name: net_amount
+        description: ""
+
+      - name: ledger_date
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: comments
+        description: ""

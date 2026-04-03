@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_group_analysis
+    description: Table for product groups analysis, including stock turns and GMROI.
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: product_group_id
+        description: 'Identifier for the product group.'
+      - name: full_stock_turn
+        description: 'Full stock turn for the product group.'
+      - name: calculated_datetime
+        description: 'Datetime when the analysis was calculated.'
+      - name: gmroi
+        description: 'Gross Margin Return on Investment for the product group.'
+      - name: periods_analysed
+        description: 'Number of periods analysed for the product group.'
+      - name: full_stock_age
+        description: 'Age of the full stock for the product group.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

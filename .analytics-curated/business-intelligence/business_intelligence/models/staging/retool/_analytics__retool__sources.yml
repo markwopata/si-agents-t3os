@@ -1,0 +1,261 @@
+version: 2
+
+sources:
+  - name: retool
+    description: "These are the source tables that power Retool apps and get updated by Retool that are in the BI_OPS schema."
+    database: analytics
+    schema: bi_ops
+    tables:
+      - name: credit_app_master_retool
+        description: "{{ doc('analytics__bi_ops__credit_app_master_retool') }}"
+        columns:
+          - name: camr_id
+            data_type: number
+            description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+
+          - name: date_created
+            data_type: timestamp_ntz
+            description: "{{ doc('credit_application__date_created_utc') }}"
+
+          - name: created_by_email
+            data_type: varchar
+            description: "{{ doc('credit_application__created_by_email') }}"
+
+          - name: source
+            data_type: varchar
+            description: "{{ doc('credit_application__source') }}"
+
+          - name: company_id
+            data_type: number
+            description: "{{ doc('credit_application__company_id') }}"
+            data_tests:
+            - not_null:
+                config:
+                  where: "coalesce(initial_web_unauthenticated, false) = false"
+              
+          - name: company
+            data_type: varchar
+            description: "{{ doc('credit_application__company') }}"
+
+          - name: market_id
+            data_type: number
+            description: "{{ doc('credit_application__market_id') }}"
+
+          - name: market
+            data_type: varchar
+            description: "{{ doc('credit_application__market') }}"
+
+          - name: duns
+            data_type: varchar
+            description: "{{ doc('credit_application__duns') }}"
+
+          - name: fein
+            data_type: varchar
+            description: "{{ doc('credit_application__fein') }}"
+
+          - name: sic
+            data_type: number
+            description: "{{ doc('credit_application__sic') }}"
+
+          - name: naics_1
+            data_type: number
+            description: "{{ doc('credit_application__naics_primary') }}"
+
+          - name: naics_2
+            data_type: number
+            description: "{{ doc('credit_application__naics_secondary') }}"
+
+          - name: date_received
+            data_type: date
+            description: "{{ doc('credit_application__date_received_ct') }}"
+
+          - name: date_completed
+            data_type: date
+            description: "{{ doc('credit_application__date_completed_ct') }}"
+
+          - name: app_status
+            data_type: varchar
+            description: "{{ doc('credit_application__application_status') }}"
+            data_tests:
+            - accepted_values:
+                arguments:
+                  values: 
+                    - 'Approved'
+                    - 'COD Per Request'
+                    - 'Declined COD'
+                    - 'COD Branch'
+                    - 'COD Web'
+                    - 'Existing Customer'
+                    - 'Pending TAM Review'
+                  config:
+                    severity: warn
+                    where: "date_created::date > '2024-07-30'"
+
+          - name: notes
+            data_type: varchar
+            description: "{{ doc('credit_application__notes') }}"
+
+          - name: sp_user_id
+            data_type: number
+            description: "{{ doc('credit_application__salesperson_user_id') }}"
+            data_tests:
+            - not_null:
+                config:
+                  where: >
+                    date_created::date > '2024-04-05'::date
+                    and notes <> 'Automated record'
+                    and salesperson <> 'Pending Rep Assignment'
+                  
+          - name: salesperson
+            data_type: varchar
+            description: "{{ doc('credit_application__salesperson') }}"
+
+          - name: cs_user_id
+            data_type: number
+            description: "{{ doc('credit_application__credit_specialist_user_id') }}"
+
+          - name: credit_specialist
+            data_type: varchar
+            description: "{{ doc('credit_application__credit_specialist') }}"
+
+          - name: government_entity
+            data_type: boolean
+            description: "{{ doc('credit_application__government_entity') }}"
+
+          - name: insurance_info
+            data_type: boolean
+            description: "{{ doc('credit_application__insurance_info') }}"
+
+          - name: insurance_company
+            data_type: varchar
+            description: "{{ doc('credit_application__insurance_company') }}"
+
+          - name: insurance_email
+            data_type: varchar
+            description: "{{ doc('credit_application__insurance_email') }}"
+
+          - name: insurance_phone
+            data_type: varchar
+            description: "{{ doc('credit_application__insurance_phone') }}"
+
+          - name: online_app_status
+            data_type: boolean
+            description: "{{ doc('credit_application__online_app_status') }}"
+
+          - name: deleted
+            data_type: boolean
+            description: "{{ doc('credit_application__deleted') }}"
+
+          - name: salesperson_override
+            data_type: boolean
+            description: "{{ doc('credit_application__salesperson_override') }}"
+
+          - name: initial_web_self_signup
+            data_type: boolean
+            description: "{{ doc('credit_application__initial_web_self_signup') }}"
+
+          - name: coi_received
+            data_type: boolean
+            description: "{{ doc('credit_application__coi_received') }}"
+            
+          - name: credit_safe_no
+            data_type: varchar
+            description: "{{ doc('credit_application__credit_safe_number') }}"
+
+          - name: initial_web_unauthenticated
+            data_type: boolean
+            description: "{{ doc('credit_application__initial_web_unauthenticated') }}"
+
+          - name: unauthenticated_dot_com_app_id
+            data_type: number
+            description: "{{ doc('credit_application__unauthenticated_dot_com_app_id') }}"
+
+      - name: tam_goals
+        description: ""
+        columns:
+          - name: tam_goal_id
+            data_type: number
+            description: ""
+          - name: date_created
+            data_type: timestamp_ntz
+            description: ""
+          - name: year
+            data_type: number
+            description: ""
+          - name: month
+            data_type: number
+            description: ""
+          - name: tam_user_id
+            data_type: number
+            description: ""
+          - name: revenue_goal
+            data_type: number
+            description: ""
+          - name: created_by_email
+            data_type: varchar
+            description: ""
+          - name: in_market_goal
+            data_type: number
+            description: ""
+          - name: out_market_goal
+            data_type: number
+            description: ""
+
+      - name: national_account_info
+        description: ""
+        columns:
+          - name: na_info_id
+            data_type: number
+            description: ""
+          - name: record_creation_date
+            data_type: timestamp_ntz
+            description: ""
+          - name: created_by_email
+            data_type: varchar
+            description: ""
+          - name: company_id
+            data_type: number
+            description: ""
+          - name: region
+            data_type: number
+            description: ""
+          - name: coordinator_user_id
+            data_type: number
+            description: ""
+          - name: account_folder_url
+            data_type: varchar
+            description: ""
+          - name: notes
+            data_type: varchar
+            description: ""
+
+      - name: nam_goals
+        description: ""
+        columns:
+          - name: nam_goal_id
+            data_type: number
+            description: ""
+          - name: date_created
+            data_type: timestamp_ntz
+            description: ""
+          - name: month
+            data_type: date
+            description: ""
+          - name: nam_user_id
+            data_type: number
+            description: ""
+          - name: revenue_goal
+            data_type: number
+            description: ""
+          - name: core_goal
+            data_type: number
+            description: ""
+          - name: adv_goal
+            data_type: number
+            description: ""
+          - name: itl_goal
+            data_type: number
+            description: ""
+          - name: created_by_email
+            data_type: varchar
+            description: ""

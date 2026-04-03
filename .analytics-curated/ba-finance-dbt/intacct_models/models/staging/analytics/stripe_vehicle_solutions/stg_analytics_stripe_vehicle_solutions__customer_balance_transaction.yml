@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__customer_balance_transaction
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the customer balance transaction."
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: credit_note
+        description: "ID of the credit note associated with this transaction, if any."
+      - name: description
+        description: "Arbitrary string attached to the transaction, useful for display."
+      - name: ending_balance
+        description: "Customer's balance after this transaction."
+      - name: livemode
+        description: "Indicates if this is a test record."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: type
+        description: "Type of the balance transaction."
+      - name: customer_id
+        description: "ID of the customer this transaction belongs to."
+      - name: invoice_id
+        description: "ID of the invoice this transaction relates to, if any."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

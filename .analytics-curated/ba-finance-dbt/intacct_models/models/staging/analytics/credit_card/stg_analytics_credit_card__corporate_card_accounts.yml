@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__corporate_card_accounts
+    description: "table for our credit card account numbers and names"
+    columns:
+      - name: corporate_account_number
+        description: "corporate account number for EquipmentShare's Credit Cards"
+      - name: corporate_account_name
+        description: "corporate account name for EquipmentShare's Credit Cards"
+      - name: card_type
+        description: "credit card provider name/type of card"

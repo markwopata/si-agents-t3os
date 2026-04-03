@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_incident_threshold_fields
+    description: Model for es_warehouse.public.asset_incident_threshold_fields
+    columns:
+      - name: asset_incident_threshold_field_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: ""
+      - name: event_field_name
+        description: ""
+      - name: asset_incident_threshold_field_unit_id
+        description: ""
+      - name: debounce_number
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

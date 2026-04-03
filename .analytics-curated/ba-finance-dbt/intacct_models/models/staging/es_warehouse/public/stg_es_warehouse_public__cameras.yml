@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__cameras
+    description: Model for es_warehouse.public.cameras
+    columns:
+      - name: camera_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: device_serial
+        description: ""
+      - name: camera_vendor_id
+        description: ""
+      - name: number_of_feeds
+        description: ""
+      - name: created
+        description: ""
+      - name: updated
+        description: ""
+      - name: vendor_camera_id
+        description: ""
+      - name: phone_number
+        description: ""
+      - name: iccid
+        description: ""
+      - name: company_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_analytics_concur__pending_branch_approval
+    description: ""
+    columns:
+      - name: vendor_id
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: item_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: cost_object_approver
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: vendor_name
+        description: ""
+      - name: po_number
+        description: ""
+      - name: branch_name
+        description: ""
+      - name: expense_type_name
+        description: ""
+      - name: days_pending_approval
+        description: ""
+      - name: request_total
+        description: ""
+      - name: requested_total
+        description: ""
+      - name: latest_submit_date
+        description: ""
+      - name: cognos_date
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

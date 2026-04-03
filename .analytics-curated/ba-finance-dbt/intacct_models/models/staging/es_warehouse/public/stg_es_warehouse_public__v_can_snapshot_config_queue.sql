@@ -1,0 +1,20 @@
+SELECT
+    vcscq.tracker_id,
+    vcscq.device_serial,
+    vcscq.tracker_type_id,
+    vcscq.asset_id,
+    vcscq.company_id,
+    vcscq.year,
+    vcscq.equipment_make_id,
+    vcscq.make_name,
+    vcscq.model,
+    vcscq.equipment_model_id,
+    vcscq.model_name,
+    vcscq.equipment_class_id,
+    vcscq.class_name,
+    vcscq.category_id,
+    vcscq.category_name,
+    vcscq.cat_canonical_name,
+    vcscq.cat_singular_name,
+    vcscq.bus_type
+FROM {{ source('es_warehouse_public', 'v_can_snapshot_config_queue') }} as vcscq

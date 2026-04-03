@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vsg_postgres__public__models
+    description: "Models contains information about the vehicle models."
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_at
+        description: ""
+      - name: name
+        description: ""
+      - name: hq_id
+        description: ""
+      - name: public_image_link
+        description: ""
+      - name: active
+        description: ""
+      - name: top_speed_mph
+        description: ""
+      - name: mile_range
+        description: ""
+      - name: drivetrain
+        description: ""
+      - name: zero_to_sixty_mph_seconds
+        description: ""
+      - name: seating_capacity
+        description: ""
+      - name: year
+        description: ""
+      - name: features
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

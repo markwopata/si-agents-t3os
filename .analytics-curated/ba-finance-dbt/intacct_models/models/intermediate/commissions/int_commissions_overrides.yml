@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: int_commissions_overrides
+    description: Commission Overrides
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - line_item_id
+            - salesperson_user_id
+    columns:
+      - name: line_item_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: is_employee_override
+        description: ""
+      - name: employee_override_rate
+        description: ""
+      - name: is_company_override
+        description: ""
+      - name: company_override_rate
+        description: ""
+      - name: is_line_item_override
+        description: ""
+      - name: line_item_override_rate
+        description: ""
+      - name: is_exception
+        description: ""
+      - name: is_override
+        description: ""

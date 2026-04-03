@@ -1,0 +1,37 @@
+version: 2
+
+sources:
+  - name: es_warehouse__scd
+    database: es_warehouse
+    schema: scd
+    tables:
+      - name: scd_asset_inventory_status
+        columns:
+          - name: asset_id
+            data_type: number
+          - name: asset_inventory_status
+            data_type: varchar
+          - name: date_start
+            data_type: timestamp_tz
+          - name: date_end
+            data_type: timestamp_tz
+          - name: current_flag
+            data_type: number
+          - name: id
+            data_type: number
+      - name: scd_asset_statuses_battery_voltage
+        columns:
+          - name: asset_statuses_battery_voltage_id
+            data_type: number
+          - name: asset_id
+            data_type: number
+          - name: battery_voltage
+            data_type: number
+          - name: date_start
+            data_type: timestamp_tz
+          - name: date_end
+            data_type: timestamp_tz
+          - name: current_flag
+            data_type: number
+          - name: _es_update_timestamp
+            data_type: timestamp_tz

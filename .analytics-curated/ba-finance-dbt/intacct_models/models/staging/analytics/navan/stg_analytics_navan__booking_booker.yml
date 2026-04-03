@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_booker
+    description: Staging model for Navan booking booker information, containing details about the person who made the travel booking
+    columns:
+      - name: booking_uuid
+        description: Unique identifier for the booking record.
+      - name: index
+        description: Index value for the booker entry.
+      - name: _fivetran_deleted
+        description: Indicates if the record was deleted by Fivetran.
+      - name: uuid
+        description: Unique identifier for the booker.
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran.
+      - name: subsidiary
+        description: Subsidiary associated with the booker.
+      - name: cost_center
+        description: Cost center associated with the booker.
+      - name: name
+        description: Name of the booker.
+      - name: region
+        description: Region associated with the booker.
+      - name: manager_uuid
+        description: Unique identifier for the booker's manager.
+      - name: email
+        description: Email address of the booker.
+      - name: employeed_id
+        description: Employee ID of the booker.
+      - name: department
+        description: Department of the booker.

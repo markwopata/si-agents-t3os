@@ -1,0 +1,18 @@
+--- 
+version: 2
+
+models:
+  - name: stg_analytics_payroll__cost_center_to_market_id
+    description: cleaned and renamed model of analytics.payroll.cost_center_to_market_id
+    columns:
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: default_cost_centers_full_path
+        description: cost center path for each branch that a cardholder is related to. to analyze by region, district, branch, etc and can tie thag all the way up to the top level of company activity
+
+      - name: employee_status
+        description: Indicates the current status of the employee (e.g., active, terminated, on leave).
+
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

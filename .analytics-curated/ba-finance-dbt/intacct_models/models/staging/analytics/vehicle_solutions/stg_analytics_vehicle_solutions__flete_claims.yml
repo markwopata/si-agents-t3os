@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vehicle_solutions__flete_claims
+    description: "Flete insurance claims data."
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - claim_id
+              - vehicle
+              - reservation
+    columns:
+      - name: claim_id
+        description: ""
+      - name: status
+        description: ""
+      - name: detailed_status
+        description: ""
+      - name: vehicle
+        description: ""
+      - name: reservation
+        description: ""
+      - name: deductible
+        description: ""
+      - name: deductible_other
+        description: ""
+      - name: mop
+        description: ""
+      - name: mop_amount
+        description: ""
+      - name: mop_other
+        description: ""
+      - name: total_paid
+        description: ""
+      - name: total_transactions
+        description: ""
+      - name: estimated_cost
+        description: ""
+      - name: date_last_edited_est
+        description: ""
+      - name: platform
+        description: ""
+      - name: fleet_name
+        description: ""
+      - name: file_name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

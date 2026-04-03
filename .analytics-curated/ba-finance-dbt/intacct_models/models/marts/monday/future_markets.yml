@@ -1,0 +1,139 @@
+---
+version: 2
+
+models:
+  - name: future_markets
+    description: "Future Markets pipeline data sourced from Monday boards. Includes metadata, financials, incentives, and project milestones for new or expanding branches."
+    config:
+      schema: branch_earnings
+    columns:
+      - name: item_id
+        description: "Unique identifier for the item in the Monday board. An item represents a row in the board."
+        data_tests:
+          - unique
+
+      - name: market
+        description: "Unique identifier or name of the market/branch under consideration."
+
+      - name: city_state
+        description: "Location of the market in 'City, State' format."
+
+      - name: branch_type
+        description: "Type of branch (e.g., greenfield, relocation, expansion)."
+
+      - name: region_district
+        description: "Assigned region and district for the market."
+
+      - name: master_markets
+        description: "Reference to associated master markets this branch falls under."
+
+      - name: under_contract_master_markets
+        description: "Indicates if the master market is under contract."
+
+      - name: new_market_additions
+        description: "List of new markets being added in this project cycle."
+
+      - name: current_mrkt_expansion
+        description: "Details of expansions in existing markets."
+
+      - name: project_status
+        description: "Overall status of the market project (e.g., active, pending, complete)."
+
+      - name: start_date
+        description: "Start date of the market project."
+
+      - name: construction_start_dollars
+        description: "Construction start budget in dollars."
+
+      - name: close_date_expected
+        description: "Expected closing date of the project."
+
+      - name: timeline
+        description: "Project timeline captured as text or range of dates."
+
+      - name: launch_phase
+        description: "Current launch phase (e.g., discovery, planning, construction)."
+
+      - name: cpm_dm_kickoff_call
+        description: "Status of the CPM/DM kickoff call milestone."
+
+      - name: incentive_status
+        description: "Current status of incentives being applied for or approved."
+
+      - name: incentive_application
+        description: "Details of the incentive application submission."
+
+      - name: potential_incentive_value
+        description: "Estimated dollar value of potential incentives for the project."
+
+      - name: application_fee
+        description: "Application fee associated with incentives or permits."
+
+      - name: ideal_quarter_target
+        description: "Targeted quarter for project completion or milestone achievement."
+
+      - name: quarter_target
+        description: "Quarterly target linked to this project."
+
+      - name: projected_oec
+        description: "Projected original equipment cost (OEC) associated with the market."
+
+      - name: projected_fte
+        description: "Projected full-time employees (FTEs) for the branch once live."
+
+      - name: projected_payroll
+        description: "Estimated payroll cost for the projected FTEs."
+
+      - name: maximum_monthly_spend
+        description: "Projected maximum monthly spend for the branch."
+
+      - name: mega_project_2030_dollars
+        description: "Dollar value of mega project initiatives aligned with 2030 plans."
+
+      - name: subitems
+        description: "Subitems or child tasks linked to the market project."
+
+      - name: survey_requests_2025
+        description: "Survey requests related to 2025 planning or compliance."
+
+      - name: peer_locations
+        description: "Peer location references for comparison."
+
+      - name: current_es_locations
+        description: "Existing EquipmentShare locations within this market."
+
+      - name: num_of_deliveries
+        description: "Expected number of deliveries to this market per month."
+
+      - name: avg_delivery_miles_to
+        description: "Average delivery miles required to service this market."
+
+      - name: delivery_rank
+        description: "Ranking of delivery performance or priority compared to peers."
+
+      - name: addition_type
+        description: "Type of addition (e.g., greenfield, relocation, expansion)."
+
+      - name: minimum_acreage
+        description: "Minimum required acreage for the branch site."
+
+      - name: rfi_status
+        description: "Status of RFI (Request for Information) for this market project."
+
+      - name: rfi_link_to_google_drive
+        description: "Google Drive link to RFI documentation."
+
+      - name: local_discovery_call
+        description: "Status of the local discovery call with stakeholders."
+
+      - name: construction_project_manager
+        description: "Name of the construction project manager for the branch."
+
+      - name: total_current_es_in_msa
+        description: "Total current EquipmentShare locations in the metro area (MSA)."
+
+      - name: total_peer_in_msa
+        description: "Total peer (competitor) locations in the metro area (MSA)."
+
+      - name: notes_priority
+        description: "Priority notes or comments associated with the market."

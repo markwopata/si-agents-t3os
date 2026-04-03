@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__dispute_event_types
+    description: ""
+    columns:
+      - name: dispute_event_type_id
+        description: ""
+      - name: description
+        description: ""
+      - name: is_active
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

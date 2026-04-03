@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__sany
+    description: Model for es_warehouse.public.sany
+    columns:
+      - name: device_serial
+        description: ""
+      - name: tracker_type_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: asset_id
+        description: ""

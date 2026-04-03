@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: base_analytics_vehicle_solutions__hq_reservations_payments
+    description: >
+      Landing table containing payment data for HQ reservations, will include duplicates
+      due to append-only ingestion. Use the stg or mart layer models to get deduplicated data.
+
+      Ingested from https://gitlab.internal.equipmentshare.com/business-intelligence/ba-vsg-etl/-/blob/main/app/main.py?ref_type=heads
+    columns:
+      - name: payment_id
+        description: Unique identifier for the payment record.
+      - name: reservation_id
+        description: Identifier of the reservation associated with the payment.
+      - name: prefixed_id
+        description: Identifier for the rental agreement.
+      - name: amount
+        description: Monetary amount of the payment.
+      - name: reference
+        description: Reference value associated with the payment transaction.
+      - name: authorization_or_payment
+        description: Indicates whether the record represents an authorization or a completed payment.
+      - name: payment_type
+        description: Type or method of payment (e.g., card, ACH).
+      - name: payment_date
+        description: Date the payment was processed or recorded.
+      - name: approved_status
+        description: Indicates whether the payment or authorization was approved.
+      - name: payment_status
+        description: Current status of the payment (e.g., pending, completed, failed).
+      - name: transaction_id
+        description: Internal transaction identifier for the payment.
+      - name: transaction_description
+        description: Description or memo associated with the transaction.
+      - name: external_transaction_id
+        description: External processor transaction identifier.
+      - name: _es_update_timestamp
+        description: Timestamp indicating when the record was last updated in the source system.

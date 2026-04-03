@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: fct_invoice_number_amount
+    description: "This model contains numerical data on invoices (invoice_amount)\n"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - invoice_id
+              - customer_id
+              - invoice_number
+    columns:
+      - name: invoice_id
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: invoice_amount
+        description: ""

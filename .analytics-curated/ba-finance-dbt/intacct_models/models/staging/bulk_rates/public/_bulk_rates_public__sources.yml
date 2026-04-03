@@ -1,0 +1,12 @@
+---
+version: 2
+
+sources:
+  - name: bulk_rates_public
+    tags: ["sources"]
+    database: bulk_rates
+    schema: public
+    description: Bulk Rate tables
+    tables:
+      - name: bulk_rates
+        description: ""

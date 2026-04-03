@@ -1,0 +1,10 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_used
+    description: Retail Commissions Calculation
+    columns:
+      - name: line_item_id
+        data_tests:
+          - not_null
+          - unique

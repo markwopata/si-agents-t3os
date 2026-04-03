@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tsp_assets
+    description: Model for es_warehouse.public.tsp_assets
+    columns:
+      - name: company_name
+        description: ""
+      - name: company_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: description
+        description: ""
+      - name: year
+        description: ""
+      - name: model
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: make
+        description: ""
+      - name: hours
+        description: ""
+      - name: odometer
+        description: ""
+      - name: device_serial
+        description: ""
+      - name: tracker_name
+        description: ""
+      - name: category_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""

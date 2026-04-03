@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: int_vsg_turo_rentals_earnings_aggregation
+    description: Aggregated earnings data for Turo rentals, summarizing earnings by reservation and earning date.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - earning_date
+    columns:
+      - name: reservation_id
+        description: TURO reservation identifier
+
+      - name: earning_date
+        description: Date when the earning was recorded
+
+      - name: trip_earnings_amount
+        description: Total earnings amount for the trip (potentially including reimbursements and extras - need to investigate)
+

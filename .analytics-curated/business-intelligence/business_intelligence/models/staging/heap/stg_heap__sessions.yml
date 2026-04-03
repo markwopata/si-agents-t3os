@@ -1,0 +1,143 @@
+version: 2
+
+models:
+  - name: stg_heap__sessions
+    description: "{{ doc('heap__sessions') }}"
+    columns:
+      - name: heap_user_id
+        data_type: number
+        description: "{{ doc('heap__user_id') }}"
+        data_tests:
+          - not_null
+
+      - name: event_id
+        data_type: number
+        description: "{{ doc('heap__event_id') }}"
+
+      - name: session_id
+        data_type: number
+        description: "{{ doc('heap__session_id') }}"
+
+      - name: session_timestamp
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__timestamp') }}"
+
+      - name: library
+        data_type: varchar
+        description: "{{ doc('heap__library') }}"
+
+      - name: platform
+        data_type: varchar
+        description: "{{ doc('heap__platform') }}"
+
+      - name: device_type
+        data_type: varchar
+        description: "{{ doc('heap__device_type') }}"
+
+      - name: country
+        data_type: varchar
+        description: "{{ doc('heap__country') }}"
+
+      - name: region
+        data_type: varchar
+        description: "{{ doc('heap__region') }}"
+
+      - name: city
+        data_type: varchar
+        description: "{{ doc('heap__city') }}"
+
+      - name: ip
+        data_type: varchar
+        description: "{{ doc('heap__ip') }}"
+
+      - name: referrer
+        data_type: varchar
+        description: "{{ doc('heap__referrer') }}"
+
+      - name: landing_page
+        data_type: varchar
+        description: "{{ doc('heap__landing_page') }}"
+
+      - name: landing_page_query
+        data_type: varchar
+        description: "{{ doc('heap__landing_page_query') }}"
+
+      - name: landing_page_hash
+        data_type: varchar
+        description: "{{ doc('heap__landing_page_hash') }}"
+
+      - name: browser
+        data_type: varchar
+        description: "{{ doc('heap__browser') }}"
+
+      - name: search_keyword
+        data_type: varchar
+        description: "{{ doc('heap__search_keyword') }}"
+
+      - name: utm_source
+        data_type: varchar
+        description: "{{ doc('heap__utm_source') }}"
+
+      - name: utm_campaign
+        data_type: varchar
+        description: "{{ doc('heap__utm_campaign') }}"
+
+      - name: utm_medium
+        data_type: varchar
+        description: "{{ doc('heap__utm_medium') }}"
+
+      - name: utm_term
+        data_type: varchar
+        description: "{{ doc('heap__utm_term') }}"
+
+      - name: utm_content
+        data_type: varchar
+        description: "{{ doc('heap__utm_content') }}"
+
+      - name: device
+        data_type: varchar
+        description: "{{ doc('heap__device_model') }}"
+
+      - name: carrier
+        data_type: varchar
+        description: "{{ doc('heap__device_carrier') }}"
+
+      - name: app_name
+        data_type: varchar
+        description: "{{ doc('heap__app_name_legacy') }}"
+
+      - name: app_version
+        data_type: varchar
+        description: "{{ doc('heap__app_version_legacy') }}"
+
+      - name: heap_device_id
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: heap_app_name
+        data_type: varchar
+        description: "{{ doc('heap__app_name') }}"
+
+      - name: heap_app_version
+        data_type: varchar
+        description: "{{ doc('heap__app_version') }}"
+
+      - name: heap_device
+        data_type: varchar
+        description: "{{ doc('heap__device_model_legacy') }}"
+
+      - name: app_type_
+        data_type: varchar
+        description: "{{ doc('heap__app_type') }}"
+
+      - name: browser_type
+        data_type: varchar
+        description: "{{ doc('heap__browser_type') }}"
+
+      - name: platform_type_os_
+        data_type: varchar
+        description: "{{ doc('heap__platform_type_os') }}"
+
+      - name: _dbt_updated_timestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_dbt_updated_timestamp') }}"

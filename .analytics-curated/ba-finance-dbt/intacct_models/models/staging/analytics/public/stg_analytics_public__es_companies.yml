@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__es_companies
+    description: ""
+    columns:
+      - name: row_number
+        description: ""
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: company_id
+        description: ""
+      - name: note
+        description: ""
+      - name: company_name
+        description: ""
+      - name: rental_fleet
+        description: ""
+      - name: wide_search_allowed
+        description: ""
+      - name: abl_eligible
+        description: ""
+      - name: balance_sheet
+        description: ""
+      - name: owned
+        description: ""
+      - name: _fivetran_synced
+        description: ""

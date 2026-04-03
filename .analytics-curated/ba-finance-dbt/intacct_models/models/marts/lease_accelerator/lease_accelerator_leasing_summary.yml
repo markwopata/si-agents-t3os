@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: lease_accelerator_leasing_summary
+    description: >
+      This model is a mart of the LAS leasing summary report
+    columns:
+      - name: schedule_number
+        description: ""
+        data_tests:
+          - unique
+
+      - name: total_rent_local
+        description: ""
+
+      - name: funder
+        description: ""
+
+      - name: booking_ledger_date
+        description: ""
+
+      - name: rental_start
+        description: ""
+
+      - name: rental_end
+        description: ""
+
+      - name: term
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: status
+        description: ""
+
+exposures:
+  - name: lease_accelerator_leasing_summary_reports
+    type: dashboard
+    maturity: medium
+    url: https://equipmentshare.looker.com/dashboards/1434?Schedule=
+    description: >
+      List of reports downloaded via LAS API python script (https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/run.py?ref_type=heads).
+      Source data is landed into Snowflake and transformed in dbt
+
+    depends_on:
+      - ref('lease_accelerator_leasing_summary')
+      - ref('lease_accelerator_ledger_export')
+      - ref('lease_accelerator_bu_asset')
+
+    owner:
+      name: "@erik.chu"
+      email: erik.chu@equipmentshare.com

@@ -1,0 +1,86 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__companies
+    description: Model for es_warehouse.public.companies
+    columns:
+      - name: company_id
+        description: "Unique id for each company/customer. Sage intacct calls this customer_id."
+        data_tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: company_name
+        description: "Name of the company/customer."
+      - name: customer_name
+        description: "Name of the company/customer. Alias for company_name"
+      - name: owner_user_id
+        description: ""
+      - name: timezone
+        description: ""
+      - name: billing_location_id
+        description: ""
+      - name: logo_photo_id
+        description: ""
+      - name: delivery_vendor
+        description: ""
+      - name: service_vendor
+        description: ""
+      - name: supply_vendor
+        description: ""
+      - name: do_not_rent_flag
+        description: ""
+      - name: billing_provider_id
+        description: ""
+      - name: net_terms_id
+        description: ""
+      - name: is_telematics_service_provider
+        description: ""
+      - name: is_eligible_for_payouts
+        description: ""
+      - name: xero_id
+        description: ""
+      - name: credit_limit
+        description: ""
+      - name: elogs_id
+        description: ""
+      - name: white_label_application_id
+        description: ""
+      - name: home_office_location_id
+        description: ""
+      - name: dot_number
+        description: ""
+      - name: hours_of_service_type_id
+        description: ""
+      - name: has_fleet
+        description: ""
+      - name: has_rentals
+        description: ""
+      - name: i18n_locale
+        description: ""
+      - name: i18n_unit
+        description: ""
+      - name: i18n_temperature
+        description: ""
+      - name: ou_id
+        description: ""
+      - name: crm_entity_id
+        description: ""
+      - name: external_billing_provider_id
+        description: ""
+      - name: employer_identification_number
+        description: ""
+      - name: is_rsp_partner
+        description: ""
+      - name: has_fleet_cam
+        description: ""
+      - name: universal_entity_id
+        description: ""
+      - name: authorized_signer_id
+        description: ""
+      - name: has_msa
+        description: ""
+      - name: url_admin
+        description: "Link to the admin page for this company"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: stg_t3__po_budget_information
+    description: "PO budget information model"
+
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "asset_id."
+
+      - name: rental_status_id
+        data_type: number
+        description: "rental_status_id"
+
+      - name: rental_rate_filter
+        data_type: boolean
+        description: "rental_rate_filter."
+
+      - name: rental_start_date
+        data_type: timestamp_tz
+        description: "rental_start_date."
+
+      - name: rental_end_date
+        data_type: timestamp_tz
+        description: "rental_end_date"
+
+      - name: jobsite
+        data_type: varchar
+        description: "jobsite"
+
+      - name: invoice_no
+        data_type: varchar
+        description: "invoice_no"
+
+      - name: custom_name
+        data_type: varchar
+        description: "custom_name"
+
+      - name: asset_class
+        data_type: varchar
+        description: "asset_class."
+
+      - name: vendor
+        data_type: varchar
+        description: "vendor."
+
+      - name: order_id
+        data_type: number
+        description: "order_id"
+
+      - name: invoice_date
+        data_type: timestamp_tz
+        description: "invoice_date"
+
+      - name: company_id
+        data_type: number
+        description: "company_id"
+
+      - name: user_company_id
+        data_type: number
+        description: "user_company_id"
+
+      - name: po_name
+        data_type: varchar
+        description: "po_name"
+
+      - name: purchase_order_id
+        data_type: number
+        description: "purchase_order_id"
+
+      - name: lifetime_amount
+        data_type: number
+        description: "lifetime_amount by row"
+
+      - name: lifetime_amount_2
+        data_type: number
+        description: "lifetime_amount coming from CTE"
+
+      - name: budget_amount
+        data_type: number
+        description: "budget_amount"
+
+      - name: lifetime_budget_remaining
+        data_type: number
+        description: "lifetime_budget_remaining"
+
+      - name: lifetime_rental_rate_filter
+        data_type: number
+        description: "lifetime_rental_rate_filter"
+
+      - name: assets_on_po
+        data_type: boolean
+        description: "assets_on_po"
+
+      - name: asset_count
+        data_type: number
+        description: "asset_count"
+
+      - name: cumulative_amount
+        data_type: number
+        description: "cumulative_amount"
+
+      - name: remaining_budget
+        data_type: number
+        description: "remaining_budget"
+
+      - name: pcnt_budget_remaining
+        data_type: number
+        description: "pcnt_budget_remaining"
+
+      - name: budget_status
+        data_type: varchar
+        description: "budget_status"

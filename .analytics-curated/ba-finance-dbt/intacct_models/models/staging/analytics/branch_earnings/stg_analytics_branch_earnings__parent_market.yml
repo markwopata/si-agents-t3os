@@ -1,0 +1,32 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_branch_earnings__parent_market
+    description: >
+      Staging model for branch earnings parent market. Contains historical child-parent market mappings.
+    data_tests:
+      - test_date_start_end_overlaps:
+          name: test_stg_analytics_branch_earnings__parent_market_date_start_end_overlaps
+          date_start_column: start_month
+          date_end_column: end_month
+          group_by_columns: [market_id, parent_market_id]
+          config:
+            severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list:
+            - market_id
+            - start_date
+    columns:
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: parent_market_id
+        description: The ID of the parent market.
+
+      - name: start_date
+        description: start date of the market.
+
+      - name: end_date
+        description: end date of the market.

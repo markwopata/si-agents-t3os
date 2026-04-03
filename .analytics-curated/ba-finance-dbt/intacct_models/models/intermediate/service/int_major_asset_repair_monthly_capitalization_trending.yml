@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_monthly_capitalization_trending
+    description: "Trending / historical view of monthly major asset repair capitalizations (one row per asset-market) from INT_MAJOR_ASSET_REPAIR_CAPITALIZATION_SCHEDULE."    
+    columns:
+      - name: transaction_number
+        description: "Concatenation of major_asset_repair_request_id, asset_id, market_id (major_asset_repair_request_id|asset_id|market_id)."
+        data_tests:
+          - unique
+          - not_null
+      - name: market_id
+        description: "Branch / market identifier (branch_id from source)."
+      - name: account_number
+        description: "Account number from Sage (constant 'IBABB')."
+      - name: transaction_number_format
+        description: "Format definition for transaction_number. Populated as: ' Repair Request ID | Asset ID | Historical Asset Market'."
+      - name: description
+        description: "Constructed description including asset, work order, POs, and WO description."
+      - name: gl_date
+        description: "General ledger date for the capitalization entry (scheduled_capitalization_date_adjusted from the capitalization schedule)."
+      - name: document_type
+        description: "Document type label ('Asset ID')."
+      - name: document_number
+        description: "Asset id cast to varchar (document identifier)."
+      - name: url_sage
+        description: "Sage URL (placeholder null)."
+      - name: url_concur
+        description: "Concur URL (placeholder null)."
+      - name: url_admin
+        description: "Admin URL to the asset in EquipmentShare."
+      - name: url_t3
+        description: "URL to the work order in eStrack."
+      - name: amount
+        description: "Rounded monthly capitalization amount (sum of monthly_total_cap_amount); output as negative in the final select to reflect capitalization treatment."
+      - name: additional_data
+        description: "Object/JSON with asset_id, work_order_id, major_asset_repair_request_id."
+      - name: source
+        description: "Source label for this row (ANALYTICS)."
+      - name: load_section
+        description: "Load section description ('Equipment Repair Capitalization')."
+      - name: source_model
+        description: "dbt reference to the model name."
+    tags:
+      - finance
+      - intacct
+      - capitalizations
+      - branch_earnings
+      - trending

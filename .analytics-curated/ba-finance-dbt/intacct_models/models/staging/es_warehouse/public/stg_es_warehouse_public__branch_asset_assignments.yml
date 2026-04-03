@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__branch_asset_assignments
+    description: Model for es_warehouse.public.branch_asset_assignments
+    columns:
+      - name: branch_asset_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: branch_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: branch_asset_assignment_type_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

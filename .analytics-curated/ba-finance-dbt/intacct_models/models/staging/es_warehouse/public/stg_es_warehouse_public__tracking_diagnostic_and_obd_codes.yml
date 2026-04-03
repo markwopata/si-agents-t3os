@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracking_diagnostic_and_obd_codes
+    description: Model for es_warehouse.public.tracking_diagnostic_and_obd_codes
+    columns:
+      - name: asset_id
+        description: ""
+      - name: report_timestamp
+        description: ""
+      - name: vendor_timestamp
+        description: ""
+      - name: code
+        description: ""
+      - name: last_seen
+        description: ""
+      - name: cleared
+        description: ""
+      - name: occurrences
+        description: ""
+      - name: level
+        description: ""
+      - name: failure_mode_identifier
+        description: ""
+      - name: module_identifier
+        description: ""
+      - name: suspect_parameter_number
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: tracking_obd_dtc_code_id
+        description: ""
+      - name: description
+        description: ""
+      - name: manufacturer
+        description: ""

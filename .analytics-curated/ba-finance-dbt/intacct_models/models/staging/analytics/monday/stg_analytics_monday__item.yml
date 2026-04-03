@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_analytics_monday__item
+    description: monday.com item table. An item is a row in a board. Streamed from Fivetran.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - id
+    columns:
+      - name: board_id
+        description: "Unique id for the board. Foreign key to monday.board.id"
+      - name: id
+        description: "Unique id for the item."
+      - name: parent_item_id
+        description: "If this item has a parent item, this column will be a foreign key back to this table's id column."
+      - name: group_id
+        description: ""
+      - name: email
+        description: ""
+      - name: item_name
+        description: "Item name is the name of the row. It may be labeled differently on the UI, but this name is not available to us."
+      - name: updated_at
+        description: ""
+      - name: state
+        description: ""
+      - name: created_at
+        description: ""
+      - name: creator_id
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

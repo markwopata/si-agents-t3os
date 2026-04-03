@@ -1,0 +1,290 @@
+
+version: 2
+
+sources:
+  - name: payroll
+    description: "This is payroll data. It represents data being pulled from UKG (old) / Workday via API calls."
+    database: analytics
+    schema: payroll
+    tables:
+      - name: company_directory
+        description: "{{ doc('analytics__payroll__company_directory') }}"
+        columns:
+          - name: employee_id
+            data_type: number
+            description: "{{ doc('employee_id') }}"
+            data_tests:
+              - unique
+
+          - name: first_name
+            data_type: varchar
+            description: "{{ doc('employee_first_name') }}"
+
+          - name: last_name
+            data_type: varchar
+            description: "{{ doc('employee_last_name') }}"
+
+          - name: work_email
+            data_type: varchar
+            description: "{{ doc('work_email') }}"
+
+          - name: employee_type
+            data_type: varchar
+            description: "{{ doc('employee_type') }}"
+
+          - name: employee_status
+            data_type: varchar
+            description: "{{ doc('employee_status') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: 
+                      - 'Active'
+                      - 'Contractor'
+                      - 'External Payroll'
+                      - 'Inactive'
+                      - 'Intern (Fixed Term) (Trainee)'
+                      - 'Military Intern'
+                      - 'Never Started'
+                      - 'Not in Payroll'
+                      - 'Not In Payroll'
+                      - 'On Leave'
+                      - 'Seasonal (Fixed Term) (Seasonal)'
+                      - 'Temporary'
+                      - 'Temporary Worker'
+                      - 'Terminated'
+                      - 'Workforce Development Program'
+                  config:
+                    severity: warn
+
+          - name: date_hired
+            data_type: varchar
+            description: "{{ doc('date_hired') }}"
+
+          - name: date_rehired
+            data_type: varchar
+            description: "{{ doc('date_rehired') }}"
+
+          - name: employee_title
+            data_type: varchar
+            description: "{{ doc('employee_title') }}"
+
+          - name: location
+            data_type: varchar
+            description: "{{ doc('location') }}"
+
+          - name: default_cost_centers_full_path
+            data_type: varchar
+            description: "{{ doc('default_cost_centers_full_path') }}"
+
+          - name: direct_manager_employee_id
+            data_type: number
+            description: "{{ doc('direct_manager_employee_id') }}"
+
+          - name: direct_manager_name
+            data_type: varchar
+            description: "{{ doc('direct_manager_name') }}"
+
+          - name: work_phone
+            data_type: varchar
+            description: "{{ doc('work_phone') }}"
+
+          - name: date_terminated
+            data_type: varchar
+            description: "{{ doc('date_terminated') }}"
+
+          - name: nickname
+            data_type: varchar
+            description: "{{ doc('nickname') }}"
+
+          - name: personal_email
+            data_type: varchar
+            description: "{{ doc('personal_email') }}"
+
+          - name: home_phone
+            data_type: varchar
+            description: "{{ doc('home_phone') }}"
+
+          - name: greenhouse_application_id
+            data_type: number
+            description: "{{ doc('greenhouse_application_id') }}"
+
+          - name: market_id
+            data_type: number
+            description: "{{ doc('market_id') }}"
+
+          - name: account_id
+            data_type: varchar
+            description: "{{ doc('account_id') }}"
+
+          - name: pay_calc
+            data_type: varchar
+            description: "{{ doc('pay_calc') }}"
+
+          - name: ee_state
+            data_type: varchar
+            description: "{{ doc('ee_state') }}"
+
+          - name: doc_uname
+            data_type: varchar
+            description: "{{ doc('doc_uname') }}"
+
+          - name: tax_location
+            data_type: varchar
+            description: "{{ doc('tax_location') }}"
+
+          - name: labor_distribution_profile
+            data_type: varchar
+            description: "{{ doc('labor_distribution_profile') }}"
+
+          - name: position_effective_date
+            data_type: varchar
+            description: "{{ doc('position_effective_date') }}"
+
+          - name: on_leave
+            data_type: number
+            description: "{{ doc('employee_is_on_leave') }}"
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0,1]
+                  config:
+                    severity: warn
+
+          - name: worker_type
+            data_type: varchar
+            description: "{{ doc('worker_type') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Employee', 'Contingent Worker', null]
+                  config:
+                    where: "last_updated_date > '2024-10-28'"
+
+          - name: last_updated_date
+            data_type: varchar
+            description: "{{ doc('last_updated_date') }}"
+
+      - name: company_directory_vault
+        description: "{{ doc('analytics__payroll__company_directory_vault') }}"
+        columns:
+          - name: employee_id
+            data_type: number
+            description: "{{ doc('employee_id') }}"
+
+          - name: first_name
+            data_type: varchar
+            description: "{{ doc('employee_first_name') }}"
+
+          - name: last_name
+            data_type: varchar
+            description: "{{ doc('employee_last_name') }}"
+
+          - name: work_email
+            data_type: varchar
+            description: "{{ doc('work_email') }}"
+
+          - name: employee_type
+            data_type: varchar
+            description: "{{ doc('employee_type') }}"
+
+          - name: employee_status
+            data_type: varchar
+            description: "{{ doc('employee_status') }}"
+
+          - name: date_hired
+            data_type: varchar
+            description: "{{ doc('date_hired') }}"
+
+          - name: date_rehired
+            data_type: varchar
+            description: "{{ doc('date_rehired') }}"
+
+          - name: employee_title
+            data_type: varchar
+            description: "{{ doc('employee_title') }}"
+
+          - name: location
+            data_type: varchar
+            description: "{{ doc('location') }}"
+
+          - name: default_cost_centers_full_path
+            data_type: varchar
+            description: "{{ doc('default_cost_centers_full_path') }}"
+
+          - name: direct_manager_employee_id
+            data_type: number
+            description: "{{ doc('direct_manager_employee_id') }}"
+
+          - name: direct_manager_name
+            data_type: varchar
+            description: "{{ doc('direct_manager_name') }}"
+
+          - name: work_phone
+            data_type: varchar
+            description: "{{ doc('work_phone') }}"
+
+          - name: date_terminated
+            data_type: varchar
+            description: "{{ doc('date_terminated') }}"
+
+          - name: nickname
+            data_type: varchar
+            description: "{{ doc('nickname') }}"
+
+          - name: personal_email
+            data_type: varchar
+            description: "{{ doc('personal_email') }}"
+
+          - name: home_phone
+            data_type: varchar
+            description: "{{ doc('home_phone') }}"
+
+          - name: greenhouse_application_id
+            data_type: number
+            description: "{{ doc('greenhouse_application_id') }}"
+
+          - name: market_id
+            data_type: number
+            description: "{{ doc('market_id') }}"
+
+          - name: account_id
+            data_type: varchar
+            description: "{{ doc('account_id') }}"
+
+          - name: pay_calc
+            data_type: varchar
+            description: "{{ doc('pay_calc') }}"
+
+          - name: ee_state
+            data_type: varchar
+            description: "{{ doc('ee_state') }}"
+
+          - name: doc_uname
+            data_type: varchar
+            description: "{{ doc('doc_uname') }}"
+
+          - name: tax_location
+            data_type: varchar
+            description: "{{ doc('tax_location') }}"
+
+          - name: labor_distribution_profile
+            data_type: varchar
+            description: "{{ doc('labor_distribution_profile') }}"
+
+          - name: position_effective_date
+            data_type: varchar
+            description: "{{ doc('position_effective_date') }}"
+
+          - name: on_leave
+            data_type: boolean
+            description: "{{ doc('employee_is_on_leave') }}"
+
+          - name: worker_type
+            data_type: varchar
+            description: "{{ doc('worker_type') }}"
+
+          - name: _es_update_timestamp
+            data_type: timestamp_ntz
+            description: "{{ doc('_es_update_timestamp') }}"

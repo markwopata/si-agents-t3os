@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_time_tracking__work_codes
+    description: ""
+    config:
+      tags:
+        - time_tracking
+        - hourly
+        - source
+    columns:
+      - name: work_code_id
+        description: ""
+      - name: custom_id
+        description: ""
+      - name: organization_id
+        description: ""
+      - name: work_code_type
+        description: ""
+      - name: name
+        description: ""
+      - name: description
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: deleted
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

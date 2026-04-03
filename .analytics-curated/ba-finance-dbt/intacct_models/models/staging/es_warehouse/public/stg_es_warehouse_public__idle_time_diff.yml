@@ -1,0 +1,8 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__idle_time_diff
+    description: Model for es_warehouse.public.idle_time_diff
+    columns:
+      - name: id
+        description: ""

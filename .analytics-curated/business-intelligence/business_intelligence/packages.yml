@@ -1,0 +1,18 @@
+# Package dependencies allow you to add source code from someone else's dbt project into your own, like a library:
+
+# Use packages.yml when you want to download dbt packages, such as dbt projects, into your root or parent dbt project. Something to note is that it doesn't contribute to the dbt Mesh workflow.
+# Use packages.yml to include packages, including private packages, in your project's dependencies. If you have private packages that you need to reference, packages.yml is the way to go.
+# packages.yml supports Jinja rendering for historical reasons, allowing dynamic configurations. This can be useful if you need to insert values, like a Git token method from an environment variable, into your package specifications.
+packages:
+  # package has macros that generate lightweight yaml for sources
+  # https://hub.getdbt.com/dbt-labs/codegen/latest/
+  - package: dbt-labs/codegen
+    version: 0.12.1
+  - package: dbt-labs/dbt_utils
+    version: 1.2.0
+  - package: metaplane/dbt_expectations
+    version: 0.10.8
+  - package: godatadriven/dbt_date
+    version: 0.16.1
+  - package: elementary-data/elementary
+    version: 0.20.1

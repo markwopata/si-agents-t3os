@@ -1,0 +1,30 @@
+---
+version: 2
+
+models:
+  - name: anaplan_asset4000_depreciation
+    description: >
+      AS4K asset metrics, exposed for Anaplan consumption.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_class_name
+              - depreciation_date
+    columns:
+      - name: asset_class_name
+        description: ""
+      - name: depreciation_date
+        description: ""
+      - name: nbv
+        description: ""
+      - name: gbv
+        description: ""
+      - name: accumulated_depreciation
+        description: ""
+      - name: period_depreciation_expense
+        description: ""
+      - name: year_to_date_depreciation_expense
+        description: ""
+      - name: salvage_value
+        description: ""

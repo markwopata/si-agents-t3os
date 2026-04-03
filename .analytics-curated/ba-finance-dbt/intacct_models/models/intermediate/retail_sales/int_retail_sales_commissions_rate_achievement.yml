@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_rate_achievement
+    description: retail commissions for TAMs (and RAMs)
+    columns:
+      - name: invoice_id
+        data_tests:
+          - not_null
+      - name: line_item_id
+        data_tests:
+          - not_null

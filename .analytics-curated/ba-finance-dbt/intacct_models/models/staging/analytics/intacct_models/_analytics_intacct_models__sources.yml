@@ -1,0 +1,13 @@
+---
+version: 2
+
+sources:
+  - name: analytics_intacct_models
+    tags: ["sources"]
+    database: analytics
+    schema: intacct_models
+    description: Contains output models, primary use for custom snapshotting (inventory balance)
+    tables:
+      - name: inventory_balance_monthly_snapshot
+        identifier: inventory_balance_monthly_snapshot
+        description: "Inventory  balance snapshot for the month - will be used to decide what to include in next snapshot."

@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: anaplan_site_list
+    description: >
+      Temporary site list for Anaplan consumption. Derived from es financials,
+      unioned with corporate departments.
+    columns:
+      - name: market_id
+        description: "Unique site identifier. Corporate departments use Intacct department_id in the 1,000,000–1,009,999 range."
+        data_tests:
+          - not_null
+          - unique
+      - name: market_name
+        description: "Human-readable site/market name. 'Corporate' for market_id 0; Intacct department name for corporate departments."
+      - name: district
+        description: "Sales/operations district for the market when available."
+      - name: region_name
+        description: "Region the market belongs to when available."
+      - name: market_type
+        description: "Market category normalized from market_type: Core Rental, Industrial Tool, Advanced Solutions, Hardware, or Corporate."
+      - name: market_start_month
+        description: "Month the market started operations."
+      - name: state
+        description: "US state for the market when available."
+      - name: tier
+        description: "Currently only set to 1. TODO"

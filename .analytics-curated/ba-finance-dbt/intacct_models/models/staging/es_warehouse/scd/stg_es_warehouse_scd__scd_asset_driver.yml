@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_driver
+    description: Model for es_warehouse.scd.scd_asset_driver
+    columns:
+      - name: scd_asset_driver_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: driver_name
+        description: ""
+      - name: user_id
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""

@@ -1,0 +1,55 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__po_line
+    description: ""
+    columns:
+      - name: pk_po_line_id
+        description: Primary key for this table
+        data_tests:
+          - not_null
+          - unique
+      - name: document_name
+        description: ""
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: ""
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+      - name: fk_expense_type_id
+        description: "{{ doc('fk_expense_type_id') }}"
+      - name: line_number
+        description: ""
+      - name: item_id
+        description: ""
+      - name: item_description
+        description: ""
+      - name: item_type
+        description: ""
+      - name: line_description
+        description: ""
+      - name: quantity
+        description: ""
+      - name: unit_price
+        description: ""
+      - name: extended_amount
+        description: ""
+      - name: quantity_remaining
+        description: ""
+      - name: quantity_converted
+        description: ""
+      - name: unit_of_measure
+        description: ""
+      - name: line_status
+        description: ""
+      - name: fk_source_po_line_id
+        description: ""
+      - name: fk_t3_purchase_order_receiver_item_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"

@@ -1,0 +1,21 @@
+SELECT
+    ktd.asset_id,
+    ktd.custom_name,
+    ktd.company_id,
+    ktd.company_name,
+    ktd.date_time,
+    ktd.name,
+    ktd.location_lon,
+    ktd.location_lat,
+    ktd.duration,
+    ktd.street,
+    ktd.city,
+    ktd.state,
+    ktd.speed,
+    ktd.trip_odo_miles,
+    ktd.end_odometer,
+    ktd.tracking_event_id,
+    ktd.trip_id,
+    ktd.groups,
+    ktd.odo_diff
+FROM {{ source('es_warehouse_public', 'kcg_trip_detail2') }} as ktd

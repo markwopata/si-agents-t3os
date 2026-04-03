@@ -1,0 +1,77 @@
+---
+version: 2
+models:
+  - name: int_credit_card_citi_airline_details
+    description: Extended credit card data from Citi to include Airline Ticket detail with trip leg information.
+    columns:
+      - name: transaction_leg_number
+        description: "Unique identifier for the transaction and airline trip leg (transaction_id-ticket_number-trip_leg_number)."
+        data_tests:
+          - unique
+          - not_null
+      - name: transaction_id
+        description: "Unique identifier for the transaction."
+        data_tests:
+          - not_null
+      - name: ticket_number
+        description: "Unique identifier for the airline ticket."
+        data_tests:
+          - not_null
+      - name: trip_leg_number
+        description: "Trip leg number for multi-leg flights. (e.g., 001, 002, etc.)"
+      - name: ticket_sequence_number
+        description: "Sequence number from the airline ticket detail."
+      - name: total_fare
+        description: "Total fare amount for the airline ticket."
+      - name: ticket_source_file
+        description: "Source file name for the ticket data."
+      - name: ticket_passenger_name
+        description: "Name of the passenger on the airline ticket."
+      - name: ticket_maintenance_code
+        description: "Maintenance code from ticket detail."
+      - name: ticket_issuing_carrier
+        description: "Airline carrier that issued the ticket."
+      - name: ticket_travel_agency_name
+        description: "Name of the travel agency that booked the ticket."
+      - name: ticket_travel_agency_code
+        description: "Code for the travel agency that booked the ticket."
+      - name: ticket_customer_code
+        description: "Customer code associated with the ticket."
+      - name: ticket_issue_date
+        description: "Date when the airline ticket was issued."
+      - name: ticket_update_timestamp
+        description: "Timestamp when the ticket record was last updated."
+      - name: trip_leg_sequence_number
+        description: "Sequence number from the trip leg detail."
+      - name: trip_leg_coupon_number
+        description: "Coupon number for the specific trip leg."
+      - name: trip_leg_flight_number
+        description: "Flight number for the trip leg."
+      - name: trip_leg_source_file
+        description: "Source file name for the trip leg data."
+      - name: trip_leg_ticket_number
+        description: "Ticket number associated with the trip leg."
+      - name: trip_leg_maintenance_code
+        description: "Maintenance code from trip leg detail."
+      - name: trip_leg_city_of_origin
+        description: "Origin city for the trip leg."
+      - name: trip_leg_city_of_destination
+        description: "Destination city for the trip leg."
+      - name: trip_leg_carrier_code
+        description: "Airline carrier code for the trip leg."
+      - name: trip_leg_service_class
+        description: "Service class (e.g., economy, business) for the trip leg."
+      - name: trip_leg_stop_over_indicator
+        description: "Indicator for whether this is a stopover leg."
+      - name: trip_leg_fare_base_code
+        description: "Fare base code for the trip leg."
+      - name: trip_leg_conjunction_ticket
+        description: "Conjunction ticket information for the trip leg."
+      - name: trip_leg_travel_date
+        description: "Travel date for the trip leg."
+      - name: trip_leg_departure_time
+        description: "Departure time for the trip leg."
+      - name: trip_leg_arrival_time
+        description: "Arrival time for the trip leg."
+      - name: trip_leg_update_timestamp
+        description: "Timestamp when the trip leg record was last updated."

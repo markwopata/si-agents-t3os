@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_corporate_budget__budget_sub_departments
+    description: cleaned model of analytics.corporate_budget.budget_sub_departments
+    columns:
+      - name: _row
+        description: ""
+        data_tests:
+          - unique
+
+      - name: sub_department_id
+        description: ""
+
+      - name: department_id
+        description: ""
+
+      - name: sub_department_name
+        description: ""
+
+      - name: department
+        description: ""
+
+      - name: ukg_cost_center
+        description: ""
+
+      - name: budget_year
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

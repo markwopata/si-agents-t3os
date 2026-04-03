@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ar_invoice_payment
+    description: Model for AR Invoice Payments from Intacct, capturing payment transactions against accounts receivable invoices.
+    columns:
+      - name: pk_ar_invoice_payment_id
+        description: "Primary key for AR invoice payment record."
+        data_tests:
+          - unique
+          - not_null
+        constraints:
+          - type: primary_key
+      - name: payment_key
+        description: ""
+      - name: pay_item_key
+        description: ""
+      - name: record_key
+        description: ""
+      - name: paid_item_key
+        description: ""
+      - name: parent_payment
+        description: ""
+      - name: state
+        description: ""
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: fk_created_by_user_id
+        description: "User id who created this record. Foreign key to users table."
+      - name: fk_modified_by_user_id
+        description: "User id who last updated this record. Foreign key to users table."
+      - name: amount
+        description: ""
+      - name: transaction_amount
+        description: ""
+      - name: invoice_base_amount
+        description: ""
+      - name: invoice_transaction_amount
+        description: ""
+      - name: payment_date
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: int_inventory_turnover_ratio
+    description: "Intermediate model for inventory turnover ratio calculations."
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+            - bt_branch_id
+            - product_id
+            - month_start
+    columns:
+      - name: bt_branch_id
+        description: "Branch identifier from costs (bt_branch_id)."
+      - name: month_start
+        description: "First day of the month for the inventory snapshot (month_start)."
+      - name: product_id
+        description: "Product identifier (product_id)."
+      - name: product_group_id
+        description: "Higher-level product group identifier (product_group_id)."
+      - name: level_1_id
+        description: "Level 1 product category identifier (level_1_id)."
+      - name: level_1_name
+        description: "Level 1 product category name (level_1_name)."
+      - name: level_2_id
+        description: "Level 2 product category identifier (level_2_id)."
+      - name: level_2_name
+        description: "Level 2 product category name (level_2_name)."
+      - name: start_value
+        description: "Inventory value at the start of the period (start_value)."
+      - name: end_value
+        description: "Inventory value at the end of the period (end_value)."
+      - name: avg_value
+        description: "Average inventory value for the period: (start_value + end_value) / 2."
+      - name: total_cost
+        description: "Sum of costs for the period (sum(c.total_cost))."

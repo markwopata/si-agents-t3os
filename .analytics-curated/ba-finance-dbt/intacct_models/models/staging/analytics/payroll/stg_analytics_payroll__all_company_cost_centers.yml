@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_analytics_payroll__all_company_cost_centers
+    description: ""
+    columns:
+      - name: intaact
+        description: "Intacct Code"
+      - name: full_name
+        description: "Name of the cost center with hierarchy"
+      - name: location
+        description: ""
+      - name: abbrev
+        description: ""
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

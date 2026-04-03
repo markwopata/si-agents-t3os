@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: fct_asset4000_asset_financials
+    description: >
+      This model is a fact table of all Asset4000 assets. Contains relevant financial measures related to these assets
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: depreciation_date
+        description: ""
+
+      - name: gbv
+        description: ""
+
+      - name: nbv
+        description: ""
+
+      - name: period_depreciation_expense
+        description: ""
+
+      - name: year_to_date_depreciation_expense
+        description: ""

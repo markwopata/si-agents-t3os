@@ -1,0 +1,171 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__customer
+    description: ""
+    columns:
+      - name: pk_customer_id
+        description: ""
+        data_tests:
+          - unique
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: customer_name
+        description: ""
+      - name: entity
+        description: ""
+      - name: terms_name
+        description: ""
+      - name: resaleno
+        description: ""
+      - name: tax_id
+        description: ""
+      - name: credit_limit
+        description:
+          "Dun & Bradstreet recommends a credit limit for this customer based on commercial data and analytics.
+          Credit Safe also is used in credit granting determinations. Some branches may open COD (cash on delivery) accounts
+          without credit limits , and there are several accounts without assigned credit limits that need to be addressed.\n"
+      - name: totaldue
+        description: ""
+      - name: comments
+        description: ""
+      - name: currency
+        description: ""
+      - name: glgroup
+        description: ""
+      - name: last_invoicedate
+        description: ""
+      - name: last_statementdate
+        description: ""
+      - name: delivery_options
+        description: ""
+      - name: discount
+        description: ""
+      - name: prclst_override
+        description: ""
+      - name: onetime
+        description: ""
+      - name: custmessageid
+        description: ""
+      - name: is_on_hold
+        description: ""
+      - name: enableonlinecardpayment
+        description: ""
+      - name: enableonlineachpayment
+        description: ""
+      - name: fk_parent_customer_id
+        description: ""
+      - name: oeprclstkey
+        description: ""
+      - name: oepriceschedkey
+        description: ""
+      - name: vsoeprclstkey
+        description: ""
+      - name: arinvoiceprinttemplateid
+        description: ""
+      - name: oequoteprinttemplateid
+        description: ""
+      - name: oeorderprinttemplateid
+        description: ""
+      - name: oelistprinttemplateid
+        description: ""
+      - name: oeinvoiceprinttemplateid
+        description: ""
+      - name: oeadjprinttemplateid
+        description: ""
+      - name: oeotherprinttemplateid
+        description: ""
+      - name: supdocid
+        description: ""
+      - name: objectrestriction
+        description: ""
+      - name: display_contact_key
+        description: ""
+      - name: fk_contact_id
+        description: ""
+      - name: shiptokey
+        description: ""
+      - name: billtokey
+        description: ""
+      - name: custrepkey
+        description: ""
+      - name: shipviakey
+        description: ""
+      - name: territorykey
+        description: ""
+      - name: fk_terms_id
+        description: ""
+      - name: accountlabelkey
+        description: ""
+      - name: fk_account_id
+        description: "{{ doc('fk_account_id') }}"
+      - name: fk_customer_type_id
+        description: ""
+      - name: priceschedulekey
+        description: ""
+      - name: glgrpkey
+        description: ""
+      - name: advbillby
+        description: ""
+      - name: advbillbytype
+        description: ""
+      - name: emailoptin
+        description: ""
+      - name: date_activated
+        description: ""
+      - name: subscriptionenddate
+        description: ""
+      - name: displaycontact_taxsolutionid
+        description: ""
+      - name: displaycontact_taxschedule
+        description: ""
+      - name: shipto_taxsolutionid
+        description: ""
+      - name: shipto_taxschedule
+        description: ""
+      - name: billto_taxsolutionid
+        description: ""
+      - name: billto_taxschedule
+        description: ""
+      - name: displaycontact_mailaddress_latitude
+        description: ""
+      - name: displaycontact_mailaddress_longitude
+        description: ""
+      - name: retainagepercentage
+        description: ""
+      - name: customer_status
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: megaentitykey
+        description: ""
+      - name: megaentityid
+        description: ""
+      - name: megaentityname
+        description: ""
+      - name: reporting_category
+        description: ""
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+      - name: paperless_billing
+        description: ""
+      - name: disable_monthly_statements
+        description: ""
+      - name: cycle_billing_only
+        description: ""
+      - name: collector_name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+      - name: vendor_id
+        description: ""

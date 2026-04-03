@@ -1,0 +1,126 @@
+---
+version: 2
+models:
+  - name: stg_tools_trailer_retail_sales__quotes
+    description: Retail Sales data sources are all owned by Financial Analytics.
+    config:
+      tags: ["retail_sales"]
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - quote_id
+            - version_rank
+    columns:
+        - name: quote_pk_id
+          description: "Primary key for each quote record version. Each quote can have many versions."
+          data_tests:
+            - unique
+            - not_null
+        - name: quote_id
+          description: "Identifier for the quote. This is how the business identifies the quote."
+          data_tests:
+            - not_null
+        - name: company_id
+          description: "Company requesting the quote. Foreign key to the companies table."
+        - name: salesperson_user_id
+          description: "User ID of the salesperson responsible for the quote. Foreign key to the users table."
+        - name: secondary_salesperson_user_id
+          description: "User ID of the secondary salesperson responsible for the quote. Foreign key to the users table."
+        - name: market_id
+          description: "Market ID where the quote originated. Foreign key to the markets table."
+        - name: status
+          description: "Current status of the quote (e.g., pending gm approval, customer approved, denied)."
+          data_tests:
+            - not_null
+        - name: payment_method
+          description: "Payment method chosen for the quote (e.g., cash, finance)."
+        - name: billing_provider
+          description: "Billing provider for the quote."
+        - name: invoice_id
+          description: "Invoice id associated with the quote once billed. This is a foreign key to the invoices table."
+        - name: sales_folder_url
+          description: "URL to the folder containing sales documents. Typically a link to google drive"
+        - name: denial_reason
+          description: "Reason provided if the quote was denied."
+        - name: customer_denial_category
+          description: "Category classification for quote denial reason by the customer."
+        - name: is_deleted
+          description: "Indicator whether the quote record has been deleted."
+          data_tests:
+            - not_null
+            - accepted_values:
+                arguments:
+                  values: [true, false]
+        - name: down_payment
+          description: "Amount of down payment required for the quote."
+        - name: fuel_surcharge
+          description: "Fuel surcharge amount applied to the quote."
+        - name: tax_amount
+          description: "Tax amount applied to the quote. This is an estimate"
+        - name: other_tax
+          description: "Other tax amounts applied to the quote (e.g., Heavy duty tax)."
+        - name: company_name
+          description: "Name of the company requesting the quote."
+        - name: customer_phone_number
+          description: "Contact phone number for the customer."
+        - name: customer_email_address
+          description: "Email address of the customer."
+        - name: delivery_location_id
+          description: "ID of the delivery location. Foreign key to the locations table."
+        - name: delivery_latitude
+          description: "Latitude of the delivery location."
+        - name: delivery_longitude
+          description: "Longitude of the delivery location."
+        - name: delivery_street_1
+          description: "Primary street address for delivery."
+        - name: delivery_street_2
+          description: "Secondary street address for delivery."
+        - name: delivery_city
+          description: "City to which the quoted items will be delivered."
+        - name: delivery_state
+          description: "State to which the quoted items will be delivered."
+        - name: delivery_zip_code
+          description: "Zip code for the delivery address."
+        - name: estimated_delivery_date
+          description: "Estimated date when the delivery is expected."
+        - name: internal_note
+          description: "Internal notes for review by the sales team."
+        - name: customer_notes
+          description: "Additional notes that are displayed to the customer on the quote."
+        - name: created_by
+          description: "User who created the quote record."
+        - name: created_at
+          description: "Timestamp when the quote record was created."
+          data_tests:
+            - not_null
+        - name: _es_update_timestamp
+          description: "Timestamp when the quote record was last updated"
+        - name: _es_load_timestamp
+          description: "Timestamp when the quote record was loaded into Snowflake."
+        - name: type_of_sale
+          description: "Indicates whether the sale is a new, used, etc."
+        - name: saas_taxable
+          description: "Indicates whether the sale is subject to SaaS tax determined at the state level."
+        - name: gm_dsm_approved_at
+          description: "Timestamp when the quote was approved by the GM/DSM."
+        - name: gm_dsm_approved_by
+          description: "User who approved the quote."
+        - name: version_rank
+          description: "Rank of the quote version, with the most recent version having rank 1."
+          data_tests:
+            - not_null
+        - name: is_current
+          description: "Indicates whether this quote version is the current active version."
+          data_tests:
+            - not_null
+            - accepted_values:
+                arguments:
+                  values: [true, false]
+        - name: quote_created_at
+          description: "Timestamp when the quote was originally created (first version)."
+          data_tests:
+            - not_null
+        - name: quote_completed_at
+          description: "Timestamp when the quote was completed (status = 'complete')."
+        - name: days_to_complete
+          description: "Number of days from quote creation to completion."

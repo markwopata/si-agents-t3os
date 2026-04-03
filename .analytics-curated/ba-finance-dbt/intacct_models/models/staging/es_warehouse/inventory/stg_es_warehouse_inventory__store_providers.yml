@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__store_providers
+    description: Model for es_warehouse.inventory.store_providers
+    columns:
+      - name: store_provider_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: provider_id
+        description: ""
+      - name: store_id
+        description: ""
+      - name: phone
+        description: ""
+      - name: email
+        description: ""
+      - name: address
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

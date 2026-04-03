@@ -1,0 +1,19 @@
+SELECT
+    vg.tracker_id,
+    vg.device_serial,
+    vg.tracker_type_id,
+    vg.asset_id,
+    vg.year,
+    vg.equipment_make_id,
+    vg.make_name,
+    vg.model,
+    vg.equipment_model_id,
+    vg.model_name,
+    vg.equipment_class_id,
+    vg.class_name,
+    vg.category_id,
+    vg.category_name,
+    vg.cat_canonical_name,
+    vg.cat_singular_name,
+    vg.bus_type
+FROM {{ source('es_warehouse_public', 'v_generators') }} as vg

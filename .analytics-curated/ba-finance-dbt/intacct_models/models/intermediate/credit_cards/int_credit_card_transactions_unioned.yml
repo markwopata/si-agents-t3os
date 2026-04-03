@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: int_credit_card_transactions_unioned
+    description: Combined credit card data from Citi, American Express, Fuel Cards (ImpacFleet), and Central Bank.
+    columns:
+      - name: employee_id
+        description: "Unique identifier for the employee maps to workday."
+      - name: transaction_id
+        description: "Unique identifier for the credit card transaction."
+        data_tests:
+          - unique:
+              config:
+                severity: warn
+      - name: first_name
+        description: "Employee's first name."
+      - name: last_name
+        description: "Employee's last name."
+      - name: full_name
+        description: "Employee's full name."
+      - name: mcc
+        description: "Merchant category description."
+      - name: card_type
+        description: "Type of corporate card used fuel_card, citi, amex, central_bank"
+      - name: status
+        description: "Cardholder status"
+      - name: merchant_name
+        description: "Name of the merchant."
+      - name: mcc_code
+        description: "Merchant category code (numeric)"
+      - name: employee_title
+        description: "Employee's job title."
+      - name: corporate_account_number
+        description: "Corporate account number associated with the card."
+      - name: corporate_account_name
+        description: "Name associated with the corporate account."
+      - name: transaction_amount
+        description: "Total amount of the transaction."
+      - name: is_bypass_verification
+        description: "True if the transaction will be skipped in receipt verification."
+      - name: transaction_date
+        description: "Date the transaction occurred."
+      - name: last_4_card_digits
+        description: >
+          Last 4 digits of the credit card used in the transaction. going to use it to create a pk to identify ES cards vs people paying with their personal cards. There's a few allocations like Shopify that people can buy things on their personal card that gets included in our statement

@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__wex_purchase_codes
+    description: Model for es_warehouse.public.wex_purchase_codes
+    columns:
+      - name: purchase_code_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: short_purchase_code
+        description: ""
+      - name: purchase_code
+        description: ""
+      - name: description
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

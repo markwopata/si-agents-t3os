@@ -1,0 +1,171 @@
+---
+version: 2
+models:
+  - name: int_admin_invoice_and_credit_line_detail
+    description: >
+      Unioned line-level pre-aggregated view of admin invoices and credit notes. Provides a combined record for financial and operational reporting, including commonly used fields such as customer name, line type account, asset, rental, and invoice/credit note linkage. Nulls are present where fields are not applicable to both invoices and credit notes.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - credit_note_line_item_id
+              - line_item_id
+    columns:
+      - name: invoice_id
+        description: "Unique identifier for the invoice. Could be null for credit note lines."
+      - name: invoice_number
+        description: "Invoice number as recorded in the system. Could be null for credit note rows."
+      - name: credit_note_id
+        description: "Unique identifier for the credit note. Null for invoice rows."
+      - name: credit_note_number
+        description: "Credit note number as recorded in the system. Null for invoice rows."
+      - name: gl_date
+        description: "General ledger date for the invoice or credit note. For invoices, this is the billing_approved_date. For credit notes, this is the date created."
+      - name: billing_approved_date
+        description: "Date when the invoice was billing approved. Null for credit notes. The invoice must be billing approved for us to count it internally. It will be copied to Sage once billing approved."
+      - name: is_billing_approved
+        description: >
+          Indicates if the invoice is approved for billing. Credit notes' approval status is based on a new credit note
+          status field. This was backfilled for credit notes existing prior to change.
+      - name: is_deleted
+        description: >
+          Boolean to indicate if invoice has been deleted. Deleted invoices have a deleted date in extended_data. 
+          Credit notes don't have the concept of being deleted at this time.
+      - name: is_pending
+        description: >
+          Boolean to indicate if an invoice is pending. Pending invoices are not billing approved and not deleted.
+      - name: invoice_date
+        description: "Date of the invoice or associated invoice for credit notes. For invoices, this is the date we billed the customer. For credit notes, this is the date of the originating invoice."
+      - name: market_id
+        description: "Market this invoice or credit note was billed/issued from. Foreign key to markets table. (derived from ship_from:branch_id)"
+      - name: market_name
+        description: "Market name where the invoice or credit note was billed/issued."
+      - name: company_id
+        description: "ID for the customer we billed or credited on this invoice or credit note."
+      - name: customer_name
+        description: "Name of the customer. Synonym for company_name."
+      - name: invoice_memo
+        description: "Memo or notes associated with the invoice. Can be blank or null. Null for credit note rows."
+      - name: credit_note_memo
+        description: "Memo or notes associated with the credit note. Can be blank or null. Null for invoice rows."
+      - name: credit_note_reference
+        description: "Reference field for the credit note. Null for invoice rows."
+      - name: is_credit_note_generated_from_invoice
+        description: "Indicates if the credit note was generated from an invoice. Null for invoice rows."
+      - name: line_item_id
+        description: "Unique identifier for the invoice line item. Can be null for some credit note lines."
+      - name: line_item_type_id
+        description: "Foreign key to the line_item_types table."
+      - name: line_item_type_name
+        description: "Line item type name - also known as admin charge type."
+      - name: avalara_transaction_id
+        description: "Avalara transaction ID associated with the invoice or credit note."
+      - name: account_number
+        description: "GL account number associated with the line item."
+      - name: account_name
+        description: "GL account name."
+      - name: credit_note_line_item_id
+        description: "Unique identifier for the credit note line item. Null for invoice rows."
+      - name: amount
+        description: "Amount for the line item. This is the amount before tax. Negative for credit notes."
+      - name: tax_amount
+        description: "Tax amount for the line item. Negative for credit notes."
+      - name: is_taxable
+        description: "Indicates if the line item is taxable."
+      - name: line_item_description
+        description: "Description on the line item."
+      - name: header_date_created
+        description: "Datetime the invoice or credit note was created."
+      - name: header_date_updated
+        description: "Datetime the invoice or credit note was last updated."
+      - name: line_item_date_created
+        description: "Datetime the line item was created."
+      - name: line_item_date_updated
+        description: "Datetime the line item was last updated."
+      - name: asset_id
+        description: "Indicates what asset the line item is for. Foreign key to assets table."
+      - name: rental_id
+        description: "Indicates what rental the line item is for. Foreign key to rentals table."
+      - name: invoice_cycle_start_date
+        description: "For rentals, this date marks the start of the rental. This is the start_date on the invoice. There are some non-rental invoices/credit notes with start/end_dates."
+      - name: invoice_cycle_end_date
+        description: "For rentals, this date marks the end of the rental. This is the end_date on the invoice. There are some non-rental invoices/credit notes with start/end_dates."
+      - name: rental_bill_type
+        description: >
+          For rentals, this indicates the type of billing. Billing types include final, cycle, partial-return. If billing is final, it's the last invoice for the rental. If it's a cycle invoice, it's a bill for an ongoing rental."
+      - name: rental_cheapest_period_hour_count
+        description: "Number of hours billed/credited for rental, based on the cheapest total combination of periods at the time of billing."
+      - name: rental_cheapest_period_day_count
+        description: "Number of days billed/credited for rental, based on the cheapest total combination of periods at the time of billing."
+      - name: rental_cheapest_period_week_count
+        description: "Number of weeks billed/credited for rental, based on the cheapest total combination of periods at the time of billing."
+      - name: rental_cheapest_period_four_week_count
+        description: "Number of four-week periods billed/credited for rental, based on the cheapest total combination of periods at the time of billing."
+      - name: rental_cheapest_period_month_count
+        description: "Number of months billed/credited for rental, based on the cheapest total combination of periods at the time of billing."
+      - name: rental_price_per_hour
+        description: "Price applied per hour for the rental, used when hours are part of the cheapest total combination of periods billed/credited."
+      - name: rental_price_per_day
+        description: "Price applied per day for the rental, used when days are part of the cheapest total combination of periods billed/credited."
+      - name: rental_price_per_week
+        description: "Price applied per week for the rental, used when weeks are part of the cheapest total combination of periods billed/credited."
+      - name: rental_price_per_four_weeks
+        description: "Price applied per four weeks for the rental, used when four-week periods are part of the cheapest total combination of periods billed/credited."
+      - name: rental_price_per_month
+        description: "Price applied per month for the rental, used when months are part of the cheapest total combination of periods billed/credited."
+      - name: is_intercompany
+        description: "Indicates if the transaction is intercompany (or billed/credited to EquipmentShare or one of its subs.)."
+      - name: line_item_market_id
+        description: "Market ID for the line item, if available. Null for invoice rows."
+      - name: primary_salesperson_id
+        description: "Primary salesperson ID for the invoice or credit note."
+      - name: secondary_salesperson_ids
+        description: "Secondary salesperson IDs for the invoice or credit note as an array."
+      - name: paid_date
+        description: "Date the invoice was paid. Null for credit notes."
+      - name: url_invoice_admin
+        description: "URL to the invoice in admin. Null for credit note rows."
+      - name: url_credit_note_admin
+        description: "URL to the credit note in admin. Null for invoice rows."
+      - name: src
+        description: "Source of the record: 'invoices' or 'credit notes'."
+      - name: ship_to_branch_id
+        description: "Branch ID where the asset was shipped to."
+      - name: ship_to_location_id
+        description: "Location ID where the asset was shipped to."
+      - name: ship_to_nickname
+        description: "Nickname for the ship-to location where the asset was shipped to."
+      - name: ship_to_country
+        description: "Country where the asset was shipped to."
+      - name: ship_to_state
+        description: "State where the asset was shipped to."
+      - name: ship_to_city
+        description: "City where the asset was shipped to."
+      - name: ship_to_address
+        description: "Full ship-to address where the asset was shipped to."
+      - name: ship_to_zipcode
+        description: "Zip code where the iasset was shipped to."
+      - name: ship_to_longitude
+        description: "Longitude for the ship-to address where the asset was shipped to."
+      - name: ship_to_latitude
+        description: "Latitude for the ship-to address where the asset was shipped to."
+      - name: ship_from_branch_id
+        description: "Branch ID where the asset was shipped from."
+      - name: ship_from_location_id
+        description: "Location ID where the asset was shipped from."
+      - name: ship_from_nickname
+        description: "Nickname for the ship-from location where the asset was shipped from."
+      - name: ship_from_country
+        description: "Country where the asset was shipped from."
+      - name: ship_from_state
+        description: "State where the asset was shipped from."
+      - name: ship_from_city
+        description: "City where the asset was shipped from."
+      - name: ship_from_address
+        description: "Full ship-from address where the asset was shipped from."
+      - name: ship_from_zipcode
+        description: "Zip code where the asset was shipped from."
+      - name: ship_from_longitude
+        description: "Longitude for the ship-from address where the asset was shipped from."
+      - name: ship_from_latitude
+        description: "Latitude for the ship-from address where the asset was shipped from."

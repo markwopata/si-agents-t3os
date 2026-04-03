@@ -1,0 +1,438 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__sales_line
+    description: ""
+    columns:
+      - name: sourcedocumentline
+        description: ""
+        data_tests:
+          - unique
+      - name: id
+        description: ""
+
+      - name: addressrefrecid
+        description: ""
+
+      - name: addressreftableid
+        description: ""
+
+      - name: inventdimid
+        description: ""
+
+      - name: inventtransid
+        description: ""
+
+      - name: inventtransidreturn
+        description: ""
+
+      - name: itemid
+        description: ""
+
+      - name: returndispositioncodeid
+        description: ""
+
+      - name: salesid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: taxid
+        description: ""
+
+      - name: subbilldetaillinerecid
+        description: ""
+
+      - name: subbillrevenuesplitparentlinerecid
+        description: ""
+
+      - name: subbilltermschedulelinerecid
+        description: ""
+
+      - name: accountingdistributiontemplate
+        description: ""
+
+      - name: bundlelinestatus
+        description: ""
+
+      - name: bundlelinetype
+        description: ""
+
+      - name: casetagging
+        description: ""
+
+      - name: deliverydatecontroltype
+        description: ""
+
+      - name: deliverytype
+        description: ""
+
+      - name: intercompanyorigin
+        description: ""
+
+      - name: inventreftype
+        description: ""
+
+      - name: itemtagging
+        description: ""
+
+      - name: linedeliverytype
+        description: ""
+
+      - name: pallettagging
+        description: ""
+
+      - name: reservation
+        description: ""
+
+      - name: returnstatus
+        description: ""
+
+      - name: salesstatus
+        description: ""
+
+      - name: salestype
+        description: ""
+
+      - name: shipcarrierdlvtype
+        description: ""
+
+      - name: systementrysource
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: creditnotereasoncode
+        description: ""
+
+      - name: currencycode
+        description: ""
+
+      - name: custaccount
+        description: ""
+
+      - name: custgroup
+        description: ""
+
+      - name: customerref
+        description: ""
+
+      - name: defaultdimension
+        description: ""
+
+      - name: deliveryname
+        description: ""
+
+      - name: deliverypostaladdress
+        description: ""
+
+      - name: dlvmode
+        description: ""
+
+      - name: dlvterm
+        description: ""
+
+      - name: domexceptiontype
+        description: ""
+
+      - name: domignore
+        description: ""
+
+      - name: domprocessed
+        description: ""
+
+      - name: intrastatcommodity
+        description: ""
+
+      - name: ledgerdimension
+        description: ""
+
+      - name: manualentrychangepolicy
+        description: ""
+
+      - name: matchingagreementline
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: systementrychangepolicy
+        description: ""
+
+      - name: taxgroup
+        description: ""
+
+      - name: taxwithholditemgroupheading_th
+        description: ""
+
+      - name: costprice
+        description: ""
+
+      - name: lineamount
+        description: ""
+
+      - name: linedisc
+        description: ""
+
+      - name: linenum
+        description: ""
+
+      - name: linepercent
+        description: ""
+
+      - name: multilndisc
+        description: ""
+
+      - name: multilnpercent
+        description: ""
+
+      - name: overdeliverypct
+        description: ""
+
+      - name: packingunitqty
+        description: ""
+
+      - name: pdscwexpectedretqty
+        description: ""
+
+      - name: pdscwqty
+        description: ""
+
+      - name: pdscwremaininventfinancial
+        description: ""
+
+      - name: pdscwremaininventphysical
+        description: ""
+
+      - name: priceunit
+        description: ""
+
+      - name: qtyordered
+        description: ""
+
+      - name: remaininventfinancial
+        description: ""
+
+      - name: remaininventphysical
+        description: ""
+
+      - name: remainsalesfinancial
+        description: ""
+
+      - name: remainsalesphysical
+        description: ""
+
+      - name: retailblockqty
+        description: ""
+
+      - name: salesmarkup
+        description: ""
+
+      - name: salesprice
+        description: ""
+
+      - name: salesqty
+        description: ""
+
+      - name: statisticvalue_lt
+        description: ""
+
+      - name: subbillrevenuesplitparentamount
+        description: ""
+
+      - name: underdeliverypct
+        description: ""
+
+      - name: agreementskipautolink
+        description: ""
+
+      - name: autocreateintercompanyorders
+        description: ""
+
+      - name: blocked
+        description: ""
+
+      - name: complete
+        description: ""
+
+      - name: consignment_mx
+        description: ""
+
+      - name: isfreeitemline
+        description: ""
+
+      - name: isintegration
+        description: ""
+
+      - name: issoftreservedexternally
+        description: ""
+
+      - name: kittingskipupdatehelper
+        description: ""
+
+      - name: mcrmarginupdated
+        description: ""
+
+      - name: mpsexcludesalesline
+        description: ""
+
+      - name: mpsfullrunctpstatus
+        description: ""
+
+      - name: mpsupdateexcludesalesline
+        description: ""
+
+      - name: overridesalestax
+        description: ""
+
+      - name: pdsbatchattribautores
+        description: ""
+
+      - name: pdsexcludefromrebate
+        description: ""
+
+      - name: pdssamelot
+        description: ""
+
+      - name: pdssamelotoverride
+        description: ""
+
+      - name: returnallowreservation
+        description: ""
+
+      - name: scrap
+        description: ""
+
+      - name: skipassigninventtransid
+        description: ""
+
+      - name: skipcreatemarkup
+        description: ""
+
+      - name: skipdefaultingsourcingvendor
+        description: ""
+
+      - name: skipdeliveryscheduleupdate
+        description: ""
+
+      - name: skipintercompanypurchorderaccountingdistribution
+        description: ""
+
+      - name: skippricedisccalc
+        description: ""
+
+      - name: skippricedisccalcinbulkcreation
+        description: ""
+
+      - name: skippricedisccalconimport
+        description: ""
+
+      - name: skipupdate
+        description: ""
+
+      - name: softreserveblocklevel
+        description: ""
+
+      - name: stattriangulardeal
+        description: ""
+
+      - name: stockedproduct
+        description: ""
+
+      - name: subbillisrevenuesplitchild
+        description: ""
+
+      - name: subbillissplitbilling
+        description: ""
+
+      - name: subbillistermsplit
+        description: ""
+
+      - name: subbillrevenuesplit
+        description: ""
+
+      - name: subbillrevenuesplitallocationmethod
+        description: ""
+
+      - name: syncpurchline
+        description: ""
+
+      - name: syncintercompanypurchline
+        description: ""
+
+      - name: tamrebateexcluderebatemanagement
+        description: ""
+
+      - name: taxautogenerated
+        description: ""
+
+      - name: unbilledrevenuecredit
+        description: ""
+
+      - name: revrecbundle
+        description: ""
+
+      - name: revrecisbundlecomponent
+        description: ""
+
+      - name: revrecbundlesalesstatus
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: customsdocdate_mx
+        description: ""
+
+      - name: intrastatfulfillmentdate_hu
+        description: ""
+
+      - name: receiptdateconfirmed
+        description: ""
+
+      - name: receiptdaterequested
+        description: ""
+
+      - name: returnarrivaldate
+        description: ""
+
+      - name: returncloseddate
+        description: ""
+
+      - name: returndeadline
+        description: ""
+
+      - name: revreccontractenddate
+        description: ""
+
+      - name: revreccontractstartdate
+        description: ""
+
+      - name: confirmeddlv
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: shippingdaterequested
+        description: ""

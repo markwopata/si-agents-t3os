@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: stg_analytics_public__regions
+    description: > 
+      Table lists regions at equipmentshare. Each region has a number and a name. R1 is Pacific. The region manager/etc fields were removed because there's no method for
+      updating provided.
+    meta:
+        owner: "@loren.severs"
+    columns:
+      - name: _row
+        description: "Primary key for table."
+        data_tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+      - name: region_id
+        description: "Region number - e.g. 5"
+        data_tests:
+          - unique
+          - not_null
+      - name: region_name
+        description: "Name for region - e.g. Southwest, Midwest"
+        data_tests:
+          - not_null
+          - unique

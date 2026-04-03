@@ -1,0 +1,35 @@
+---
+version: 2
+sources:
+  - name: analytics_monday
+    tags:
+      - sources
+    database: analytics
+    schema: monday
+    description: This schema contains data from Monday.com streamed through Fivetran.
+    tables:
+      - name: board
+        description: Board object in monday.com. Streamed from Fivetran.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/smugness_cabin/status?groupId=revisable_roamed&service=monday&syncChartPeriod=1%20Day
+      - name: item
+        description: monday.com item table. An item is a row in a board. Streamed from Fivetran.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/smugness_cabin/status?groupId=revisable_roamed&service=monday&syncChartPeriod=1%20Day
+      - name: columns
+        description: Column in a monday board. Streamed from Fivetran.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/smugness_cabin/status?groupId=revisable_roamed&service=monday&syncChartPeriod=1%20Day
+      - name: column_value
+        description: Value of a column within an item in a monday board. This is the main way you get specific "cell" values. Depending on the type of column, the value is stored in a different column (text, number, date, so on). Streamed from Fivetran.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/smugness_cabin/status?groupId=revisable_roamed&service=monday&syncChartPeriod=1%20Day
+      - name: groups
+        description: This table tells you what grouping a monday.com item was entered into. Streamed from Fivetran.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/smugness_cabin/status?groupId=revisable_roamed&service=monday&syncChartPeriod=1%20Day

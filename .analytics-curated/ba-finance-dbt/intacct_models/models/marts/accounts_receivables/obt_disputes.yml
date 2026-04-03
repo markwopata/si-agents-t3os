@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: obt_disputes
+    description:
+      "one big table joining dispute dimensional and numerical info. includes dispute days to resolve and location
+      info\n"
+    columns:
+      - name: dispute_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: dispute_date_creation
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: dispute_category
+        description: ""
+      - name: days_to_resolve
+        description: ""
+      - name: invoice_amount
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: last_customer_payment_date
+        description: ""
+      - name: do_not_rent_flag
+        description: ""

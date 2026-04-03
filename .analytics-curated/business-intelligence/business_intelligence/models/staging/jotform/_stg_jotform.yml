@@ -1,0 +1,123 @@
+version: 2
+
+models:
+
+  - name: stg_jotform__safety_observation
+    description: "{{ doc('jotform__safety_observation') }}"
+    config:
+      tags: ['safety_observation']
+    columns:
+      - name: safety_observation_id
+        data_type: number
+        description: "{{ doc('safety_observation__id') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: submission_datetime
+        data_type: timestamp_ntz
+        description: "{{ doc('safety_observation__submission_datetime') }}"
+
+      - name: first_name
+        data_type: varchar
+        description: "{{ doc('safety_observation__first_name') }}"
+
+      - name: last_name
+        data_type: varchar
+        description: "{{ doc('safety_observation__last_name') }}"
+
+      - name: employee_email
+        data_type: varchar
+        description: "{{ doc('safety_observation__employee_email') }}"
+
+      - name: branch_location
+        data_type: varchar
+        description: "{{ doc('safety_observation__branch_location') }}"
+
+      - name: region
+        data_type: varchar
+        description: "{{ doc('safety_observation__region') }}"
+
+      - name: observation_category
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_category') }}"
+
+      - name: observation_type
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_type') }}"
+
+      - name: observation_date
+        data_type: date
+        description: "{{ doc('safety_observation__observation_date') }}"
+
+      - name: observation_time_12h
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_time_12h') }}"
+
+      - name: observation_datetime
+        data_type: timestamp_ntz
+        description: "{{ doc('safety_observation__observation_datetime') }}"
+
+      - name: observation_datetime_final
+        data_type: timestamp_ntz
+        description: "{{ doc('safety_observation__observation_datetime_final') }}"
+
+      - name: observation_location
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_location') }}"
+
+      - name: observation_description
+        data_type: varchar
+        description: "{{ doc('safety_observation__observation_description') }}"
+
+      - name: photos
+        data_type: array
+        description: "{{ doc('safety_observation__photos') }}"
+
+      - name: corrective_action
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action') }}"
+
+      - name: corrective_action_type
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action_type') }}"
+
+      - name: corrective_action_explanation
+        data_type: varchar
+        description: "{{ doc('safety_observation__corrective_action_explanation') }}"
+
+      - name: requires_safety_manager_escalation
+        data_type: boolean
+        description: "{{ doc('safety_observation__safety_manager_elevation') }}"
+
+      - name: _jotform_form_id
+        data_type: number
+        description: "{{ doc('safety_observation__jotform_form_id') }}"
+
+      - name: _jotform_submission_status
+        data_type: varchar
+        description: "{{ doc('safety_observation__jotform_submission_status') }}"
+
+      - name: _jotform_submission_is_new
+        data_type: number
+        description: "{{ doc('safety_observation__jotform_submission_is_new') }}"
+
+      - name: _jotform_submission_is_flagged
+        data_type: boolean
+        description: "{{ doc('safety_observation__jotform_submission_is_flagged') }}"
+
+      - name: _jotform_submission_notes
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: _jotform_submission_updated_at
+        data_type: timestamp_ntz
+        description: "{{ doc('safety_observation__jotform_submission_updated_at') }}"
+
+      - name: _jotform_workflow_status
+        data_type: varchar
+        description: "{{ doc('safety_observation__jotform_workflow_status') }}"
+
+      - name: _jotform_is_workflow_enabled
+        data_type: boolean
+        description: "{{ doc('safety_observation__jotform_is_workflow_enabled') }}"

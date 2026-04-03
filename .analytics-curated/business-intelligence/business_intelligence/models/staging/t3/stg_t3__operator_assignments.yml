@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: stg_t3__operator_assignments
+    description: "Operator assignment and unassignment events by asset and user"
+    columns:
+
+      - name: asset_id
+        data_type: varchar
+        description: "Asset unique identifier"
+
+      - name: asset_company_id
+        data_type: varchar
+        description: "Owning Company ID for the asset"
+
+      - name: operator_name
+        data_type: varchar
+        description: "Display name of the operator"
+
+      - name: user_id
+        data_type: varchar
+        description: "Internal user id of the operator"
+
+      - name: operator_id
+        data_type: varchar
+        description: "Operator unique identifier (UUID or similar)"
+
+      - name: assignment_time
+        data_type: timestamp_tz
+        description: "Timestamp when the operator was assigned to the asset"
+
+      - name: unassignment_time
+        data_type: timestamp_tz
+        description: "Timestamp when the operator was unassigned from the asset (null if still assigned)"
+
+      - name: current_assignment
+        data_type: boolean
+        description: "True if this row reflects the operators current assignment to the asset"
+
+      - name: assumed_event
+        data_type: varchar
+        description: "Indicates if an assumption was made about the event and if so, what type"

@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: int_asset4000_calculate_nbv
+    description: for each asset's depreciation_date, the net book value and original equipment cost is calculated
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+              - book_code
+              - _fivetran_deleted
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+      - name: depreciation_date
+        description: the start date of the period in which the asset will be depreciated
+      - name: nbv
+        description: '{{ doc("nbv") }}'
+      - name: oec
+        description: '{{ doc("oec") }}'

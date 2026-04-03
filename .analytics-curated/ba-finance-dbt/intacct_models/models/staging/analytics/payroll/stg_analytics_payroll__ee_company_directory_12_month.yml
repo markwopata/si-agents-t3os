@@ -1,0 +1,70 @@
+---
+version: 2
+models:
+  - name: stg_analytics_payroll__ee_company_directory_12_month
+    description: Model provided by PA team that has month end snapshots of company directory
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - employee_id
+              - _es_update_timestamp
+    columns:
+      - name: employee_id
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: work_email
+        description: ""
+      - name: employee_type
+        description: ""
+      - name: employee_status
+        description: ""
+      - name: date_hired
+        description: ""
+      - name: date_rehired
+        description: ""
+      - name: employee_title
+        description: ""
+      - name: location
+        description: ""
+      - name: default_cost_centers_full_path
+        description: ""
+      - name: direct_manager_employee_id
+        description: ""
+      - name: direct_manager_name
+        description: ""
+      - name: work_phone
+        description: ""
+      - name: date_terminated
+        description: ""
+      - name: nickname
+        description: ""
+      - name: market_id
+        description: ""
+      - name: ee_state
+        description: ""
+      - name: doc_uname
+        description: ""
+      - name: tax_location
+        description: ""
+      - name: pay_calc
+        description: ""
+      - name: hires
+        description: ""
+      - name: rehires
+        description: ""
+      - name: terminations
+        description: ""
+      - name: headcount
+        description: ""
+      - name: greenhouse_application_id
+        description: ""
+      - name: disc_code
+        description: ""
+      - name: position_effective_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

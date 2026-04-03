@@ -1,0 +1,468 @@
+version: 2
+
+models:
+
+  # ========================================
+  # Companies Models
+  # ========================================
+
+  - name: int_companies_duplicate_merged_to
+    description: "{{ doc('int_companies_duplicate_merged_to') }}"
+
+  - name: int_companies_merged
+    description: "{{ doc('int_companies_merged') }}"
+
+  - name: int_companies_seed_flagged
+    description: "{{ doc('int_companies_seed_flagged') }}"
+
+  - name: int_companies_seed_merged
+    description: "{{ doc('int_companies_seed_merged') }}"
+
+  - name: int_company_activity_status
+    description: "{{ doc('int_company_activity_status') }}"
+
+  - name: int_company_conversion_flags
+    description: "{{ doc('int_company_conversion_flags') }}"
+
+  - name: int_company_first_order
+    description: "{{ doc('int_company_first_order') }}"
+
+  - name: int_company_first_order_with_salesperson
+    description: "{{ doc('int_company_first_order_with_salesperson') }}"
+    config:
+      tags: ['credit_application']
+
+  - name: int_company_first_rental
+    description: "{{ doc('int_company_first_rental') }}"
+
+  - name: int_company_first_rental_with_salesperson
+    description: "{{ doc('int_company_first_rental_with_salesperson') }}"
+
+  - name: int_company_last_invoice
+    description: "{{ doc('int_company_last_invoice') }}"
+
+  - name: int_company_market_unconverted
+    description: "{{ doc('int_company_market_unconverted') }}"
+
+  - name: int_company_mimic_links
+    description: "{{ doc('int_company_mimic_links') }}"
+
+  - name: int_company_open_quotes
+    description: "{{ doc('int_company_open_quotes') }}"
+
+  - name: int_company_open_rentals
+    description: "{{ doc('int_company_open_rentals') }}"
+
+  - name: int_company_lifetime_rental_status
+    description: "{{ doc('int_company_lifetime_rental_status') }}"
+
+  - name: int_user_company_email_merge_mapping
+    description: "{{ doc('int_user_company_email_merge_mapping') }}"
+
+  # ========================================
+  # Credit App Models
+  # ========================================
+
+  - name: int_credit_app_map_missing_salesperson_user_id
+    description: "{{ doc('int_credit_app_map_missing_salesperson_user_id') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+      - name: salesperson
+        data_type: varchar
+        description: "{{ doc('credit_application__salesperson') }}"
+      - name: employee_id
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_employee_id') }}"
+      - name: user_id
+        data_type: number
+        description: "{{ doc('credit_application_salesperson_user_id') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_map_user_employee
+    description: "{{ doc('int_credit_app_map_user_employee') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+      - name: created_by_employee_user_id
+        data_type: number
+        description: "{{ doc('credit_application_created_by_employee_user_id') }}"
+      - name: created_by_email
+        data_type: varchar
+        description: "{{ doc('credit_application__created_by_email') }}"
+      - name: salesperson_user_id
+        data_type: number
+        description: "{{ doc('credit_application_salesperson_user_id') }}"
+      - name: salesperson
+        data_type: varchar
+        description: "{{ doc('credit_application__salesperson') }}"
+      - name: salesperson_name
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_name') }}"
+      - name: salesperson_employee_id
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_employee_id') }}"
+      - name: credit_specialist_user_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_specialist_user_id') }}"
+      - name: credit_specialist
+        data_type: varchar
+        description: "{{ doc('credit_application__credit_specialist') }}"
+      - name: credit_specialist_name
+        data_type: varchar
+        description: "{{ doc('credit_application_credit_specialist_name') }}"
+      - name: credit_specialist_employee_id
+        data_type: varchar
+        description: "{{ doc('credit_application_credit_specialist_employee_id') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_base
+    description: "{{ doc('int_credit_app_base') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('credit_application__company') }}"
+      - name: source
+        data_type: varchar
+        description: "{{ doc('credit_application__source') }}"
+      - name: date_created_ct
+        data_type: timestamp_ntz
+        description: "{{ doc('credit_application_date_created_ct') }}"
+      - name: date_received_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_received_ct') }}"
+      - name: date_completed_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_completed_ct') }}"
+      - name: app_status
+        data_type: varchar
+        description: "{{ doc('credit_application__application_status') }}"
+      - name: app_type
+        data_type: varchar
+        description: "{{ doc('credit_application_type') }}"
+      - name: created_by_employee_user_id
+        data_type: number
+        description: "{{ doc('credit_application_created_by_employee_user_id') }}"
+      - name: created_by_email
+        data_type: varchar
+        description: "{{ doc('credit_application__created_by_email') }}"
+      - name: salesperson_user_id
+        data_type: number
+        description: "{{ doc('credit_application_salesperson_user_id') }}"
+      - name: salesperson
+        data_type: varchar
+        description: "{{ doc('credit_application__salesperson') }}"
+      - name: salesperson_name
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_name') }}"
+      - name: salesperson_employee_id
+        data_type: varchar
+        description: "{{ doc('credit_application_salesperson_employee_id') }}"
+      - name: credit_specialist_user_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_specialist_user_id') }}"
+      - name: credit_specialist
+        data_type: varchar
+        description: "{{ doc('credit_application__credit_specialist') }}"
+      - name: credit_specialist_name
+        data_type: varchar
+        description: "{{ doc('credit_application_credit_specialist_name') }}"
+      - name: credit_specialist_employee_id
+        data_type: varchar
+        description: "{{ doc('credit_application_credit_specialist_employee_id') }}"
+      - name: market_id
+        data_type: number
+        description: "{{ doc('credit_application__market_id') }}"
+      - name: market_name
+        data_type: varchar
+        description: "{{ doc('credit_application__market') }}"
+      - name: duns
+        data_type: varchar
+        description: "{{ doc('credit_application__duns') }}"
+      - name: fein
+        data_type: varchar
+        description: "{{ doc('credit_application__fein') }}"
+      - name: sic
+        data_type: varchar
+        description: "{{ doc('credit_application__sic') }}"
+      - name: naics_primary
+        data_type: varchar
+        description: "{{ doc('credit_application__naics_primary') }}"
+      - name: naics_secondary
+        data_type: varchar
+        description: "{{ doc('credit_application__naics_secondary') }}"
+      - name: notes
+        data_type: varchar
+        description: "{{ doc('credit_application_notes') }}"
+      - name: has_insurance_info
+        data_type: boolean
+        description: "{{ doc('credit_application__insurance_info') }}"
+      - name: coi_received
+        data_type: boolean
+        description: "{{ doc('credit_application__coi_received') }}"
+      - name: insurance_company
+        data_type: varchar
+        description: "{{ doc('credit_application__insurance_company') }}"
+      - name: insurance_email
+        data_type: varchar
+        description: "{{ doc('credit_application__insurance_email') }}"
+      - name: insurance_phone
+        data_type: varchar
+        description: "{{ doc('credit_application__insurance_phone') }}"
+      - name: credit_safe_no
+        data_type: varchar
+        description: "{{ doc('credit_application__credit_safe_number') }}"
+      - name: is_government_entity
+        data_type: boolean
+        description: "{{ doc('credit_application__government_entity') }}"
+      - name: has_online_app_status
+        data_type: boolean
+        description: "{{ doc('credit_application__online_app_status') }}"
+      - name: is_salesperson_override
+        data_type: boolean
+        description: "{{ doc('credit_application__salesperson_override') }}"
+      - name: is_initial_web_self_signup
+        data_type: boolean
+        description: "{{ doc('credit_application__initial_web_self_signup') }}"
+      - name: is_initial_web_unauthenticated
+        data_type: boolean
+        description: "{{ doc('credit_application__initial_web_unauthenticated') }}"
+      - name: unauthenticated_dot_com_app_id
+        data_type: number
+        description: "{{ doc('credit_application__unauthenticated_dot_com_app_id') }}"
+      - name: is_automated_entry
+        data_type: boolean
+        description: "{{ doc('credit_application_is_automated_entry') }}"
+      - name: is_batch_loaded_entry
+        data_type: boolean
+        description: "{{ doc('credit_application_is_batch_loaded_entry') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_lookup_valid_applications
+    description: "{{ doc('int_credit_app_lookup_valid_applications') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_lookup_first_application
+    description: "{{ doc('int_credit_app_lookup_first_application') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_lookup_first_application_with_salesperson
+    description: "{{ doc('int_credit_app_lookup_first_application_with_salesperson') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_lookup_current_application
+    description: "{{ doc('int_credit_app_lookup_current_application') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_lookup_grace_period
+    description: "{{ doc('int_credit_app_lookup_grace_period') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: is_locked
+        data_type: boolean
+        description: "{{ doc('credit_application_is_locked') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_automated_intake_activity
+    description: "{{ doc('int_credit_app_automated_intake_activity') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+      - name: date_created_ct
+        data_type: timestamp_ntz
+        description: "{{ doc('credit_application_date_created_ct') }}"
+      - name: date_received_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_received_ct') }}"
+      - name: date_completed_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_completed_ct') }}"
+      - name: salesperson_user_id
+        data_type: number
+        description: "{{ doc('credit_application_salesperson_user_id') }}"
+      - name: source
+        data_type: varchar
+        description: "{{ doc('credit_application__source') }}"
+      - name: app_status
+        data_type: varchar
+        description: "{{ doc('credit_application__application_status') }}"
+      - name: app_type
+        data_type: varchar
+        description: "{{ doc('credit_application_type') }}"
+      - name: notes
+        data_type: varchar
+        description: "{{ doc('credit_application_notes') }}"
+      - name: is_locked
+        data_type: boolean
+        description: "{{ doc('credit_application_is_locked') }}"
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+
+  - name: int_credit_app_first_intake_resolved
+    description: "{{ doc('int_credit_app_first_intake_resolved') }}"
+    config:
+      tags: ['credit_application']
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('credit_application__company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: camr_id
+        data_type: number
+        description: "{{ doc('credit_application__credit_application_master_retool_id') }}"
+      - name: source
+        data_type: varchar
+        description: "{{ doc('credit_application__source') }}"
+      - name: app_status
+        data_type: varchar
+        description: "{{ doc('credit_application__application_status') }}"
+      - name: app_type
+        data_type: varchar
+        description: "{{ doc('credit_application_type') }}"
+      - name: first_account_date_ct
+        data_type: date
+        description: "{{ doc('credit_application_first_account_date_ct') }}"
+        data_tests:
+          - not_null
+      - name: date_created_ct
+        data_type: timestamp_ntz
+        description: "{{ doc('credit_application_date_created_ct') }}"
+      - name: date_received_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_received_ct') }}"
+      - name: date_completed_ct
+        data_type: date
+        description: "{{ doc('credit_application__date_completed_ct') }}"
+      - name: salesperson_user_id
+        data_type: number
+        description: "{{ doc('credit_application_salesperson_user_id') }}"
+        data_tests:
+          - not_null
+      - name: notes
+        data_type: varchar
+        description: "{{ doc('credit_application_notes') }}"
+      - name: is_locked
+        data_type: boolean
+        description: "{{ doc('credit_application_is_locked') }}"
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz

@@ -1,0 +1,19 @@
+SELECT
+    cem.camera_event_media_id,
+    cem.feed_id,
+    cem.start_date_time,
+    cem.end_date_time,
+    cem.altitude,
+    cem.heading,
+    cem.location,
+    cem.speed,
+    cem.mdt_url,
+    cem.url,
+    cem.camera_event_id,
+    cem.smartwitness_api_media_request_log_id,
+    cem.tracking_incident_id,
+    cem.clip_id,
+    cem.media_request_id,
+    cem.date_created,
+    cem._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'camera_event_medias') }} as cem

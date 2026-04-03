@@ -1,0 +1,36 @@
+---
+version: 2
+
+sources:
+  - name: analytics_concur
+    tags: ["sources"]
+    database: analytics
+    schema: concur
+    description: are all BA owned that are ETL'd into this schema from Concur, ES's invoice management system
+    tables:
+      - name: pending_branch_approval
+        description: >
+          represent bills in our AP Automation platform, Concur Invoice, which have been coded and submitted by AP staff,  but
+          still require branch approval. Approval routing in Concur Invoice is determined by matching tolerances, certain
+          expense types (accounts) and amount thresholds.  The data is appended to this table once daily and history is maintained
+          to examine trends of approvers who are approving in a timely way and who is not.
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-concur-sftp-etl
+          jenkins_job: https://bi-jenkins.internal.equipmentshare.com/job/BA%20Monitored%20-%20Concur%20ETL/
+          point_of_contact: Zach Jonas / Kendall Durkee
+
+      - name: pending_hq_approval
+        description: >
+          represent bills in our AP Automation platform, Concur Invoice, which have been coded and submitted by AP staff,  but
+          still require HQ approval. Approval routing in Concur Invoice is determined by matching tolerances, certain expense
+          types (accounts) and amount thresholds.  The data is appended to this table once daily and history is maintained
+          to examine trends of approvers who are approving in a timely way and who is not.
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-concur-sftp-etl
+          jenkins_job: https://bi-jenkins.internal.equipmentshare.com/job/BA%20Monitored%20-%20Concur%20ETL/
+          point_of_contact: Zach Jonas / Kendall Durkee
+      - name: last_close_date_ap
+        description: >
+          Manually populated by Financial Systems to record when the AP ledger is closed each month.

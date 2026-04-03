@@ -1,0 +1,18 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__asset_status_key_values
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.asset_status_key_values table, maintaining point-in-time
+      history of asset status key values.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: asset_status_key_value_id
+        description: Primary key of the underlying asset status key value record.
+        data_tests:
+          - not_null

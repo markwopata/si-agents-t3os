@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_t3__benchmark_parent_category
+    description: "Rental Utilization by Parent Category for EquipmentShare assets over various relative time periods."
+    columns:
+      - name: parent_category
+        data_type: varchar
+        description: "Asset Parent Category"
+
+      - name: distinct_asset_count
+        data_type: number
+        description: "Distinct Asset Count"
+      
+      - name: on_time_hours
+        data_type: number
+        description: "On Time Hours"
+
+      - name: rental_date_count
+        data_type: number
+        description: "Rental Date Count"
+
+      - name: utilization_30_day_parent_category_benchmark
+        data_type: number
+        description: "30 Day Rental Utilization"
+
+
+  

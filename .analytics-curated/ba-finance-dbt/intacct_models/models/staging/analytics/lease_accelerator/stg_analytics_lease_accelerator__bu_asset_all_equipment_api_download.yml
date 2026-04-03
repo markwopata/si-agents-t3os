@@ -1,0 +1,162 @@
+models:
+  - name: stg_analytics_lease_accelerator__bu_asset_all_equipment_api_download
+    description: >
+      the most recent downloaded report of LAS' BU Asset Equipment Report
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+                - las_asset_id
+                - ledger_code
+    columns:
+      - name: las_asset_id
+        description: "Unique identifier for the asset in LeaseAccelerator (LAS)."
+
+      - name: admin_asset_id
+        description: "Internal EquipmentShare admin identifier used to join to AS4K and other systems."
+
+      - name: ledger_code
+        description: "Code identifying the accounting ledger associated with the asset."
+
+      - name: ledger_category
+        description: "Ledger category grouping for financial reporting."
+
+      - name: host_name
+        description: "System host or tenant identifier in LeaseAccelerator."
+
+      - name: business_unit
+        description: "EquipmentShare business unit that owns or manages the asset."
+
+      - name: entity
+        description: "Legal entity associated with the lease/asset (e.g., EquipmentShare.com Inc)."
+
+      - name: funder
+        description: "Funder or lessor providing financing for the lease."
+
+      - name: asset_type
+        description: "High-level asset type (e.g., Equipment, Real Estate)."
+
+      - name: asset_type_2
+        description: "Secondary classification of the asset (if available from LAS)."
+
+      - name: currency
+        description: "Currency code used for the lease transactions."
+
+      - name: renewal_term
+        description: "Lease renewal term, in months or years depending on configuration."
+
+      - name: status
+        description: "Current status of the lease/asset (Active, Terminated, Defunct)."
+
+      - name: lease_type
+        description: "Classification of lease type (e.g., Operating, Finance)."
+
+      - name: payment_schedule
+        description: "Lease payment schedule code or frequency."
+
+      - name: product_number
+        description: "Product number or identifier provided by manufacturer/vendor."
+
+      - name: manufacturer
+        description: "Manufacturer of the equipment."
+
+      - name: description
+        description: "Free-text description of the asset."
+
+      - name: address
+        description: "Primary street address associated with the asset."
+
+      - name: city
+        description: "City associated with the asset location."
+
+      - name: state
+        description: "State or province for the asset location."
+
+      - name: country
+        description: "Country for the asset location."
+
+      - name: asset_owner
+        description: "Name of the asset owner as stored in LAS."
+
+      - name: asset_tag
+        description: "Asset tag or barcode used for tracking."
+
+      - name: vendor
+        description: "Vendor or supplier associated with the asset."
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: lease
+        description: "Lease identifier in LAS."
+
+      - name: current_fx_rate
+        description: "Current foreign exchange rate applied to lease amounts."
+
+      - name: fx_rate_at_lsd
+        description: "Foreign exchange rate at lease start date (LSD)."
+
+      - name: asset_cost_local
+        description: "Asset cost in local (transactional) currency."
+
+      - name: asset_rent_local
+        description: "Asset rent in local (transactional) currency."
+
+      - name: allocated_cost_local
+        description: "Allocated portion of cost in local currency."
+
+      - name: allocated_rent_local
+        description: "Allocated portion of rent in local currency."
+
+      - name: asset_cost_reporting_currency
+        description: "Asset cost translated into reporting currency (e.g., USD)."
+
+      - name: asset_rent_reporting_currency
+        description: "Asset rent translated into reporting currency."
+
+      - name: allocated_cost_reporting_currency
+        description: "Allocated cost in reporting currency."
+
+      - name: allocated_rent_reporting_currency
+        description: "Allocated rent in reporting currency."
+
+      - name: term
+        description: "Original lease term (usually in months)."
+
+      - name: months_remaining
+        description: "Remaining months left in the lease term."
+
+      - name: original_lease_rate_factor
+        description: "Lease rate factor as originally agreed."
+
+      - name: serial_number
+        description: "Serial number of the equipment asset."
+
+      - name: asset_reference_number
+        description: "Reference number for the asset in LeaseAccelerator."
+
+      - name: postal_code
+        description: "Postal code for the asset location."
+
+      - name: date_entered
+        description: "Date the lease/asset was entered into LAS."
+
+      - name: booking_ledger_date
+        description: "Date the lease was booked in the accounting ledger."
+
+      - name: commencement_date
+        description: "Lease commencement date."
+
+      - name: original_end_date
+        description: "Original lease end date."
+
+      - name: last_renewal
+        description: "Date of the most recent renewal, if any."
+
+      - name: effective_end_date
+        description: "Effective end date of the lease after renewals or modifications."
+
+      - name: as_at_date
+        description: "The 'as at' date representing the point in time for which the data is relevant."
+
+      - name: _es_update_timestamp
+        description: "Timestamp when this record was last updated in EquipmentShare’s data pipeline."

@@ -1,0 +1,62 @@
+---
+version: 2
+models:
+  - name: int_markets
+    description: "Intermediate model joining markets, locations, and states to provide enriched market details including address and geolocation."
+    meta:
+      run_details: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ANALYTICS/schemas/INTACCT_MODELS/table/INT_MARKETS
+    columns:
+      - name: market_id
+        description: "Unique identifier for the market."
+        data_tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: market_name
+        description: "Name of the market."
+      - name: company_id
+        description: "Company that owns the market."
+      - name: company_name
+        description: "Name of the company that owns the market."
+      - name: abbreviation
+        description: "Abbreviation for the market. e.g. SAN for San Diego."
+      - name: area_code
+        description: "Area code for the market."
+      - name: is_active
+        description: "Indicates if the market is active."
+      - name: is_public_msp
+        description: "Indicates if the market is a maintenance service provider."
+      - name: is_public_rsp
+        description: "Indicates if the market is a rental service provider."
+      - name: is_market_es_owned
+        description: "Indicates if the market is owned by EquipmentShare."
+      - name: location_id
+        description: "Identifier for the location associated with the market."
+      - name: location_nickname
+        description: "Nickname for the location."
+      - name: street_1
+        description: "Primary street address for the location."
+      - name: street_2
+        description: "Additional address information, such as suite, unit, or apartment number, for the location."
+      - name: city
+        description: "City where the location is situated."
+      - name: state
+        description: "State abbreviation for the location."
+      - name: state_name
+        description: "State name for the location."
+      - name: zip_code
+        description: "ZIP code for the location."
+      - name: full_address
+        description: "Concatenated full address for the location."
+      - name: latitude
+        description: "Latitude coordinate for the location."
+      - name: longitude
+        description: "Longitude coordinate for the location."
+      - name: url_google_maps
+        description: "Google Maps URL for the location. Uses latitude and longitude."
+      - name: date_created
+        description: "Timestamp when the market was created."
+      - name: date_updated
+        description: "Timestamp when the market was last updated."
+      - name: _es_update_timestamp
+        description: "Timestamp for the last update from the ES warehouse."

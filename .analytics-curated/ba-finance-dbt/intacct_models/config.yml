@@ -1,0 +1,7 @@
+---
+# Configuration for Elementary Slack integration
+
+slack:
+  token: "$slack_token"
+  channel_name: "#ba-alert-financial-analytics"
+  group_alerts_by: "table"

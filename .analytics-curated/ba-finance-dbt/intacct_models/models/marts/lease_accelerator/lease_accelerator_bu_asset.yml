@@ -1,0 +1,121 @@
+---
+version: 2
+
+models:
+  - name: lease_accelerator_bu_asset
+    description: >
+      This model is a mart of the LAS BU asset report
+    columns:
+      - name: las_asset_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: market_id
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: ledger_category
+        description: ""
+
+      - name: funder
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: lease_type
+        description: ""
+
+      - name: payment_schedule
+        description: ""
+
+      - name: product_number
+        description: ""
+
+      - name: description
+        description: ""
+
+      - name: admin_asset_id
+        description: ""
+
+      - name: asset_owner
+        description: ""
+
+      - name: asset_tag
+        description: ""
+
+      - name: vendor
+        description: ""
+
+      - name: make
+        description: ""
+
+      - name: model
+        description: ""
+
+      - name: class
+        description: ""
+
+      - name: lease
+        description: ""
+
+      - name: term
+        description: ""
+
+      - name: months_remaining
+        description: ""
+
+      - name: original_lease_rate_factor
+        description: ""
+
+      - name: serial_number
+        description: ""
+
+      - name: asset_reference_number
+        description: ""
+
+      - name: postal_code
+        description: ""
+
+
+      - name: date_entered
+        description: ""
+
+      - name: original_end_date
+        description: ""
+
+      - name: last_renewal
+        description: ""
+
+      - name: effective_end_date
+        description: ""
+
+      - name: first_rental_date
+        description: "{{ doc('first_rental_date') }}"
+
+      - name: _es_update_timestamp
+        description: ""
+
+exposures:
+  - name: lease_accelerator_bu_asset_report
+    type: dashboard
+    maturity: medium
+    url: https://equipmentshare.looker.com/dashboards/1434?Schedule=
+    description: >
+      List of reports downloaded via LAS API python script (https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/run.py?ref_type=heads).
+      Source data is landed into Snowflake and transformed in dbt
+
+    depends_on:
+      - ref('lease_accelerator_leasing_summary')
+      - ref('lease_accelerator_ledger_export')
+      - ref('lease_accelerator_bu_asset')
+
+    owner:
+      name: "@erik.chu"
+      email: erik.chu@equipmentshare.com

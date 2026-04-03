@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__notification_subscriptions
+    description: Model for es_warehouse.public.notification_subscriptions
+    columns:
+      - name: notification_subscription_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: subscription_group_id
+        description: ""
+      - name: asset_incident_threshold_id
+        description: ""
+      - name: time_fence_id
+        description: ""
+      - name: geofence_subscription_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: tracking_incident_type_id
+        description: ""
+      - name: is_dtc
+        description: ""
+      - name: created_at
+        description: ""
+      - name: company_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

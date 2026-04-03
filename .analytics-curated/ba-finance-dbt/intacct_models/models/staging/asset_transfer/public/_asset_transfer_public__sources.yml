@@ -1,0 +1,17 @@
+---
+version: 2
+
+sources:
+  - name: asset_transfer_public
+    tags: ["sources"]
+    database: asset_transfer
+    schema: public
+    description: Asset Transfer tables
+    tables:
+      - name: transfer_orders
+        description: >
+            Assets with real-time transfer updates
+        columns:
+            - name: transfer_order_id
+              data_tests:
+                - unique

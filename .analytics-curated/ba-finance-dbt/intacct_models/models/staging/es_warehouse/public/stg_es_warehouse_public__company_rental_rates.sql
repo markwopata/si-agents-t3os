@@ -1,0 +1,20 @@
+SELECT
+    crr.company_rental_rate_id,
+    crr.company_id,
+    crr.equipment_class_id,
+    crr.rental_rate_type_id,
+    crr.price_per_hour,
+    crr.price_per_day,
+    crr.price_per_week,
+    crr.price_per_month,
+    crr.percent_discount,
+    crr.created_by_user_id,
+    crr.date_voided,
+    crr.voided_by_user_id,
+    crr.voided,
+    crr.rsp_company_id,
+    crr.rate_type_id,
+    crr.end_date,
+    crr.date_created,
+    crr._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'company_rental_rates') }} as crr

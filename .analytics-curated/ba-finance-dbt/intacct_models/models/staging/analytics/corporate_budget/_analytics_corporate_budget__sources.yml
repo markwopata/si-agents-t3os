@@ -1,0 +1,70 @@
+---
+version: 2
+
+sources:
+  - name: analytics_corporate_budget
+    tags: ["sources"]
+    database: analytics
+    schema: corporate_budget
+    description: >
+      this schema houses all root tables for the corporate budget structure, such as departments, sub-departments,  expense
+      lines, budget managers
+    tables:
+      - name: approved_budgets
+        description: >
+          a running history of the approved budget for each fiscal year --- reflecting the approved budget detail on the granular
+          level for each sub-department and expense line.
+          also provides the overall mapping of all valid budget relationships in each fiscal year, which corresponds to how
+          Sage is configured in terms of which expense lines fall under each respective sub-department
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/scenario_top/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1B-CFF1ibiMXPOUsRcE1s-SrBHBRy-mbUen8_4eHPY0Q/edit#gid=0
+          point_of_contact: Gina Campagna
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - expense_line_id
+                - department_id
+                - sub_department_id
+                - budget_year
+
+      - name: budget_expense_lines
+        description: >
+          approved expense line id's and expense line names for each fiscal and calendar year. These are mapped to a cost capture id and expense category
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/exempt_metaphysical/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/11kiA0p_jutt-N65bXbW4HIXBMiSRB3Jh14PYwgZYd2I/edit#gid=562782126
+          point_of_contact: Gina Campagna
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+
+      - name: budget_sub_departments
+        description: >
+          provides the sub departments used each fiscal year and maps them to its default department and cost center path.
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/misuse_prohibiting/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1KpmLu-coZkfIDw6gTNxqMfpO7rHV1Mw6RJW4SqL4zaw/edit#gid=1108200996
+          point_of_contact: Gina Campagna
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+
+      - name: unverified_cc_reallocations
+        description: >
+          provides a list of unverified credit card transactions
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/kennel_ventilation/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1QkEM8YrIR9zTPKDBDBULqYVeLhsXWzClLrAvHV23f60/edit?gid=0#gid=0
+          point_of_contact: Gina Campagna
+        columns:
+          - name: _row
+            data_tests:
+              - unique

@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: stg_analytics_market_data__division_types
+    description: ""
+    columns:
+      - name: division_id
+        description: ""
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: division_name
+        description: ""

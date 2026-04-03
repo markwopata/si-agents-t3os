@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_purchases__entity_vendor_settings
+    description: "model of es_warehouse.purchases.entity_vendor_settings"
+    columns:
+      - name: entity_vendor_settings_id
+        description: ""
+        data_tests:
+            - unique
+            - not_null
+      - name: entity_id
+        description: "vendor id in costcapture"
+      - name: ap_address_id
+        description: ""
+      - name: external_erp_vendor_ref
+        description: "sage vendor id"
+      - name: entity_net_terms_id
+        description: ""
+      - name: credit_limit
+        description: ""
+      - name: notes
+        description: ""
+      - name: w9_on_file
+        description: ""
+      - name: entity_tax_classification_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

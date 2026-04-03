@@ -1,0 +1,22 @@
+---
+version: 2
+
+sources:
+  - name: data_science_fleet_opt
+    tags: ["sources"]
+    database: data_science
+    schema: fleet_opt
+    description: data_science schema for all fleet related topics
+    tables:
+      - name: all_equipment_rouse_estimates
+        description: >
+          Rouse is a company that provides valuation and appraisal services for construction equipment, machinery, and assets.
+          This table contains a historical record of Rouse estimates for equipment in the fleet.
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_id
+                - date_created
+              meta:
+                owner: "@liam.purvis"

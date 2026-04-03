@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__fuel_types
+    description: Model for es_warehouse.public.fuel_types
+    columns:
+      - name: fuel_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: fuel_type_canonical_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

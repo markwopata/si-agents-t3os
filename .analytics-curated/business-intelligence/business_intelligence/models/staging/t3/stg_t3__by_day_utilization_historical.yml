@@ -1,0 +1,270 @@
+version: 2
+
+models:
+  - name: stg_t3__by_day_utilization_historical
+    description: "
+        Note: For Fleet Utilization dashboard historical.
+        This table contains a rollup of every asset by day since 2021 that has reported utilization at any point during that timeframe. 
+        Every asset should have one day value, unless rental_company_id, owner_company_id, job_id, phase_job_id has differnt values.
+        There is a primary key by concating - date, asset_id, rental_company_id, owner_company_id, job_id, phase_job_id
+      "
+    columns:
+      - name: primary_key
+        data_type: string
+        description: "Primary Key"
+      
+      - name: date
+        data_type: timestamp
+        description: "Date"
+
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+      
+      - name: rental_company_id
+        data_type: varchar
+        description: "Owner Company ID"
+
+      - name: owner_company_id
+        data_type: varchar
+        description: "Owner Company ID"
+      
+      - name: start_date
+        data_type: varchar
+        description: "Start Date"
+
+      - name: end_date
+        data_type: varchar
+        description: "End Date"
+
+      - name: job_id
+        data_type: number
+        description: "Job ID"
+
+      - name: job_name
+        data_type: varchar
+        description: "Job Name"
+
+      - name: phase_job_id
+        data_type: number
+        description: "Phase Job ID"
+
+      - name: phase_job_name
+        data_type: varchar
+        description: "Phase Job Name"
+
+      - name: phase_job_id
+        data_type: number
+        description: "Phase Job ID"
+
+      - name: phase_job_name
+        data_type: varchar
+        description: "Phase Job Name"
+
+      - name: phase_job_id
+        data_type: number
+        description: "Phase Job ID"
+
+      - name: phase_job_name
+        data_type: varchar
+        description: "Phase Job Name"
+
+      - name: on_time_utc
+        data_type: number
+        description: "On Time UTC"
+
+      - name: in_progress_on_time_utc
+        data_type: number
+        description: "In Progress On Time UTC"
+
+      - name: run_time_utc
+        data_type: number
+        description: "Run Time UTC"
+
+      - name: idle_time_utc
+        data_type: number
+        description: "Idle Time UTC"
+
+      - name: miles_driven_utc
+        data_type: number
+        description: "Miles Driven UTC"
+
+      - name: hauled_time_utc
+        data_type: number
+        description: "Hauled Time UTC"
+
+      - name: hauling_time_utc
+        data_type: number
+        description: "Hauling Time UTC"
+
+      - name: hauling_distance_utc
+        data_type: number
+        description: "Hauling Distance UTC"
+
+      - name: hauled_distance_utc
+        data_type: number
+        description: "Hauled Distance UTC"
+
+      - name: on_time_est
+        data_type: number
+        description: "On Time EST"
+
+      - name: in_progress_on_time_est
+        data_type: number
+        description: "In Progress On Time EST"
+
+      - name: run_time_est
+        data_type: number
+        description: "Run Time EST"
+
+      - name: idle_time_est
+        data_type: number
+        description: "Idle Time EST"
+
+      - name: miles_driven_est
+        data_type: number
+        description: "Miles Driven EST"
+
+      - name: hauled_time_est
+        data_type: number
+        description: "Hauled Time EST"
+
+      - name: hauling_time_est
+        data_type: number
+        description: "Hauling Time EST"
+
+      - name: hauling_distance_est
+        data_type: number
+        description: "Hauling Distance EST"
+
+      - name: hauled_distance_est
+        data_type: number
+        description: "Hauled Distance EST"
+
+      - name: data_refresh_timestamp
+        data_type: timestamp
+        description: "Data Refresh Timestamp"
+
+      - name: on_time_cst
+        data_type: number
+        description: "On Time CST"
+
+      - name: in_progress_on_time_cst
+        data_type: number
+        description: "In Progress On Time CST"
+
+      - name: run_time_cst
+        data_type: number
+        description: "Run Time CST"
+
+      - name: idle_time_cst
+        data_type: number
+        description: "Idle Time CST"
+
+      - name: miles_driven_cst
+        data_type: number
+        description: "Miles Driven CST"
+
+      - name: hauled_time_cst
+        data_type: number
+        description: "Hauled Time CST"
+
+      - name: hauling_time_cst
+        data_type: number
+        description: "Hauling Time CST"
+
+      - name: hauling_distance_cst
+        data_type: number
+        description: "Hauling Distance CST"
+
+      - name: hauled_distance_cst
+        data_type: number
+        description: "Hauled Distance CST"
+
+      - name: on_time_mnt
+        data_type: number
+        description: "On Time MNT"
+
+      - name: in_progress_on_time_mnt
+        data_type: number
+        description: "In Progress On Time MNT"
+
+      - name: run_time_mnt
+        data_type: number
+        description: "Run Time MNT"
+
+      - name: idle_time_mnt
+        data_type: number
+        description: "Idle Time MNT"
+
+      - name: miles_driven_mnt
+        data_type: number
+        description: "Miles Driven MNT"
+
+      - name: hauled_time_mnt
+        data_type: number
+        description: "Hauled Time MNT"
+
+      - name: hauling_time_mnt
+        data_type: number
+        description: "Hauling Time MNT"
+
+      - name: hauling_distance_mnt
+        data_type: number
+        description: "Hauling Distance MNT"
+
+      - name: hauled_distance_mnt
+        data_type: number
+        description: "Hauled Distance MNT"
+
+      - name: on_time_wst
+        data_type: number
+        description: "On Time WST"
+
+      - name: in_progress_on_time_wst
+        data_type: number
+        description: "In Progress On Time WST"
+
+      - name: run_time_wst
+        data_type: number
+        description: "Run Time WST"
+
+      - name: idle_time_wst
+        data_type: number
+        description: "Idle Time WST"
+
+      - name: miles_driven_wst
+        data_type: number
+        description: "Miles Driven WST"
+
+      - name: hauled_time_wst
+        data_type: number
+        description: "Hauled Time WST"
+
+      - name: hauling_time_wst
+        data_type: number
+        description: "Hauling Time WST"
+
+      - name: hauling_distance_wst
+        data_type: number
+        description: "Hauling Distance WST"
+
+      - name: hauled_distance_wst
+        data_type: number
+        description: "Hauled Distance WST"
+
+      - name: owned_asset_count
+        data_type: number
+        description: "Owned Asset Count"
+
+      - name: rental_asset_count
+        data_type: number
+        description: "Rental Asset Count"
+
+      # - name: benchmarked_asset_count
+      #   data_type: number
+      #   description: "Number of Distinct asset_id in the benchmarked period"
+
+      # - name: utilization_30_day_class_benchmark
+      #   data_type: number
+      #   description: "30 Day Rental Utilization"

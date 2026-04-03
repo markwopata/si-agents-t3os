@@ -1,0 +1,75 @@
+---
+version: 2
+sources:
+  - name: analytics_payroll
+    tags: ["sources"]
+    database: analytics
+    schema: payroll
+    description:
+      data in analytics.payroll (analytics database / payroll schema) used for payroll purposes (BA ETL
+      scripts)
+    tables:
+      - name: company_directory
+        description: full historical list of employees
+        meta:
+          generated_from: Workday
+          details:
+            workday -> fivetran -> snowflake/people_analytics database -> procedure ->
+            analytics/payroll/company_directory
+          point_of_contact: Nicole Ferguson
+        columns:
+          - name: employee_id
+            data_tests:
+              - unique
+
+      - name: company_directory_vault
+        description: daily snapshot of company_directory table run twice
+        meta:
+          generated_from: Workday
+          details:
+            workday -> fivetran -> snowflake/people_analytics database -> procedure ->
+            analytics/payroll/company_directory
+          point_of_contact: Nicole Ferguson
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - employee_id
+                  - _es_update_timestamp
+
+      - name: all_company_cost_centers
+        description: Cost centers
+        columns:
+          - name: full_name
+            data_tests:
+              - unique
+
+      - name: pay_periods
+        description: Pay periods
+        columns:
+          - name: pay_id
+            data_tests:
+              - unique
+
+      - name: cost_center_to_market_id
+        description: Maps market ID to branch cost center
+        meta:
+          generated_from: GitLab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-people-analytics/-/blob/main/snowflake/stored_procedures/refresh_cost_center_to_market_id.sql
+          point_of_contact: Nicole Ferguson
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                enabled: false # Disable this test. Table contains duplicates
+                column_list:
+                  - market_id
+                  - default_cost_centers_full_path
+                  - employee_status
+                  - _es_update_timestamp
+      - name: ee_company_directory_12_month
+        description: >
+          month-end employee snapshot with hire/rehire/termination/headcount flags for each employee and month
+        meta:
+          generated_from: Snowflake view
+          url: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/PAYROLL/view/EE_COMPANY_DIRECTORY_12_MONTH
+  

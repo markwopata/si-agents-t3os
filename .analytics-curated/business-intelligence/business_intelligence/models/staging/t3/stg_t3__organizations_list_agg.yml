@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_t3__organizations_list_agg
+    description: "Groups from the Oraginzations Table List Agg"
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+      
+      - name: company_id
+        data_type: number
+        description: "Company ID"
+
+      - name: name
+        data_type: varchar
+        description: "Group Name"
+  

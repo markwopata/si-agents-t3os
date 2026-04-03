@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__etl__dds_job_control
+    description: >
+      This table contains a record for each DDS job with a unique key of dds job number. It tracks statuses of
+      various phases of the Intacct ETL - dds_job_status, landed_status, merge_status. (ingest_status is unused).
+    columns:
+      - name: dds_job_number
+        description: The dds job number. This is Sage's unique identifier for the jenkins job.
+        data_tests:
+          - not_null
+          - unique
+      - name: object
+        description: The object of the dds job. This is the object of the dds job as reported by Sage.
+      - name: dds_job_status
+        description: The status of the dds job. This is the status of the dds job as reported by Sage.
+      - name: ingest_status
+        description: The status of the ingest process for this dds job. Waiting, Processing, Completed, Failed.
+      - name: ingest_claimed_by
+        description: The id of the ingest worker that claimed the dds job.
+      - name: ingest_last_claimed_timestamp
+        description: The timestamp when the ingest worker last claimed the dds job.
+      - name: landed_status
+        description: The status of the landed data - Waiting, Processing, Completed, Failed.
+      - name: merge_status
+        description: The status of the merging into prod table - Waiting, Processing, Completed, Failed.
+      - name: _es_update_timestamp
+        description: Timestamp we last updated this row.

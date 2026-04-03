@@ -1,0 +1,115 @@
+---
+version: 2
+models:
+  - name: ar_detail
+    description: >
+      Combine ar line and ar header into one table, pulling in some other relevant invoice detail. One big table style.
+    config:
+      tags: ["hourly", "intacct"]
+      snowflake_warehouse: 'PROD_ANALYTICS_LARGE_PROCESSESING_WH'
+    columns:
+      - name: pk_ar_detail_id
+        description: "Primary key for table, actually just the ar_line_id because that is unique for this table."
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_ar_line_id
+        description: "Foreign key to ar_line"
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_ar_header_id
+        description: "Foreign key to ar_header, can be null in some cases (aroverpaymententry)"
+      - name: ar_line_type
+        description: ""
+      - name: ar_header_type
+        description: "Type of the AR document - arinvoice, arpayment, aroverpayment"
+      - name: invoice_number
+        description: "Our invoice number or credit note number. Null for arpayment, aroverpayment, aradvance"
+      - name: gl_date
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: due_date
+        description: ""
+      - name: document_number
+        description: ""
+      - name: description
+        description: ""
+      - name: invoice_memo
+        description: ""
+      - name: date_paid
+        description: "Date the invoice was paid."
+      - name: line_description
+        description: "Description for the line"
+      - name: debit_credit_sign
+        description: "{{ doc('debit_credit_sign') }}"
+      - name: line_number
+        description: "Line number on the invoice. 1-indexed"
+      - name: amount
+        description: "Line level amount. Positive amount is revenue, negative amount is a credit/adjustment."
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: account_name
+        description: "{{ doc('account_name') }}"
+      - name: bank_account
+        description: ""
+      - name: payment_method
+        description: "Method of payment used to pay for the invoice. E.g. Credit Card, Printed Check, Cash"
+      - name: offset_account_number
+        description: "Balance sheet account that offsets the AR invoice. Typically a receivables account."
+      - name: offset_account_name
+        description: "Name of the balance sheet account that offsets the AR invoice. Typically a receivables account"
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: customer_name
+        description: '{{ doc("customer_name") }}'
+      - name: is_related_party
+        description: "Boolean that indicates if the customer is a related party (e.g. another of Jabbok's companies)"
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+      - name: fk_parent_ar_line_id
+        description: "Foreign key back to this table's parent AR line"
+      - name: secondary_line_number
+        description: >
+          This line uniquely orders lines in a record, partitioned by fk_ar_header_id, debit_credit_sign, line amount
+            ordered by fk_ar_line_id. For some overpaymententry records, one of half of the transactions (the -1 or the
+            1 debit_credit_sign transactions) don't have any detail on them. This secondary_line_number gives you a
+            join back so you can see which line equates to which offset line. The lines without info are basically
+            arbitrary - you can't tell them apart. If they have the same amount, it doesn't matter which one gets paired
+            with which line. We just need the unique pairing.
+      - name: url_invoice
+        description: "Sage Intacct URL for AR invoices. Not consistently populated as it's api expensive."
+      - name: invoice_state
+        description: ""
+      - name: does_header_exist
+        description: >
+          Sometimes there's a line record without a header record. Bool to identify if fk_ar_header_id exists
+      - name: fk_admin_line_item_id
+        description: "Foreign key to es_warehouse line_items table (for admin invoices)"
+      - name: fk_admin_asset_id
+        description: "Foreign key to es_warehouse assets table"
+      - name: fk_admin_adj_line_item_id
+        description: "Foreign key to es_warehouse credit_line_items table."
+      - name: line_item_type_id
+        description: "Line item type id. Foreign key to es_warehouse line_item_types table."
+      - name: line_item_type_name
+        description: "Name of the line item type (admin)."
+      - name: invoice_id
+        description: "Admin invoice id. Foreign key to es_warehouse invoices table."
+      - name: billing_approved_date
+        description: "Admin invoice billing approved date."
+      - name: credit_note_id
+        description: "Foreign key to es_warehouse credit_notes table."
+      - name: url_admin
+        description: "{{ doc('url_admin_invoice') }}"
+      - name: admin_line_item_amount
+        description: "For checking that the amount on the admin line item matches the amount on the AR line."
+      - name: part_number
+        description: "Part number referenced in admin line item extended data."

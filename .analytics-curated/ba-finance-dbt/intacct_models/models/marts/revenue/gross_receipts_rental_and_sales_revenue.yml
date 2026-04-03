@@ -1,0 +1,45 @@
+---
+version: 2
+
+models:
+  - name: gross_receipts_rental_and_sales_revenue
+    description: "Gross receipts is defined as the sum of rental and sales revenue, grouped by date, market, state, city and revenue type (Rental or Sales)"
+    data_tests:
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+        column_list:
+          - gl_date
+          - market_id
+          - revenue_type
+          - ship_from_city
+          - ship_to_city
+    config:
+      tags: ["hourly", "intacct"]
+    columns:
+      - name: gl_date
+        description: "General ledger date"
+        data_tests: 
+          - not_null:
+              config:
+                store_failures_as: table
+      - name: market_id
+        description: "Market ID"
+        data_tests: 
+            - not_null
+      - name: market_name
+        description: "Market name"
+        data_tests: 
+            - not_null
+      - name: ship_from_state
+        description: "State where the equipment was shipped from"
+      - name: ship_from_city
+        description: "City where the equipment was shipped from"
+      - name: ship_to_state
+        description: "State where the equipment was shipped to"
+      - name: ship_to_city
+        description: "City where the equipment was shipped to"
+      - name: revenue_type
+        description: "Type of revenue, either Rental Revenue or Sales Revenue"
+      - name: revenue_amount
+        description: "Amount of revenue"
+        data_tests: 
+            - not_null

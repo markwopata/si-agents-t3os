@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__transfer
+    description: Unused as of 2025-10-16. A Transfer represents funds moved between Stripe accounts on a Connect platform.
+    columns:
+      - name: id
+        description: "Unique identifier for the transfer."
+        data_tests:
+          - not_null
+          - unique
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: amount_reversed
+        description: "Amount reversed in cents."
+      - name: created
+        description: "Time that the transfer record was first created."
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the transfer, useful for display."
+      - name: destination
+        description: "ID of the Stripe account the transfer was sent to."
+      - name: destination_payment
+        description: "Payment received by the destination account for the transfer."
+      - name: destination_payment_id
+        description: "ID of the payment received by the destination account for the transfer."
+      - name: livemode
+        description: "Indicates if this is a test transfer."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: reversed
+        description: "Whether the transfer has been fully reversed."
+      - name: source_transaction
+        description: "Source transaction related to this transfer."
+      - name: source_transaction_id
+        description: "ID of the charge or payment that funded the transfer."
+      - name: source_type
+        description: "Source balance the transfer came from (card, fpx, or bank_account)."
+      - name: transfer_group
+        description: "String identifying this transaction as part of a group."
+      - name: balance_transaction_id
+        description: "Balance transaction describing the impact on your account balance."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

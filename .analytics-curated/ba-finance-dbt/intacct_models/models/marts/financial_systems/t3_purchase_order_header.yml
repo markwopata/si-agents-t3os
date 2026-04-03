@@ -1,0 +1,80 @@
+version: 2
+models:
+  - name: t3_purchase_order_header
+    description: >
+      This query will be used to surface T3 Purchase Order data in a format for Vic.ai
+      to ingest directly without any table linking on their end.
+    data_tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('int_procurement_public_purchase_orders_1854')
+    columns:
+      - name: t3_po_id
+        description: "T3 purchase order ID"
+        data_tests:
+          - unique
+
+      - name: t3_date_created
+        description: "Date the T3 PO was created"
+
+      - name: t3_date_updated
+        description: "Date the T3 PO was last updated"
+
+      - name: t3_vendor_id
+        description: "Vendor ID in T3"
+
+      - name: sage_vendor_id
+        description: "Mapped vendor ID from Sage"
+
+      - name: t3_po_number
+        description: "T3 purchase order number"
+
+      - name: t3_created_by_id
+        description: "User ID of the person who created the T3 PO"
+
+      - name: t3_modified_by_id
+        description: "User ID of the person who last modified the T3 PO"
+
+      - name: t3_po_created_by
+        description: "Full name of the T3 PO creator"
+
+      - name: t3_po_modified_by
+        description: "Full name of the user who last modified the T3 PO"
+
+      - name: t3_po_created_by_email
+        description: "Email address of the T3 PO creator"
+
+      - name: t3_reference
+        description: "Reference field from the T3 PO"
+
+      - name: t3_requesting_branch_id
+        description: "ID of the branch requesting the PO"
+
+      - name: t3_deliver_to_id
+        description: "Deliver-to location ID on the T3 PO"
+
+      - name: t3_status
+        description: "Status of the T3 PO"
+
+      - name: t3_promise_date
+        description: "Promise date on the T3 PO"
+
+      - name: t3_external_po_id
+        description: "External PO ID associated with the T3 PO"
+
+      - name: t3_is_external
+        description: "Flag indicating if the T3 PO is external"
+
+      - name: t3_update_timestamp
+        description: "ES update timestamp for the T3 PO record"
+
+      - name: t3_date_archived
+        description: "Date the T3 PO was archived"
+
+      - name: t3_amount_approved
+        description: "Amount approved for the T3 PO"
+
+      - name: t3_store_id
+        description: "Store ID associated with the T3 PO"
+
+      - name: t3_search
+        description: "Searchable content field from the T3 PO"

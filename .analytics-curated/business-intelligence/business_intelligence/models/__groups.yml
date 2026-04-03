@@ -1,0 +1,8 @@
+# use groups to define the sub team(s) that will own dbt models
+# this may only be one group, but can be configured as multiple if model ownership should be separated
+# https://docs.getdbt.com/reference/resource-configs/group
+groups:
+  - name: business_intelligence
+    owner:
+      name: business-intelligence
+      email:

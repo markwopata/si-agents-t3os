@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_eticket
+    description: Staging model for Navan booking electronic ticket information, containing details about e-tickets associated with travel bookings
+    columns:
+      - name: booking_uuid
+        description: ''
+      - name: index
+        description: ''
+      - name: _fivetran_deleted
+        description: ''
+      - name: _fivetran_synced
+        description: ''
+      - name: eticket
+        description: ''

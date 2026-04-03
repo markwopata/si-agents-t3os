@@ -1,0 +1,46 @@
+---
+version: 2
+
+models:
+  - name: vsg_reservations_daily_utilization
+    description: >
+        This table is used to track the utilization of the rental fleet.
+        It is updated daily with the current count of reservations that are on rent and the total number of vins in the fleet.
+        The utilization is calculated as the percentage of vins that are on rent.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "merge"
+      unique_key: ['as_of_date', 'region_name']
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - as_of_date
+              - region_name
+    columns:
+      - name: as_of_date
+        description: Date the daily point-in-time snapshot was captured.
+
+      - name: collected_at
+        description: Timestamp when the daily snapshot was collected.
+
+      - name: on_rent_reservations
+        description: Number of reservations that are on rent.
+
+      - name: total_vins
+        description: Total number of vins in the fleet.
+
+      - name: region_name
+        description: name of the region.
+
+      - name: region_on_rent_utilization
+        description: Percentage of vins that are on rent in the region.
+
+      - name: cumulative_on_rent_reservations
+        description: Cumulative number of reservations that are on rent.
+
+      - name: cumulative_total_vins
+        description: Cumulative total number of vins in the fleet.
+
+      - name: on_rent_utilization
+        description: Percentage of vins that are on rent.

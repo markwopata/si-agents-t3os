@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: int_branch_stores_mapping
+    description: "Clean listing of branches and stores from D365 Inventory"
+    columns:
+      - name: store_id
+        description: "Store ID"
+        data_test:
+          - unique
+
+      - name: store_name
+        description: "Store Name"
+
+      - name: branch_id
+        description: "Branch ID ESDB/Intacct"
+
+      - name: branch_name
+        description: "Branch name from Intacct"

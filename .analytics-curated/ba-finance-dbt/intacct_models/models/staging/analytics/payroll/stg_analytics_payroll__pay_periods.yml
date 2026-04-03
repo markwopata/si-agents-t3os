@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_payroll__pay_periods
+    description: ""
+    columns:
+      - name: pay_id
+        description: ""
+      - name: pay_date_from
+        description: ""
+      - name: pay_date_to
+        description: ""
+      - name: paycheck_date
+        description: ""
+      - name: comm_check_dat
+        description: ""

@@ -1,0 +1,81 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__commission_retail_manual_adjustments
+    description: Model for analytics.commission.retail_manual_adjustments
+    columns:
+      - name: manual_adjustment_id
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: commission_id
+        data_tests:
+          - unique
+        description: ""
+      - name: commission_month
+        description: ""
+      - name: dte
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: invoice_no
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: class
+        description: ""
+      - name: make
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: billing_approved_date
+        description: ""
+      - name: rate_tier
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: split
+        description: ""
+      - name: commission_percentage
+        description: ""
+      - name: user_id
+        description: ""
+      - name: email_address
+        description: ""
+      - name: full_name
+        description: ""
+      - name: salesperson_type
+        description: ""
+      - name: employee_type
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: line_item_type
+        description: ""
+      - name: commission_amount
+        description: ""
+      - name: transaction_description
+        description: ""
+      - name: is_finalized
+        description: ""
+      - name: paycheck_date
+        description: ""
+      - name: hidden
+        description: ""
+      - name: employee_title
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: grace_period_flag
+        description: ""

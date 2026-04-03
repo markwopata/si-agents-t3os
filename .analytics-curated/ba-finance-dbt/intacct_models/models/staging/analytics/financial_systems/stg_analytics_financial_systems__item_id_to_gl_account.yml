@@ -1,0 +1,42 @@
+---
+version: 2
+models:
+  - name: stg_analytics_financial_systems__item_id_to_gl_account
+    description: ""
+    config:
+      tags:
+        - financial_systems
+        - hourly
+        - source
+    columns:
+      - name: _row
+        description: ""
+      - name: status
+        description: ""
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: account_type
+        description: "{{ doc('account_type') }}"
+      - name: gl_group
+        description: ""
+      - name: account_description
+        description: ""
+      - name: name
+        description: ""
+      - name: item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: period_end_closing_type
+        description: ""
+      - name: incl_excl
+        description: ""
+      - name: account_status
+        description: ""
+      - name: item_type
+        description: ""
+      - name: normal_balance
+        description: ""
+      - name: _fivetran_synced
+        description: ""

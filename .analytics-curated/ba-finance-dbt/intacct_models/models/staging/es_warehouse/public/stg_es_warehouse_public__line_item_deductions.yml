@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_es_warehouse_public__line_item_deductions
+    description: >
+      Staging model for line item deductions applied to invoice line items.
+      See stg_es_warehouse_public__line_item_deduction_types for more information on deduction types.
+    columns:
+      - name: line_item_id
+        description: "ID of the associated invoice line item"
+
+      - name: line_item_deduction_id
+        description: "id of the line item deduction"
+
+      - name: line_item_deduction_type_id
+        description: "id of the line item deduction type. see stg_es_warehouse_public__line_item_deduction_types for more information"
+
+      - name: amount
+        description: "amount of the deduction applied to the line item"
+
+      - name: percentage
+        description: "percentage of the deduction applied to the line item"
+
+      - name: date_created
+        description: "timestamp when the line item deduction was created"
+
+      - name: date_updated
+        description: "timestamp when the line item deduction was last updated"
+
+      - name: _es_update_timestamp
+        description: '{{ doc("_es_update_timestamp") }}'
+
+      - name: _es_load_timestamp
+        description: ""

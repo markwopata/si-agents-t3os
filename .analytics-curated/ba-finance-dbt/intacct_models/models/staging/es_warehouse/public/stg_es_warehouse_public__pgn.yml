@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__pgn
+    description: Model for es_warehouse.public.pgn
+    columns:
+      - name: pgn_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+                tags: ["daily"]
+      - name: pgn
+        description: ""
+      - name: pgn_category_id
+        description: ""
+      - name: format_spn
+        description: ""
+      - name: format_value
+        description: ""
+      - name: pgn_acronym
+        description: ""
+      - name: pgn_data_length
+        description: ""
+      - name: pgn_desc
+        description: ""
+      - name: pgn_label
+        description: ""
+      - name: pgn_transmission_rate
+        description: ""
+      - name: multiplex_spn
+        description: ""

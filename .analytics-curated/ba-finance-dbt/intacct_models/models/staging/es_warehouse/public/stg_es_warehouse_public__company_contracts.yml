@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_contracts
+    description: Model for es_warehouse.public.company_contracts
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: company_contract_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: date_signed
+        description: ""
+      - name: updated_date
+        description: ""
+      - name: envelope_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: docusign_template_update_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: signer_name
+        description: ""
+      - name: signer_email
+        description: ""
+      - name: signer_id
+        description: ""
+      - name: status_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

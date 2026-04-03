@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__invoice_erp_refs
+    description: Model for es_warehouse.public.invoice_erp_refs
+    columns:
+      - name: invoice_erp_ref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: invoice_id
+        description: ""
+      - name: erp_instance_id
+        description: ""
+      - name: fk_ar_header_id
+        description: ""
+        data_tests:
+          - unique
+      - name: intacct_invoice_no
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

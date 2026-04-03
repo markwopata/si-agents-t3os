@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_analytics_monday__columns
+    description: "Column in a monday board. Streamed from Fivetran."
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - id
+    columns:
+      - name: board_id
+        description: "ID of the board"
+      - name: id
+        description: "ID of the column"
+      - name: is_archived
+        description: "Indicates if the column is archived"
+      - name: settings_str
+        description: "Settings string of the column"
+      - name: settings_json
+        description: "Parsed JSON settings of the column"
+      - name: column_title
+        description: "Title of the column"
+      - name: description
+        description: "Description of the column"
+      - name: type
+        description: "Type of the column"
+      - name: width
+        description: "Width of the column"
+      - name: _fivetran_deleted
+        description: "Indicates if the record is deleted in Fivetran"
+      - name: _fivetran_synced
+        description: "Indicates if the record is synced in Fivetran"

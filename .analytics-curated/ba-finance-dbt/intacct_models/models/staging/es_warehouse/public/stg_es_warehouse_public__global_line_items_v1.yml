@@ -1,0 +1,222 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__global_line_items_v1
+    description: Model for es_warehouse.public.global_line_items_v1
+    columns:
+      - name: id
+        description: ""
+      - name: domain_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: part_id
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: quantity
+        description: ""
+      - name: price_per_unit
+        description: ""
+      - name: sub_total
+        description: ""
+      - name: tax
+        description: ""
+      - name: total
+        description: ""
+      - name: description
+        description: ""
+      - name: extended_data
+        description: ""
+      - name: payload
+        description: ""
+      - name: created_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: extended_data__rental
+        description: Extracted from json in column extended_data (roughly extended_data:rental)
+      - name: extended_data__rental__cheapest_period_week_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_week_count)
+      - name: extended_data__rental__location
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location)
+      - name: extended_data__rental__location__street_1
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:street_1)
+      - name: extended_data__rental__price_per_month
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_month)
+      - name: extended_data__rental__location__state
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:state)
+      - name: extended_data__rental__equipment_assignments
+        description: Extracted from json in column extended_data (roughly extended_data:rental:equipment_assignments)
+      - name: extended_data__rental__location__street_2
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:street_2)
+      - name: extended_data__rental__price_per_day
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_day)
+      - name: extended_data__rental__rental_bill_type
+        description: Extracted from json in column extended_data (roughly extended_data:rental:rental_bill_type)
+      - name: extended_data__delivery
+        description: Extracted from json in column extended_data (roughly extended_data:delivery)
+      - name: extended_data__delivery__asset_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:asset_id)
+      - name: extended_data__rental__location__zip_code
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:zip_code)
+      - name: extended_data__rental__price_per_hour
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_hour)
+      - name: extended_data__part_number
+        description: Extracted from json in column extended_data (roughly extended_data:part_number)
+      - name: extended_data__rental__equipment_class_name
+        description: Extracted from json in column extended_data (roughly extended_data:rental:equipment_class_name)
+      - name: extended_data__rental__location__city
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:city)
+      - name: extended_data__delivery__scheduled_date
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:scheduled_date)
+      - name: extended_data__rental__price_per_week
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_week)
+      - name: extended_data__rental__rental_id
+        description: Extracted from json in column extended_data (roughly extended_data:rental:rental_id)
+      - name: extended_data__rental__cheapest_period_month_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_month_count)
+      - name: extended_data__rental__end_date
+        description: Extracted from json in column extended_data (roughly extended_data:rental:end_date)
+      - name: extended_data__rental__start_date
+        description: Extracted from json in column extended_data (roughly extended_data:rental:start_date)
+      - name: extended_data__delivery__delivery_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:delivery_id)
+      - name: extended_data__rental__cheapest_period_hour_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_hour_count)
+      - name: extended_data__delivery__rental_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:rental_id)
+      - name: extended_data__rental__cheapest_period_day_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_day_count)
+      - name: extended_data__rental__location__nickname
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:nickname)
+      - name: extended_data__part_id
+        description: Extracted from json in column extended_data (roughly extended_data:part_id)
+      - name: payload__damage_waiver
+        description: Extracted from json in column payload (roughly payload:damage_waiver)
+      - name: payload__edr_message
+        description: Extracted from json in column payload (roughly payload:edr_message)
+      - name: payload__rental
+        description: Extracted from json in column payload (roughly payload:rental)
+      - name: payload__rental__billable_days
+        description: Extracted from json in column payload (roughly payload:rental:billable_days)
+      - name: payload__rental__cycle_billing_date
+        description: Extracted from json in column payload (roughly payload:rental:cycle_billing_date)
+      - name: payload__rental__total_week_days
+        description: Extracted from json in column payload (roughly payload:rental:total_week_days)
+      - name: payload__price
+        description: Extracted from json in column payload (roughly payload:price)
+      - name: payload__settings__cleaning_hourly_rate
+        description: Extracted from json in column payload (roughly payload:settings:cleaning_hourly_rate)
+      - name: payload__settings__default_tax
+        description: Extracted from json in column payload (roughly payload:settings:default_tax)
+      - name: payload__settings__invoice_start_number
+        description: Extracted from json in column payload (roughly payload:settings:invoice_start_number)
+      - name: payload__asset_class_id
+        description: Extracted from json in column payload (roughly payload:asset_class_id)
+      - name: payload__rental__billing_week_days
+        description: Extracted from json in column payload (roughly payload:rental:billing_week_days)
+      - name: payload__rental__billed_from_date
+        description: Extracted from json in column payload (roughly payload:rental:billed_from_date)
+      - name: payload__start_date
+        description: Extracted from json in column payload (roughly payload:start_date)
+      - name: payload__transport_id
+        description: Extracted from json in column payload (roughly payload:transport_id)
+      - name: payload__settings__net_terms
+        description: Extracted from json in column payload (roughly payload:settings:net_terms)
+      - name: payload__asset_class
+        description: Extracted from json in column payload (roughly payload:asset_class)
+      - name: payload__rate_day
+        description: Extracted from json in column payload (roughly payload:rate_day)
+      - name: payload__rental__asset_class
+        description: Extracted from json in column payload (roughly payload:rental:asset_class)
+      - name: payload__rental__asset_name
+        description: Extracted from json in column payload (roughly payload:rental:asset_name)
+      - name: payload__rental__cycle_billing_day
+        description: Extracted from json in column payload (roughly payload:rental:cycle_billing_day)
+      - name: payload__rental__timezone
+        description: Extracted from json in column payload (roughly payload:rental:timezone)
+      - name: payload__facilitator_type
+        description: Extracted from json in column payload (roughly payload:facilitator_type)
+      - name: payload__cleaning_id
+        description: Extracted from json in column payload (roughly payload:cleaning_id)
+      - name: payload__lost_key_id
+        description: Extracted from json in column payload (roughly payload:lost_key_id)
+      - name: payload__rate_month
+        description: Extracted from json in column payload (roughly payload:rate_month)
+      - name: payload__rate_week
+        description: Extracted from json in column payload (roughly payload:rate_week)
+      - name: payload__end_date
+        description: Extracted from json in column payload (roughly payload:end_date)
+      - name: payload__rental__asset_id
+        description: Extracted from json in column payload (roughly payload:rental:asset_id)
+      - name: payload__refueling_id
+        description: Extracted from json in column payload (roughly payload:refueling_id)
+      - name: payload__settings__currency_symbol
+        description: Extracted from json in column payload (roughly payload:settings:currency_symbol)
+      - name: payload__damage_waiver_percentage
+        description: Extracted from json in column payload (roughly payload:damage_waiver_percentage)
+      - name: payload__order_id
+        description: Extracted from json in column payload (roughly payload:order_id)
+      - name: payload__rental__cycle_billing_period
+        description: Extracted from json in column payload (roughly payload:rental:cycle_billing_period)
+      - name: payload__status
+        description: Extracted from json in column payload (roughly payload:status)
+      - name: payload__asset_id
+        description: Extracted from json in column payload (roughly payload:asset_id)
+      - name: payload__settings__credit_limit
+        description: Extracted from json in column payload (roughly payload:settings:credit_limit)
+      - name: payload__settings__key_replacement_charge
+        description: Extracted from json in column payload (roughly payload:settings:key_replacement_charge)
+      - name: payload__settings__tax_name
+        description: Extracted from json in column payload (roughly payload:settings:tax_name)
+      - name: payload__hours_spent
+        description: Extracted from json in column payload (roughly payload:hours_spent)
+      - name: payload__rental__cycle_bill_date
+        description: Extracted from json in column payload (roughly payload:rental:cycle_bill_date)
+      - name: payload__id
+        description: Extracted from json in column payload (roughly payload:id)
+      - name: payload__rate_hourly
+        description: Extracted from json in column payload (roughly payload:rate_hourly)
+      - name: payload__rental__jobsite
+        description: Extracted from json in column payload (roughly payload:rental:jobsite)
+      - name: payload__rental_id
+        description: Extracted from json in column payload (roughly payload:rental_id)
+      - name: payload__rental__total_days
+        description: Extracted from json in column payload (roughly payload:rental:total_days)
+      - name: payload__transport_type
+        description: Extracted from json in column payload (roughly payload:transport_type)
+      - name: payload__settings__cycle_billing_period
+        description: Extracted from json in column payload (roughly payload:settings:cycle_billing_period)
+      - name: payload__settings__fuel_cost
+        description: Extracted from json in column payload (roughly payload:settings:fuel_cost)
+      - name: payload__rental__start_date
+        description: Extracted from json in column payload (roughly payload:rental:start_date)
+      - name: payload__rental__end_date
+        description: Extracted from json in column payload (roughly payload:rental:end_date)
+      - name: payload__amount
+        description: Extracted from json in column payload (roughly payload:amount)
+      - name: payload__settings
+        description: Extracted from json in column payload (roughly payload:settings)
+      - name: payload__settings__fuel_unit
+        description: Extracted from json in column payload (roughly payload:settings:fuel_unit)
+      - name: payload__settings__net_terms_period
+        description: Extracted from json in column payload (roughly payload:settings:net_terms_period)
+      - name: payload__settings__tax_id
+        description: Extracted from json in column payload (roughly payload:settings:tax_id)
+      - name: payload__rental__billed_to_date
+        description: Extracted from json in column payload (roughly payload:rental:billed_to_date)
+      - name: payload__rental__rpp_percentage_as_decimal
+        description: Extracted from json in column payload (roughly payload:rental:rpp_percentage_as_decimal)
+      - name: payload__total
+        description: Extracted from json in column payload (roughly payload:total)
+      - name: payload__damage_noticed_id
+        description: Extracted from json in column payload (roughly payload:damage_noticed_id)

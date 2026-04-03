@@ -1,0 +1,52 @@
+---
+version: 2
+
+models:
+  - name: stg_weighted_average_cost
+    description: "Correct bad data in glresolve"
+    config:
+      tags: ["hourly", "inventory", "stage"]
+    columns:
+      - name: wac_snapshot_id
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: created_by_user_id
+        description: ""
+      - name: reason
+        description: ""
+      - name: transaction_id
+        description: ""
+      - name: date_applied
+        description: ""
+      - name: date_end
+        description: "End date for weighted average cost. Coalesce of 2099-12-31 and the next date_applied"
+      - name: date_start
+        description: "Start date for weighted average cost - date_applied"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: inventory_location_id
+        description: ""
+      - name: product_id
+        description: ""
+      - name: is_override
+        description: ""
+      - name: incoming_cost_per_item
+        description: ""
+      - name: total_quantity
+        description: ""
+      - name: updated_by_user_id
+        description: ""
+      - name: weighted_average_cost
+        description: ""
+      - name: incoming_quantity
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_archived
+        description: ""
+      - name: is_current
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

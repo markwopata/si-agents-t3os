@@ -1,0 +1,20 @@
+SELECT
+    lrr.location_rental_rate_id,
+    lrr.rsp_company_id,
+    lrr.location_id,
+    lrr.equipment_class_id,
+    lrr.rental_rate_type_id,
+    lrr.rate_type_id,
+    lrr.price_per_hour,
+    lrr.price_per_day,
+    lrr.price_per_week,
+    lrr.price_per_month,
+    lrr.percent_discount,
+    lrr.end_date,
+    lrr.created_by_user_id,
+    lrr.date_voided,
+    lrr.voided_by_user_id,
+    lrr.active,
+    lrr.date_created,
+    lrr._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'location_rental_rates') }} as lrr

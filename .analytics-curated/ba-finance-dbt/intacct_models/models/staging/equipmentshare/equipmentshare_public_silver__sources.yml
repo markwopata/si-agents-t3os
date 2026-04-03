@@ -1,0 +1,19 @@
+---
+version: 2
+
+sources:
+  - name: equipmentshare_public_silver
+    tags: ["sources"]
+    database: equipmentshare
+    schema: public__silver
+    description: silver layer for equipmentshare public data. includes PIT (point in time) and current_state models
+    tables:
+      - name: company_purchase_order_line_items
+        description: >
+          list of Purchase Order line items. one row is one line item on an invoice
+        columns:
+          - name: company_purchase_order_line_item_id
+            data_tests:
+              - unique
+      - name: company_purchase_order_line_items_pit
+        description: ''

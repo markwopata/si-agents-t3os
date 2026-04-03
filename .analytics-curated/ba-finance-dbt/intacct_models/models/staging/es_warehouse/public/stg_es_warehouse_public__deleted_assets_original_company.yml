@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__deleted_assets_original_company
+    description: Model for es_warehouse.public.deleted_assets_original_company
+    columns:
+      - name: deleted_assets_original_company_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

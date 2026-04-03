@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_credit
+    description: Staging model for Navan booking credit information, tracking credits applied to bookings and remaining balances
+    columns:
+      - name: booking_uuid
+        description: Unique identifier for the booking record.
+      - name: index
+        description: Index value for the credit entry.
+      - name: _fivetran_deleted
+        description: Indicates if the record was deleted by Fivetran.
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran.
+      - name: credit_used_usd
+        description: Amount of credit used (in USD) for the booking.
+      - name: residual_credit
+        description: Remaining credit after usage.
+      - name: credit_available_usd
+        description: Amount of credit available (in USD) for the booking.
+      - name: credit_available
+        description: Total credit available for the booking.
+      - name: credit_used
+        description: Total credit used for the booking.
+      - name: credit_from_original_booking
+        description: Credit carried over from the original booking.
+      - name: credit_exchange_fee_usd
+        description: Exchange fee (in USD) applied to the credit.

@@ -1,0 +1,130 @@
+---
+version: 2
+sources:
+  - name: analytics_bt_dbo
+    tags: ["sources", "bisTrack"]
+    database: analytics
+    schema: bt_dbo
+    description: bisTrack data tables sourced from their SQL server (via Fivetran)
+    meta:
+      generated_from: Fivetran
+      url: 
+        https://fivetran.com/dashboard/connectors/awful_forerunner/schema?groupId=revisable_roamed&service=sql_server_rds
+    tables:
+      - name: branch
+        description: Table for branch level details in bisTrack
+
+      - name: orderheader
+        description: Order level details, orders are created before being converted to invoices
+
+      - name: product
+        description: Table for all products, capturing product details and attributes, not just active products.
+
+      - name: stock
+        description: Details for actual stock records currently at branches
+
+      - name: creditnoteheader
+        description: ""
+
+      - name: invoiceheader
+        description: Table for header level details of invoices, capturing essential information about each invoice 
+          transaction. Once an Order is fullfilled it is converted to an Invoice
+
+      - name: creditnoteline
+        description: Credit note line level details
+
+      - name: productprice
+        description: Table for product prices, capturing pricing details for products.
+
+      - name: creditnoteitem
+        description: Table for details of items on a credit note
+
+      - name: customer
+        description: Table containing customer details, including contact information and preferences.
+
+      - name: generalledger
+        description: Table for BisTrack general ledger entries.
+
+      - name: glcode
+        description: Table for general ledger codes, allowing mapping to Sage on export.
+
+      - name: invoiceline
+        description: Invoice line items with details for each line in an invoice, including tax, settlement amounts, and
+          product details.
+
+      - name: invoicetax
+        description: Table containing tax details for invoice level transactions
+
+      - name: orderline
+        description: Order line level details for a customers purchase.
+
+      - name: ordertax
+        description: Tax details for order level transactions
+
+      - name: stockadjustment
+        description: Table for stock adjustments, capturing changes in stock quantities and values.
+
+      - name: stockcostadjustment
+        description: Table for stock adjustments, capturing changes in stock quantities and values.
+
+      - name: stocktransactiontype
+        description: reference table for stock transaction types used in stock transactions
+
+      - name: stocktransaction
+        description: Details for stock movement
+
+      - name: costadjustmentheader
+        description: Table for header level cost adjustments, to adjust COGS
+
+      - name: costadjustmentline
+        description: Table for line level cost adjustments, to adjust COGS
+
+      - name: supplierreturnheader
+        description: Details for inventory to supplier returns
+
+      - name: manualorderlinetype
+        description: contains manual order line types used in transactions such as service repairs and adjustments.
+
+      - name: glexportrule
+        description: Table for how the data is exported and mapped to Sage
+
+      - name: glexport
+        description: Table for gl export into Sage
+
+      - name: accountstransaction
+        description: Table for accounts transaction records, including details about payments, liens, and remittance 
+          advice.
+
+      - name: cashdrawerlodgement
+        description: Table for cash drawer amounts at branch locations
+
+      - name: producttype
+        description: 'List of bistrack product types'
+      - name: productgroup
+        description: 'Table for product groupings'
+      - name: productsupplierprice
+        description: 'Table for product supplier prices.'
+      - name: productsupplier
+        description: 'Table for product supplier relationships, linking products to their suppliers.'
+      - name: productstockoption
+        description: 'table for product stocks, allows some analytics on stock '
+      - name: productpricehistory
+        description: 'Table for tracking historical price changes of products.'
+      - name: productpricehistory2
+        description: 'Table for tracking product price history with additional transaction details.'
+      - name: productgroupsorted
+        description: 'Table for product group hierarchy, sorted by level and position..'
+      - name: productgroupanalysis
+        description: 'Table for product groups analysis, including stock turns and GMROI.'
+      - name: productgroupanalysishistory
+        description: 'Table for historical analysis of product groups, including stock turns and GMROI.'
+      - name: productcatalogue
+        description: 'Table for all products in the product catalogue, including details like pricing, dimensions, and supplier information.'
+      - name: productanalysis
+        description: 'staging table for BisTrack built in product analysis'
+      - name: stockadjustmentheader
+        description: 'Table for header level stock adjustments, to adjust stock quantities and costs'
+      - name: stockreceiptcost
+        description: 'Table for stock receipt costs, capturing costs associated with transactions.'
+      - name: stockvaluationdata
+        description: 'Table for stock valuation data, capturing stock levels and values over time. stock will show daily for current month then reconcile to start and end of the month only.'

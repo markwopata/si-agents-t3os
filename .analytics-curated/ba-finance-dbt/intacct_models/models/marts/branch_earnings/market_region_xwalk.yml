@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: market_region_xwalk
+    description: >
+      - pronounced as "market_region_cross_walk". called "cross_walk". It 1) maps market to district and 2) shows active markets
+      - ready or actively renting Branch Earning eligible branches mapped to a region and other characteristics
+      (district, business segments, etc)
+    meta:
+      run_details: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ANALYTICS/schemas/PUBLIC/table/MARKET_REGION_XWALK
+    data_tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 100
+    columns:
+      - name: market_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: market_name
+        description: ""
+
+      - name: state
+        description: ""
+
+      - name: abbreviation
+        description: ""
+
+      - name: region
+        description: ""
+
+      - name: region_name
+        description: ""
+
+      - name: area_code
+        description: ""
+
+      - name: district
+        description: ""
+
+      - name: region_district
+        description: ""
+
+      - name: _id_dist
+        description: ""
+
+      - name: market_type_id
+        description: ""
+
+      - name: market_type
+        description: ""
+
+      - name: active
+        description: ""
+
+      - name: is_dealership
+        description: ""
+
+      - name: division_id
+        description: ""
+
+      - name: division_name
+        description: ""

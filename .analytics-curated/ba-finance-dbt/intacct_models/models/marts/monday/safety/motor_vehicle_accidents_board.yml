@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: motor_vehicle_accidents_board
+    description: Motor Vehicle Accidents board exposed as a table. This board is a log of ES accidents, kept by the Safety team.
+    meta:
+        point_of_contact:  Danielle Baldwin
+        owner: "@nick.logan"
+        monday_board_url: https://equipmentshare.monday.com/boards/6101113463  # ask Danielle Baldwin for Monday board access
+    columns:
+    - name: item_id
+      description: Monday-generated pk
+      data_tests:
+        - unique
+    - name: retrain
+      description: "Dropdown containing options for whether retraining is necessary."
+    - name: location
+      description: "Home market of driver in accident."
+    - name: subitems
+      description: ""
+    - name: send_to_slack
+      description: ""
+    - name: course_to_be_reassigned
+      description: ""
+    - name: employee_id
+      description: ""
+    - name: incident_type
+      description: "Describing incident (e.g. side swipe)."
+    - name: vehicle_model
+      description: ""
+    - name: vehicle_type
+      description: ""
+    - name: market_id
+      description: "Home market id of driver in accident."
+    - name: at_fault
+      description: "At-Fault, Not At-Fault, or To Be Determined"
+    - name: dot_board
+      description: "Marked when Send to DOT board."
+    - name: dd_email
+      description: "Marked Email Sent when defensive driving is assigned."
+    - name: payer
+      description: ""
+    - name: driver_type
+      description: ""
+    - name: manager
+      description: "Name of manager of driver in accident."
+    - name: days_at_es
+      description: ""
+    - name: incident_date
+      description: ""
+    - name: manager_email
+      description: ""
+    - name: root_cause
+      description: "Attachment."
+    - name: incident_time
+      description: "Not always filled out."
+    - name: type
+      description: ""
+    - name: safety_accountability_form
+      description: "Attachment."
+    - name: vehicle_make
+      description: ""
+    - name: employee_email
+      description: ""
+    - name: market_type
+      description: "Market Type of Location field."
+    - name: ten_by_ten
+      description: "?"
+    - name: saf_request
+      description: "?"
+    - name: incident_dow
+      description: "Incident DOW."
+    - name: description
+      description: ""

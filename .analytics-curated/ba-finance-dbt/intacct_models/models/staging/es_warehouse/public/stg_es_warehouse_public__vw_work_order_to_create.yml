@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__vw_work_order_to_create
+    description: Model for es_warehouse.public.vw_work_order_to_create
+    columns:
+      - name: asset_id
+        description: ""
+      - name: pk_id_json
+        description: ""
+      - name: wo_text
+        description: ""

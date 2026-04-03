@@ -1,0 +1,116 @@
+---
+version: 2
+
+sources:
+  - name: analytics_microsoft_dynamics
+    tags: ["sources"]
+    database: analytics
+    schema: microsoft_dynamics_365_fno
+    description: >
+      a cloud-based enterprise resource planning (ERP) system that integrates Finance, Sales & Marketing, Procurement, Advanced Warehousing, and Manufacturing.
+      Current ES implementations: Kansas City Telematics Warehouse Operations, Moberly Manufacturing & Engineering Operations, Vehicle Upfitting. Data is Fivetran'd
+      into Snowflake https://fivetran.com/dashboard/connectors/helplessly_weld/schema?groupId=revisable_roamed&service=microsoft_dynamics_365_fno
+    tables:
+      - name: customer_packing_slip_transactions
+        identifier: custpackingsliptrans
+        description: >
+          one row is one packing slip's transaction. a packing slip is a receipt of items in a shipment
+        columns:
+          - name: id
+            data_tests:
+              - unique
+
+      - name: inventory_transactions_origin
+        identifier: inventtransorigin
+        description: >
+          mapping table of inventory transactions to packing slip transactions
+        columns:
+          - name: recid
+            data_tests:
+              - unique
+
+      - name: inventory_transactions
+        identifier: inventtrans
+        description: >
+          one row is one shipment tranasaction
+        columns:
+          - name: recid
+            data_tests:
+              - unique
+
+      - name: inventory_dimension
+        identifier: inventdim
+        description: >
+          additional details about inventory items. one row is one inventory item id
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - inventdimid
+                - createddatetime
+
+      - name: customer_packing_slip_journal
+        identifier: custpackingslipjour
+        description: >
+          packing slip header info (customer delivery information). one row is one packingslipid
+        columns:
+          - name: packingslipid
+            data_tests:
+              - unique
+
+      - name: sales_line
+        identifier: salesline
+        description: >
+          each receipt (packing slip) is linked to a sales order. one row is one sales order line. (each line is an inventory item leaving ES)
+        columns:
+          - name: sourcedocumentline
+            data_tests:
+              - unique
+
+      - name: sales_table
+        identifier: salestable
+        description: >
+          sales order header information. one row is one sales order
+        columns:
+          - name: salesid
+            data_tests:
+              - unique
+
+      - name: customer_table
+        identifier: custtable
+        description: >
+          one row is one customer
+        columns:
+          - name: accountnum
+            data_tests:
+              - unique
+
+      - name: global_address_book
+        identifier: dirpartytable
+        description: >
+          Microsoft 365 global address book. has actual customer name. one row is one customer
+        columns:
+          - name: partynumber
+            data_tests:
+              - unique
+
+      - name: inventory_table
+        identifier: inventtable
+        description: >
+          one row is one inventory item
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - product
+                - createdon
+
+
+      - name: wms_location
+        identifier: wmslocation
+        description: "Warehouse Management System Location Table.
+          This table stores data on bins, racks, OR other specific spots in the warehouse where an item might be stored."
+        columns:
+          - name: recid
+            data_tests:
+              - unique

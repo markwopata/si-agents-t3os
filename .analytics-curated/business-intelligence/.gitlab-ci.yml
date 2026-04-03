@@ -1,0 +1,274 @@
+stages:
+  - label
+  - tag
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH =~ /^release\/\d{4}-\d{2}-\d{2}$/'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - when: never
+
+default:
+  image: alpine:3.20
+  before_script:
+    - apk add --no-cache git curl jq
+    - |
+      if [ -z "${GITLAB_API_TOKEN:-}" ]; then
+        echo "ERROR: GITLAB_API_TOKEN is not set for this pipeline."
+        exit 1
+      fi
+
+# ------------------------------------------------------------
+# Apply a status label based on the *push range*
+# Used by develop (in-review) and main (released)
+# ------------------------------------------------------------
+.update_mr_status_labels: &update_mr_status_labels
+  - |
+    set -euo pipefail
+
+    echo "--------------------------------------"
+    echo "Branch: $CI_COMMIT_BRANCH"
+    echo "Commit: $CI_COMMIT_SHA"
+    echo "Applying label: $NEW_STATUS_LABEL"
+    echo "--------------------------------------"
+
+    if [ -n "${CI_COMMIT_BEFORE_SHA:-}" ] && ! echo "$CI_COMMIT_BEFORE_SHA" | grep -qE '^0+$'; then
+      RANGE="${CI_COMMIT_BEFORE_SHA}..${CI_COMMIT_SHA}"
+    else
+      RANGE="${CI_COMMIT_SHA}"
+    fi
+
+    echo "Scanning commits in range: $RANGE"
+
+    MR_IIDS="$(
+      git log --no-merges --format=%B "$RANGE" \
+        | grep -oE '![0-9]+' \
+        | tr -d '!' \
+        | sort -u || true
+    )"
+
+    if [ -z "$MR_IIDS" ]; then
+      echo "No MR refs in commit messages, falling back to commit association..."
+      MR_IIDS="$(
+        curl -sS --fail \
+          -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits/$CI_COMMIT_SHA/merge_requests" \
+        | jq -r '.[].iid' | sort -u || true
+      )"
+    fi
+
+    if [ -z "$MR_IIDS" ]; then
+      echo "No MRs found — exiting."
+      exit 0
+    fi
+
+    for iid in $MR_IIDS; do
+      MR_JSON=$(curl -sS --fail \
+        -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$iid")
+
+      if echo "$MR_JSON" | jq -e --arg lbl "$NEW_STATUS_LABEL" '.labels | index($lbl) != null' >/dev/null; then
+        echo "⏭️  MR !${iid} already has $NEW_STATUS_LABEL — skipping."
+        continue
+      fi
+
+      echo "Adding $NEW_STATUS_LABEL to MR !${iid}"
+      curl -sS --fail -X PUT \
+        -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        --data-urlencode "add_labels=$NEW_STATUS_LABEL" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$iid" > /dev/null
+    done
+
+# ------------------------------------------------------------
+# Promote status::ready-for-release → status::in-release
+# for MRs whose commits are on this specific release branch
+# ------------------------------------------------------------
+.sync_release_label: &sync_release_label
+  - |
+    set -euo pipefail
+
+    echo "--------------------------------------"
+    echo "Branch: $CI_COMMIT_BRANCH"
+    echo "Promoting ready-for-release → in-release"
+    echo "--------------------------------------"
+
+    # Get all commit titles on this release branch via API (avoids shallow clone issues)
+    BRANCH_ENCODED="$(printf '%s' "$CI_COMMIT_BRANCH" | jq -sRr @uri)"
+    RELEASE_TITLES="$(
+      curl -sS --fail \
+        -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits?ref_name=${BRANCH_ENCODED}&per_page=100" \
+      | jq -r '.[].title' || true
+    )"
+
+    if [ -z "$RELEASE_TITLES" ]; then
+      echo "No commits found on release branch — nothing to do."
+      exit 0
+    fi
+
+    # Get all ready-for-release merged MRs with their commit SHAs
+    RFR_MRS="$(
+      curl -sS --fail \
+        -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests?state=merged&labels=status%3A%3Aready-for-release&per_page=100" \
+      | jq -r '.[] | "\(.iid)|\(.squash_commit_sha // .merge_commit_sha // "")"' || true
+    )"
+
+    if [ -z "$RFR_MRS" ]; then
+      echo "No ready-for-release MRs found — nothing to do."
+      exit 0
+    fi
+
+    while IFS='|' read -r iid commit_sha; do
+      [ -z "$commit_sha" ] || [ "$commit_sha" = "null" ] && continue
+      commit_title="$(
+        curl -sS --fail \
+          -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits/$commit_sha" \
+        | jq -r '.title' || true
+      )"
+      if [ -n "$commit_title" ] && printf '%s\n' "$RELEASE_TITLES" | grep -qxF "$commit_title"; then
+        echo "Updating MR !${iid}: ready-for-release → in-release"
+        curl -sS --fail -X PUT \
+          -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+          --data-urlencode "add_labels=status::in-release" \
+          --data-urlencode "remove_labels=status::ready-for-release" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$iid" > /dev/null
+      else
+        echo "MR !${iid} not found on release branch — skipping."
+      fi
+    done < <(printf '%s\n' "$RFR_MRS")
+
+# -------------------- Jobs --------------------
+
+label_in_review:
+  stage: label
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  variables:
+    NEW_STATUS_LABEL: "status::in-review"
+  script: *update_mr_status_labels
+
+label_in_release:
+  stage: label
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^release\/\d{4}-\d{2}-\d{2}$/'
+  script: *sync_release_label
+
+label_released:
+  stage: label
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - |
+      set -euo pipefail
+
+      echo "--------------------------------------"
+      echo "Branch: $CI_COMMIT_BRANCH"
+      echo "Commit: $CI_COMMIT_SHA"
+      echo "--------------------------------------"
+
+      # Only promote in-release → released if this push came from a release branch merge
+      SOURCE_BRANCH="$(git show --format="%s" -s HEAD | sed -n "s/.*Merge branch '\([^']*\)'.*/\1/p" || true)"
+
+      if ! echo "${SOURCE_BRANCH:-}" | grep -qE '^release/[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+        echo "Push to main did not come from a release branch (source: ${SOURCE_BRANCH:-unknown}) — skipping."
+        exit 0
+      fi
+
+      echo "Source branch: $SOURCE_BRANCH"
+      echo "Promoting in-release → released"
+
+      IN_RELEASE_IIDS="$(
+        curl -sS --fail \
+          -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests?state=merged&labels=status%3A%3Ain-release&per_page=100" \
+        | jq -r '.[].iid' || true
+      )"
+
+      if [ -z "$IN_RELEASE_IIDS" ]; then
+        echo "No in-release MRs found — nothing to do."
+        exit 0
+      fi
+
+      for iid in $IN_RELEASE_IIDS; do
+        echo "Updating MR !${iid}: in-release → released"
+        curl -sS --fail -X PUT \
+          -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+          --data-urlencode "add_labels=status::released" \
+          --data-urlencode "remove_labels=status::in-release" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$iid" > /dev/null
+      done
+
+create_release_tag:
+  stage: tag
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - |
+      set -euo pipefail
+      
+      echo "--------------------------------------"
+      echo "Creating release tag for production deployment"
+      echo "Branch: $CI_COMMIT_BRANCH"
+      echo "Commit: $CI_COMMIT_SHA"
+      echo "--------------------------------------"
+      
+      # Detect source branch from merge commit
+      SOURCE_BRANCH=""
+      if git show --format="%s" -s HEAD | grep -q "Merge branch"; then
+        SOURCE_BRANCH=$(git show --format="%s" -s HEAD | sed -n "s/.*Merge branch '\([^']*\)'.*/\1/p")
+      fi
+      
+      # Determine release type and tag name with timestamp
+      RELEASE_TYPE="release"
+      TAG_MESSAGE=""
+
+      if echo "$SOURCE_BRANCH" | grep -q "^hotfix/"; then
+        RELEASE_TYPE="hotfix"
+        TAG_NAME="hotfix-$(date -u +%Y%m%d-%H%M)"
+
+        # Extract hotfix details from branch name (e.g., hotfix/xxx)
+        HOTFIX_DETAILS=$(echo "$SOURCE_BRANCH" | sed 's|^hotfix/||')
+        if [ -n "$HOTFIX_DETAILS" ]; then
+          # Replace dashes with spaces for readability
+          HOTFIX_DESC=$(echo "$HOTFIX_DETAILS" | tr '-' ' ')
+          TAG_MESSAGE="Hotfix: ${HOTFIX_DESC}"
+        else
+          TAG_MESSAGE="Production hotfix from ${SOURCE_BRANCH}"
+        fi
+
+      elif echo "$SOURCE_BRANCH" | grep -q "^release/"; then
+        RELEASE_TYPE="release"
+        TAG_NAME="release-$(date -u +%Y%m%d-%H%M)"
+
+        # Extract date from release branch (e.g., release/2025-01-12 -> 2025-01-12)
+        RELEASE_DATE=$(echo "$SOURCE_BRANCH" | sed 's|^release/||')
+        TAG_MESSAGE="Production Release: ${RELEASE_DATE}"
+      else
+        # Default to release if source branch unknown
+        TAG_NAME="release-$(date -u +%Y%m%d-%H%M)"
+        TAG_MESSAGE="Production release to main"
+      fi
+
+      echo "Source branch: ${SOURCE_BRANCH:-unknown}"
+      echo "Release type: $RELEASE_TYPE"
+      echo "Creating tag: $TAG_NAME"
+      echo "Tag message: $TAG_MESSAGE"
+
+      # Create tag via GitLab API (no git identity needed)
+      echo "Calling GitLab API to create tag..."
+      if RESPONSE=$(curl -X POST --fail -w "\n%{http_code}" \
+        -H "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        --data-urlencode "tag_name=$TAG_NAME" \
+        --data-urlencode "ref=$CI_COMMIT_SHA" \
+        --data-urlencode "message=$TAG_MESSAGE" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/tags" 2>&1); then
+        HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+        echo "✅ Tag $TAG_NAME created successfully via API (HTTP $HTTP_CODE)"
+      else
+        echo "❌ Failed to create tag via API"
+        echo "Response: $RESPONSE"
+        exit 1
+      fi

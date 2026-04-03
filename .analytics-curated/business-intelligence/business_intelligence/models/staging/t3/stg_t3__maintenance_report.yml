@@ -1,0 +1,163 @@
+version: 2
+
+models:
+  - name: stg_t3__maintenance_report
+    description: "Maintenance Report."
+
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Asset Id"
+
+      - name: driver
+        data_type: varchar
+        description: "driver"
+
+      - name: model
+        data_type: varchar
+        description: "model"
+
+      - name: serial_number
+        data_type: varchar
+        description: "serial_number"
+
+      - name: class
+        data_type: varchar
+        description: "class"
+
+      - name: company_id
+        data_type: number
+        description: "Company Id"
+
+      - name: category_name
+        data_type: varchar
+        description: "category_name"
+
+      - name: asset_type_id
+        data_type: number
+        description: "asset_type_id"
+
+      - name: asset_type
+        data_type: varchar
+        description: "asset_type"
+
+      - name: organization_group
+        data_type: varchar
+        description: "organization_group"
+
+      - name: asset_status_key_value_id
+        data_type: number
+        description: "asset_status_key_value_id"
+
+      - name: asset_status_value
+        data_type: varchar
+        description: "asset_status_value"
+
+      - name: asset_status_value_type
+        data_type: varchar
+        description: "asset_status_value_type"
+
+      - name: asset_last_location_geofences
+        data_type: varchar
+        description: "asset_last_location_geofences"
+
+      - name: asset_last_location_address
+        data_type: varchar
+        description: "asset_last_location_address"
+
+      - name: asset_last_location
+        data_type: varchar
+        description: "asset_last_location"
+
+      - name: asset_linked_to_track_details
+        data_type: varchar
+        description: "Asset linked to track details"
+
+      - name: date_created
+        data_type: timestamp_tz
+        description: "date created"
+
+      - name: until_next_service_usage
+        data_type: number
+        description: "until next service usage"
+
+      - name: maintenance_group_interval_id
+        data_type: number
+        description: "maintenance group interval id"
+
+      - name: inspection_type
+        data_type: varchar
+        description: "inspection type"
+
+      - name: inventory_status
+        data_type: varchar
+        description: "inspection status"
+
+      - name: overdue
+        data_type: boolean
+        description: "overdue"
+
+
+      - name: service_time_remaining_in_weeks
+        data_type: number
+        description: "service_time_remaining_in_weeks"
+
+      - name: driver_vehicle_type
+        data_type: varchar
+        description: "Driver vehicle type"
+
+      - name: make_and_model
+        data_type: varchar
+        description: "Make and Model"
+
+      - name: service_interval
+        data_type: varchar
+        description: "Service Interval"
+
+      - name: company_name
+        data_type: varchar
+        description: "Company name"
+
+      - name: dynamic_last_location
+        data_type: varchar
+        description: "Dynamic last Location"
+
+      - name: time_remaining
+        data_type: varchar
+        description: "Time remaining"
+
+      - name: utilization_remaining
+        data_type: varchar
+        description: "Utilization remaining"
+
+      - name: year
+        data_type: number
+        description: "Year"
+
+      - name: vehicle_vin_serial_number
+        data_type: varchar
+        description: "Vehicle serial number"
+
+      - name: markets_service_name
+        data_type: varchar
+        description: "Market service name"
+
+      - name: branch
+        data_type: varchar
+        description: "branch"
+
+      - name: work_order_id
+        data_type: varchar
+        description: "Work order ID"
+
+      - name: link_to_work_order
+        data_type: varchar
+        description: "Link to work order"
+
+      - name: percentage_remaining_buckets
+        data_type: varchar
+        description: "Percentage remaining buckets"
+
+      - name: percentage_remaining
+        data_type: number
+        description: "Percentage Remaining"

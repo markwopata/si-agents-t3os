@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: base_analytics_asset4000_dbo__fa_costs
+    description: cleaned and renamed model of analytics.asset4000_dbo.fa_costs
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: book_code
+        description: type of book
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: cost_per_sequence
+        description: ""
+
+      - name: cost_year
+        description: ""
+
+      - name: transfer_per_sequence
+        description: the point of time (month) when the transfer occurred
+
+      - name: transfer_year
+        description: the year of transfer
+
+      - name: oec
+        description: '{{ doc("oec") }}'
+
+      - name: period_depreciation_expense
+        description: '{{ doc("period_depreciation_expense") }}'
+
+      - name: year_to_date_depreciation_expense
+        description:  '{{ doc("year_to_date_depreciation_expense") }}'
+
+      - name: nbv
+        description: '{{ doc("nbv") }}'
+
+      - name: gbv
+        description: gross book value. original (historical) price paid for an asset, without any depreciation deduction
+
+      - name: depreciation_date
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

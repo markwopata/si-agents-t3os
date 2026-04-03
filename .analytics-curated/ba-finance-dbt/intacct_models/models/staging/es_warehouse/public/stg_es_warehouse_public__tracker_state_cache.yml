@@ -1,0 +1,73 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracker_state_cache
+    description: Model for es_warehouse.public.tracker_state_cache
+    columns:
+      - name: tracker_state_cache_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: tracker_id
+        description: ""
+      - name: latest_idle_start_incident_id
+        description: ""
+      - name: latest_idle_end_incident_id
+        description: ""
+      - name: latest_speed_start_incident_id
+        description: ""
+      - name: latest_speed_end_incident_id
+        description: ""
+      - name: latest_time_fence_incident_id
+        description: ""
+      - name: latest_sequence_number
+        description: ""
+      - name: latest_report_timestamp
+        description: ""
+      - name: current_trip_id
+        description: ""
+      - name: latest_gps_fix_timestamp
+        description: ""
+      - name: open_stale_gps_incident_log_id
+        description: ""
+      - name: latest_distance_accumulator
+        description: ""
+      - name: current_keypad_code_update_request_id
+        description: ""
+      - name: current_keypad_code_update_log_id
+        description: ""
+      - name: stuck_rpm_log_id
+        description: ""
+      - name: latest_rpm
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: battery_voltage_is_low
+        description: ""
+      - name: is_updating_odometer_on_trips
+        description: ""
+      - name: rapid_reboot_log_id
+        description: ""
+      - name: latest_reboot_timestamp
+        description: ""
+      - name: open_idle_vbus_detect_log_id
+        description: ""
+      - name: latest_satellites
+        description: ""
+      - name: latest_rssi
+        description: ""
+      - name: latest_hdop
+        description: ""
+      - name: current_unhealthy_tracker_log_id
+        description: ""
+      - name: battery_voltage_timestamp
+        description: ""
+      - name: latest_location_timestamp
+        description: ""
+      - name: latest_gps_accuracy
+        description: ""
+      - name: latest_rsrp
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

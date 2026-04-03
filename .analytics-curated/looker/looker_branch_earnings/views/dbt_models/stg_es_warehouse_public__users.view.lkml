@@ -1,0 +1,240 @@
+view: stg_es_warehouse_public__users {
+  sql_table_name: "INTACCT_MODELS"."STG_ES_WAREHOUSE_PUBLIC__USERS" ;;
+
+  dimension_group: _es_update_timestamp {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."_ES_UPDATE_TIMESTAMP" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: approved_for_purchase_orders {
+    type: yesno
+    sql: ${TABLE}."APPROVED_FOR_PURCHASE_ORDERS" ;;
+  }
+  dimension: bad_email_address {
+    type: yesno
+    sql: ${TABLE}."BAD_EMAIL_ADDRESS" ;;
+  }
+  dimension: birth_day {
+    type: number
+    sql: ${TABLE}."BIRTH_DAY" ;;
+  }
+  dimension: birth_month {
+    type: number
+    sql: ${TABLE}."BIRTH_MONTH" ;;
+  }
+  dimension: birth_year {
+    type: number
+    sql: ${TABLE}."BIRTH_YEAR" ;;
+  }
+  dimension: blockscore_id {
+    type: string
+    sql: ${TABLE}."BLOCKSCORE_ID" ;;
+  }
+  dimension: blockscore_people_id {
+    type: number
+    sql: ${TABLE}."BLOCKSCORE_PEOPLE_ID" ;;
+  }
+  dimension: braintree_payment_made {
+    type: string
+    sql: ${TABLE}."BRAINTREE_PAYMENT_MADE" ;;
+  }
+  dimension: branch_id {
+    type: number
+    sql: ${TABLE}."BRANCH_ID" ;;
+  }
+  dimension: can_access_camera {
+    type: yesno
+    sql: ${TABLE}."CAN_ACCESS_CAMERA" ;;
+  }
+  dimension: can_create_asset_financial_records {
+    type: yesno
+    sql: ${TABLE}."CAN_CREATE_ASSET_FINANCIAL_RECORDS" ;;
+  }
+  dimension: can_grant_permissions {
+    type: yesno
+    sql: ${TABLE}."CAN_GRANT_PERMISSIONS" ;;
+  }
+  dimension: can_read_asset_financial_records {
+    type: yesno
+    sql: ${TABLE}."CAN_READ_ASSET_FINANCIAL_RECORDS" ;;
+  }
+  dimension: can_rent {
+    type: yesno
+    sql: ${TABLE}."CAN_RENT" ;;
+  }
+  dimension: cell_phone_number {
+    type: string
+    sql: ${TABLE}."CELL_PHONE_NUMBER" ;;
+  }
+  dimension: company_id {
+    type: number
+    sql: ${TABLE}."COMPANY_ID" ;;
+  }
+  dimension: company_name {
+    type: string
+    sql: ${TABLE}."COMPANY_NAME" ;;
+  }
+  dimension: crm_contact_id {
+    type: string
+    sql: ${TABLE}."CRM_CONTACT_ID" ;;
+  }
+  dimension_group: date_created {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."DATE_CREATED" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension_group: date_updated {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: CAST(${TABLE}."DATE_UPDATED" AS TIMESTAMP_NTZ) ;;
+  }
+  dimension: description {
+    type: string
+    sql: ${TABLE}."DESCRIPTION" ;;
+  }
+  dimension: drivers_license {
+    type: string
+    sql: ${TABLE}."DRIVERS_LICENSE" ;;
+  }
+  dimension: email_address {
+    type: string
+    sql: ${TABLE}."EMAIL_ADDRESS" ;;
+  }
+  dimension: employee_id {
+    type: number
+    sql: ${TABLE}."EMPLOYEE_ID" ;;
+  }
+  dimension: employer_user_id {
+    type: number
+    sql: ${TABLE}."EMPLOYER_USER_ID" ;;
+  }
+  dimension: first_name {
+    type: string
+    sql: ${TABLE}."FIRST_NAME" ;;
+  }
+  dimension: full_name {
+    type: string
+    sql: ${TABLE}."FULL_NAME" ;;
+  }
+  dimension: is_acccepted_terms {
+    type: yesno
+    sql: ${TABLE}."IS_ACCCEPTED_TERMS" ;;
+  }
+  dimension: is_bad_phone_number {
+    type: yesno
+    sql: ${TABLE}."IS_BAD_PHONE_NUMBER" ;;
+  }
+  dimension: is_deleted {
+    type: yesno
+    sql: ${TABLE}."IS_DELETED" ;;
+  }
+  dimension: is_salesperson {
+    type: yesno
+    sql: ${TABLE}."IS_SALESPERSON" ;;
+  }
+  dimension: keypad_code {
+    type: string
+    sql: ${TABLE}."KEYPAD_CODE" ;;
+  }
+  dimension: last_name {
+    type: string
+    sql: ${TABLE}."LAST_NAME" ;;
+  }
+  dimension: link_device_push_id {
+    type: string
+    sql: ${TABLE}."LINK_DEVICE_PUSH_ID" ;;
+  }
+  dimension: location_id {
+    type: number
+    sql: ${TABLE}."LOCATION_ID" ;;
+  }
+  dimension: middle_name {
+    type: string
+    sql: ${TABLE}."MIDDLE_NAME" ;;
+  }
+  dimension: password_hash {
+    type: string
+    sql: ${TABLE}."PASSWORD_HASH" ;;
+  }
+  dimension: phone_number {
+    type: string
+    sql: ${TABLE}."PHONE_NUMBER" ;;
+  }
+  dimension: photo_id {
+    type: number
+    sql: ${TABLE}."PHOTO_ID" ;;
+  }
+  dimension: preferred_landing_page {
+    type: string
+    sql: ${TABLE}."PREFERRED_LANDING_PAGE" ;;
+  }
+  dimension: raw_employee_id {
+    type: string
+    sql: ${TABLE}."RAW_EMPLOYEE_ID" ;;
+  }
+  dimension: read_only {
+    type: yesno
+    sql: ${TABLE}."READ_ONLY" ;;
+  }
+  dimension: security_level_id {
+    type: number
+    sql: ${TABLE}."SECURITY_LEVEL_ID" ;;
+  }
+  dimension: sms_opted_out {
+    type: yesno
+    sql: ${TABLE}."SMS_OPTED_OUT" ;;
+  }
+  dimension: timezone {
+    type: string
+    sql: ${TABLE}."TIMEZONE" ;;
+  }
+  dimension: universal_contact_id {
+    type: number
+    sql: ${TABLE}."UNIVERSAL_CONTACT_ID" ;;
+  }
+  dimension: user_agent_id {
+    type: string
+    sql: ${TABLE}."USER_AGENT_ID" ;;
+  }
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}."USER_ID" ;;
+  }
+  dimension: user_type_id {
+    type: number
+    sql: ${TABLE}."USER_TYPE_ID" ;;
+  }
+  dimension: username {
+    type: string
+    sql: ${TABLE}."USERNAME" ;;
+  }
+  dimension: verification_status_id {
+    type: number
+    sql: ${TABLE}."VERIFICATION_STATUS_ID" ;;
+  }
+  dimension: xero_salesperson_account_code {
+    type: string
+    sql: ${TABLE}."XERO_SALESPERSON_ACCOUNT_CODE" ;;
+  }
+  dimension: zip_code {
+    type: zipcode
+    sql: ${TABLE}."ZIP_CODE" ;;
+  }
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  # ----- Sets of fields for drilling ------
+  set: detail {
+    fields: [
+	username,
+	first_name,
+	full_name,
+	middle_name,
+	last_name,
+	company_name
+	]
+  }
+
+}

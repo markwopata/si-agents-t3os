@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_serial_number
+    description: Model for es_warehouse.scd.scd_asset_serial_number
+    columns:
+      - name: asset_id
+        description: ""
+      - name: serial_number
+        description: ""
+      - name: deleted
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

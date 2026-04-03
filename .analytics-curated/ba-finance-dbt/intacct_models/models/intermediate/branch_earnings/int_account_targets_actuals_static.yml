@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: int_account_targets_actuals_static  # <-- rename to your model name
+    description: >
+      Produces monthly actual amounts by market/month/account, mapped to a comp-metric denominator
+      (OEC or revenue-based) determined by comp_metric. This is for published periods only, trending metrics are pulled in a separate piece.
+    columns:
+      - name: market_id
+        description: Market identifier (parent market id).
+        tests:
+          - not_null
+
+      - name: gl_month
+        description: Month (date_trunc month) of the activity.
+        tests:
+          - not_null
+
+      - name: account_no
+        description: Source GL account number.
+        tests:
+          - not_null
+
+      - name: account_name
+        description: Source GL account name.
+        tests:
+          - not_null
+
+      - name: rev_exp
+        description: Revenue/Expense category (from plexi bucket mapping when available, otherwise source).
+        tests:
+          - not_null
+
+      - name: account_category
+        description: Display bucket/type (from plexi bucket mapping display_name when available, otherwise source type).
+        tests:
+          - not_null
+
+      - name: cost_type
+        description: Cost type classification, either controllable or fixed
+
+      - name: actual_amount
+        description: >
+          Monthly actual amount for the account. Expense amounts are multiplied by -1 so expenses
+          are stored as positive values.
+        tests:
+          - not_null
+
+      - name: mtd_amount
+        description: >
+          MTD amount for the account, as compared to current month. This MTD amount is used in the month-end projections.
+        tests:
+          - not_null
+
+      - name: comp_metric
+        description: Metric flag determining which denominator is used for comp_metric_amount.
+
+      - name: comp_metric_amount
+        description: >
+          Denominator amount selected based on comp_metric (rental_fleet_oec, rental_rev,
+          rental_service_rev, retail_rev, or total_rev) for the same market_id and gl_month.
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - market_id
+            - gl_month
+            - account_no
+            - account_name

@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_tools_trailer_retail_sales__rebate_items
+    description: Work Orders associated with a quote.
+    config:
+      tags: ["retail_sales"]
+    columns:
+        - name: pk_id
+          description: "Primary key for each rebate item record."
+          data_tests:
+            - unique
+            - not_null
+        - name: quote_pk_id
+          description: "Primary key for the quote associated with this rebate item. Foreign key to the quotes table."
+          data_tests:
+            - not_null
+        - name: quote_id
+          description: "Identifier for the quote. This is how the business identifies the quote."
+          data_tests:
+            - not_null
+        - name: rebate_pk_id
+          description: "Primary key for the rebate item."
+          data_tests:
+            - not_null
+        - name: asset_pk_id
+          description: "Foreign key for the asset associated with this rebate item."
+          data_tests:
+            - not_null
+        - name: type_id
+          description: "Type (e.g., rebate, discount)."
+          data_tests:
+            - not_null
+            - accepted_values:
+                arguments:
+                  values: ['rebate', 'discount']
+        - name: amount_type
+          description: "Whether the amount is a percentage or a dollar amount."
+          data_tests:
+            - not_null
+            - accepted_values:
+                arguments:
+                  values: ['percent', 'dollars']
+        - name: description
+          description: "Description of the rebate/discount."
+        - name: value_dollar
+          description: "Dollar value of the rebate/discount."
+        - name: value_percent
+          description: "Percentage value of the rebate/discount."

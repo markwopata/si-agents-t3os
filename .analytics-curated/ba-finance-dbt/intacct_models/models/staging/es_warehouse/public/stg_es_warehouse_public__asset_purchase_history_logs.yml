@@ -1,0 +1,154 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_purchase_history_logs
+    description: Model for base_es_warehouse_public__asset_purchase_history_logs. excludes likely mis-entered records.
+    columns:
+      - name: purchase_history_log_id
+        description: "Unique identifier for this purchase history record."
+        data_tests:
+          - not_null
+          - unique
+      - name: financial_interest_rate
+        description: "Annual interest rate applied to the financed amount."
+      - name: financial_contract_number
+        description: "Reference number of the financing contract."
+      - name: purchase_date
+        description: "Date when the asset purchase was completed."
+      - name: delivery_date
+        description: "Date when the asset was delivered to the site."
+      - name: purchase_order_number
+        description: "Vendor’s purchase order number for this transaction."
+      - name: financial_lender
+        description: "Name of the institution providing financing."
+      - name: purchase_price
+        description: "Total price paid for the asset."
+      - name: financial_contract_date
+        description: "Date on which the finance agreement was executed."
+      - name: financial_term
+        description: "Duration of the financing agreement in months."
+      - name: invoice_purchase_date
+        description: "Date shown on the vendor’s purchase invoice."
+      - name: finance_status
+        description: "Current status of the financing (e.g., Pending, Active, Paid)."
+      - name: order_number
+        description: "Internal order number associated with the purchase."
+      - name: invoice_number
+        description: "Vendor’s invoice number for this purchase."
+      - name: pending_schedule
+        description: "Indicator or schedule details for pending payments."
+      - name: financed_amount
+        description: "Portion of the purchase price financed by the lender."
+      - name: oec
+        description: "Original Equipment Cost (total equipment value at purchase)."
+      - name: downpayment_amount
+        description: "Cash amount paid upfront at purchase."
+      - name: downpayment_percent
+        description: "Downpayment amount as a percentage of purchase price."
+      - name: advance_payment_amount
+        description: "Amount of any advance payment made before financing starts."
+      - name: advance_payment_percent
+        description: "Advance payment as a percentage of the financed amount."
+      - name: security_deposit
+        description: "Deposit held by the lender as security for the loan."
+      - name: interim_rent
+        description: "Rental fees incurred prior to financing commencement."
+      - name: payment_interval_1_months
+        description: "Length of the first payment interval in months."
+      - name: payment_interval_1_monthly_payment
+        description: "Monthly payment amount for the first interval."
+      - name: payment_interval_2_months
+        description: "Length of the second payment interval in months."
+      - name: payment_interval_2_monthly_payment
+        description: "Monthly payment amount for the second interval."
+      - name: payment_interval_3_months
+        description: "Length of the third payment interval in months."
+      - name: payment_interval_3_monthly_payment
+        description: "Monthly payment amount for the third interval."
+      - name: payment_interval_4_months
+        description: "Length of the fourth payment interval in months."
+      - name: payment_interval_4_monthly_payment
+        description: "Monthly payment amount for the fourth interval."
+      - name: payment_interval_5_months
+        description: "Length of the fifth payment interval in months."
+      - name: payment_interval_5_monthly_payment
+        description: "Monthly payment amount for the fifth interval."
+      - name: payment_interval_6_months
+        description: "Length of the sixth payment interval in months."
+      - name: payment_interval_6_monthly_payment
+        description: "Monthly payment amount for the sixth interval."
+      - name: payment_interval_7_months
+        description: "Length of the seventh payment interval in months."
+      - name: payment_interval_7_monthly_payment
+        description: "Monthly payment amount for the seventh interval."
+      - name: sales_tax
+        description: "Sales tax amount charged on the purchase."
+      - name: loan_origination_fee
+        description: "Fee charged by the lender to originate the loan."
+      - name: is_financed
+        description: "Flag indicating whether the purchase is financed."
+      - name: is_owned
+        description: "Flag indicating whether the asset is owned outright."
+      - name: ebo_amount
+        description: "Early buyout amount required to purchase asset before term end."
+      - name: ebo_date
+        description: "Date when the early buyout option becomes available."
+      - name: has_ebo_discount
+        description: "Flag indicating if an early buyout discount applies."
+      - name: ebo_discount_percent
+        description: "Discount percentage applied to the early buyout amount."
+      - name: ebo_notification_date
+        description: "Date to notify about the early buyout opportunity."
+      - name: ebo_percent
+        description: "Early buyout payment as a percentage of financed amount."
+      - name: has_fppo_spo_balloon_payment
+        description: "Flag indicating a balloon payment at end of term."
+      - name: fppo_spo_balloon_amount
+        description: "Balloon payment amount due at end of financing term."
+      - name: fppo_spo_balloon_percent
+        description: "Balloon payment as a percentage of financed amount."
+      - name: fppo_spo_balloon_date
+        description: "Date when the balloon payment is due."
+      - name: fppo_spo_balloon_notification_date
+        description: "Date to notify about the upcoming balloon payment."
+      - name: freight_amount
+        description: "Cost charged for shipping or transporting the asset."
+      - name: document_preparation_fee
+        description: "Fee for preparing financing-related documents."
+      - name: loss_or_damage_remedies
+        description: "Terms for remedies in case of loss or damage to the asset."
+      - name: purchase_order_url
+        description: "Link to the purchase order document."
+      - name: asset_invoice_url
+        description: "Link to the vendor’s asset invoice."
+      - name: notes
+        description: "Free-form notes or comments about this purchase."
+      - name: company_id
+        description: "Identifier for the purchasing company."
+      - name: previous_company_id
+        description: "Identifier for the prior owner or company, if applicable."
+      - name: asset_id
+        description: "Identifier of the purchased asset."
+      - name: financing_facility_type_id
+        description: "Type identifier for the financing facility used."
+      - name: financial_schedule_id
+        description: "Identifier for the associated payment schedule."
+      - name: equipment_type_id
+        description: "Identifier for the equipment category or type."
+      - name: loan_status_type_id
+        description: "Identifier for the loan’s current status type."
+      - name: date_generated
+        description: "Timestamp when this record was generated."
+      - name: generated_by_user_id
+        description: "User ID of the person who generated this record."
+      - name: audit_type_id
+        description: "Identifier for the type of audit operation performed."
+      - name: change_list
+        description: "List of fields changed during the last audit."
+      - name: po_number
+        description: "Alternate purchase order number reference."
+      - name: registration_amount
+        description: "Cost paid for registering the asset."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+

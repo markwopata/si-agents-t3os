@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: stg_t3__asset_fuel_consumption
+    description: "Fuel consumption and classification details for company assets"
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "asset_id"
+
+      - name: company_id
+        data_type: number
+        description: "company_id"
+
+      - name: asset
+        data_type: varchar
+        description: "custom_name aliased as asset"
+
+      - name: aasset_type
+        data_type: varchar
+        description: "aasset_type"
+
+      - name: group_name
+        data_type: varchar
+        description: "group_name"
+
+      - name: custom_name
+        data_type: varchar
+        description: "custom_name"
+
+      - name: category_name
+        data_type: varchar
+        description: "category_name"
+
+      - name: market_name
+        data_type: varchar
+        description: "market_name"
+
+      - name: asset_class
+        data_type: varchar
+        description: "asset_class"
+
+      - name: dummy_join_param
+        data_type: number
+        description: "dummy_join_param"
+
+      - name: start_date
+        data_type: date
+        description: "start_date"
+
+      - name: job_id
+        data_type: number
+        description: "job_id"
+
+      - name: job_name
+        data_type: varchar
+        description: "job_name"
+
+      - name: phase_job_id
+        data_type: number
+        description: "phase_job_id"
+
+      - name: phase_job_name
+        data_type: varchar
+        description: "phase_job_name"
+
+      - name: suspect_trip_data_flag
+        data_type: varchar
+        description: "suspect_trip_data_flag"
+
+      - name: suspect_trip_table_flag
+        data_type: varchar
+        description: "suspect_trip_table_flag"

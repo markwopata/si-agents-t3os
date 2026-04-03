@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vsg_postgres__public__regions
+    description: "This is a list of their branches"
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: dispatch_channel
+        description: ""
+      - name: cleaning_channel
+        description: ""
+      - name: prefix
+        description: ""
+      - name: turo_email
+        description: ""
+      - name: reservation_channel
+        description: ""
+      - name: maintenance_channel
+        description: ""
+      - name: messages_channel
+        description: ""
+      - name: turo_phone
+        description: ""
+      - name: timezone
+        description: ""
+      - name: description
+        description: ""
+      - name: slug
+        description: ""
+      - name: billing_channel
+        description: ""
+      - name: date_opened
+        description: ""
+      - name: turo_driver_id
+        description: ""
+      - name: claims_channel
+        description: ""
+      - name: center_latitude
+        description: ""
+      - name: center_longitude
+        description: ""
+      - name: google_review_url
+        description: ""
+      - name: allow_self_service_booking
+        description: ""
+      - name: min_reservation_buffer_hours
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

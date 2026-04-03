@@ -1,0 +1,78 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_base_invoices
+    description: ""
+    columns:
+      - name: line_item_id
+        data_type: number
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: market_id
+        data_type: varchar
+        description: ""
+      - name: account_number
+        data_type: varchar
+        description: ""
+      - name: transaction_number_format
+        data_type: varchar
+        description: ""
+      - name: transaction_number
+        data_type: varchar
+        description: ""
+      - name: description
+        data_type: varchar
+        description: ""
+      - name: gl_date
+        data_type: timestamp_tz
+        description: ""
+      - name: document_type
+        data_type: varchar
+        description: ""
+      - name: document_number
+        data_type: varchar
+        description: ""
+      - name: url_sage
+        data_type: varchar
+        description: ""
+      - name: url_concur
+        data_type: varchar
+        description: ""
+      - name: url_admin
+        data_type: varchar
+        description: ""
+      - name: url_t3
+        data_type: varchar
+        description: ""
+      - name: amount
+        data_type: number
+        description: ""
+      - name: asset_id
+        data_type: number
+        description: ""
+      - name: vendor_id
+        data_type: varchar
+        description: ""
+      - name: source
+        data_type: varchar
+        description: ""
+      - name: load_section
+        data_type: varchar
+        description: ""
+      - name: nbv
+        data_type: number
+        description: '{{ doc("nbv") }}'
+      - name: line_item_type_id
+        data_type: number
+        description: ""
+      - name: invoice_id
+        data_type: number
+        description: ""
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: ""
+      - name: is_rerent_asset
+        data_type: boolean
+        description: ""

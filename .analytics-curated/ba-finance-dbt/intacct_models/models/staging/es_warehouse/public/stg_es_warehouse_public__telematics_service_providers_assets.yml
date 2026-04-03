@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__telematics_service_providers_assets
+    description: Model for es_warehouse.public.telematics_service_providers_assets
+    columns:
+      - name: telematics_service_providers_asset_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

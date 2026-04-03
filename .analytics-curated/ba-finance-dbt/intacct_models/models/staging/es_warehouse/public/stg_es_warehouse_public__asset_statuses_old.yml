@@ -1,0 +1,253 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_statuses_old
+    description: Model for es_warehouse.public.asset_statuses_old
+    columns:
+      - name: asset_status_id
+        description: The Primary Key
+      - name: asset_id
+        description: ""
+      - name: last_checkin_timestamp
+        description: ""
+      - name: last_location_timestamp
+        description: ""
+      - name: direction
+        description: ""
+      - name: speed
+        description: ""
+      - name: engine_active
+        description: ""
+      - name: unplugged
+        description: ""
+      - name: unplugged_timestamp
+        description: ""
+      - name: last_engine_off_timestamp
+        description: ""
+      - name: last_engine_on_timestamp
+        description: ""
+      - name: battery_voltage_timestamp
+        description: ""
+      - name: fuel_level
+        description: ""
+      - name: fuel_level_timestamp
+        description: ""
+      - name: average_fuel_economy_timestamp
+        description: ""
+      - name: street
+        description: ""
+      - name: city
+        description: ""
+      - name: state_id
+        description: ""
+      - name: driver_name
+        description: ""
+      - name: asset_rental_status
+        description: ""
+      - name: asset_rental_status_timestamp
+        description: ""
+      - name: asset_health_status
+        description:
+          The health of the asset in terms of operability.  Soft down means the asset has work needed to be done,
+          but most likely still operates fine and most likely does not need parts.  Hard down means the asset is really broken,
+          probably needs part, and is probably inoperable
+      - name: asset_health_status_timestamp
+        description: ""
+      - name: driver_user_id
+        description: ""
+      - name: coolant_temperature
+        description: ""
+      - name: coolant_temperature_timestamp
+        description: ""
+      - name: engine_oil_pressure
+        description: ""
+      - name: engine_oil_pressure_timestamp
+        description: ""
+      - name: engine_oil_temperature
+        description: ""
+      - name: engine_oil_temperature_timestamp
+        description: ""
+      - name: engine_rpm
+        description: ""
+      - name: engine_rpm_timestamp
+        description: ""
+      - name: current_trip_id
+        description: ""
+      - name: driver_match_timestamp
+        description: ""
+      - name: recent_driver_user_id
+        description: ""
+      - name: recent_driver_name
+        description: ""
+      - name: recent_driver_timestamp
+        description: ""
+      - name: is_being_hauled
+        description: ""
+      - name: is_being_hauled_timestamp
+        description: ""
+      - name: is_locked
+        description: ""
+      - name: lock_timestamp
+        description: ""
+      - name: unlock_timestamp
+        description: ""
+      - name: is_tracker_awake
+        description: ""
+      - name: last_tracker_wake_timestamp
+        description: ""
+      - name: last_tracker_sleep_timestamp
+        description: ""
+      - name: last_trip_id
+        description: ""
+      - name: is_pending_keypad_code_update
+        description: ""
+      - name: is_pending_keypad_code_update_timestamp
+        description: ""
+      - name: latest_start_driving_incident_id
+        description: ""
+      - name: latest_stop_driving_incident_id
+        description: ""
+      - name: uts_roll_timestamp
+        description: ""
+      - name: charger_plugged_in
+        description: ""
+      - name: charger_plugged_in_timestamp
+        description: ""
+      - name: platform_stowed
+        description: ""
+      - name: platform_stowed_timestamp
+        description: ""
+      - name: overload
+        description: ""
+      - name: overload_timestamp
+        description: ""
+      - name: key_switch_state
+        description: ""
+      - name: key_switch_state_timestamp
+        description: ""
+      - name: machine_off_level
+        description: ""
+      - name: machine_off_level_timestamp
+        description: ""
+      - name: battery_state_of_charge
+        description: ""
+      - name: battery_state_of_charge_timestamp
+        description: ""
+      - name: uts_pitch_timestamp
+        description: ""
+      - name: outrigger_status
+        description: ""
+      - name: outrigger_status_timestamp
+        description: ""
+      - name: foot_switch
+        description: ""
+      - name: foot_switch_timestamp
+        description: ""
+      - name: last_trip_type
+        description: ""
+      - name: last_trip_end_timestamp
+        description: ""
+      - name: start_stale_gps_fix_timestamp
+        description: ""
+      - name: rssi
+        description: ""
+      - name: rssi_timestamp
+        description: ""
+      - name: hdop_timestamp
+        description: ""
+      - name: last_valid_tpms_timestamp
+        description: ""
+      - name: coolant_level_percent
+        description: ""
+      - name: coolant_level_percent_timestamp
+        description: ""
+      - name: diesel_exhaust_fluid_level_timestamp
+        description: ""
+      - name: diesel_particles_filter_regen_status
+        description: ""
+      - name: diesel_particles_filter_regen_status_timestamp
+        description: ""
+      - name: total_idle_seconds
+        description: ""
+      - name: total_fuel_used_liters
+        description: ""
+      - name: total_idle_fuel_used_liters
+        description: ""
+      - name: county
+        description: ""
+      - name: fuel_consumption_rate_gph
+        description: ""
+      - name: fuel_consumption_rate_gph_timestamp
+        description: ""
+      - name: fuel_economy_lifetime_mpg
+        description: ""
+      - name: fuel_economy_lifetime_mpg_timestamp
+        description: ""
+      - name: fuel_economy_instantaneous_mpg
+        description: ""
+      - name: fuel_economy_instantaneous_mpg_timestamp
+        description: ""
+      - name: is_ble_node
+        description: ""
+      - name: asset_inventory_status
+        description: ""
+      - name: asset_inventory_status_timestamp
+        description: ""
+      - name: service_brakes_status
+        description: ""
+      - name: stop_lamp_power_status
+        description: ""
+      - name: emergency_air_status
+        description: ""
+      - name: tpms_high_temperature_status
+        description: ""
+      - name: tpms_high_pressure_status
+        description: ""
+      - name: tpms_low_pressure_status
+        description: ""
+      - name: modified_at
+        description: ""
+      - name: last_keypad_message_timestamp
+        description: ""
+      - name: last_address_update_timestamp
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: ble_low_battery
+        description: ""
+      - name: ble_low_battery_timestamp
+        description: ""
+      - name: start_idle_timestamp
+        description: ""
+      - name: out_of_lock_timestamp
+        description: ""
+      - name: domain_id
+        description: ""
+      - name: _es_deleted
+        description: ""
+      - name: location_geo
+        description: ""
+      - name: location
+        description: ""
+      - name: hdop
+        description: ""
+      - name: uts_pitch
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: uts_roll
+        description: ""
+      - name: average_fuel_economy
+        description: ""
+      - name: diesel_exhaust_fluid_level
+        description: ""
+      - name: odometer
+        description: ""
+      - name: hours
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: location__longitude
+        description: Extracted from json in column location (roughly location:longitude)
+      - name: location__latitude
+        description: Extracted from json in column location (roughly location:latitude)

@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: int_branch_earnings_get_health_insurance
+    description: >
+        Branch Earnings health insurance premium allocation by branch headcount
+    columns:
+      - name: mkt_id
+        description: ""
+        data_tests:
+            - unique
+
+      - name: mkt_name
+        description: ""
+
+      - name: acctno
+        description: ""
+
+      - name: descr
+        description: ""
+
+      - name: gl_date
+        description: ""
+
+      - name: doc_no
+        description: ""
+
+      - name: pk
+        description: ""
+
+      - name: amt
+        description: ""

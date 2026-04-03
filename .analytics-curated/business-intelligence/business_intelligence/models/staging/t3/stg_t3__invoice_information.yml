@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: stg_t3__invoice_information
+    description: Line-level invoice information, with each row containing details about a specific invoice line item including rental, asset, location, and financial data
+    columns:
+      - name: billing_approved_date
+        data_type: varchar
+        description: "Date when billing was approved (string format)"
+        
+      - name: invoice_no
+        data_type: varchar
+        description: "Invoice number identifier"
+        
+      - name: line_item_type_name
+        data_type: varchar
+        description: "Type of line item "
+        
+      - name: rental_id
+        data_type: number
+        description: "Unique identifier for the rental record"
+        
+      - name: custom_name
+        data_type: varchar
+        description: "Custom name/identifier for the asset"
+        
+      - name: asset_class
+        data_type: varchar
+        description: "Classification category of the asset"
+        
+      - name: purchase_order_name
+        data_type: varchar
+        description: "Name/identifier of the purchase order"
+        
+      - name: location_nickname
+        data_type: varchar
+        description: "Friendly name for the rental location"
+        
+      - name: job_name
+        data_type: varchar
+        description: "Name of the job associated with the rental"
+
+      - name: phase_name
+        data_type: varchar
+        description: "Name of the phase of the job associated with the rental"
+        
+      - name: company_id
+        data_type: number
+        description: "Unique identifier for the company"
+        
+      - name: user_id
+        data_type: number
+        description: "Unique identifier for the user who created the order"
+        
+      - name: invoice_date
+        data_type: timestamp_tz
+        description: "Date when the invoice was created"
+        
+      - name: line_item_amount
+        data_type: number
+        description: "Monetary amount for the line item"
+        
+      - name: total_tax
+        data_type: number
+        description: "Total tax amount applied to the line item"

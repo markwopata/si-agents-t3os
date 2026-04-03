@@ -1,0 +1,188 @@
+---
+version: 2
+models:
+  - name: base_analytics_vehicle_solutions__hq_rental_vehicles
+    description: "Vehicle list from hq rental"
+    columns:
+      - name: id
+        description: ""
+      - name: label
+        description: ""
+      - name: vehicle_key
+        description: ""
+      - name: vehicle_model_id
+        description: ""
+      - name: vehicle_class_id
+        description: ""
+      - name: vehicle_type_id
+        description: ""
+      - name: year
+        description: ""
+      - name: color
+        description: ""
+      - name: vin
+        description: ""
+      - name: plate
+        description: ""
+      - name: plate_expiration_date
+        description: ""
+      - name: odometer
+        description: ""
+      - name: status
+        description: ""
+      - name: available_date
+        description: ""
+      - name: fuel_level
+        description: ""
+      - name: registration_expiration_date
+        description: ""
+      - name: force_availability_due_to_registration_date
+        description: ""
+      - name: inspection_expiration_date
+        description: ""
+      - name: force_availability_due_to_inspection_date
+        description: ""
+      - name: available
+        description: ""
+      - name: old_current_vehicle_information_id
+        description: ""
+      - name: current_vehicle_information_id
+        description: ""
+      - name: created_by
+        description: ""
+      - name: updated_by
+        description: ""
+      - name: deleted_at
+        description: ""
+      - name: created_at
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: available_until
+        description: ""
+      - name: current_location_id
+        description: ""
+      - name: date_of_last_maintenance
+        description: ""
+      - name: odometer_at_last_maintenance
+        description: ""
+      - name: tour_operator_id
+        description: ""
+      - name: commission_amount
+        description: ""
+      - name: uuid
+        description: ""
+      - name: toll_tag_id
+        description: ""
+      - name: f225
+        description: ""
+      - name: f226
+        description: ""
+      - name: f227
+        description: ""
+      - name: f228
+        description: ""
+      - name: f229
+        description: ""
+      - name: latitude
+        description: ""
+      - name: longitude
+        description: ""
+      - name: hardware_id
+        description: ""
+      - name: reserved_until
+        description: ""
+      - name: reserved_member_id
+        description: ""
+      - name: engine_on
+        description: ""
+      - name: doors_locked
+        description: ""
+      - name: immobilizer
+        description: ""
+      - name: keys_in_holder
+        description: ""
+      - name: speed
+        description: ""
+      - name: rented_days_without_maintenance
+        description: ""
+      - name: vehicle_entry_date
+        description: ""
+      - name: vehicle_exit_date
+        description: ""
+      - name: fuel_type_id
+        description: ""
+      - name: tank_size
+        description: ""
+      - name: sharebox_keys_in_locker
+        description: ""
+      - name: sharebox_cabinet_id
+        description: ""
+      - name: sharebox_reservation_id
+        description: ""
+      - name: sharebox_row
+        description: ""
+      - name: sharebox_column
+        description: ""
+      - name: sharebox_locker_number
+        description: ""
+      - name: status_since
+        description: ""
+      - name: accounting_list_id
+        description: ""
+      - name: accounting_edit_sequence
+        description: ""
+      - name: version
+        description: ""
+      - name: last_location_update_at
+        description: ""
+      - name: last_hardware_update_at
+        description: ""
+      - name: doors_open
+        description: ""
+      - name: accounting_reference_type_id
+        description: ""
+      - name: private_mode_start_date
+        description: ""
+      - name: private_mode_end_date
+        description: ""
+      - name: us_state
+        description: ""
+      - name: outside_geofence
+        description: ""
+      - name: primary_agent_id
+        description: ""
+      - name: vehicle_classes
+        description: ""
+      - name: vehicle_class_label
+        description: ""
+      - name: fuel_level_for_display
+        description: ""
+      - name: status_color
+        description: ""
+      - name: status_label
+        description: ""
+      - name: settings
+        description: ""
+      - name: can_be_relocated
+        description: ""
+      - name: damages_page
+        description: ""
+      - name: vehicle_model
+        description: ""
+      - name: vehicle_class
+        description: ""
+      - name: vehicle_type
+        description: ""
+      - name: current_location
+        description: ""
+      - name: current_vehicle_information
+        description: ""
+      - name: damage_image
+        description: ""
+      - name: fuel_type
+        description: ""
+      - name: tour_operator
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

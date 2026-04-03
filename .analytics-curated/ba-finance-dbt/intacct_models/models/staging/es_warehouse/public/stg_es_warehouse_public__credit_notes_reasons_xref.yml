@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_notes_reasons_xref
+    description: >
+      Credit notes can have reasons attached to them. This table is a bridge/cross-reference table from credit notes to
+      credit note request reasons. One credit note can have multiple request reasons.
+    columns:
+      - name: credit_notes_reasons_xref_id
+        description: "Primary key for this table."
+        data_tests:
+          - not_null
+          - unique
+      - name: credit_note_id
+        description: "Credit note the reasons are attached to. Foreign key to es_warehouse credit_notes"
+      - name: notes
+        description: "User can add notes to each credit note reason."
+      - name: credit_note_request_reason_id
+        description: >
+          This is a pre-defined reason the user can select for the credit note. Foreign key to es_warehouse
+          credit_note_request_reasons
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: _es_load_timestamp
+        description: ""

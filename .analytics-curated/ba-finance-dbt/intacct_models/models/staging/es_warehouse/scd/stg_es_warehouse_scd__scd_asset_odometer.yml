@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_odometer
+    description: Model for es_warehouse.scd.scd_asset_odometer
+    data_tests:
+      - test_date_start_end_overlaps:
+          name: test_stg_es_warehouse_scd__scd_asset_odometer_date_start_end_overlaps
+          date_start_column: date_start
+          date_end_column: date_end
+          group_by_columns: [asset_id]
+          config:
+            severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          name: test_stg_es_warehouse_scd__scd_asset_odometer_unique_asset_plus_date
+          column_list:
+            - asset_id
+            - date_start
+          config:
+            severity: warn
+    columns:
+      - name: asset_scd_odometer_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: odometer
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

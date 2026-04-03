@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: int_commissions_tam
+    description: TAM Commissions Calculation
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: line_item_id
+        data_tests:
+          - not_null
+        description: ""
+      - name: commission_rate
+        data_tests:
+          - not_null
+        description: ""
+      - name: split
+        data_tests:
+          - not_null
+        description: ""
+      - name: amount
+        data_tests:
+          - not_null
+        description: ""

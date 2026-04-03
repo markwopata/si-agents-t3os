@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_inspection_items
+    description: Model for es_warehouse.public.asset_inspection_items
+    columns:
+      - name: asset_inspection_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_inspection_id
+        description: ""
+      - name: passed
+        description: ""
+      - name: asset_inspection_item_fail_type_id
+        description: ""
+      - name: notes
+        description: ""
+      - name: created
+        description: ""
+      - name: create_user_id
+        description: ""
+      - name: resolved
+        description: ""
+      - name: resolved_user_id
+        description: ""
+      - name: resolved_notes
+        description: ""
+      - name: resolved_timestamp
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

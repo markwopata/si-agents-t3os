@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: int_gl_trial_balance
+    description: "Monthly general ledger trial balance aggregated per account, entity, and department. Provides beginning and ending balances as well as period activity."
+    columns:
+      - name: pk_gl_trial_balance_id
+        description: "Surrogate primary key for the trial balance row, generated as an MD5 hash of entity, department, and account identifiers."
+        data_tests:
+          - not_null
+          - unique
+      - name: period_start_date
+        description: "First day of the fiscal month the balances relate to."
+      - name: entity_id
+        description: "Unique identifier of the Intacct entity."
+      - name: entity_name
+        description: "Name of the Intacct entity."
+      - name: department_id
+        description: "Unique identifier of the Intacct department. May be null for balance-sheet accounts that are not department-specific."
+      - name: department_name
+        description: "Name of the Intacct department."
+      - name: account_number
+        description: "General Ledger account number."
+      - name: account_name
+        description: "Human-readable name of the GL account."
+      - name: account_category
+        description: "Intacct account category which groups accounts for reporting."
+      - name: account_type
+        description: "Intacct account type (balance-sheet or income-statement). Determines cumulative versus period-to-date logic."
+      - name: beginning_balance
+        description: "Balance of the account at the start of the fiscal month."
+      - name: debit_amount
+        description: "Total debits posted to the account during the fiscal month."
+      - name: credit_amount
+        description: "Total credits posted to the account during the fiscal month."
+      - name: net_activity
+        description: "Net activity for the month (debits minus credits, signed)."
+      - name: ending_balance
+        description: "Balance of the account at the end of the fiscal month."

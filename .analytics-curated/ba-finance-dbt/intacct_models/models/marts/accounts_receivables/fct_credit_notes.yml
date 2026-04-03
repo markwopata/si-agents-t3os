@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: fct_credit_notes
+    description: "This model contains numerical data on credit notes\n"
+    columns:
+      - name: credit_note_id
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: total_credit_amount
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: remaining_credit_amount
+        description: ""
+      - name: line_item_amount
+        description: ""

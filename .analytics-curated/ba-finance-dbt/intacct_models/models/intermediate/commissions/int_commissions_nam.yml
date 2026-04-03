@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: int_commissions_nam
+    description: NAM (National Account Manager) Commissions Calculation
+    columns:
+      - name: commission_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: line_item_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: commission_rate
+        description: ""
+        data_tests:
+          - not_null
+      - name: split
+        description: ""
+        data_tests:
+          - not_null
+      - name: amount
+        description: ""
+        data_tests:
+          - not_null
+      - name: salesperson_user_id
+        description: ""
+      - name: credit_note_line_item_id
+        description: ""
+      - name: manual_adjustment_id
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: commission_type
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: reimbursement_factor
+        description: ""
+      - name: override_rate
+        description: ""
+      - name: exception
+        description: ""

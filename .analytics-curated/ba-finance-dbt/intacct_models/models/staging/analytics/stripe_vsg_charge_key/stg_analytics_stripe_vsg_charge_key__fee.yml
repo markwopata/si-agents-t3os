@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__fee
+    description: Detailed breakdown of fees associated with a balance transaction (for example Stripe fees, application fees, and taxes).
+    meta:
+      documentation_url: https://docs.stripe.com/api/balance_transactions/object#balance_transaction_object-fee_details
+    columns:
+      - name: balance_transaction_id
+        description: "ID of the balance transaction entry the fee applies to. Foreign key to balance_transaction.id"
+      - name: index
+        description: "Zero-based position of the fee within the balance transaction."
+      - name: connected_account_id
+        description: "ID of the connected account associated with the fee."
+      - name: amount_in_cents
+        description: "Amount of the fee in cents."
+      - name: amount
+        description: "Amount of the fee (cents / 100.0)."
+      - name: application
+        description: "ID of the Connect application that earned the fee."
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Optional description for the fee."
+      - name: type
+        description: "Type of the fee (for example application_fee, stripe_fee, tax_fee)."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

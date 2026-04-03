@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: int_asset4000_most_recent_code_groups
+    description: list of asset4000 asets with the most recent group date
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+        data_tests:
+          - unique
+      - name: max_date
+        description: ""

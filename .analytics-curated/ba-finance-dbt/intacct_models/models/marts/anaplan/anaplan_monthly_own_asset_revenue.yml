@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: anaplan_monthly_own_asset_revenue
+    description: >
+      Monthly net revenue for OWN program assets aggregated by asset, company, and revenue line-item. Revenue line item
+      type are based on admin line_item_type_id. Line item type lists were provided by Russell Scott logic 2025.07.16.
+      Assets in OWN program are determined based on if they are in a payout program on last day of month. This has been
+      overrided for 6954 and 55524, EZ and Premiere.
+    columns:
+      - name: pk_own_asset_revenue_id
+        description: "Primary key for the own asset revenue record."
+        data_tests:
+          - unique
+          - not_null
+      - name: asset_id
+        description: "Unique identifier of the asset. Foreign key to es_warehouse assets table."
+      - name: payout_program_name
+        description: "Name of the payout program the asset is assigned to."
+      - name: company_id
+        description: "Unique id identifying company that owns the asset. Foreign key to es_warehouse companies table."
+      - name: line_item
+        description: "Revenue line-item category derived from admin line_item_type_id (Maintenance or Rental)."
+      - name: year_quarter
+        description: "Year and quarter in the format 2025Q5."
+      - name: month_
+        description: "Calendar month of GL date in date format."
+      - name: amount
+        description: "Total revenue amount (net of credits) for the period."

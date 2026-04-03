@@ -1,0 +1,18 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__company_purchase_order_line_items
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.company_purchase_order_line_items table, maintaining
+      point-in-time history of company purchase order line items.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: company_purchase_order_line_item_id
+        description: Primary key of the underlying line item record.
+        data_tests:
+          - not_null

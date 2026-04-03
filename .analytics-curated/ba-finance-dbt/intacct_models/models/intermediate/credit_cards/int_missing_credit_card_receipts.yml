@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: int_missing_credit_card_receipts
+    description: |
+      Intermediate model that lists corporate credit card transactions whose receipts have not yet been provided. 
+      Used downstream to drive receipt-compliance alerts and card shut-off logic.
+
+      Key logic & exclusions implemented in the SQL:
+      • Only includes transactions with `verified_status = 0` (i.e. receipt missing) and `transaction_amount > 0`.
+      • Excludes employee-rewards transactions, central bank transactions, and fuel card transactions.
+      • Excludes the Citi corporate account number `5563970058548639` (Employee Benefits) and any transactions whose `full_name` contains "navan travel" (NAVAN ghost travel card).
+      • Counts missing receipts per `employee_id` and `card_type` using a `row_number` window.  `row_number = 3` indicates the 3rd missing receipt and triggers downstream shut-off checks.
+      • `total_receipts_not_received` is the maximum `row_number` per employee/card type to show current outstanding count.
+    columns:
+      - name: transaction_id
+        description: "Unique identifier for the credit card transaction."
+        data_tests:
+          - unique:
+              config:
+                severity: warn
+      - name: employee_id
+        description: "Unique id of employee in workday"
+      - name: full_name
+        description: "Employee's full name."
+      - name: user_full_name
+        description: "Full name of the user who uploaded the receipt (currently null)."
+      - name: card_type
+        description: ""
+      - name: corporate_account_number
+        description: "Citi corporate account number(s) associated with the card, comma-separated when multiple."
+      - name: corporate_account_name
+        description: "Name(s) of the corporate card account, comma-separated."
+      - name: status
+        description: "Verification status of the transaction (reserved for future use)."
+      - name: email_address
+        description: "Employee's work email address from the company directory."
+      - name: shutoff_date
+        description: "Flag indicating if this is the 3rd missing receipt for the employee/card type ('Yes' when 3rd, else 'No')."
+      - name: merchant_name
+        description: "Merchant or vendor where the transaction occurred."
+      - name: transaction_amount
+        description: "Positive monetary amount of the transaction in USD. Transactions with amount ≤ 0 are excluded."
+      - name: row_number
+        description: "Running count of missing receipts for the employee and card type ordered by transaction date."
+      - name: transaction_date
+        description: "Date of the credit card transaction."
+      - name: total_receipts_not_received
+        description: "Total number of outstanding missing receipts for the employee and card type."

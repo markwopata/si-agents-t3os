@@ -1,0 +1,75 @@
+---
+version: 2
+models:
+  - name: alteryx_telematics_unserialized_parts
+    description: >
+      mart of Telematics Unserialized Parts inputted into an Alteryx workflow where a date filter will get applied and exported as tabs of an excel file
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - inv_log_id
+              - part_id
+              - std_cost # there's an issue with this model's grain
+              - qty_chg # there's an issue with this model's grain
+
+    columns:
+      - name: inv_log_id
+        description: >
+          inventory transaction id
+
+      - name: part_id
+        description: >
+          Microsoft 365 item/product id
+
+      - name: part_description
+        description: >
+          Microsoft 365 item/product description id. Manual text field so art descriptions can change
+
+      - name: std_cost
+        description: >
+          sales order (at the order level) sales price
+
+      - name: create_date
+        description: >
+          packslip delivery date
+
+      - name: event_date
+        description: >
+          inventory transaction physical date
+
+      - name: record_id
+        description: packslip id
+
+      - name: info
+        description: ""
+
+      - name: so_number
+        description: sales order number
+
+      - name: qty_chg
+        description: >
+          at the report line. for serialized item, this is always 1. for non-serialized items, this is the quantity of the line
+
+      - name: cost_chg
+        description: >
+          cost per report line. comes from standard cost
+
+      - name: sell_price
+        description: >
+          sales order (at the order level) sales price
+
+      - name: sell_cost
+        description: listed item cost
+
+      - name: cust_group
+        description: customer grouping
+
+      - name: cust_name
+        description: customer name
+
+      - name: delivery_name
+        description: delivery name that ES has on file ie EquipmentShare - Flint, MI - Rental Yard
+
+      - name: worksheet
+        description: the Excel worksheet name that this data will be exported to in the Alteryx workflow

@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: int_gl_trial_balance_by_account
+    description: "Monthly general ledger trial balance aggregated to the account level. Provides beginning and ending balances as well as period activity sums."
+    columns:
+      - name: period_start_date
+        description: "First day of the fiscal month the balances relate to."
+      - name: account_number
+        description: "General Ledger account number."
+      - name: account_name
+        description: "Human-readable name of the GL account."
+      - name: account_category
+        description: "Intacct account category which groups accounts for reporting."
+      - name: account_type
+        description: "Intacct account type (balance-sheet or income-statement)."
+      - name: beginning_balance
+        description: "Sum of beginning balances for the account across all entities and departments."
+      - name: debit_amount
+        description: "Total debits posted to the account during the fiscal month (rounded to 2 decimals)."
+      - name: credit_amount
+        description: "Total credits posted to the account during the fiscal month (rounded to 2 decimals)."
+      - name: net_activity
+        description: "Net activity for the month (debits minus credits, signed)."
+      - name: ending_balance
+        description: "Sum of ending balances for the account across all entities and departments."

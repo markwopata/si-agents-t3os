@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_looker_aggregation
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - account_number
+              - gl_month

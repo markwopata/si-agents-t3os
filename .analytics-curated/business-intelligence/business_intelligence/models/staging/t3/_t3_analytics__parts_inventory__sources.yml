@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: analytics__parts_inventory
+    database: analytics
+    schema: parts_inventory
+    tables:
+      - name: top_vendor_mapping
+        columns:
+          - name: vendorid
+            data_type: varchar
+          - name: vendor_name
+            data_type: varchar
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+          - name: _row
+            data_type: number
+          - name: tier
+            data_type: varchar
+          - name: mapped_vendor_name
+            data_type: varchar
+          - name: primary_vendor
+            data_type: varchar
+          - name: preferred
+            data_type: varchar
+          - name: vendor_type
+            data_type: varchar
+          - name: vendor_id
+            data_type: varchar
+          - name: primary_vendor_pricing
+            data_type: varchar

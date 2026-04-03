@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_documents
+    description: Model for es_warehouse.public.company_documents
+    columns:
+      - name: company_id
+        description: ""
+      - name: company_document_type_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: voided
+        description: ""
+      - name: valid_from
+        description: ""
+      - name: valid_until
+        description: ""
+      - name: notes
+        description: ""
+      - name: original_file_name
+        description: ""
+      - name: file_name
+        description: ""
+      - name: file_path
+        description: ""
+      - name: extended_data
+        description: ""
+      - name: company_document_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: extended_data__tax_id
+        description: Extracted from json in column extended_data (roughly extended_data:tax_id)
+      - name: extended_data__total_coverage_amount
+        description: Extracted from json in column extended_data (roughly extended_data:total_coverage_amount)

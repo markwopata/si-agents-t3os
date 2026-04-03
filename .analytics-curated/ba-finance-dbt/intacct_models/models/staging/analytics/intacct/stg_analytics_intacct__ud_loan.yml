@@ -1,0 +1,62 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ud_loan
+    description: Sage model for the user defined loan dimension. Per Brandon Howard, the only useful/usable fields are loan_id, loan_name, sage_account_number, financial_schedule_id, and vendor_id/name. The rest are not maintained very well and potentially not accurate.
+    columns:
+      - name: pk_loan_id
+        description: 'Primary key for the loan'
+        data_tests:
+          - not_null
+          - unique
+      - name: loan_id
+        description: 'Loan identifier'
+        data_tests:
+          - not_null
+          - unique
+      - name: loan_name
+        description: 'Name of the loan'
+      - name: fk_created_by_user_id
+        description: 'User ID who created the loan'
+      - name: date_created
+        description: 'Date when the loan was created'
+      - name: fk_updated_by_user_id
+        description: 'User ID who last updated the loan'
+      - name: date_updated
+        description: 'Date when the loan was last updated'
+      - name: financial_schedule_id
+        description: 'Financial schedule ID'
+      - name: sage_account_number
+        description: 'Sage account number'
+      - name: loan_account_plus_schedule_id
+        description: 'Loan account plus schedule ID'
+      - name: loan_annual_interest_rate
+        description: 'Annual interest rate of the loan'
+      - name: loan_start_date
+        description: 'Start date of the loan'
+      - name: loan_payment_start_date
+        description: 'Payment start date of the loan'
+      - name: loan_maturity_date
+        description: 'Maturity date of the loan'
+      - name: loan_term_months
+        description: 'Term of the loan in months'
+      - name: loan_payment_amount
+        description: 'Payment amount of the loan'
+      - name: loan_payment_frequency
+        description: 'Payment frequency of the loan'
+      - name: loan_payment_day
+        description: 'Payment day of the loan'
+      - name: loan_original_amount
+        description: 'Original amount of the loan'
+      - name: loan_amount_due_at_maturity
+        description: 'Amount due at maturity of the loan'
+      - name: loan_notes
+        description: 'Notes related to the loan'
+      - name: loan_status
+        description: 'Status of the loan'
+      - name: fk_vendor_id
+        description: 'Vendor ID associated with the loan'
+      - name: dds_read_timestamp
+        description: 'DDS read timestamp'
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

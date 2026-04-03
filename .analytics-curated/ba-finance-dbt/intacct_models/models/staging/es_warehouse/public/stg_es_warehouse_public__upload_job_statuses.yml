@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__upload_job_statuses
+    description: Model for es_warehouse.public.upload_job_statuses
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: upload_job_status_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,30 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_purchases
+    tags: ["sources"]
+    database: es_warehouse
+    schema: purchases
+    description: >
+      es_warehouse purchase schema - old purchases location. See procurement.public.
+      There are a few tables they left here (entity* tables).
+
+      Per Kyle Reeves Apr-2025:
+      There was an effort awhile back to pull things related to costcapture mobile into a DB
+      closer to where that data made sense, so they were taken out of the purchases schema
+      and put into procurement. I think this was when some credit card work was happening,
+      if I remember correctly.
+
+      Since those entity tables are still managed by "CRM" which is a different API
+      (purchases-api), they were left in place for now. We're looking at what to do with
+      that project long term since CRM never really materialized and was kind of handed
+      to our team to manage.
+    tables:
+      - name: entity_vendor_settings
+        description: contains vendor mapping settings for integrations between T3 and ERP systems
+        columns:
+          - name: entity_vendor_settings_id
+            data_tests:
+              - unique
+              - not_null

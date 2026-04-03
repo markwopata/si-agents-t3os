@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_daily_transactions
+    description:
+      base_public_credit_card__citi_daily_transactions enhanced with "most recent" (ordered ascending alphabetically)
+      status and mcc code
+    columns:
+      - name: employee_id
+        description: ""
+      - name: transaction_id
+        description: ""
+        data_tests:
+          - unique
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: full_name
+        description: ""
+      - name: mcc
+        description: ""
+      - name: card_type
+        description: ""
+      - name: status
+        description: ""
+      - name: merchant_name
+        description: ""
+      - name: mcc_code
+        description: ""
+      - name: transaction_amount
+        description: ""
+      - name: is_bypass_verification
+        description: ""
+      - name: last_4_card_digits
+        description: >
+          going to use it to create a pk to identify ES cards vs people paying with their personal cards. There's a few allocations like Shopify that people can buy things on their personal card that gets included in our statement

@@ -1,0 +1,76 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__etl__dds_job_run_history
+    description: >
+      This table contains metadata about the DDS job run history. It is used to track the status of the DDS job run.
+    columns:
+      - name: dds_job_number
+        description: >
+          DDS job number specific to the object that was triggered. They call this recordno in the API response.
+      - name: object
+        description: The object that was triggered.
+      - name: job_type
+        description: >
+          The job type that was triggered. Change or all. All can be a full pull or a pull with filters.
+      - name: run_by
+        description: >
+          Application that ran the job. If this is null, someone triggered the job outside of the lambda process.
+      - name: queue_time
+        description: The time the job was queued.
+      - name: start_time
+        description: The time the job started.
+      - name: end_time
+        description: The time the job completed.
+      - name: record_created
+        description: The number of records created.
+      - name: record_updated
+        description: The number of records updated.
+      - name: record_deleted
+        description: The number of records deleted.
+      - name: status
+        description: The status of the job. Queued, Processing, Completed, Failed, Cancelled.
+      - name: error
+        description: The error message if the job failed.
+      - name: file_list
+        description: The list of file_names that were created. Comma+space separated list.
+      - name: params
+        description:
+          The file configuration parameters used to run the job. In other words, what delimiter, enclosure,
+          etc, were used.
+      - name: filters
+        description: If filters were used, this will be the filters used.
+      - name: level
+        description: Level of the job. dev, stage, prod.
+      - name: fields
+        description: Unknown purpose
+      - name: dds_job_name
+        description: This is what Sage called the job (object;jobtype;starttime)
+      - name: subscription_key
+        description: Not sure what this is. We'll add it anyways if it shows up
+      - name: dds_history_key
+        description: Unclear what this is
+      - name: _es_update_timestamp
+        description: Timestamp we inserted this row.
+      - name: params__file_configuration
+        description: Extracted from json in column params (roughly params:file_configuration)
+      - name: params__file_configuration__delimiter
+        description: Extracted from json in column params (roughly params:file_configuration:delimiter)
+      - name: params__file_configuration__file_format
+        description: Extracted from json in column params (roughly params:file_configuration:file_format)
+      - name: params__file_configuration__include_headers
+        description: Extracted from json in column params (roughly params:file_configuration:include_headers)
+      - name: params__file_configuration__compress
+        description: Extracted from json in column params (roughly params:file_configuration:compress)
+      - name: params__file_configuration__enclosure
+        description: Extracted from json in column params (roughly params:file_configuration:enclosure)
+      - name: params__cloud_delivery
+        description: Extracted from json in column params (roughly params:cloud_delivery)
+      - name: params__job_type
+        description: Extracted from json in column params (roughly params:job_type)
+      - name: params__file_configuration__split_size
+        description: Extracted from json in column params (roughly params:file_configuration:split_size)
+      - name: params__objects
+        description: Extracted from json in column params (roughly params:objects)
+      - name: params__synchronized
+        description: Extracted from json in column params (roughly params:synchronized)

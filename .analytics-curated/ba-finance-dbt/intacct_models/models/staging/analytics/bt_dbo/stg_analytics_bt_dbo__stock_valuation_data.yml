@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__stock_valuation_data
+    description: Table for stock valuation data shows the start and end of the month inventory levels. table filters out duplicates by synced time and keeps the most recent record.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+            - valuation_date
+            - product_id
+            - bt_branch_id
+            - stock_valuation_id
+    columns:
+      - name: _fivetran_id
+        description: ''
+      - name: total_reporting_cost
+        description: 'Total reporting cost of stock on the valuation date'
+      - name: product_batch_id
+        description: ''
+      - name: stock_valuation_id
+        description: ''
+      - name: valuation_date
+        description: 'date of the stock valuation'
+      - name: stock_unit_cost
+        description: 'unit cost of stock on the valuation date'
+      - name: standard_buy_unit_cost
+        description: ''
+      - name: stock_quantity
+        description: 'total quantity of stock on the valuation date'
+      - name: stock_per_id
+        description: ''
+      - name: product_id
+        description: 'product_id from product table'
+        data_tests:
+          - not_null
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: stock_valuation
+        description: 'total value of stock on the valuation date (stock_unit_cost * stock_quantity)'
+      - name: standard_buy_per_id
+        description: ''
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: rn
+        description: "Row number to identify the most recent record in case of duplicates."

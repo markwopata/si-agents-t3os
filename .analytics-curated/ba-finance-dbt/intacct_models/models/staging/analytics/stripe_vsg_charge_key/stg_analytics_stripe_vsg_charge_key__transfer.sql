@@ -1,0 +1,21 @@
+select
+    t.id,
+    t.amount as amount_in_cents,
+    round(t.amount / 100.0, 2) as amount,
+    t.amount_reversed,
+    t.created,
+    t.currency,
+    t.description,
+    t.destination,
+    t.destination_payment,
+    t.destination_payment_id,
+    t.livemode,
+    t.metadata,
+    t.reversed,
+    t.source_transaction,
+    t.source_transaction_id,
+    t.source_type,
+    t.transfer_group,
+    t.balance_transaction_id,
+    t._fivetran_synced
+from {{ source('analytics_stripe_vsg_charge_key', 'transfer') }} as t

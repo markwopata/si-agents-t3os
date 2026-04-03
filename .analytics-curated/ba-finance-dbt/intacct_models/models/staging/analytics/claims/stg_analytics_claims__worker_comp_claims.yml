@@ -1,0 +1,103 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_claims__worker_comp_claims
+    description: "List of Workers Compensation claims filed by the ES branches to our claims processing provider (Hartford)"
+    meta:
+      point_of_contact: Peter Mooney
+      google_drive_link: https://docs.google.com/spreadsheets/d/1gkHdG9DS5ghcy9_gE3tDATWOHy4-XMIX8DLyLbFnLqA/edit?gid=0#gid=0
+
+    columns:
+      - name: claim_number
+        description: ""
+        data_tests:
+          - unique
+
+      - name: policy_number
+        description: "The assigned policy number by Hartford to Concor"
+
+      - name: ncci_codes
+        description: "4-digit code used by insurers in workers' compensation insurance to classify employees based on their exposure to risk"
+
+      - name: indemnity_paid
+        description: "Compensation paid to an injured worker for lost wages due to a work-related injury"
+
+      - name: medical_paid
+        description: "Amount paid for medical services related to the injury"
+
+      - name: expense_paid
+        description: "Other expenses paid related to the claim"
+
+      - name: total_paid
+        description: "the sum of indemnity_paid, medical_paid, and expense_paid"
+
+      - name: indemnity_outstanding
+        description: "Estimated payments that are still owed related to indemnity items such as lost wages, disability payments, etc."
+
+      - name: medical_outstanding
+        description: "Estimated medical payments that are still owed related to the injury"
+
+      - name: expense_outstanding
+        description: "Estimated other expenses related to the claim that are still owed"
+
+      - name: total_outstanding
+        description: "Sum of indemnity_outstanding, medical_outstanding, and expense_outstanding"
+
+      - name: indemnity_incurred
+        description: "Sum of indemnity_paid and indemnity_outstanding"
+
+      - name: medical_incurred
+        description: "Sum of medical_paid and medical_outstanding"
+
+      - name: expense_incurred
+        description: "Sum of expense_paid and expense_outstanding"
+
+      - name: total_incurred
+        description: "Sum of indemnity_incurred, medical_incurred, and expense_incurred"
+
+      - name: policy_period
+        description: "The period this policy covers in YYYY-MM-DD format"
+
+      - name: line_of_business
+        description: "Worker's Compensation"
+
+      - name: claimant_name
+        description: ""
+
+      - name: claim_status
+        description: ""
+
+      - name: accident_state
+        description: ""
+
+      - name: claim_description
+        description: "Brief description of the claim"
+
+      - name: accident_description_details
+        description: ""
+
+      - name: accident_description
+        description: "Higher level description of the accident"
+
+      - name: injured_body_part
+        description: ""
+
+      - name: injury_severity_description
+        description: ""
+
+      - name: litigation_status
+        description: ""
+
+      - name: accident_date
+        description: ""
+
+      - name: closed_date
+        description: ""
+
+      - name: released_to_work_date
+        description: ""
+
+      - name: wc_claim_type
+        description: "Whether the claim is a lost time claim (LT) or medical only (MO) claim"
+        

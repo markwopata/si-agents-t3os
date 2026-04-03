@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: base_analytics_asset4000_dbo__gl_acct_period
+    description: cleaned and renamed model of analytics.asset4000_dbo.gl_acct_period
+    columns:
+      - name: period_sequence
+        description: 'Period sequence within year.'
+      - name: year
+        description: 'Year'
+      - name: period_number_str
+        description: 'Period number as string (leading 0)'
+      - name: period_name
+        description: 'Period name - January 2025'
+      - name: period_closed_flag
+        description: 'Period closed flag: C for Closed or O for Open'
+      - name: is_period_closed
+        description: 'True/false boolean to indicate if the period is open or closed.'
+      - name: period_dsdepchg
+        description: 'Unknown use. All null.'
+      - name: period_units
+        description: 'Period units'
+      - name: period_sunits
+        description: 'Period sunits'
+      - name: period_start_date
+        description: 'Period start date'
+      - name: period_end_date
+        description: 'Period end date'
+      - name: period_lastinqtr
+        description: 'Period last in quarter - unsert/null.'
+      - name: _fivetran_deleted
+        description: 'Fivetran deleted flag'
+      - name: _fivetran_synced
+        description: 'Fivetran synced timestamp'

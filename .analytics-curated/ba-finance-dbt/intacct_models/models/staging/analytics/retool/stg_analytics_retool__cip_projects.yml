@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__cip_projects
+    description: Model for analytics.retool.cip_projects
+    columns:
+      - name: project_id
+        description: Unique identifier for each CIP project
+        data_tests:
+          - not_null
+          - unique
+      - name: project_code
+        description: Business code for the project. Must be unique
+      - name: project_name
+        description: Descriptive name of the project. Must be unique
+      - name: project_type_id
+        description: FK to cip_project_types. Tells you the type of project
+      - name: project_status_id
+        description: FK to cip_project_statuses. Tells you the status of the project. Planned, started, completed, etc.
+      - name: description
+        description: Project description/details
+      - name: market_id
+        description: FK to markets table
+      - name: start_date
+        description: Project start date
+      - name: end_date
+        description: Project end date
+      - name: is_completed
+        description: Boolean to indicate if the project is completed
+      - name: is_archived
+        description: Boolean to indicate if the project is archived
+      - name: has_accounting_capitalized
+        description: Boolean to indicate if accounting has capitalized this project.
+      - name: capitalization_date
+        description: Date when costs were capitalized
+      - name: construction_project_manager_employee_id
+        description: Employee ID of the construction project manager
+      - name: created_by
+        description: User who created the record (email)
+      - name: updated_by
+        description: User who last updated the record (email)
+      - name: date_created
+        description: Timestamp when the record was created
+      - name: date_updated
+        description: Timestamp of last update
+      - name: date_archived
+        description: Date when the project was archived

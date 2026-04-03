@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__j1939_data
+    description: Model for es_warehouse.public.j1939_data
+    columns:
+      - name: j1939_data_id
+        description: ""
+        data_tests:
+          - not_null
+          # - unique # This is a very time-expensive test
+      - name: tracking_event_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: spn
+        description: ""
+      - name: pgn
+        description: ""
+      - name: value
+        description: ""
+      - name: report_timestamp
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: pgn_group_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

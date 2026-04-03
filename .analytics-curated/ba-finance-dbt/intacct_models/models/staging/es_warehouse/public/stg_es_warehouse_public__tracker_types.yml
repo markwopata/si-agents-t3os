@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracker_types
+    description: Model for es_warehouse.public.tracker_types
+    columns:
+      - name: description
+        description: ""
+      - name: image
+        description: ""
+      - name: name
+        description: ""
+      - name: tracker_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: tracker_vendor_id
+        description: ""
+      - name: is_ble_node
+        description: Flag to indicate if the tracker is a BLE (Bluetooth Low Energy) node vs a powered tracker
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

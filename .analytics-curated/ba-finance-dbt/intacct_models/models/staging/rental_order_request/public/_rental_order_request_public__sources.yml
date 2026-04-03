@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: rental_order_request_public
+    tags: ["sources","rental_requests"]
+    database: RENTAL_ORDER_REQUEST
+    schema: PUBLIC
+    description: >
+      Raw rental order requests submitted via the website, with links to quote IDs.
+    tables:
+      - name: rental_requests
+        description: >
+          Each web‐submitted rental request, including company, quote link, and timestamps.

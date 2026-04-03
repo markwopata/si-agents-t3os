@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_out_of_policy_violation_type
+    description: Staging model for Navan booking out-of-policy violation types, tracking policy violations for travel bookings
+    columns:
+      - name: booking_uuid
+        description: 'Unique identifier for the booking record'
+      - name: index
+        description: 'Index value for the violation type entry'
+      - name: _fivetran_deleted
+        description: 'Indicates if the record was deleted by Fivetran'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran'
+      - name: out_of_policy_violation_type
+        description: 'The type of policy violation that occurred with the booking'

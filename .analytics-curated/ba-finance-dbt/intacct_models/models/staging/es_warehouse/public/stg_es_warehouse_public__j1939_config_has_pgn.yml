@@ -1,0 +1,10 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__j1939_config_has_pgn
+    description: Model for es_warehouse.public.j1939_config_has_pgn
+    columns:
+      - name: j1939_config_id
+        description: ""
+      - name: pgn_id
+        description: ""

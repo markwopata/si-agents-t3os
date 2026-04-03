@@ -1,0 +1,181 @@
+version: 2
+
+models:
+  - name: int_tracker_latest_vbus_events
+    description: "{{ doc('int_tracker_latest_vbus_events') }}"
+    columns:
+      - name: tracker_key
+        data_type: varchar
+        description: "{{ doc('platform__tracker_key') }}"
+
+      - name: tracker_source
+        data_type: varchar
+        description: "{{ doc('platform__tracker_source') }}"
+
+      - name: tracker_id_trackersdb
+        data_type: number
+        description: "{{ doc('platform__tracker_id_trackersdb') }}"
+
+      - name: tracker_id_esdb
+        data_type: number
+        description: "{{ doc('platform__tracker_id_esdb') }}"
+
+      - name: tracker_date_installed
+        data_type: timestamp_tz
+        description: "{{ doc('platform__tracker_date_installed') }}"
+
+      - name: event_count
+        data_type: number
+        description: "{{ doc('tracker_vbus__event_count') }}"
+
+      - name: average_fuel_economy
+        data_type: number
+        description: "{{ doc('tracker_vbus__average_fuel_economy') }}"
+
+      - name: average_fuel_economy_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__average_fuel_economy_latest_event_time') }}"
+
+      - name: battery_voltage
+        data_type: number
+        description: "{{ doc('tracker_vbus__battery_voltage') }}"
+
+      - name: battery_voltage_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__battery_voltage_latest_event_time') }}"
+
+      - name: coolant_level_percent
+        data_type: number
+        description: "{{ doc('tracker_vbus__coolant_level_percent') }}"
+
+      - name: coolant_level_percent_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__coolant_level_percent_latest_event_time') }}"
+
+      - name: coolant_temperature
+        data_type: number
+        description: "{{ doc('tracker_vbus__coolant_temperature') }}"
+
+      - name: coolant_temperature_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__coolant_temperature_latest_event_time') }}"
+
+      - name: engine_active
+        data_type: boolean
+        description: "{{ doc('tracker_vbus__engine_active') }}"
+
+      - name: engine_active_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_active_latest_event_time') }}"
+
+      - name: engine_oil_pressure
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_oil_pressure') }}"
+
+      - name: engine_oil_pressure_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_oil_pressure_latest_event_time') }}"
+
+      - name: engine_oil_temperature
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_oil_temperature') }}"
+
+      - name: engine_oil_temperature_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_oil_temperature_latest_event_time') }}"
+
+      - name: engine_rpm
+        data_type: number
+        description: "{{ doc('tracker_vbus__engine_rpm') }}"
+
+      - name: engine_rpm_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__engine_rpm_latest_event_time') }}"
+
+      - name: fuel_consumption_rate_gph
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_consumption_rate_gph') }}"
+
+      - name: fuel_consumption_rate_gph_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_consumption_rate_gph_latest_event_time') }}"
+
+      - name: fuel_economy_instantaneous_mpg
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_economy_instantaneous_mpg') }}"
+
+      - name: fuel_economy_instantaneous_mpg_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_economy_instantaneous_mpg_latest_event_time') }}"
+
+      - name: fuel_level
+        data_type: number
+        description: "{{ doc('tracker_vbus__fuel_level') }}"
+
+      - name: fuel_level_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__fuel_level_latest_event_time') }}"
+
+      - name: max_speed_mph
+        data_type: number
+        description: "{{ doc('tracker_vbus__max_speed_mph') }}"
+
+      - name: max_speed_mph_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__max_speed_mph_latest_event_time') }}"
+
+      - name: odometer
+        data_type: number
+        description: "{{ doc('tracker_vbus__odometer') }}"
+
+      - name: odometer_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__odometer_latest_event_time') }}"
+
+      - name: total_engine_hours
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_engine_hours') }}"
+
+      - name: total_engine_hours_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_engine_hours_latest_event_time') }}"
+
+      - name: total_fuel_used_liters
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_fuel_used_liters') }}"
+
+      - name: total_fuel_used_liters_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_fuel_used_liters_latest_event_time') }}"
+
+      - name: total_idle_fuel_used_liters
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_idle_fuel_used_liters') }}"
+
+      - name: total_idle_fuel_used_liters_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_idle_fuel_used_liters_latest_event_time') }}"
+
+      - name: total_idle_hours
+        data_type: number
+        description: "{{ doc('tracker_vbus__total_idle_hours') }}"
+
+      - name: total_idle_hours_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__total_idle_hours_latest_event_time') }}"
+
+      - name: vbus_speed
+        data_type: number
+        description: "{{ doc('tracker_vbus__vbus_speed') }}"
+
+      - name: vbus_speed_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__vbus_speed_latest_event_time') }}"
+
+      - name: vin
+        data_type: varchar
+        description: "{{ doc('tracker_vbus__vin') }}"
+
+      - name: vin_latest_event_time
+        data_type: timestamp_tz
+        description: "{{ doc('tracker_vbus__vin_latest_event_time') }}"

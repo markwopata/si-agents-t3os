@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__inventory_locations
+    description:
+      "This table replaces stores - define the inventory locations. Each branch will have a primary inventory location\n
+      and can have other inventory locations.\n"
+    columns:
+      - name: store_id
+        description: Primary key for table. Identical to old store_id
+        data_tests:
+          - not_null
+          - unique
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: is_default_store
+        description: Bool for if the inventory location is the primary one for a branch
+        data_tests:
+          - not_null
+      - name: market_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: inventory_type_id
+        description: ""
+      - name: store_name
+        description: Name of inventory location
+      - name: company_id
+        description: ""
+      - name: date_archived
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

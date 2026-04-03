@@ -1,0 +1,32 @@
+---
+version: 2
+
+snapshots:
+  - name: int_live_branch_earnings_looker_snapshot
+    description: >
+      daily snapshot of the live branch earnings Looker view
+    meta:
+      background_url: https://www.figma.com/board/ApFolIJsb89ed3A3TAxzuF/dbt-snapshot-visualization?node-id=0-1&node-type=canvas&t=Yqy2q4W780AbgfgR-0
+    config:
+      enabled: true
+      tags: ["daily", "branch_earnings"]
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+
+exposures:
+  - name: trending_branch_earnings_dbt_snapshot_analysis
+    type: dashboard
+    maturity: medium
+    url: https://equipmentshare.looker.com/dashboards/1649?Snapshot+Time=2+month&Market+Greater+Than+12+Months+%28Yes+%2F+No%29=Yes%2CNo&Market+Type=&Market+Name=&Region+Name=&District=
+    description: >
+      dashboard for viewing historical changes to trending Branch Earnings Looker dashboard
+
+    depends_on:
+      - ref('int_live_branch_earnings_looker_snapshot')
+      - ref('int_live_branch_earnings_looker')
+
+    owner:
+      name: "@erik.chu"
+      email: erik.chu@equipmentshare.com

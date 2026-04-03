@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int_materials_gl_detail
+    description: "GL detail reconciled against materials transactions (matched and unmatched rows). Contains composed entry descriptions and reconciliation diff."
+    columns:
+      - name: pk
+        description: "Surrogate primary key for the final model (composite of source pk and line id where available)."
+        tests:
+          - not_null
+          - unique
+      - name: market_id
+        description: "Market identifier from materials_branch (e.g., store/market code)."
+      - name: entry_date
+        description: "GL entry date for the transaction."
+        tests:
+          - not_null
+      - name: gl_account_number
+        description: "GL account number used on the entry (may be overridden by product mapping)."
+      - name: entry_description
+        description: "Composed entry description including Invoice/Credit Number and product details when available."
+      - name: entry_amount
+        description: "Amount recorded on the GL entry (positive absolute amount)."
+      - name: header_number
+        description: "Source header number (invoice/credit) when the GL line was matched to materials transactions."
+      - name: account_name
+        description: "Account name coming from the product mapping or GL account."
+      - name: url_journal
+        description: "Optional URL or reference to the journal entry in Intacct."
+      - name: fk_journal_id
+        description: "Foreign key to the parent journal record."
+      - name: fk_gl_entry_id
+        description: "Foreign key to the GL entry record."
+      - name: journal_transaction_number
+        description: "Journal transaction identifier from the GL."
+      - name: pk_gl_detail_id
+        description: "Primary key for the GL detail row in source data."
+      - name: product_category
+        description: "Product category from product mapping (level_1_name)."
+      - name: short_description
+        description: "Short product description from product mapping."
+      - name: diff
+        description: "Reconciliation difference: order total minus sum of matched line amounts (useful to identify split or partial invoices)."

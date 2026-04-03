@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__store_part_costs
+    description: ""
+    columns:
+      - name: store_part_cost_id
+        description: Primary cost for table
+        data_tests:
+          - not_null
+          - unique
+      - name: store_part_id
+        description: ""
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'store_parts')
+              field: store_part_id
+              config:
+                severity: WARN
+      - name: cost
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_archived
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

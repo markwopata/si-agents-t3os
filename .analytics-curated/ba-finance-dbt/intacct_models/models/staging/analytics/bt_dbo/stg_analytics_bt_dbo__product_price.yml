@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_price
+    description: Table for product prices, capturing pricing details for products.
+    tags: [bisTrack]
+    columns:
+      - name: product_price_id
+        description: "Unique identifier for the product price record."
+      - name: product_id
+        description: "Identifier for the product."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: price
+        description: "Price of the product."
+      - name: currency_id
+        description: "Identifier for the currency."
+      - name: price_type
+        description: "Type of price (e.g., standard, promotional)."
+      - name: effective_date
+        description: "Date when the price becomes effective."
+      - name: expiration_date
+        description: "Date when the price expires."
+      - name: created_by_id
+        description: "Identifier for the user who created the product price record."
+      - name: datetime_created
+        description: "Timestamp when the product price record was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the product price record was last modified."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the product price record."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

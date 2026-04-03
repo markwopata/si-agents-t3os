@@ -1,0 +1,66 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__morey_standard_j1939_definitions
+    description: Model for es_warehouse.public.morey_standard_j1939_definitions
+    columns:
+      - name: field_eid
+        description: ""
+      - name: field_type
+        description: ""
+      - name: field_name
+        description: ""
+      - name: min_device
+        description: ""
+      - name: pgn_id
+        description: ""
+      - name: pgn
+        description: ""
+      - name: pgn_category_id
+        description: ""
+      - name: format_spn
+        description: ""
+      - name: format_value
+        description: ""
+      - name: pgn_acronym
+        description: ""
+      - name: pgn_data_length
+        description: ""
+      - name: pgn_desc
+        description: ""
+      - name: pgn_label
+        description: ""
+      - name: pgn_transmission_rate
+        description: ""
+      - name: multiplex_spn
+        description: ""
+      - name: spn
+        description: ""
+      - name: position
+        description: ""
+      - name: length
+        description: ""
+      - name: spn_name
+        description: ""
+      - name: spn_desc
+        description: ""
+      - name: spn_type
+        description: ""
+      - name: type
+        description: ""
+      - name: value_offset
+        description: ""
+      - name: value_scale
+        description: ""
+      - name: units
+        description: ""
+      - name: delimiter
+        description: ""
+      - name: not_avail_bitmask
+        description: ""
+      - name: oper_range_hi
+        description: ""
+      - name: oper_range_low
+        description: ""
+      - name: slot_id
+        description: ""

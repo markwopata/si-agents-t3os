@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: anaplan_daily_oec_on_rent
+    description: >
+      Asset OEC on rent and total units in fleet, aggregated daily for Anaplan consumption.
+    columns:
+      - name: daily_timestamp
+        description: "Daily timestamp for the historical record"
+        data_tests:
+          - unique
+
+      - name: oec_on_rent
+        description: "Original equipment cost if asset is in rental fleet, on rent, and is the last rental in day, otherwise 0"
+
+      - name: total_units
+        description: "1 if asset is in total fleet, otherwise 0"

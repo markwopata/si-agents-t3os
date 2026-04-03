@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__notes
+    description: Model for es_warehouse.public.notes
+    columns:
+      - name: note_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: content
+        description: ""
+      - name: create_date
+        description: ""
+      - name: update_date
+        description: ""
+      - name: created_by
+        description: ""
+      - name: updated_by
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,172 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__invoices
+    description: ""
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: order_id
+        description: ""
+      - name: reference
+        description: ""
+      - name: sent
+        description: ""
+      - name: billing_approved_by_user_id
+        description: ""
+      - name: public_note
+        description: ""
+      - name: billing_approved_date
+        description: ""
+      - name: due_date
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: paid
+        description: ""
+      - name: invoice_no
+        description: >
+          Invoice number is the number we use to identify the invoice. This is the number we send to customers.
+      - name: end_date
+        description: ""
+      - name: invoice_id
+        description: "Internal identifier for an admin invoice."
+        data_tests:
+          - not_null
+          - unique
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: billing_provider_id
+        description: ""
+      - name: private_note
+        description: ""
+      - name: start_date
+        description: ""
+      - name: xero_id
+        description: ""
+      - name: billing_approved
+        description: >
+          Boolean to indicate if the invoice is approved for billing. Once true, this can be posted to Sage.
+      - name: paid_date
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: rental_amount
+        description: ""
+      - name: owed_amount
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: billed_amount
+        description: ""
+      - name: rpp_amount
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: customer_tax_exempt_status
+        description: ""
+      - name: ship_from
+        description: ""
+      - name: ship_to
+        description: ""
+      - name: avalara_transaction_id
+        description: ""
+      - name: avalara_transaction_id_update_dt_tm
+        description: ""
+      - name: are_tax_cals_missing
+        description: ""
+      - name: is_deleted
+        description: >
+          Boolean to indicate if invoice has been deleted. Deleted invoices have a deleted date in extended_data.
+      - name: is_pending
+        description: >
+          Boolean to indicate if an invoice is pending. Pending invoices are not billing approved and not deleted.
+      - name: taxes_invalidated_dt_tm
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: purchase_order_id
+        description: ""
+      - name: ordered_by_user_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: outstanding
+        description: ""
+      - name: due_date_outstanding
+        description: ""
+      - name: are_tax_calcs_missing
+        description: ""
+      - name: extended_data
+        description: ""
+      - name: url_admin
+        description: "{{ doc('url_admin_invoice') }}"
+      - name: ship_from__address__state_abbreviation
+        description: Extracted from json in column ship_from (roughly ship_from:address:state_abbreviation)
+      - name: ship_from__branch_id
+        description: Extracted from json in column ship_from (roughly ship_from:branch_id)
+      - name: ship_from__address__latitude
+        description: Extracted from json in column ship_from (roughly ship_from:address:latitude)
+      - name: ship_from__address__zip_code
+        description: Extracted from json in column ship_from (roughly ship_from:address:zip_code)
+      - name: ship_from__address__street_1
+        description: Extracted from json in column ship_from (roughly ship_from:address:street_1)
+      - name: ship_from__address__longitude
+        description: Extracted from json in column ship_from (roughly ship_from:address:longitude)
+      - name: ship_from__address
+        description: Extracted from json in column ship_from (roughly ship_from:address)
+      - name: ship_from__address__country
+        description: Extracted from json in column ship_from (roughly ship_from:address:country)
+      - name: ship_from__address__city
+        description: Extracted from json in column ship_from (roughly ship_from:address:city)
+      - name: ship_from__location_id
+        description: Extracted from json in column ship_from (roughly ship_from:location_id)
+      - name: ship_from__nickname
+        description: Extracted from json in column ship_from (roughly ship_from:nickname)
+      - name: ship_to__address__state_abbreviation
+        description: Extracted from json in column ship_to (roughly ship_to:address:state_abbreviation)
+      - name: ship_to__branch_id
+        description: Extracted from json in column ship_to (roughly ship_to:branch_id)
+      - name: ship_to__address__latitude
+        description: Extracted from json in column ship_to (roughly ship_to:address:latitude)
+      - name: ship_to__address__zip_code
+        description: Extracted from json in column ship_to (roughly ship_to:address:zip_code)
+      - name: ship_to__address__street_1
+        description: Extracted from json in column ship_to (roughly ship_to:address:street_1)
+      - name: ship_to__address__longitude
+        description: Extracted from json in column ship_to (roughly ship_to:address:longitude)
+      - name: ship_to__address
+        description: Extracted from json in column ship_to (roughly ship_to:address)
+      - name: ship_to__address__country
+        description: Extracted from json in column ship_to (roughly ship_to:address:country)
+      - name: ship_to__address__city
+        description: Extracted from json in column ship_to (roughly ship_to:address:city)
+      - name: ship_to__location_id
+        description: Extracted from json in column ship_to (roughly ship_to:location_id)
+      - name: ship_to__nickname
+        description: Extracted from json in column ship_to (roughly ship_to:nickname)
+      - name: extended_data__should_bill_dt
+        description: Extracted from json in column extended_data (roughly extended_data:should_bill_dt)
+      - name: extended_data__missing_special_charges
+        description: Extracted from json in column extended_data (roughly extended_data:missing_special_charges)
+      - name: extended_data__job__job_name
+        description: Extracted from json in column extended_data (roughly extended_data:job:job_name)
+      - name: extended_data__job__job_id
+        description: Extracted from json in column extended_data (roughly extended_data:job:job_id)
+      - name: extended_data__generation_request_id
+        description: Extracted from json in column extended_data (roughly extended_data:generation_request_id)
+      - name: extended_data__ignore_for_cycle
+        description: Extracted from json in column extended_data (roughly extended_data:ignore_for_cycle)
+      - name: extended_data__job__phase_name
+        description: Extracted from json in column extended_data (roughly extended_data:job:phase_name)
+      - name: extended_data__in_dispute
+        description: Extracted from json in column extended_data (roughly extended_data:in_dispute)
+      - name: extended_data__job
+        description: Extracted from json in column extended_data (roughly extended_data:job)

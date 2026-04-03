@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: employee_directory
+    description: >
+        Centralized employee reference dataset capturing names, roles, departments, locations, and contact details. Ensures consistency for workflows such as Citi cardholder receipt compliance. 
+        Built in dbt to enable a direct Snowflake-to-Alteryx connection for automated reconciliation and scheduled delivery to the Credit Card team—reducing manual effort, accelerating card reinstatements, and freeing capacity for higher-value work.
+    columns:
+      - name: employee_name
+        description: "Full name with internal employee ID."
+        data_tests:
+          - unique
+
+      - name: work_email
+        description: "Employee’s official company email address."
+
+      - name: market_id
+        description: "Unique identifier for the employee’s market or location."
+
+      - name: market_name
+        description: "Name of the market, typically including city and division."
+
+      - name: location
+        description: "Physical site where the employee is based."
+
+      - name: job_title
+        description: "The employee’s current role or position."
+
+      - name: date_hired
+        description: "Date the employee most recently started with the company (YYYY-MM-DD)."
+        
+      - name: work_phone
+        description: "Direct work phone number for the employee."
+
+      - name: sales_front_email
+        description: "Contact email for the sales team at the location."
+
+      - name: service_front_email
+        description: "Contact email for the service team at the location."
+
+      - name: manager_name
+        description: "Name of the employee’s direct supervisor."
+
+      - name: manager_email
+        description: "Email address of the employee’s direct supervisor."
+
+      - name: manager_reports_to
+        description: "The manager’s own supervisor, shown as name with internal employee ID."
+
+      - name: district
+        description: "Organizational district the employee belongs to."
+
+      - name: region
+        description: "Larger geographic area overseeing the district."
+        
+      - name: full_cost_center
+        description: "Full cost center path used for accounting and HR."

@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__xero_equipment_parts_revenue
+    description: Model for es_warehouse.public.xero_equipment_parts_revenue
+    columns:
+      - name: service_invoice_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: invoice_date
+        description: ""
+      - name: description
+        description: ""
+      - name: reference
+        description: ""
+      - name: credit
+        description: ""
+      - name: net
+        description: ""
+      - name: account
+        description: ""
+      - name: region
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

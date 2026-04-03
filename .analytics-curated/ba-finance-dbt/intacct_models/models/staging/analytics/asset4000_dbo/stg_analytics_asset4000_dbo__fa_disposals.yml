@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_analytics_asset4000_dbo__fa_disposals
+    description: ""
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: asset_disposal_reason
+        description: '{{ doc("asset_disposal_reason") }}'
+
+      - name: asset_disposal_user_created_by
+        description: '{{ doc("asset_disposal_user_created_by") }}'
+
+      - name: asset_disposal_period
+        description: '{{ doc("asset_disposal_period") }}'
+
+      - name: asset_disposal_year
+        description: '{{ doc("asset_disposal_year") }}'
+
+      - name: _fivetran_deleted
+        description: '{{ doc("_fivetran_deleted") }}'
+
+      - name: asset_disposal_date
+        description: '{{ doc("asset_disposal_date") }}'
+
+      - name: asset_disposal_timestamp
+        description: '{{ doc("disposal_timestamp") }}'
+
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'

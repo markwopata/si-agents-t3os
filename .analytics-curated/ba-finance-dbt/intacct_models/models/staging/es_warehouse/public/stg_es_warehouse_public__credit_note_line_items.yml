@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_note_line_items
+    description: Model for es_warehouse.public.credit_note_line_items
+    columns:
+      - name: credit_note_line_item_id
+        description: "Primary key for table."
+        data_tests:
+          - not_null
+          - unique
+      - name: credit_note_id
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: amount
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: description
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: extended_data
+        description: ""
+      - name: price_per_unit
+        description: ""
+      - name: number_of_units
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: taxable
+        description: ""
+      - name: credit_amount
+        description: ""
+      - name: credit_revenue
+        description: ""
+      - name: override_market_tax_rate
+        description: ""
+      - name: tax_rate_id
+        description: ""
+      - name: tax_rate_percentage
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: credit_tax_rate_percentage
+        description: ""
+      - name: credit_tax_amount
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,69 @@
+---
+version: 2
+
+models:
+  - name: int_asset_historical_ownership
+    description: "Historical asset ownership data with daily timestamps and various asset attributes."
+    config:
+      materialized: "incremental"
+      incremental_strategy: "delete+insert"
+      unique_key: "daily_timestamp"
+      cluster_by: ["daily_timestamp", "asset_id"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - daily_timestamp
+    columns:
+      - name: pk_asset_daily_timestamp_id
+        description: "Primary key for the asset and daily timestamp"
+      - name: asset_id
+        description: "Unique identifier for the asset."
+      - name: transfer_status
+        description: "Workflow status of the transfer (e.g., requested, approved, received, cancelled, closed)."
+      - name: is_in_transit
+        description: >
+          Flag indicating if the transfer order is currently in transit (true/false). applies to assets currently in transit for a transfer where status = Approved. 
+          The primary driver of asset transfers is a branch needs an asset they don't currently have available to fulfill a rental. So they request it from a branch that is close by that has one available. 
+          A transfer leads to the asset changing its market to this new market
+      - name: daily_timestamp
+        description: "Daily timestamp - last nanosecond of the day"
+      - name: rental_branch_id
+        description: "Rental branch for the asset. Branch who owns the asset."
+      - name: rental_branch_name
+        description: "Name of the rental branch"
+      - name: service_branch_id
+        description: "market_id for branch that services this asset. Can be different from owning branch. This does indicate anything about asset ownership."
+      - name: service_branch_name
+        description: "Name of the service branch"
+      - name: inventory_branch_id
+        description: "ID of the inventory branch associated with the asset."
+      - name: inventory_branch_name
+        description: "Name of the inventory branch"
+      - name: market_id
+        description: >
+          Commonly understood to be owner of asset. If there's a rental branch set,
+          they're using it to invoice and gain revenue, so this is highly likely to be accurate.
+          If there is no rental branch (non-rental assets like service trucks), inventory branch tells us who owns it.
+      - name: market_name
+        description: "Market that owns the asset (rental branch coalesce inventory branch)"
+      - name: asset_company_id
+        description: "Company_id that owns asset"
+      - name: asset_inventory_status
+        description: "Inventory status of the asset."
+      - name: is_rerent_asset
+        description: "Flag indicating if the asset is a re-rent asset."
+      - name: oec
+        description: "{{ doc('oec') }}"
+      - name: month_end_date
+        description: "End of month date for the daily timestamp, if applicable, otherwise null."
+      - name: market_company_id
+        description: "Company that owns the market"
+      - name: days_in_status
+        description: "Number of days the asset has been in the current inventory status."
+      - name: asset_inv_status_seq
+        description: "Sequence number indicating how many times the asset has been in a specific inventory status."
+      - name: inventory_status_duration_days
+        description: "Duration in days that the asset has been in the current inventory status"

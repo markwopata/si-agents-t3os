@@ -1,0 +1,107 @@
+---
+version: 2
+
+models:
+  - name: high_level_financials
+    description: >
+      This model calculates summarized branch earnings metrics by market_id/month, including OEC, rent revenue, delivery revenue, sales revenue, and net income.
+    columns:
+      - name: pk_high_level_financials_id
+        description: Primary key for this table - md5 hash of market id and gl date (which is month end date)
+        data_tests:
+          - unique
+          - not_null
+      - name: gl_date
+        description: General Ledger Date - this is the first day of the month/period start date.
+        data_tests:
+          - not_null
+      - name: market_id
+        description: Market ID - this is the rolled up/parent market_id
+        data_tests:
+          - not_null
+      - name: market_name
+        description: Market Name - this is the rolled up/parent market_name
+      - name: district
+        description: District of the market
+      - name: region_name
+        description: Region Name
+      - name: general_manager_employee_id
+        description: General Manager Employee ID
+      - name: general_manager_name
+        description: General Manager Full Name
+      - name: general_manager_url_greenhouse
+        description: Link to General Manager's Greenhouse (gets us access to their resume, given correct access)
+      - name: general_manager_url_disc
+        description: Link to General Manager's DISC report
+      - name: general_manager_disc_code
+        description: General Manager DISC Code (D I S C, e.g. 30 20 30 80)
+      - name: general_manager_email
+        description: General Manager Email
+      - name: general_manager_position_effective_date
+        description: The effective date of the general manager's current position
+      - name: oec
+        description: Total Original Equipment Cost owned or managed by this branch
+      - name: on_rent_oec
+        description: Amount of OEC that is on rent at end of month.
+      - name: unavailable_oec
+        description: >
+          Total OEC not available to rent.
+
+          Statuses: Pending Return, Make Ready, Needs Inspection, Soft Down, Hard Down
+      - name: rental_revenue
+        description: Rental Revenue - all of 5000 revenue
+      - name: delivery_revenue
+        description: Delivery Revenue - based on branch_earnings_dds_snap's type
+      - name: nonintercompany_delivery_revenue
+        description: PD Delivery Revenue - based on branch_earnings_dds_snap's type. Excludes intercompany revenue
+      - name: delivery_expense
+        description: >
+          Delivery Expense - includes the following accounts: ('6014', '6015', '6016', '6019', '6020', '6031').
+
+          Roughly includes payroll, fuel, outside hauling
+      - name: sales_revenue
+        description: Sales Revenue
+      - name: sales_expense
+        description: Sales Expense
+      - name: sales_gross_profit
+        description: Sales Gross Profit
+      - name: total_revenue
+        description: Total Revenue
+      - name: payroll_compensation_expense
+        description: Wages + overtime + commissions
+      - name: payroll_wage_expense
+        description: Wages + overtime
+      - name: payroll_overtime_expense
+        description: Overtime Wages
+      - name: outside_hauling_expense
+        description: Outside hauling expense
+      - name: net_income
+        description: Net Income
+      - name: average_discount_numerator
+        description: To calculate average discount (in looker), use this as the numerator
+      - name: average_discount_denominator
+        description: To calculate average discount (in looker), use this as the denominator
+      - name: service_total_oec
+        description: Service Dashboard total OEC. There are differences in the population of assets included.
+      - name: service_unavailable_oec
+        description: Service Dashboard unavailable OEC. The main difference is that they don't count 'Pending Return' as unavailable.
+      - name: rental_fleet_oec_daily_sum
+        description: The daily sum of rental fleet OEC for the whole month. Used for calculating Financial Utilization and Unavailable OEC %.
+      - name: unavailable_oec_daily_sum
+        description: The daily sum of Unavailable OEC for the whole month. Used for calculating Unavailable OEC %.
+      - name: oec_on_rent_daily_sum
+        description: The daily sum of OEC on rent for the whole month. Used for calculating OEC on Rent %.
+      - name: unassigned_hours_pct
+        description: Unassigned tech hours percent. In looker, we're taking the average of this field.
+      - name: non_es_reg_wages
+        description: >
+          Non-ES Regular Wages. Use this to pull out regular wages done on customer owned equipment. We should be 
+          charging the customer for this, so it inflates payroll to OEC metric.
+      - name: non_es_ot_wages
+        description: >
+          Non-ES Overtime Wages. Use this to pull out overtime wages done on customer owned equipment. We
+          should be charging the customer for this, so it inflates payroll to OEC metric.
+      - name: month_rank
+        description: >
+          Rank of the branch’s net income for the month, among all branches with more than 12 months of history
+          (1 = highest net income for the month).

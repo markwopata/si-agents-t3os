@@ -1,0 +1,67 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_price_history_2
+    description: Table for tracking product price history with additional transaction details.
+    columns:
+      - name: product_price_history_2_id
+        description: 'Unique identifier for the product price history.'
+        data_tests:
+          - not_null
+          - unique
+      - name: product_batch_id
+        description: 'Identifier for the product batch.'
+      - name: stock_actual_update
+        description: 'Indicates if the stock actual was updated.'
+      - name: transaction_total_price_with_add
+        description: 'Total transaction price with additional charges.'
+      - name: source_type
+        description: 'Type of the source for the transaction.'
+      - name: transaction_unit_price_with_add
+        description: 'Unit transaction price with additional charges.'
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: per_id
+        description: 'Period identifier.'
+      - name: new_total_stock_valuation
+        description: 'New total stock valuation after the transaction.'
+      - name: transaction_quantity
+        description: 'Quantity involved in the transaction.'
+      - name: user_id
+        description: 'Identifier for the user who made the transaction.'
+      - name: source_number
+        description: 'Number of the source for the transaction.'
+      - name: change_datetime
+        description: 'Datetime when the change occurred.'
+      - name: old_price
+        description: 'Old price before the transaction.'
+      - name: transaction_unit_price
+        description: 'Unit price for the transaction.'
+      - name: negative_inventory_adjustment
+        description: 'Indicates if the transaction involved a negative inventory adjustment.'
+      - name: old_stock_actual
+        description: 'Old stock actual before the transaction.'
+      - name: source_id
+        description: 'Identifier for the source of the transaction.'
+      - name: old_per_id
+        description: 'Old period identifier before the transaction.'
+      - name: product_id
+        description: 'Identifier for the product involved in the transaction.'
+      - name: transaction_total_price
+        description: 'Total price for the transaction.'
+      - name: new_stock_actual
+        description: 'New stock actual after the transaction.'
+      - name: length
+        description: 'Length of the product involved in the transaction.'
+      - name: price
+        description: 'Price of the product involved in the transaction.'
+      - name: posting_date
+        description: 'Date when the transaction was posted.'
+      - name: price_type
+        description: 'Type of the price for the transaction.'
+      - name: purchase_price_variance
+        description: 'Variance in the purchase price for the transaction.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

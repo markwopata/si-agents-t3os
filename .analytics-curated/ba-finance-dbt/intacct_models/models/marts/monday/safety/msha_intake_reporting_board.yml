@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: msha_intake_reporting_board
+    description: Mine Safety & Health Administration Intake Reporting Form responses Monday board exposed as a table. 
+    meta:
+        point_of_contact:  Riley Burke
+        owner: "@nick.logan"
+        monday_board_url: https://equipmentshare.monday.com/boards/9167854430  # ask Riley Burke for Monday board access
+    columns:
+    - name: item_id
+      description: Monday-generated pk
+      data_tests:
+        - unique
+    - name: end_time
+      description: ""
+    - name: submission_link
+      description: ""
+    - name: manager_email
+      description: ""
+    - name: part_46_or_48
+      description: ""
+    - name: mine_site_type
+      description: ""
+    - name: mine_site_activity
+      description: ""
+    - name: mine_site_name
+      description: ""
+    - name: mine_site_visit_date
+      description: ""
+    - name: creation_log
+      description: ""
+    - name: name
+      description: ""
+    - name: start_time
+      description: ""
+    - name: training_upload
+      description: ""
+    - name: mine_site_hours_worked
+      description: ""
+    - name: digital_jsa_submission
+      description: ""
+    - name: hours_worked_upload
+      description: ""

@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_analytics_corporate_budget__unverified_cc_reallocations
+    description: cleaned model of analytics.corporate_budget.unverified_cc_reallocations
+    columns:
+      - name: transaction_id
+        description: ""
+
+      - name: _row
+        description: ""
+        data_tests:
+          - unique
+
+      - name: debit
+        description: ""
+
+      - name: employee_id
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

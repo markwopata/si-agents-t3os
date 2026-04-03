@@ -1,0 +1,40 @@
+---
+version: 2
+models:
+  - name: dim_disputes
+    description:
+      "a collection of data that describe disputes. Disputes are the process of resolving disagreements or discrepancies
+      between a business and its customers\n"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - dispute_id
+              - dispute_event_description
+    columns:
+      - name: dispute_id
+        description: ""
+      - name: dispute_date_creation
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: created_by
+        description: ""
+      - name: dispute_event_description
+        description: ""
+      - name: status
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: created_by_email
+        description: ""
+      - name: resolved_by_email
+        description: ""
+      - name: resolved_by_title
+        description: ""
+      - name: general_manager
+        description: ""
+      - name: dispute_category
+        description: ""

@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: int_rental_request_orders
+    description: "Maps each web-submitted rental request through its quote to the corresponding ES_WAREHOUSE order, exposing request, quote, and order IDs along with their timestamps and user/branch metadata."
+    config:
+      tags:
+        - intermediate
+        - commissions
+    columns:
+      - name: request_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: quote_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: request_date
+        description: ""
+      - name: quote_created_date
+        description: ""
+      - name: order_date
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: web_user_id
+        description: ""

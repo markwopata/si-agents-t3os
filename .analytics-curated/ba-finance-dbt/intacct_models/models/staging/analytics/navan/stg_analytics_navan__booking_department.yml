@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_department
+    description: Staging model for Navan booking department information, containing department allocation details for travel bookings
+    columns:
+      - name: booking_uuid
+        description: ''
+      - name: index
+        description: ''
+      - name: _fivetran_deleted
+        description: ''
+      - name: _fivetran_synced
+        description: ''
+      - name: department
+        description: ''

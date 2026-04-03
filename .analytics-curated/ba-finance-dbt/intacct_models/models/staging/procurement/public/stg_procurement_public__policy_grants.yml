@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__policy_grants
+    description: Model for procurement.public.policy_grants
+    columns:
+      - name: user_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: market_id
+        description: ""
+      - name: resource_id
+        description: ""
+      - name: resource_type_id
+        description: ""
+      - name: group_id
+        description: ""
+      - name: group_name
+        description: ""
+      - name: role_spending_limit
+        description: ""
+      - name: group_spending_limit
+        description: ""
+      - name: permission_granted_by_level
+        description: ""
+      - name: branch_level_access
+        description: ""

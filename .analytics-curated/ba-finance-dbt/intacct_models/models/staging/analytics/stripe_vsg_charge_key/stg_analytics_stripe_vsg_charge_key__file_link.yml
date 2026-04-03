@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__file_link
+    description: A link to a file for secure sharing and access.
+    columns:
+      - name: id
+        description: "Unique identifier for the file link."
+        data_tests:
+          - not_null
+          - unique
+      - name: created
+        description: ""
+      - name: expired
+        description: "Whether the link has expired."
+      - name: expires_at
+        description: "Time at which the link will expire."
+      - name: livemode
+        description: "Indicates if this is a test file link."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: url
+        description: "Public URL of the file link."
+      - name: file_id
+        description: "ID of the file the link points to."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

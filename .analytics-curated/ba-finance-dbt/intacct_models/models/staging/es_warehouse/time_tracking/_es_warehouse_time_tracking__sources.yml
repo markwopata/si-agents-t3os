@@ -1,0 +1,34 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_time_tracking
+    tags: ["sources"]
+    database: es_warehouse
+    schema: time_tracking
+    description: es_warehouse schema for all es_warehouse (T3/Admin) time_tracking-related topics
+    tables:
+      - name: time_entries
+        description: >
+          contains detailed records of time entries  for tracking employee work hours, the asset they worked on, etc
+        columns:
+          - name: time_entry_id
+            data_tests:
+              - unique
+
+      - name: time_entry_work_code_xref
+        description: >
+          mapping table of time entries to work codes. one time entry can have multiple work codes
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+                column_list:
+                  - time_entry_id
+                  - work_code_id
+
+      - name: work_codes
+        description: >
+          mapping table of work codes to specific task worked on (Tires, Hydraulic, Engine, etc)
+        columns:
+          - name: work_code_id
+            data_tests:
+              - unique

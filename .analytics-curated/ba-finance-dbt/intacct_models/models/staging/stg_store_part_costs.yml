@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_store_part_costs
+    description: "Add a date_start and date_end to make this table easier to use"
+    columns:
+      - name: store_part_cost_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: store_part_id
+        description: ""
+      - name: cost
+        description: ""
+      - name: date_archived
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_start
+        description: ""
+        data_tests:
+          - not_null
+      - name: date_end
+        description: ""
+        data_tests:
+          - not_null

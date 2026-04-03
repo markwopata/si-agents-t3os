@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_t3__available_assets
+    description: "Available assets info model for T3 Fleet Utilization dashboard."
+    columns:
+      - name: day
+        data_type: date
+        description: "Day"
+
+      - name: company_id
+        data_type: number(38,0)
+        description: "Company ID"
+      
+      - name: rental_asset_count
+        data_type: number(38,0)
+        description: "Rental asset count"
+
+      - name: owned_asset_count
+        data_type: number(38,0)
+        description: "Owned asset count"

@@ -1,0 +1,65 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_vendors
+    description: Model for fleet_optimization.gold.dim_vendors
+    columns:
+      - name: vendor_key
+        description: Unique identifier for an EquipmentShare vendor.
+      - name: vendor_sage_id
+        description: Unique identifier for record within Sage accounting system, if needed.
+      - name: vendor_original_name
+        description: Name as it appears in Sage Intacct system - true representation of the field before cleaning
+      - name: vendor_non_dba_name
+        description: Company name before any DBA indications
+      - name: vendor_dba_names
+        description: "\"DBA\" indicates a \"doing business as\" name - could vary significantly from the company's legal name\n\
+          In dimension and late intermediary stages, a concatenated field with all names indicated as DBA in the vendor name
+          field.\nIn early intermediary stages, could be multiple, pre-concatenated fields parsing out as many DBA strings
+          as found in the original name."
+      - name: vendor_legal_name
+        description: "The company's legal name as found in Sage system - will likely be close or exact match to non_dba name\
+          \ \nThis field has been brought in as a true representation of the same field in the Sage Intacct system"
+      - name: vendor_parent_name
+        description: "For high-spend vendors, this is the name of the parent/owner company. \nThis field helps group multiple
+          vendors into one owner to provide deeper visibility into EquipmentShare's purchasing power.\nFor low-spend vendors
+          or new vendors, the default value is \"Other Vendor\".\nThis field is currently updated manually on an as-needed
+          basis. Future state will be to automate the parenting."
+      - name: vendor_type
+        description: "Most often Vendor or Contractor, though some outlier values are found.\nField vendor_type is true representation
+          of Sage Intacct value.\nBoolean vendor_is_not_coded_as_vendor is derived from \"vendors\" from Sage Intacct not
+          coded as vendor."
+      - name: vendor_payment_term
+        description: "True representation of Sage Intacct value.\nRepresents payment terms as dictated by vendor purchasing
+          agreement."
+      - name: vendor_category
+        description: Vendor's general category of business with EquipmentShare. This is a true representation of the 
+          Sage Intacct field.
+      - name: vendor_is_related_party
+        description: Boolean indicating if a vendor is related to EquipmentShare in some form.
+      - name: vendor_created_date_in_sage
+        description: "Field that indicates the date of creation/update of vendor in Sage Intacct system or user name that
+          performed action.\nNote: Sage can have bulk uploads, so those generic names will include team that performed upload."
+      - name: vendor_updated_date_in_sage
+        description: "Field that indicates the date of creation/update of vendor in Sage Intacct system or user name that
+          performed action.\nNote: Sage can have bulk uploads, so those generic names will include team that performed upload."
+      - name: vendor_intacct_user_creating_record
+        description: "Field that indicates the date of creation/update of vendor in Sage Intacct system or user name that
+          performed action.\nNote: Sage can have bulk uploads, so those generic names will include team that performed upload."
+      - name: vendor_intacct_user_updating_record
+        description: "Field that indicates the date of creation/update of vendor in Sage Intacct system or user name that
+          performed action.\nNote: Sage can have bulk uploads, so those generic names will include team that performed upload."
+      - name: vendor_data_source
+        description: Indicates if vendor attributes are derived from Sage Intacct system or do not appear in Sage.
+      - name: vendor_most_recent_payment_date
+        description: The most recent payment posted to the General Ledger and recorded in financial analytics' ap_detail
+          model.
+      - name: vendor_is_active_in_intacct
+        description: "Derived from Sage Intacct system - indicates if vendor is active within system.\ndim_vendors and intermediary
+          cleansing stages are not filtered for active-only vendors."
+      - name: vendor_is_not_coded_as_vendor
+        description: Boolean indicating if vendor_type is Vendor - anything other than Vendor is potentially miscoded
+      - name: vendor_company_key
+        description: ''
+      - name: vendor_recordtimestamp
+        description: Timestamp of the last run of the vendor dimension

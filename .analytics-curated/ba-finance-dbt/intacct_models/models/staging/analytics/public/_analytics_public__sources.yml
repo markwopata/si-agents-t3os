@@ -1,0 +1,224 @@
+---
+version: 2
+
+description: are all BA owned that are etiher ETL'd in from Fivetran (has fivetran synced column) or from Gitlab
+sources:
+  - name: analytics_public
+    description: public is the default Snowflake schema when databases are created - has no business context
+    tags: ["sources"]
+    database: analytics
+    schema: public
+    tables:
+      - name: disc_master
+        description:
+          contains DISC (Dominance Influence Steadiness Conscientiousness) self-assessment (gauges and
+          categorizes responses to various routine questions) codes for every employee
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-jenkins-scripts/-/blob/main/pull_disc_reports/pull_disc_reports.py
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - email_address
+                - status
+                - disc_code
+
+      - name: disc_gh_ukg
+        description:
+          Report in UKG - employee ids with DISC (Dominance Influence Steadiness Conscientiousness)
+          assessment code that every applicant takes
+        columns:
+          - name: employee_id
+            data_tests:
+              - unique
+
+      - name: fuel_card_drivers
+        description: historical list of drivers that have a fuel card
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-internal-tools/-/blob/main/credit_cards/daily_cc_load.py
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - driver_id
+                - account_number
+
+      - name: stat_pl
+        description: line_item_types mapped to statitiscal account numbers for more detail for branch earnings
+        columns:
+          - name: line_item_type
+            data_tests:
+              - unique
+
+      - name: branch_earnings_dds_snap
+        description: official monthly profit/loss statement by market
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/branch_earnings/BRANCH_EARNINGS_DDS.sql?ref_type=heads
+
+      - name: market_goals
+        description: >
+          a market's past/current/future revenue goals. one row is a market and its revenues goals at a point
+          in time. Note: the google sheet only has goals for the current year and is manually loaded by Zack via Python script (a Retool app should replace both the google sheet and python script in the future)
+        meta:
+          generated_from: Google Sheet
+          url: https://docs.google.com/spreadsheets/d/1o2g3CWtJAG6iu_Z06QqDiTwljzkGeAGfhGrwRrcfivY/edit?usp=sharing
+          python_script: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/market_goals/market_goals_upload.py?ref_type=heads
+          owner: "@zack.larimore"
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - market_id
+                - months
+                - start_date
+                - end_date
+
+      - name: historical_asset_market
+        description: historical daily log of asset_ids and their market_id location
+        meta:
+          generated_from: Snowflake procedure
+          snowflake_procedure: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/PUBLIC/view/HISTORICAL_ASSET_MARKET_2
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_id
+                - market_id
+                - date
+
+      - name: es_companies
+        description: >
+          List of EquipmentShare companies (ES and their customers are companies). Used to track companies and their relevant
+          status for asset management and financial reporting purposes
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connectors/tailed_rationalism/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1+Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1K4Jyt0wH1HBhnX33BD7VFJDgA95nlwNj9Id4OKC-eSs/edit#gid=0
+          point_of_contact: Vishesh Mathur
+        columns:
+          - name: _row
+            description: Fivetran generated row number for google sheet row
+          - name: note
+            description: ""
+          - name: company_id
+            description: the company id
+            data_tests:
+              - not_null
+              - unique
+          - name: rental_fleet
+            description: boolean on if the company is in rental fleet
+          - name: wide_search_allowed
+            description: boolean on if wide search allowed for Looker reporting
+          - name: abl_eligible
+            description: boolean on if are assets in this company eligible for the ABL?
+          - name: balance_sheet
+            description: boolean on if company is in balance sheet
+          - name: owned
+            description: boolean on if company is owned by EquipmentShare
+          - name: company_name
+            description: ""
+          - name: _fivetran_synced
+            description: date of Fivetran sync
+      - name: fuel_card_transactions
+        description: list of transactions from the fuel card
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-internal-tools/-/blob/main/credit_cards/daily_cc_load.py#L112
+        # moving test to the right since there is an issue with the pipeline. there are transaction_ids with the same _es_update_timestamp
+      - name: v_line_items
+        description: ""
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - line_item_id
+                - credit_note_line_item_id
+
+      - name: paycor_employees_managers_full_hierarchy
+        description: Employee management hierarchy, from managers to CEO, generated via Paycor (HR/payroll software).
+        meta:
+          generated_from: Snowflake procedure
+          snowflake_procedure: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ANALYTICS/schemas/PUBLIC/procedure/PAYCOR_EMPLOYEES_MANAGERS_FULL_HIERARCHY_PROCEDURE()
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - employee_number
+                - manager_employee_number
+
+      - name: amex_cc_transactions
+        description: American Express credit card transactions
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-internal-tools/-/blob/main/credit_cards/daily_cc_load.py#L82
+        columns:
+          - name: transaction_reference_id
+            data_tests:
+              - unique
+
+      - name: central_bank_cc_transactions
+        description: central bank credit card transactions
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-scripts/-/blob/master/jenkins_scripts/central_bank_cc/central_bank_cc_transactions.py
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - transaction_id
+                - account_transaction_id
+                - card_no
+
+      - name: rateachievement_points
+        description: Rate achievement points, showing rental-level detail and how its rental rates compare to benchmarks
+        meta:
+          generated_from: Snowflake task
+          snowflake_task: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ANALYTICS/schemas/RATE_ACHIEVEMENT/task/RATEACHIEVEMENT_POINTS_TASK
+          gitlab_url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-part-analytics/-/blob/main/rates/snowflake_tasks/rateachievement_points.sql
+          additional_reading: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-operational-analytics/-/blob/main/README.md
+        columns:
+          - name: line_item_id
+            data_tests:
+              - unique:
+                  meta:
+                    owner: "@aubrey.wise"
+
+      - name: asset_financing_snapshots
+        description:
+          monthly snapshot of assets. manually calculates NBV using the first rental date and admin-provided
+          OEC
+        meta:
+          point_of_contact: Brandon Howard. He runs the python script manually on the first day of every month
+          gitlab_url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/capone_hps/abl_flash_oec_freeze.py?ref_type=heads
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_id
+                - date
+              enabled: false # Disable this test. This should be the grain but contains duplicates
+
+      - name: districts
+        description: list of districts and their district ids and region ids
+        meta:
+          additional_resources: region and district map
+            https://drive.google.com/file/d/13AKHLy_fogIAfuy_7OpGZ-sTS8tOHDM2/view
+        columns:
+          - name: district_id
+            data_tests:
+              - unique
+
+      - name: regions
+        description: list of regions
+        meta:
+          additional_resources: region and district map
+            https://drive.google.com/file/d/13AKHLy_fogIAfuy_7OpGZ-sTS8tOHDM2/view
+        columns:
+          - name: region_id
+            data_tests:
+              - unique
+      - name: fleet_specialty_mix
+        description: ""

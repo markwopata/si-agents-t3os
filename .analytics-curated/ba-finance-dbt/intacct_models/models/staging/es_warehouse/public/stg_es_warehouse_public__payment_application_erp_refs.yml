@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__payment_application_erp_refs
+    description: Model for es_warehouse.public.payment_application_erp_refs
+    columns:
+      - name: payment_application_erp_ref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: erp_instance_id
+        description: ""
+      - name: payment_application_id
+        description: ""
+      - name: intacct_record_no
+        description: ""
+      - name: intacct_active_date
+        description: ""
+      - name: is_reversed
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

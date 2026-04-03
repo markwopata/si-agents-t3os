@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__manual_adjustment_reasons
+    description: Model for es_warehouse.inventory.manual_adjustment_reasons
+    columns:
+      - name: manual_adjustment_reason_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: reason
+        description: ""
+      - name: description
+        description: ""
+      - name: allow_increment
+        description: ""
+      - name: allow_decrement
+        description: ""
+      - name: cost_config_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

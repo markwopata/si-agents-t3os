@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__file
+    description: Model for analytics.stripe_vsg_resla_com.file
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created
+        description: ""
+      - name: filename
+        description: ""
+      - name: purpose
+        description: ""
+      - name: size
+        description: ""
+      - name: title
+        description: ""
+      - name: type
+        description: ""
+      - name: url
+        description: ""
+      - name: _fivetran_synced
+        description: ""

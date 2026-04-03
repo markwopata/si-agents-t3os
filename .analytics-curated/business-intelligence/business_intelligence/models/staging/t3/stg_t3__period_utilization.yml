@@ -1,0 +1,361 @@
+version: 2
+
+models:
+  - name: stg_t3__period_utilization
+    description: |
+      Period Utilization Report - Calculates utilization for different time periods based on run_time_cst.
+      Returns a single row per rental_id and asset_id combination with columns for each period type.
+      Utilization is calculated based on shift_type_id: 3 = 24 hours/day, 2 = 16 hours/day, else 8 hours/day.
+      Each period includes utilization, run_time_hours, possible_hours, and possible_days metrics.
+    columns:
+      - name: rental_id
+        data_type: number
+        description: "Rental ID"
+
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+
+      - name: shift_type_id
+        data_type: number
+        description: "Shift Type ID - determines hours per day (3=24hrs, 2=16hrs, else=8hrs)"
+
+      - name: past_7_days_utilization
+        data_type: float
+        description: "Utilization percentage for past 7 days"
+
+      - name: past_7_days_run_time_hours
+        data_type: float
+        description: "Total run time in hours for past 7 days"
+
+      - name: past_7_days_possible_hours
+        data_type: float
+        description: "Total possible hours for past 7 days based on shift type"
+
+      - name: past_7_days_possible_days
+        data_type: number
+        description: "Total possible days for past 7 days"
+
+      - name: past_28_days_utilization
+        data_type: float
+        description: "Utilization percentage for past 28 days"
+
+      - name: past_28_days_run_time_hours
+        data_type: float
+        description: "Total run time in hours for past 28 days"
+
+      - name: past_28_days_possible_hours
+        data_type: float
+        description: "Total possible hours for past 28 days based on shift type"
+
+      - name: past_28_days_possible_days
+        data_type: number
+        description: "Total possible days for past 28 days"
+
+      - name: this_week_utilization
+        data_type: float
+        description: "Utilization percentage for current week (Monday to Sunday)"
+
+      - name: this_week_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current week"
+
+      - name: this_week_possible_hours
+        data_type: float
+        description: "Total possible hours for current week based on shift type"
+
+      - name: this_week_possible_days
+        data_type: number
+        description: "Total possible days for current week"
+
+      - name: last_week_utilization
+        data_type: float
+        description: "Utilization percentage for last week (Monday to Sunday)"
+
+      - name: last_week_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last week"
+
+      - name: last_week_possible_hours
+        data_type: float
+        description: "Total possible hours for last week based on shift type"
+
+      - name: last_week_possible_days
+        data_type: number
+        description: "Total possible days for last week"
+
+      - name: this_week_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for current week to date"
+
+      - name: this_week_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current week to date"
+
+      - name: this_week_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for current week to date based on shift type"
+
+      - name: this_week_to_date_possible_days
+        data_type: number
+        description: "Total possible days for current week to date"
+
+      - name: last_week_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for last week to date (same day of week last week)"
+
+      - name: last_week_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last week to date"
+
+      - name: last_week_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for last week to date based on shift type"
+
+      - name: last_week_to_date_possible_days
+        data_type: number
+        description: "Total possible days for last week to date"
+
+      - name: this_month_utilization
+        data_type: float
+        description: "Utilization percentage for current month"
+
+      - name: this_month_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current month"
+
+      - name: this_month_possible_hours
+        data_type: float
+        description: "Total possible hours for current month based on shift type"
+
+      - name: this_month_possible_days
+        data_type: number
+        description: "Total possible days for current month"
+
+      - name: last_month_utilization
+        data_type: float
+        description: "Utilization percentage for last month"
+
+      - name: last_month_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last month"
+
+      - name: last_month_possible_hours
+        data_type: float
+        description: "Total possible hours for last month based on shift type"
+
+      - name: last_month_possible_days
+        data_type: number
+        description: "Total possible days for last month"
+
+      - name: this_month_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for current month to date"
+
+      - name: this_month_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current month to date"
+
+      - name: this_month_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for current month to date based on shift type"
+
+      - name: this_month_to_date_possible_days
+        data_type: number
+        description: "Total possible days for current month to date"
+
+      - name: last_month_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for last month to date"
+
+      - name: last_month_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last month to date"
+
+      - name: last_month_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for last month to date based on shift type"
+
+      - name: last_month_to_date_possible_days
+        data_type: number
+        description: "Total possible days for last month to date"
+
+      - name: this_quarter_utilization
+        data_type: float
+        description: "Utilization percentage for current quarter"
+
+      - name: this_quarter_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current quarter"
+
+      - name: this_quarter_possible_hours
+        data_type: float
+        description: "Total possible hours for current quarter based on shift type"
+
+      - name: this_quarter_possible_days
+        data_type: number
+        description: "Total possible days for current quarter"
+
+      - name: last_quarter_utilization
+        data_type: float
+        description: "Utilization percentage for last quarter"
+
+      - name: last_quarter_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last quarter"
+
+      - name: last_quarter_possible_hours
+        data_type: float
+        description: "Total possible hours for last quarter based on shift type"
+
+      - name: last_quarter_possible_days
+        data_type: number
+        description: "Total possible days for last quarter"
+
+      - name: this_quarter_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for current quarter to date"
+
+      - name: this_quarter_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current quarter to date"
+
+      - name: this_quarter_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for current quarter to date based on shift type"
+
+      - name: this_quarter_to_date_possible_days
+        data_type: number
+        description: "Total possible days for current quarter to date"
+
+      - name: last_quarter_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for last quarter to date"
+
+      - name: last_quarter_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last quarter to date"
+
+      - name: last_quarter_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for last quarter to date based on shift type"
+
+      - name: last_quarter_to_date_possible_days
+        data_type: number
+        description: "Total possible days for last quarter to date"
+
+      - name: this_year_utilization
+        data_type: float
+        description: "Utilization percentage for current year"
+
+      - name: this_year_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current year"
+
+      - name: this_year_possible_hours
+        data_type: float
+        description: "Total possible hours for current year based on shift type"
+
+      - name: this_year_possible_days
+        data_type: number
+        description: "Total possible days for current year"
+
+      - name: last_year_utilization
+        data_type: float
+        description: "Utilization percentage for last year"
+
+      - name: last_year_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last year"
+
+      - name: last_year_possible_hours
+        data_type: float
+        description: "Total possible hours for last year based on shift type"
+
+      - name: last_year_possible_days
+        data_type: number
+        description: "Total possible days for last year"
+
+      - name: this_year_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for current year to date"
+
+      - name: this_year_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for current year to date"
+
+      - name: this_year_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for current year to date based on shift type"
+
+      - name: this_year_to_date_possible_days
+        data_type: number
+        description: "Total possible days for current year to date"
+
+      - name: last_year_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for last year to date"
+
+      - name: last_year_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for last year to date"
+
+      - name: last_year_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for last year to date based on shift type"
+
+      - name: last_year_to_date_possible_days
+        data_type: number
+        description: "Total possible days for last year to date"
+
+      - name: last_year_this_week_utilization
+        data_type: float
+        description: "Utilization percentage for same week number from last year"
+
+      - name: last_year_this_week_run_time_hours
+        data_type: float
+        description: "Total run time in hours for same week number from last year"
+
+      - name: last_year_this_week_possible_hours
+        data_type: float
+        description: "Total possible hours for same week number from last year based on shift type"
+
+      - name: last_year_this_week_possible_days
+        data_type: number
+        description: "Total possible days for same week number from last year"
+
+      - name: last_year_this_month_utilization
+        data_type: float
+        description: "Utilization percentage for same calendar month from last year"
+
+      - name: last_year_this_month_run_time_hours
+        data_type: float
+        description: "Total run time in hours for same calendar month from last year"
+
+      - name: last_year_this_month_possible_hours
+        data_type: float
+        description: "Total possible hours for same calendar month from last year based on shift type"
+
+      - name: last_year_this_month_possible_days
+        data_type: number
+        description: "Total possible days for same calendar month from last year"
+
+      - name: last_year_this_month_to_date_utilization
+        data_type: float
+        description: "Utilization percentage for same calendar month to date from last year"
+
+      - name: last_year_this_month_to_date_run_time_hours
+        data_type: float
+        description: "Total run time in hours for same calendar month to date from last year"
+
+      - name: last_year_this_month_to_date_possible_hours
+        data_type: float
+        description: "Total possible hours for same calendar month to date from last year based on shift type"
+
+      - name: last_year_this_month_to_date_possible_days
+        data_type: number
+        description: "Total possible days for same calendar month to date from last year"
+
+      - name: data_refresh_timestamp
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last refreshed"

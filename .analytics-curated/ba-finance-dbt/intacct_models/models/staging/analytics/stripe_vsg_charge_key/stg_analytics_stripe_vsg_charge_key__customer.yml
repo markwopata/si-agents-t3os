@@ -1,0 +1,133 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__customer
+    description: >
+      This object represents a customer of your business. Use it to create recurring charges, save payment and contact
+      information, and track payments that belong to the same customer.
+    meta:
+      documentation_url: https://docs.stripe.com/api/customers
+    columns:
+      - name: id
+        description: "Unique identifier for the customer."
+        data_tests:
+          - not_null
+          - unique
+      - name: account_balance
+        description: "Current balance maintained on the customer (negative = credit, positive = amount owed)."
+      - name: balance
+        description: "Deprecated in favor of account_balance."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Default three-letter ISO currency code for recurring billing."
+      - name: address_city
+        description: ""
+      - name: address_country
+        description: ""
+      - name: address_line_1
+        description: ""
+      - name: address_line_2
+        description: ""
+      - name: address_postal_code
+        description: ""
+      - name: address_state
+        description: ""
+      - name: name
+        description: "Customer name."
+      - name: bank_account_id
+        description: "ID of the bank account associated with this customer."
+      - name: source_id
+        description: "ID of the source associated with this customer."
+      - name: default_card_id
+        description: "ID for the default card used by the customer."
+      - name: delinquent
+        description: "True if the latest invoice is unpaid or the latest charge failed."
+      - name: description
+        description: "Arbitrary string attached to the object, useful for display."
+      - name: email
+        description: "Customer’s email address."
+      - name: phone
+        description: "Customer’s phone number."
+      - name: invoice_prefix
+        description: "Prefix applied to generated invoice numbers for this customer."
+      - name: invoice_settings_default_payment_method
+        description: "Default payment method used for invoices."
+      - name: invoice_settings_footer
+        description: "Footer text to include on invoices for this customer."
+      - name: livemode
+        description: "Indicates if this is a test customer."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: shipping_address_city
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_address_country
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_address_line_1
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_address_line_2
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_address_postal_code
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_address_state
+        description: "Attribute of the customer's shipping address."
+      - name: shipping_carrier
+        description: "Delivery service used for shipping (if physical goods)."
+      - name: shipping_name
+        description: "Recipient name for shipping."
+      - name: shipping_phone
+        description: "Recipient phone for shipping."
+      - name: shipping_tracking_number
+        description: "Tracking number for shipped goods."
+      - name: tax_info_tax_id
+        description: "Customer tax identification number."
+      - name: tax_info_type
+        description: "Type of tax identification provided."
+      - name: tax_exempt
+        description: "Whether the customer is tax-exempt."
+      - name: tax_info_verification_status
+        description: "Verification status for the provided tax information."
+      - name: tax_info_verification_verified_name
+        description: "Verified legal name associated with tax information."
+      - name: is_deleted
+        description: "Boolean reflecting whether the customer has been deleted in Stripe."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: metadata__id
+        description: Extracted from json in column metadata (roughly metadata:id)
+      - name: metadata__customer_name
+        description: Extracted from json in column metadata (roughly metadata:customer_name)
+      - name: metadata__email
+        description: Extracted from json in column metadata (roughly metadata:email)
+      - name: metadata__return_location
+        description: Extracted from json in column metadata (roughly metadata:return_location)
+      - name: metadata__total_insurances
+        description: Extracted from json in column metadata (roughly metadata:total_insurances)
+      - name: metadata__total_rack_rate
+        description: Extracted from json in column metadata (roughly metadata:total_rack_rate)
+      - name: metadata__pick_up_location
+        description: Extracted from json in column metadata (roughly metadata:pick_up_location)
+      - name: metadata__brand
+        description: Extracted from json in column metadata (roughly metadata:brand)
+      - name: metadata__return_date
+        description: Extracted from json in column metadata (roughly metadata:return_date)
+      - name: metadata__total_taxes
+        description: Extracted from json in column metadata (roughly metadata:total_taxes)
+      - name: metadata__vehicle
+        description: Extracted from json in column metadata (roughly metadata:vehicle)
+      - name: metadata__phone
+        description: Extracted from json in column metadata (roughly metadata:phone)
+      - name: metadata__pick_up_date
+        description: Extracted from json in column metadata (roughly metadata:pick_up_date)
+      - name: metadata__prefixed_id
+        description: Extracted from json in column metadata (roughly metadata:prefixed_id)
+      - name: metadata__total_extras
+        description: Extracted from json in column metadata (roughly metadata:total_extras)
+      - name: metadata__transaction_id
+        description: Extracted from json in column metadata (roughly metadata:transaction_id)
+      - name: metadata__transaction_uuid
+        description: Extracted from json in column metadata (roughly metadata:transaction_uuid)
+      - name: metadata__total_price
+        description: Extracted from json in column metadata (roughly metadata:total_price)
+      - name: metadata__total_revenue
+        description: Extracted from json in column metadata (roughly metadata:total_revenue)

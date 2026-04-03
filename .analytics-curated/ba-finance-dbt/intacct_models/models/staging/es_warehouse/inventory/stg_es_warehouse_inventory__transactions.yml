@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__transactions
+    description: ""
+    columns:
+      - name: transaction_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: transaction_type_id
+        description: Foreign key to transaction_types table
+      - name: transaction_status_id
+        description: ""
+      - name: from_id
+        description: ""
+      - name: to_id
+        description: ""
+      - name: created_by
+        description: Foreign key to users table
+        data_tests:
+          - not_null
+      - name: modified_by
+        description: Foreign key to users table
+        data_tests:
+          - not_null
+      - name: date_completed
+        description: ""
+      - name: date_cancelled
+        description: ""
+      - name: memo
+        description: ""
+      - name: custom_id
+        description: ""
+      - name: split_from
+        description: ""
+      - name: transaction_group_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: from_uuid_id
+        description: ""
+      - name: to_uuid_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

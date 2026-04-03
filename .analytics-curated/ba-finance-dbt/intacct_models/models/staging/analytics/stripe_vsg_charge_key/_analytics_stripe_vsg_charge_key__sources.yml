@@ -1,0 +1,113 @@
+---
+version: 2
+sources:
+  - name: analytics_stripe_vsg_charge_key
+    tags:
+      - sources
+    database: analytics
+    schema: stripe_vsg_charge_key
+    description: >
+      Stripe data for Vehicle Solutions Group (The Resla Acquisition.) - specifically for standardfleet charging
+      reimbursements.
+    tables:
+      - name: apple_pay_domain
+        description: ""
+      - name: application_fee_refund
+        description: >
+          Unused as of 2025-10-16
+      - name: application_fee
+        description: ""
+      - name: attribute
+        description: ""
+      - name: au_becs_debit
+        description: ""
+      - name: balance_transaction
+        description: >
+          Balance transactions represent funds moving through your Stripe account. Stripe creates them for every type of 
+          transaction that enters or leaves your Stripe account balance.
+      - name: bank_account
+        description: ""
+      - name: card
+        description: Details of a credit card that has been saved to the system.
+      - name: charge_payment_method_details
+        description: ""
+      - name: charge
+        description: >
+          Charge objects represent attempts to collect payment from a customer. Most modern flows create charges via
+          PaymentIntents; some legacy flows create charges directly.
+      - name: customer_balance_transaction
+        description: >
+          Unused as of 2025-10-16
+      - name: customer_discount
+        description: ""
+      - name: customer_tax
+        description: ""
+      - name: customer
+        description: ""
+      - name: discount
+        description: ""
+      - name: dispute_balance_transaction
+        description: ""
+      - name: dispute
+        description: ""
+      - name: early_fraud_warning
+        description: ""
+      - name: fee
+        description: >
+          Detailed breakdown of fees associated with a balance transaction (for example Stripe fees, application fees, and taxes).
+      - name: file_link
+        description: ""
+      - name: file
+        description: ""
+      - name: fpx
+        description: ""
+      - name: ideal
+        description: ""
+      - name: payment_intent
+        description: >
+          A PaymentIntent guides you through collecting a payment from your customer. We
+          recommend creating exactly one PaymentIntent for each order or customer session in
+          your system. You can reference the PaymentIntent later to see the history of
+          payment attempts for a particular session.
+
+          A PaymentIntent transitions through multiple statuses throughout its lifetime as
+          it interfaces with Stripe.js to perform authentication flows and ultimately creates at
+          most one successful charge.
+      - name: payment_method_card
+        description: ""
+      - name: payment_method
+        description: ""
+      - name: payout_balance_transaction
+        description: >
+          Table that contains the complete mapping between `payout_id` and `balance_transaction_id`.
+          The payout to balance_transaction relationship is 1:many.
+      - name: payout
+        description: >
+          A Payout represents funds moving from a Stripe balance to an external bank account or card. Payouts can be
+          automatic or manual and follow country- and industry-specific schedules.
+      - name: product
+        description: ""
+      - name: refund
+        description: ""
+      - name: sepa_debit
+        description: ""
+      - name: setup_attempt
+        description: ""
+      - name: setup_intent
+        description: ""
+      - name: shipping_rate
+        description: ""
+      - name: sku
+        description: ""
+      - name: source
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: topup
+        description: ""
+      - name: transfer_reversal
+        description: ""
+      - name: transfer
+        description: ""
+      - name: usage_record
+        description: ""

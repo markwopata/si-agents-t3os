@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__fuel_card_drivers
+    description: > 
+      historical list of drivers that have a fuel card. Corporate account number 863295028 (fuel card driver account type) is the current account, 
+      account 864098918 has been deprecated.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - driver_id
+              - account_number
+    columns:
+      - name: employee_id
+        description: ""
+      - name: driver_id
+        description: ""
+      - name: account_number
+        description: ""
+      - name: account_name
+        description: ""
+      - name: driver_status
+        description: ""
+      - name: card_status_description
+        description: "boolean indicating if the fuel card is Open or Closed"        
+      - name: driver_last_name
+        description: ""
+      - name: driver_first_name
+        description: ""
+      - name: driver_middle_initial
+        description: ""
+      - name: email_address
+        description: ""
+      - name: driver_status_date
+        description: ""
+      - name: account_open_or_closed_date
+        description: "date in which the driver's account status changes. "

@@ -1,0 +1,69 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__stock_adjustment_header
+    description: Table for header level stock adjustments, to adjust stock quantities and costs
+    columns:
+      - name: stock_adjustment_header_id
+        description: 'Unique identifier for the stock adjustment header.'
+        data_tests:
+          - not_null
+          - unique
+      - name: vmi_supplier_settlement_discount
+        description: 'Discount for VMI supplier settlement.'
+      - name: vmi_rule_id
+        description: 'Identifier for the VMI rule.'
+      - name: cost_per_id
+        description: 'Cost per period identifier.'
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: cost
+        description: 'Cost associated with the stock adjustment.'
+      - name: backdated_to
+        description: 'Date to which the stock adjustment is backdated.'
+      - name: vmi_supplier_invoice_document_id
+        description: 'Identifier for the VMI supplier invoice document.'
+      - name: mobile_reference
+        description: 'Reference for mobile transactions.'
+      - name: wms_unit_number
+        description: 'Unit number in the WMS system.'
+      - name: vmi_reconciled
+        description: 'Indicates whether the VMI is reconciled.'
+      - name: datetime_created
+        description: 'Timestamp when the stock adjustment was created.'
+      - name: stock_adjustment_number
+        description: 'Number assigned to the stock adjustment.'
+      - name: notes
+        description: 'Notes related to the stock adjustment.'
+      - name: vmi_cost_in_currency
+        description: 'VMI cost in the specified currency.'
+      - name: stock_count_id
+        description: 'Identifier for the stock count.'
+      - name: vmi_calculation_text
+        description: 'Text describing the VMI calculation.'
+      - name: vmi_supplier_settlement_amount_in_currency
+        description: 'Settlement amount for the VMI supplier in currency.'
+      - name: cost_with_additional
+        description: 'Cost including additional charges.'
+      - name: approved_by_id
+        description: 'Identifier for the approver.'
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: vmi_supplier_settlement_amount
+        description: 'Settlement amount for the VMI supplier.'
+      - name: mobile_location
+        description: 'Location for mobile transactions.'
+      - name: created_by_id
+        description: 'Identifier for the creator of the stock adjustment.'
+      - name: reason_id
+        description: 'Identifier for the reason of the stock adjustment.'
+      - name: datetime_approved
+        description: 'Timestamp when the stock adjustment was approved.'
+      - name: vmi_cost
+        description: 'Cost associated with the VMI.'
+      - name: vmi_exchange_rate
+        description: 'Exchange rate for the VMI.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

@@ -1,0 +1,132 @@
+version: 2
+
+models:
+  - name: stg_quotes_quotes__quotes
+    description: ""
+    config:
+      tags:
+        - staging
+        - quotes
+    columns:
+      - name: quote_id
+        description: ""
+      - name: has_pdf
+        description: ""
+      - name: location_description
+        description: ""
+      - name: company_id
+        description: ""
+      - name: delivery_fee
+        description: ""
+      - name: delivery_type_id
+        description: ""
+      - name: rsp_company_id
+        description: ""
+      - name: po_id
+        description: ""
+      - name: contact_email
+        description: ""
+      - name: quote_created_at
+        description: ""
+      - name: contact_id
+        description: ""
+      - name: state_specific_tax_percentage
+        description: ""
+      - name: last_modified_by
+        description: ""
+      - name: start_date
+        description: ""
+      - name: sales_tax_percentage
+        description: ""
+      - name: rpp_id
+        description: ""
+      - name: order_created_at
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: new_company_name
+        description: ""
+      - name: delivery_type_name
+        description: ""
+      - name: contact_name
+        description: ""
+      - name: company_name
+        description: ""
+      - name: rpp_name
+        description: ""
+      - name: deliver_to
+        description: ""
+      - name: pickup_fee
+        description: ""
+      - name: is_tax_exempt
+        description: ""
+      - name: last_modified_date
+        description: ""
+      - name: contact_phone
+        description: ""
+      - name: ordered_by
+        description: ""
+      - name: end_date
+        description: ""
+      - name: order_id
+        description: ""
+      - name: sales_rep_id
+        description: ""
+      - name: location_id
+        description: ""
+      - name: quote_number
+        description: ""
+      - name: order_created_by
+        description: ""
+      - name: expiry_date
+        description: ""
+      - name: ordered_by_phone
+        description: ""
+      - name: created_by
+        description: ""
+      - name: delivery_mileage
+        description: ""
+      - name: po_name
+        description: ""
+      - name: ordered_by_email
+        description: ""
+      - name: site_contact_name
+        description: ""
+      - name: site_contact_phone
+        description: ""
+      - name: deliver_to_address
+        description: ""
+      - name: deliver_to_latitude
+        description: ""
+      - name: deliver_to_longitude
+        description: ""
+      - name: project_type
+        description: ""
+      - name: new_location_info
+        description: ""
+      - name: missed_rental_reason_other
+        description: ""
+      - name: missed_rental_reason
+        description: ""
+      - name: escalation_id
+        description: ""
+      - name: request_source_id
+        description: ""
+      - name: duplicated_from_quote_id
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: phase_name
+        description: ""
+      - name: job_id
+        description: ""
+      - name: job_name
+        description: ""
+      - name: phase_id
+        description: ""
+      - name: scope_of_work
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: _es_load_timestamp
+        description: ""

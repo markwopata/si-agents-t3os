@@ -1,0 +1,166 @@
+---
+version: 2
+
+models:
+  - name: base_analytics_lease_accelerator__bu_asset_api_download
+    description: >
+      cleaned and renamed model of analytics.lease_accelerator.bu_asset_api_download
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - las_asset_id
+              - _es_update_timestamp
+    columns:
+      - name: las_asset_id
+        description: ""
+
+      - name: admin_asset_id
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: ledger_category
+        description: ""
+
+      - name: host_name
+        description: ""
+
+      - name: business_unit
+        description: ""
+
+      - name: entity
+        description: ""
+
+      - name: funder
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: asset_type_2
+        description: ""
+
+      - name: currency
+        description: ""
+
+      - name: renewal_term
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: lease_type
+        description: ""
+
+      - name: payment_schedule
+        description: ""
+
+      - name: product_number
+        description: ""
+
+      - name: manufacturer
+        description: ""
+
+      - name: description
+        description: ""
+
+      - name: address
+        description: ""
+
+      - name: city
+        description: ""
+
+      - name: state
+        description: ""
+
+      - name: country
+        description: ""
+
+      - name: asset_owner
+        description: ""
+
+      - name: asset_tag
+        description: ""
+
+      - name: vendor
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: lease
+        description: ""
+
+      - name: current_fx_rate
+        description: ""
+
+      - name: fx_rate_at_lsd
+        description: ""
+
+      - name: asset_cost_local
+        description: ""
+
+      - name: asset_rent_local
+        description: ""
+
+      - name: allocated_cost_local
+        description: ""
+
+      - name: allocated_rent_local
+        description: ""
+
+      - name: asset_cost_reporting_currency
+        description: ""
+
+      - name: asset_rent_reporting_currency
+        description: ""
+
+      - name: allocated_cost_reporting_currency
+        description: ""
+
+      - name: allocated_rent_reporting_currency
+        description: ""
+
+      - name: term
+        description: ""
+
+      - name: months_remaining
+        description: ""
+
+      - name: original_lease_rate_factor
+        description: ""
+
+      - name: serial_number
+        description: ""
+
+      - name: asset_reference_number
+        description: ""
+
+      - name: postal_code
+        description: ""
+
+      - name: date_entered
+        description: ""
+
+      - name: booking_ledger_date
+        description: ""
+
+      - name: commencement_date
+        description: ""
+
+      - name: original_end_date
+        description: ""
+
+      - name: last_renewal
+        description: ""
+
+      - name: effective_end_date
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""

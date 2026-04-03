@@ -1,0 +1,65 @@
+---
+version: 2
+
+models:
+  - name: int_portfolio_balance_pivoted_to_leases_and_market
+    description: >
+      Re-graining the ledger export report from the journal entry to the asset level. Contains historical and future data
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - starting_fiscal_period
+              - schedule
+              - market_id
+      # this test ensures that the model calculations matches the stg table of the portfolio balance report (stg_analytics_lease_accelerator__portfolio_balance_api_download) expected calculations
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          arguments:
+            enabled: false # Disable this test
+            expression: sum(roua)
+            row_condition: "starting_fiscal_period <= '2025-02-28 00:00:00.000 Z'" # the latest accounting close period
+            compare_model: ref('stg_analytics_lease_accelerator__portfolio_balance_api_download')
+            compare_expression: sum(case when account_description like '%Lease asset%' then round(amount,2) else 0 end)
+            group_by: [starting_fiscal_period, schedule, market_id]
+            compare_group_by: [starting_fiscal_period, schedule, market_id]
+            tolerance_percent: 0.01
+
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          arguments:
+            enabled: false # Disable this test
+            expression: sum(lease_liability)
+            row_condition: "starting_fiscal_period <= '2025-02-28 00:00:00.000 Z'" # the latest accounting close period
+            compare_model: ref('stg_analytics_lease_accelerator__portfolio_balance_api_download')
+            compare_expression: sum(case when account_description like '%Lease obligation%' or account_description like '%Purchase option liability%' then round(amount,2) else 0 end)
+            group_by: [starting_fiscal_period, schedule, market_id]
+            compare_group_by: [starting_fiscal_period, schedule, market_id]
+            tolerance_percent: 0.01
+
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          arguments:
+            enabled: false # Disable this test
+            expression: sum(accumulated_depreciation)
+            row_condition: "starting_fiscal_period <= '2025-02-28 00:00:00.000 Z'" # the latest accounting close period
+            compare_model: ref('stg_analytics_lease_accelerator__portfolio_balance_api_download')
+            compare_expression: sum(case when account_description like '%Accumulated depreciation%' then round(amount,2) else 0 end)
+            group_by: [starting_fiscal_period, schedule, market_id]
+            compare_group_by: [starting_fiscal_period, schedule, market_id]
+            tolerance_percent: 0.01
+    columns:
+      - name: schedule
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: starting_fiscal_period
+        description: ""
+
+      - name: roua
+        description: ""
+
+      - name: lease_liability
+        description: ""
+
+      - name: accumulated_depreciation
+        description: ""

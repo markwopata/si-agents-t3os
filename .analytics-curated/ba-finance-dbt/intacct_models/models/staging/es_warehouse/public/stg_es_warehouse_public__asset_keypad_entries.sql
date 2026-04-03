@@ -1,0 +1,20 @@
+SELECT
+    ake.asset_keypad_entry_id,
+    ake.asset_id,
+    ake.tracker_id,
+    ake.user_id,
+    ake.keypad_code,
+    ake.is_successful,
+    ake.source,
+    ake.keypad_id,
+    ake.keypad_code_id,
+    ake.keypad_timestamp,
+    ake.company_keypad_code_id,
+    ake.keypad_code_assignment_id,
+    ake.trip_id,
+    ake.assigned_trips,
+    ake.unassigned_trips,
+    ake.trips_with_multiple_matching_asset_keypad_entries,
+    ake.date_created,
+    ake._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'asset_keypad_entries') }} as ake

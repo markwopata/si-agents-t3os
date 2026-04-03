@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: stg_analytics_commission__retail_commission_details_final
+    description: "Final retail commission details table containing all commission-related information including sales, employee, and transaction details"

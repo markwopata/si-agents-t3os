@@ -1,0 +1,49 @@
+---
+version: 2
+
+models:
+  - name: int_payment_schedules_pivoted_to_assets
+    description: >
+      Lease payments distributed to LAS assets based on OEC proportions
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - las_asset_id
+              - payment_date
+    columns:
+      - name: admin_asset_id
+        description: ""
+
+      - name: las_asset_id
+        description: ""
+
+      - name: asset_type
+        description: ""
+
+      - name: lease
+        description: ""
+
+      - name: asset_id_lease_oec_percentage
+        description: ""
+
+      - name: total_lease_oec
+        description: ""
+
+      - name: oec_proportion
+        description: ""
+
+      - name: schedule_number
+        description: ""
+
+      - name: lease_genre
+        description: ""
+
+      - name: payment_date
+        description: ""
+
+      - name: payment_amount
+        description: ""
+
+      - name: amount_paid
+        description: ""

@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__rental_purchase_options
+    description: Model for es_warehouse.public.rental_purchase_options
+    columns:
+      - name: rental_purchase_option_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

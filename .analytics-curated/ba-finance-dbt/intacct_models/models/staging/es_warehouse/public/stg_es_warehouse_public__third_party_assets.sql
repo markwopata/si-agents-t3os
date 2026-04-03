@@ -1,0 +1,19 @@
+SELECT
+    tpa.third_party_asset_id,
+    tpa.equipment_class_id,
+    tpa.equipment_make_id,
+    tpa.equipment_model_id,
+    tpa.custom_name,
+    tpa.model,
+    tpa.hours,
+    tpa.description,
+    tpa.date_deleted,
+    tpa.company_id,
+    tpa.category_id,
+    tpa.make,
+    tpa.asset_class,
+    tpa.location_id,
+    tpa.date_created,
+    tpa.date_updated,
+    tpa._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'third_party_assets') }} as tpa

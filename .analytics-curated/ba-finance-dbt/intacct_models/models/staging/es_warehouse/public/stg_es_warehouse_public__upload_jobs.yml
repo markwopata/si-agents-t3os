@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__upload_jobs
+    description: Model for es_warehouse.public.upload_jobs
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: upload_job_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: upload_job_status_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: upload_job_type_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: completed_date
+        description: ""
+      - name: file_name
+        description: ""
+      - name: upload_job_metadata
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: upload_job_metadata__total_rows
+        description: Extracted from json in column upload_job_metadata (roughly upload_job_metadata:total_rows)
+      - name: upload_job_metadata__rows_processed
+        description: Extracted from json in column upload_job_metadata (roughly upload_job_metadata:rows_processed)
+      - name: upload_job_metadata__error_message
+        description: Extracted from json in column upload_job_metadata (roughly upload_job_metadata:error_message)

@@ -1,0 +1,22 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__approved_invoice_salespersons
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.approved_invoice_salespersons table, maintaining point-in-time
+      history of approved invoice salespersons.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: invoice_id
+        description: Foreign key to the underlying invoice record.
+        data_tests:
+          - not_null
+      - name: primary_salesperson_id
+        description: Primary salesperson id used as part of the snapshot unique key.
+        data_tests:
+          - not_null

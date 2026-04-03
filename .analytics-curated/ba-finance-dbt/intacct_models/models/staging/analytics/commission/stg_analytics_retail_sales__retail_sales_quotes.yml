@@ -1,0 +1,80 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retail_sales__retail_sales_quotes
+    description: Model for analytics.retail_sales.retail_sales_quotes
+    columns:
+      - name: QUOTE_PK_ID
+        description: "The primary key for the record."
+
+      - name: QUOTE_ID
+        description: "The id for the record. This is unique because we are only capturing the most recent version of the quote."
+
+      - name: INVOICE_ID
+        description: "The invoice ID if the quote has been converted to an invoice."
+
+      - name: SALESPERSON_USER_ID
+        description: "The user ID of the salesperson who created the quote."
+
+      - name: SECONDARY_SALESPERSON_USER_ID
+        description: "The user ID of the secondary salesperson responsible for the quote. Foreign key to the users table."
+
+      - name: BILLING_PROVIDER
+        description: "The billing provider for the quote."
+
+      - name: MARKET_ID
+        description: "The ID of the market where the quote was created."
+
+      - name: STATUS
+        description: "The current status of the quote (e.g., draft, pending, complete, denied)."
+
+      - name: TYPE_OF_SALE
+        description: "The type of sale (e.g., retail, wholesale)."
+
+      - name: QUOTE_CREATED_AT
+        description: "The timestamp when the quote was first created (earliest version)."
+
+      - name: QUOTE_COMPLETED_AT
+        description: "The timestamp when the quote was completed."
+
+      - name: DAYS_TO_COMPLETE
+        description: "The number of days it took to complete the quote from creation to complete status."
+
+      - name: IS_CURRENT
+        description: "Boolean flag indicating if this is the current/latest version of the quote."
+
+      - name: ASSET_COUNT
+        description: "The total number of assets included in the quote."
+
+      - name: TOTAL_PRICE
+        description: "The total price of all assets and additional items in the quote."
+
+      - name: TOTAL_COST
+        description: "The total cost of all assets and additional items in the quote."
+
+      - name: TOTAL_REBATE
+        description: "The total rebate amount for all assets in the quote."
+
+      - name: TOTAL_MARGIN
+        description: "The total margin (price - (cost - rebate)) for all assets in the quote."
+
+      - name: SALESPERSON_NAME
+        description: "The full name of the salesperson (first name + last name)."
+
+      - name: SALESPERSON_EMAIL
+        description: "The email address of the salesperson."
+
+      - name: SECONDARY_SALESPERSON_NAME
+        description: "The full name of the secondary salesperson."
+
+      - name: SECONDARY_SALESPERSON_EMAIL
+        description: "The email address of the secondary salesperson."
+
+      - name: MARKET_NAME
+        description: "The name of the child market where the quote was created."
+
+      - name: PARENT_MARKET_ID
+        description: "The ID of the parent market."
+
+      - name: PARENT_MARKET_NAME
+        description: "The name of the parent market."

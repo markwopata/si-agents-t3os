@@ -1,0 +1,35 @@
+version: 2
+sources:
+  - name: heap
+    database: heap_t3_platform_production
+    schema: heap
+    description: "Heap acts as a provider to share data directly with our Snowflake account via Snowflake Data Sharing. No data is copied or transferred during this sharing, so the shared data does not take up any storage in our account. This integration does not contribute monthly data storage charges in Snowflake, bu it will be chargedfor compute resources used to query the shared data."
+
+    tables:
+      - name: _dropped_tables
+      - name: _event_metadata
+      - name: _sync_history
+      - name: _sync_info
+      - name: all_events
+        description: "{{ doc('heap__all_events') }}"
+      - name: any_android_view_any
+      - name: pageviews
+        description: "{{ doc('heap__pageviews') }}"
+      - name: sessions
+        description: "{{ doc('heap__sessions') }}"
+      - name: user_migrations
+        description: "{{ doc('heap__user_migrations') }}"
+      - name: users
+        description: "{{ doc('heap__users') }}"
+
+      # T3 Events Tables
+      - name: t3_analytics_any_event_click_any
+        description: "{{ doc('heap__t3_analytics_any_event_click_any') }}"
+
+      # Intercom Events Tables
+      - name: intercom_events_conversation_was_closed
+        description: "{{ doc('heap__intercom_events_conversation_was_closed') }}"
+      - name: intercom_events_rate_conversation
+        description: "{{ doc('heap__intercom_events_rate_conversation') }}"
+      - name: intercom_events_start_inbound_conversation
+        description: "{{ doc('heap__intercom_events_start_inbound_conversation') }}"

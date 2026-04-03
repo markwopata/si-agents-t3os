@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_camera_assignments
+    description: Model for es_warehouse.public.asset_camera_assignments
+    columns:
+      - name: asset_camera_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: camera_id
+        description: ""
+      - name: date_installed
+        description: ""
+      - name: date_uninstalled
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

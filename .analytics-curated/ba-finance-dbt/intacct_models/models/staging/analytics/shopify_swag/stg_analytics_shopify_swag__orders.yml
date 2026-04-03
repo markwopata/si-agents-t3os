@@ -1,0 +1,306 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_shopify_swag__orders
+    description: "This table tracks the orders from the ES shopify swag store."
+    columns:
+      - name: id
+        description: "Unique identifier for the order."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: note
+        description: "Note that was manually added to the order, usually the shipping tracking number."
+
+      - name: email
+        description: "Email address used for the order."
+
+      - name: taxes_included
+        description: "Flag indicating if taxes are included in the order."
+
+      - name: currency
+        description: "Currency used for the order."
+
+      - name: subtotal_price
+        description: "Subtotal price for the order."
+
+      - name: subtotal_price_set
+        description: "Subtotal price set for the order."
+
+      - name: total_tax
+        description: "Total tax for the order."
+
+      - name: total_tax_set
+        description: "Total tax set for the order."
+
+      - name: total_price
+        description: "Total price for the order."
+
+      - name: total_price_set
+        description: "Total price set for the order."
+
+      - name: created_at
+        description: "Timestamp when the order was created."
+
+      - name: updated_at
+        description: "Timestamp when the order was updated."
+
+      - name: name
+        description: "Shopify ID Number for the order."
+
+      - name: shipping_address_name
+        description: "Full name of the user to which the order is being shipped."
+
+      - name: shipping_address_first_name
+        description: "First name of the user to which the order is being shipped."
+
+      - name: shipping_address_last_name
+        description: "Last name of the user to which the order is being shipped."
+
+      - name: shipping_address_company
+        description: "Company name of the user to which the order is being shipped."
+
+      - name: shipping_address_phone
+        description: "Phone number of the user to which the order is being shipped."
+
+      - name: shipping_address_address_1
+        description: "Street address line 1 of the location to which the order is being shipped."
+
+      - name: shipping_address_address_2
+        description: "Street address line 2 of the location to which the order is being shipped."
+
+      - name: shipping_address_city
+        description: "City of the location to which the order is being shipped."
+
+      - name: shipping_address_country
+        description: "Country of the location to which the order is being shipped."
+
+      - name: shipping_address_country_code
+        description: "Country code of the location to which the order is being shipped."
+
+      - name: shipping_address_province
+        description: "State/Province of the location to which the order is being shipped."
+
+      - name: shipping_address_province_code
+        description: "State/Province code of the location to which the order is being shipped."
+
+      - name: shipping_address_zip
+        description: "Zip/Postal code of the location to which the order is being shipped."
+
+      - name: shipping_address_latitude
+        description: "Latitude of the location to which the order is being shipped."
+
+      - name: shipping_address_longitude
+        description: "Longitude of the location to which the order is being shipped."
+
+      - name: billing_address_name
+        description: "Full name of the user to which the order is being billed."
+
+      - name: billing_address_first_name
+        description: "First name of the user to which the order is being billed."
+
+      - name: billing_address_last_name
+        description: "Last name of the user to which the order is being billed."
+
+      - name: billing_address_company
+        description: "Company name of the user to which the order is being billed."
+
+      - name: billing_address_phone
+        description: "Phone number of the user to which the order is being billed."
+
+      - name: billing_address_address_1
+        description: "Street address line 1 of the location to which the order is being billed."
+
+      - name: billing_address_address_2
+        description: "Street address line 2 of the location to which the order is being billed."
+
+      - name: billing_address_city
+        description: "City of the location to which the order is being billed."
+
+      - name: billing_address_country
+        description: "Country of the location to which the order is being billed."
+
+      - name: billing_address_country_code
+        description: "Country code of the location to which the order is being billed."
+
+      - name: billing_address_province
+        description: "State/Province of the location to which the order is being billed."
+
+      - name: billing_address_province_code
+        description: "State/Province code of the location to which the order is being billed."
+
+      - name: billing_address_zip
+        description: "Zip/Postal code of the location to which the order is being billed."
+
+      - name: billing_address_latitude
+        description: "Latitude of the location to which the order is being billed."
+
+      - name: billing_address_longitude
+        description: "Longitude of the location to which the order is being billed."
+
+      - name: customer_id
+        description: "Unique identifier for the customer."
+
+      - name: location_id
+        description: "Unique identifier for the location."
+
+      - name: user_id
+        description: "Unique identifier for the user."
+
+      - name: company_id
+        description: "Unique identifier for the company."
+
+      - name: company_location_id
+        description: "Unique identifier for the company location."
+
+      - name: app_id
+        description: "Unique identifier for the app."
+
+      - name: number
+        description: "Number of the order within the Shopify store."
+
+      - name: order_number
+        description: "Shopify ID Number for the order."
+
+      - name: financial_status
+        description: "Identifier flag to indicate whether the order has been paid for, partially paid for, not paid for, or refunded."
+
+      - name: fulfillment_status
+        description: "Identifier flag to indicate whether the order has been fulfilled, partially fulfilled, or not fulfilled."
+
+      - name: processed_at
+        description: "Timestamp when the order was processed."
+
+      - name: referring_site
+        description: "URL of the site that referred the customer to the Shopify store." 
+
+      - name: cancel_reason
+        description: "Reason for the order being cancelled."
+
+      - name: cancelled_at
+        description: "Timestamp when the order was cancelled."
+
+      - name: closed_at
+        description: "Timestamp when the order was closed."
+
+      - name: total_discounts
+        description: "Total discounts for the order."
+
+      - name: total_tip_received
+        description: "Total tips received for the order."
+
+      - name: current_total_price
+        description: "Current total price for the order."
+
+      - name: current_total_discounts
+        description: "Current total discounts for the order."
+
+      - name: current_subtotal_price
+        description: "Current subtotal price for the order."
+
+      - name: current_total_tax
+        description: "Current total tax for the order."
+
+      - name: current_total_discounts_set
+        description: "Current total discounts set for the order."
+
+      - name: current_total_duties_set
+        description: "Current total duties set for the order."
+
+      - name: current_total_price_set
+        description: "Current total price set for the order."
+
+      - name: current_subtotal_price_set
+        description: "Current subtotal price set for the order."
+
+      - name: current_total_tax_set
+        description: "Current total tax set for the order."
+
+      - name: total_discounts_set
+        description: "Total discounts set for the order."
+
+      - name: total_shipping_price_set
+        description: "Total shipping price set for the order."
+
+      - name: total_line_items_price
+        description: "Total line items price for the order."
+
+      - name: total_line_items_price_set
+        description: "Total line items price set for the order."
+
+      - name: original_total_duties_set
+        description: "Original total duties set for the order."
+
+      - name: total_weight
+        description: "Total weight for the order."
+
+      - name: source_name
+        description: "Source by which the order was created (web, shopify, Matrixify app, etc.)"
+
+      - name: browser_ip
+        description: "IP address of the browser used to create the order."
+
+      - name: buyer_accepts_marketing
+        description: "Flag indicating if the buyer accepts marketing emails from the Shopify store."
+
+      - name: confirmed
+        description: "Flag indicating if the order has been confirmed."
+
+      - name: token
+        description: "Token for the order."
+
+      - name: cart_token
+        description: "Token for the cart."
+
+      - name: checkout_token
+        description: "Token for the checkout."
+
+      - name: checkout_id
+        description: "ID for the checkout."
+
+      - name: customer_locale
+        description: "Locale of the customer."
+
+      - name: device_id
+        description: "ID of the device used to create the order."
+
+      - name: landing_site_ref
+        description: "Reference for the landing site."
+
+      - name: presentment_currency
+        description: "Currency of the order."
+
+      - name: reference
+        description: "Reference for the order."
+
+      - name: source_identifier
+        description: "Identifier for the source of the order."
+
+      - name: source_url
+        description: "URL of the source of the order."
+
+      - name: _fivetran_deleted
+        description: "Flag indicating if the order has been deleted."
+
+      - name: order_status_url
+        description: "URL of the order status."
+
+      - name: test
+        description: "Flag indicating if the order is a test."
+
+      - name: payment_gateway_names
+        description: "Names of the payment gateways used for the order."
+
+      - name: note_attributes
+        description: "Attributes of the note for the order."
+
+      - name: client_details_user_agent
+        description: "User agent of the client used to create the order."
+
+      - name: landing_site_base_url
+        description: "Base URL of the landing site."
+
+      - name: _fivetran_synced
+        description: "Timestamp when the order was synced to the Fivetran platform."

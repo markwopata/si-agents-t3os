@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__hourly_asset_geofence_usage
+    description: Model for es_warehouse.public.hourly_asset_geofence_usage
+    columns:
+      - name: hourly_asset_geofence_usage_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: geofence_id
+        description: ""
+      - name: hours
+        description: ""
+      - name: report_range
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: report_range__end_bound
+        description: Extracted from json in column report_range (roughly report_range:end_bound)
+      - name: report_range__start_bound
+        description: Extracted from json in column report_range (roughly report_range:start_bound)
+      - name: report_range__end_range
+        description: Extracted from json in column report_range (roughly report_range:end_range)
+      - name: report_range__start_range
+        description: Extracted from json in column report_range (roughly report_range:start_range)

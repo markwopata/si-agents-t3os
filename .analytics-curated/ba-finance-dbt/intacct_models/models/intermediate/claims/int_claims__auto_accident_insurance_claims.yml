@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: int_claims__auto_accident_insurance_claims
+    description: > 
+      "List of open and closed auto accident insurance claims filed by the ES branches to our claims provider (Concor). 
+      We are combining the open and closed claims into a single table for consistency."
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - claim_id
+            - file_notes
+    
+    columns:
+      - name: claim_id
+        description: ""
+
+      - name: date_of_claim
+        description: "date of the accident"
+
+      - name: asset_number
+        description: "{{ doc('admin_asset_id') }}"
+
+      - name: asset_year
+        description: ""
+
+      - name: asset_make
+        description: ""
+
+      - name: asset_model
+        description: ""
+
+      - name: serial
+        description: "serial number of the asset"
+
+      - name: license_plate
+        description: "license plate number of the vehicle"
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: location
+        description: "{{ doc('market_name') }}"
+
+      - name: general_manager
+        description: ""
+
+      - name: file_notes
+        description: ""
+
+      - name: last_action_taken_date
+        description: ""
+
+      - name: total_due_from_third_party
+        description: "total amount that the third party in the accident owes to ES (Concor) in USD$"
+
+      - name: amount_collected_from_third_party
+        description: "total amount that has been collected so far from the third party in the accident in USD$"
+
+      - name: total_due_from_es
+        description: "Total amount that Concor owes to settle the claim in USD$"
+
+      - name: amount_paid_by_es
+        description: "Total amount that Concor has paid so far to settle the claim in USD$"
+
+      - name: is_material_loss
+        description: "boolean indicating whether the claim is a material loss or not"
+
+      - name: repair_invoice
+        description: ""
+
+      - name: repair_date
+        description: ""
+
+      - name: driver_name
+        description: ""
+
+      - name: driver_employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: status
+        description: ""
+
+      - name: source
+        description: "Source of the claim, either 'Open' or 'Closed'"     
+
+      - name: status_comments
+        description: ""
+
+      - name: google_drive_link
+        description: ""
+

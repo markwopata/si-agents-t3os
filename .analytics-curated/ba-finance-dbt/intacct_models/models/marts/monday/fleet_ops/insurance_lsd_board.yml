@@ -1,0 +1,132 @@
+---
+version: 2
+models:
+  - name: insurance_lsd_board
+    description: "Lost/Stolen/Destroyed Insurance Monday board exposed as a table."
+    meta:
+      point_of_contact: Kimberly Johnson
+      owner: "@nick.logan"
+      monday_board_url: https://equipmentshare.monday.com/boards/6829207248
+    columns:
+      - name: item_id
+        description: "Unique identifier of the item (row) on the Monday board."
+        data_tests:
+          - unique
+      - name: abs_owner
+        description: "Assignment/owner field (person or team)."
+      - name: link_to_lsd_asset_management
+        description: "URL/link related to link to lsd asset management."
+      - name: lsd_designation_date
+        description: "Date associated with lsd designation."
+      - name: repair_date
+        description: "Date associated with repair."
+      - name: customer_name
+        description: "Name/title for customer name."
+      - name: lender_contact_information
+        description: "Field from Monday board: lender contact information."
+      - name: total_loss
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: ins_claim_filed
+        description: "Field from Monday board: ins claim filed."
+      - name: last_action_taken
+        description: "Field from Monday board: last action taken."
+      - name: test_board
+        description: "Field from Monday board: test board."
+      - name: rental_contract_number
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: reminder_date
+        description: "Date associated with reminder."
+      - name: repair_invoice
+        description: "Field from Monday board: repair invoice."
+      - name: rpp
+        description: "Field from Monday board: rpp."
+      - name: total_turn_time
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: special_tag_optional
+        description: "Field from Monday board: special tag optional."
+      - name: open_closed
+        description: "Field from Monday board: open closed."
+      - name: rpp_status_comments
+        description: "Status or state for rpp status comments."
+      - name: customer_quote_needed
+        description: "Customer or account reference."
+      - name: type_of_loss
+        description: "Field from Monday board: type of loss."
+      - name: incident_location
+        description: "Field from Monday board: incident location."
+      - name: rpp_charge
+        description: "Field from Monday board: rpp charge."
+      - name: amount_paid_es_fault
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: make
+        description: "Field from Monday board: make."
+      - name: closed_date
+        description: "Date associated with closed."
+      - name: need_lender_contact
+        description: "Field from Monday board: need lender contact."
+      - name: model
+        description: "Field from Monday board: model."
+      - name: rpp_status
+        description: "Status or state for rpp status."
+      - name: amount_due_from_3_p
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_loss_mirror
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: branch_id
+        description: "Identifier for branch."
+      - name: link_to_lsd_fleet_ops
+        description: "URL/link related to link to lsd fleet ops."
+      - name: customer_quote
+        description: "Customer or account reference."
+      - name: lender_lessor
+        description: "Field from Monday board: lender lessor."
+      - name: responsible_payer
+        description: "Field from Monday board: responsible payer."
+      - name: vendor_name
+        description: "Name/title for vendor name."
+      - name: serial_number
+        description: "Numeric count or quantity."
+      - name: customer_insurance_company
+        description: "Customer or account reference."
+      - name: amount_collected
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: work_order
+        description: "Field from Monday board: work order."
+      - name: file_notes
+        description: "Freeform notes or description for file notes."
+      - name: customer_ins_policy_number
+        description: "Customer or account reference."
+      - name: branch_name
+        description: "Name/title for branch name."
+      - name: date_of_incident
+        description: "Field from Monday board: date of incident."
+      - name: assets_owner
+        description: "Assignment/owner field (person or team)."
+      - name: will_ins_pay_lender_directly
+        description: "Field from Monday board: will ins pay lender directly."
+      - name: reported_by
+        description: "Field from Monday board: reported by."
+      - name: general_manager
+        description: "Field from Monday board: general manager."
+      - name: asset_year
+        description: "Field from Monday board: asset year."
+      - name: assigned
+        description: "Assignment/owner field (person or team)."
+      - name: confidential_file_notes
+        description: "Freeform notes or description for confidential file notes."
+      - name: fmv_quote
+        description: "Field from Monday board: fmv quote."
+      - name: name
+        description: "Name/title for name."
+      - name: report_date
+        description: "Date associated with report."
+      - name: subitems
+        description: "Field from Monday board: subitems."
+      - name: fmv_quote_needed
+        description: "Field from Monday board: fmv quote needed."
+      - name: documents_and_photos
+        description: "Field from Monday board: documents and photos."
+      - name: rental_contract_date
+        description: "Date associated with rental contract."
+      - name: google_drive_link
+        description: "URL/link related to google drive link."

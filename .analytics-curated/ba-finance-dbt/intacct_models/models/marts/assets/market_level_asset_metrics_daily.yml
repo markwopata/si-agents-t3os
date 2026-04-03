@@ -1,0 +1,46 @@
+---
+version: 2
+models:
+  - name: market_level_asset_metrics_daily
+    description: Daily market-level asset metrics including OEC, units, and rental revenue.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "delete+insert"
+      unique_key: "date_trunc('day', daily_timestamp)"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - daily_timestamp
+    columns:
+      - name: daily_timestamp
+        description: "Date corresponding to the daily snapshot of asset and revenue metrics."
+      - name: month_end_date
+        description: "This will be not null for month end records or the current date, allowing us to quickly get to EOM numbers."
+      - name: market_id
+        description: "Unique identifier for the market."
+      - name: total_oec
+        description: "Total original equipment cost for all assets in the market."
+      - name: total_units
+        description: "Total number of asset units in the market."
+      - name: rental_fleet_oec
+        description: "Original equipment cost for assets in the rental fleet."
+      - name: rental_fleet_units
+        description: "Number of asset units in the rental fleet."
+      - name: unavailable_oec
+        description: "Original equipment cost of assets currently unavailable."
+      - name: unavailable_units
+        description: "Number of asset units currently unavailable."
+      - name: oec_on_rent
+        description: "Original equipment cost of assets currently on rent."
+      - name: units_on_rent
+        description: "Number of asset units currently on rent."
+      - name: pending_return_oec
+        description: "Original equipment cost of assets that are pending return."
+      - name: pending_return_units
+        description: "Number of asset units that are pending return."
+      - name: rental_revenue
+        description: >
+          Rental revenue for the market, includes rental revenue from all invoices including non-rental fleet and 
+          non-asset revenue.

@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_t3__po_approval_list
+    description: "stg_t3__po_approval_list table"
+    columns:
+      - name: purchase_order_id
+        data_type: varchar
+
+      - name: purchase_order_number
+        data_type: number
+
+      - name: date_created
+        data_type: timestamp_tz
+
+      - name: requesting_user_id
+        data_type: number(38,0)
+
+      - name: market_id
+        data_type: number(38,0)
+
+      - name: purchase_order_amount
+        data_type: number(38,2)
+
+      - name: approver_id
+        data_type: variant
+
+      - name: vendor
+        data_type: varchar
+
+      - name: entity_id
+        data_type: number(38,0)
+
+      - name: preferred
+        data_type: varchar
+
+      - name: status
+        data_type: varchar
+
+      - name: company_id
+        data_type: number
+
+      - name: cost_center
+        data_type: varchar
+
+      - name: region_name
+        data_type: varchar
+
+      - name: district
+        data_type: varchar
+
+      - name: market_type
+        data_type: varchar
+
+      - name: branch_earnings_start_month
+        data_type: date  
+
+      - name: approver_group
+        data_type: varchar
+
+      - name: approver_spending_limit
+        data_type: number(38,0)

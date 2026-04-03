@@ -1,0 +1,30 @@
+---
+version: 2
+models:
+  - name: int_financial_schedules
+    description: >
+        Details of financial schedules including lender information and schedule numbers.
+    columns:
+      - name: financial_schedule_id
+        description: 'Unique identifier for the financial schedule'
+        data_tests:
+            - not_null
+            - unique
+      - name: financing_facility_type
+        description: 'Type of financing facility'
+      - name: debt_table_lender_name
+        description: 'Name of the lender from the debt table'
+      - name: sage_lender_name
+        description: 'Name of the lender from Sage'
+      - name: commencement_date
+        description: 'Commencement date of the financial schedule'
+      - name: sage_account_number
+        description: 'Sage account number associated with the schedule'
+      - name: sage_loan_name
+        description: 'Loan name from Sage'
+      - name: debt_table_loan_name
+        description: 'Loan name from the debt table'
+      - name: sage_lender_vendor_id
+        description: 'Vendor ID of the lender from Sage'
+      - name: schedule_number
+        description: 'Current schedule number'

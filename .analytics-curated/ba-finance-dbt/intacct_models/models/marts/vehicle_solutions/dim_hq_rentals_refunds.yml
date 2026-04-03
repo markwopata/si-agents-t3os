@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: dim_hq_rentals_refunds
+    description: >
+        This table contains rental refund information for HQ Rentals. Grouped at the day level for simplicity reasons
+        Click the URL link to view the exact charge.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - refund_date
+    columns:
+      - name: reservation_id
+        description: "The unique identifier for the rental reservation."
+
+      - name: refund_date
+        description: "The date when the refund was processed."
+
+      - name: receipt_urls
+        description: "A list of URLs to the receipts for the refund."
+
+      - name: total_refund_amount
+        description: "The total amount refunded."

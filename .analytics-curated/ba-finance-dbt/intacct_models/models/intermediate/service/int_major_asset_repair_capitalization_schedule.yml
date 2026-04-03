@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_capitalization_schedule
+    description: >
+      Monthly capitalization schedule for major asset repairs (36 rows per work order/request, one per depreciation month).
+      Materialized as an incremental table using the append strategy: on incremental runs, only requests whose
+      major_asset_repair_request_id OR work_order_id do not already exist in the target table are inserted.
+      Source requests come from stg_analytics_service__major_asset_repair_requests where depreciation_flag = true.
+      Deduping selects the earliest record per work_order_id (earliest effective_date, then created_date).
+      Enriched with work order details (work orders) and request creator name (users).
+      Monthly amounts are calculated by dividing totals by the requested depreciation period.
+
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - major_asset_repair_request_id
+            - scheduled_capitalization_date
+
+    columns:
+      - name: major_asset_repair_request_id
+        description: "Primary identifier for the major asset repair request."
+
+      - name: work_order_id
+        description: "Work order identifier linked to the request."
+
+      - name: work_order_description
+        description: "Work order description from stg_es_warehouse_work_orders__work_orders."
+
+      - name: work_order_date_updated
+        description: "Work order last updated timestamp (timestamp_ntz)."
+
+      - name: work_order_date_billed
+        description: "Work order billed timestamp from the request (timestamp_ntz)."
+
+      - name: major_asset_repair_request_created_date
+        description: "Timestamp when the major asset repair request was created (timestamp_ntz)."
+
+      - name: major_asset_repair_request_effective_date
+        description: "Timestamp when the major asset repair request became effective (timestamp_ntz)."
+
+      - name: asset_id
+        description: "Asset identifier."
+
+      - name: branch_id
+        description: "Branch identifier (request branch_id)."
+
+      - name: user_id
+        description: "User identifier of the request creator."
+
+      - name: major_asset_repair_request_created_name
+        description: "Creator full name from users (first_name + last_name)."
+
+      - name: requested_depreciation_periods
+        description: "Requested depreciation period (number of months) from the request (depreciation_period)."
+
+      - name: depreciation_month_number
+        description: "Month number in the generated schedule (1–36)."
+
+      - name: total_es_labor_amount
+        description: "Total EquipmentShare labor amount for the request (rounded to 2 decimals)."
+
+      - name: monthly_total_es_labor_amount
+        description: "Monthly EquipmentShare labor amount (total_es_labor_amount / requested_depreciation_periods, rounded to 2 decimals)."
+
+      - name: total_es_part_amount
+        description: "Total EquipmentShare parts amount for the request (rounded to 2 decimals)."
+
+      - name: monthly_total_es_part_amount
+        description: "Monthly EquipmentShare parts amount (total_es_part_amount / requested_depreciation_periods, rounded to 2 decimals)."
+
+      - name: purchase_orders_linked_to_work_order
+        description: "Purchase order identifiers/links from the request (purchase_orders)."
+
+      - name: total_service_os_labor_cap_amount
+        description: "Total outside service cost capitalization amount (rounded to 2 decimals)."
+
+      - name: monthly_service_os_labor_cap_amount
+        description: "Monthly outside service capitalization amount (total_service_os_labor_cap_amount / requested_depreciation_periods, rounded to 2 decimals)."
+
+      - name: total_capitalization_amount
+        description: "Total combined work order cost to be capitalized (rounded to 2 decimals)."
+
+      - name: monthly_total_cap_amount
+        description: "Monthly capitalization amount (total_capitalization_amount / requested_depreciation_periods, rounded to 2 decimals)."
+
+      - name: scheduled_capitalization_date
+        description: >
+          Scheduled capitalization month date computed as the month start of the effective date plus
+          (depreciation_month_number - 1) months.
+
+      - name: sale_month
+        description: "Asset sale month from int_major_asset_repair_asset_ownership_date; used to adjust scheduled capitalization dates."
+
+      - name: scheduled_capitalization_date_adjusted
+        description: >
+          Scheduled capitalization date adjusted for asset sale: if the scheduled capitalization month
+          is after the asset's sale_month, the sale_month is used; otherwise the original
+          `scheduled_capitalization_date` is retained.

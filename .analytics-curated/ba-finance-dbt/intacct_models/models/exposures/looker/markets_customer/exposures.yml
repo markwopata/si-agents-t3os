@@ -1,0 +1,29 @@
+---
+version: 2
+exposures:
+  - name: lk_units_and_oec_on_rent_extended
+    label: "Units and OEC On Rent - Extended"
+    type: dashboard
+    url: "https://equipmentshare.looker.com/looks/1123"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+    owner:
+      name: "@phillip.duncan"
+      email: phillip.duncan@equipmentshare.com
+    meta:
+      looker_type: look
+      folder: Analysts
+      folder_id: "9022"
+      folder_url: https://equipmentshare.looker.com/folders/9022
+      looker_project: markets_customer
+      looker_model: regional_ranking
+      looker_view: regional_hierarchy_rental_history_comparison
+      explore_lookml_url: https://equipmentshare.looker.com/projects/markets_customer/files/regional_ranking%2Fregional_ranking.model.lkml?line=14
+      tables_not_in_dbt:
+        - analytics.bi_ops.market_oec_aor_current
+        - analytics.bi_ops.market_oec_aor_historical
+        - analytics.bi_ops.projected_oec_and_units_on_rent
+        - analytics.public.v_market_t3_analytics
+      look_id: "1123"
+      element_type: vis/looker_line

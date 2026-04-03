@@ -1,0 +1,55 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__payments
+    description: ""
+    columns:
+      - name: payment_id
+        description: "Primary key for payments table"
+        data_tests:
+          - not_null
+          - unique
+      - name: payment_method_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: xero_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: payment_method_type_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: bank_account_id
+        description: ""
+      - name: stripe_id
+        description: ""
+      - name: reference
+        description: ""
+      - name: result
+        description: ""
+      - name: status
+        description: ""
+      - name: amount_remaining
+        description: ""
+      - name: check_number
+        description: ""
+      - name: amount
+        description: ""
+      - name: entered_as_prepayment
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: payment_date
+        description: ""
+      - name: url_admin
+        description: "Link to the payment in the admin UI"

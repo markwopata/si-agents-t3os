@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_expense_reversal_trending
+    description: >
+      GL-style rows for major asset repair capitalization expense reversal trending, generated from the
+      major asset repair capitalization schedule for depreciation month 1 only (parts, ES labor, outside
+      service labor). Rows are mapped to Plexi bucket/Sage GL via stg_analytics_gs__plexi_bucket_mapping.
+      Output includes transaction/document identifiers, a T3 work order URL, and lineage fields (source/load_section/source_model).
+      Note: Amounts are currently output as positive values per SQL (coalesce(amount * 1, 0) as these are
+      expense reversals).
+    columns:
+      - name: transaction_number
+        description: "Transaction identifier composed as: asset_id|mkt_id|major_asset_repair_request_id. Going to feed into live/static Branch Earnings"
+        data_tests:
+          - unique
+          - not_null
+          
+      - name: mkt_id
+        description: "Market/branch identifier (from capitalization schedule branch_id)."
+
+      - name: account_number
+        description: >
+          Source account number used for mapping (hardcoded per component):
+          GDDA (parts), 6310 (labor), 6302 (outside service labor).
+
+      - name: transaction_number_format
+        description: "Format definition for transaction_number. Populated as: asset_id|mkt_id|major_asset_repair_request_id."
+
+      - name: descr
+        description: "Narrative description assembled from asset/work order/POs/work order description."
+
+      - name: gl_date
+        description: "GL date for the entry (major_asset_repair_request_effective_date from schedule), cast to DATE."
+
+      - name: document_type
+        description: "Document type for the entry. Populated as 'Asset Repair Expense Adjustment'."
+
+      - name: document_number
+        description: "Document number composed as: major_asset_repair_request_id-work_order_id-asset_id."
+
+      - name: url_sage
+        description: "Placeholder; null in this model."
+
+      - name: url_concur
+        description: "Placeholder; null in this model."
+
+      - name: url_admin
+        description: "Placeholder; null in this model."
+
+      - name: url_t3
+        description: "Work order URL to eStrack/T3 updates page for the work order."
+
+      - name: amount
+        description: "Amount from capitalization schedule (rounded to 2 decimals). Output as positive values per SQL."
+
+      - name: additional_data
+        description: "JSON object with keys: asset_id, work_order_id, major_asset_repair_request_id."
+
+      - name: source
+        description: "Source system identifier. Populated as 'ANALYTICS.INTACCT_MODELS'."
+
+      - name: load_section
+        description: "Load section label. Populated as 'Asset Repair Expense Reversal Trending'."
+
+      - name: source_model
+        description: "Source model name. Populated as 'int_major_asset_repair_expense_reversal_trending'."

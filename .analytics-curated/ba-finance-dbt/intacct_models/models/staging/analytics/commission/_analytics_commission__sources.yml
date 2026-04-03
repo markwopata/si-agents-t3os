@@ -1,0 +1,55 @@
+---
+version: 2
+
+description: Commission tables owned by the people analytics team
+sources:
+  - name: analytics_commission
+    tags: ["sources", "commissions"]
+    database: analytics
+    schema: commission
+    meta:
+      owner: "@loren.severs"
+    tables:
+      - name: employee_commission_exceptions
+        description: "Placeholder"
+      - name: employee_commission_info
+        description: "ECI Table of list of sales reps that should be either on guarantee or commission"
+      - name: company_commission_exceptions
+        description: "Cusomter Override table"
+      - name: company_commission_info
+        description: "Placeholder"
+      - name: nam_company_assignments
+        description: "Used to assign NAMs (National Account Managers) to companies"
+      - name: override_request_line_items
+        description: "Placeholder"
+      - name: parts_margin
+        description: "Parts Margin calculations"
+      - name: commission
+        description: "Placeholder"
+      - name: finalized_commission_months
+        description: "Not being used"
+      - name: commission_transaction_types
+        description: "Placeholder"
+      - name: commission_details_final
+        description: "This is the finalized details table for commissions. This table is used for Looker reporting."
+      - name: commission_details_dbt_test
+        description: "This is the final output table for commissions. This table is used for Looker reporting."
+      - name: commission_dbt
+        description: "This is the existing commission table used for commission calculations."
+      - name: retail_sales_commission
+        description: "Retail Sales commission. Created by a task outside of dbt."
+      - name: manual_adjustments
+        description: "Manual adjustments for rental side."
+      - name: retail_manual_adjustments
+        description: "Manual adjustments for retail side."
+      - name: retail_commission_details_final
+        description: "This table contains the raw retail commission data from Intacct or other upstream systems."
+      - name: equipment_sales_finalized
+        description: "Finalized equipment sales data used for calculating commission on equipment transactions."
+  
+  - name: analytics_retail_sales
+    database: ANALYTICS
+    schema: RETAIL_SALES
+    tables:
+      - name: retail_sales_quotes
+        description: "Dealership sales quotes table from the Retool app."

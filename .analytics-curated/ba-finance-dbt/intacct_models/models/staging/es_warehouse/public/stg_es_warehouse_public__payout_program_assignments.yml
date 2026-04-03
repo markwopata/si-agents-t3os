@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__payout_program_assignments
+    description: Model for es_warehouse.public.payout_program_assignments
+    columns:
+      - name: payout_program_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: payout_program_id
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: is_current
+        description: "Flag for if this record is current (end_date is null)"
+      - name: replaced_or_removed_reason
+        description: ""
+      - name: updated_by_user_id
+        description: ""
+      - name: payout_program_schedule_id
+        description: ""
+      - name: replaced_by_asset_id
+        description: ""
+      - name: payout_program_billing_type
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

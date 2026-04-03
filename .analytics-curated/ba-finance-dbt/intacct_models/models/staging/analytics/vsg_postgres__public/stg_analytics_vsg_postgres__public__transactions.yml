@@ -1,0 +1,86 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vsg_postgres__public__transactions
+    description: "Some kind of transaction table for reservations - only contains resla reservation data."
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_at
+        description: ""
+      - name: platform_id
+        description: ""
+      - name: platform
+        description: ""
+      - name: stripe_payment_intent_id
+        description: ""
+      - name: category
+        description: ""
+      - name: reference
+        description: ""
+      - name: status
+        description: ""
+      - name: captured_amount
+        description: >
+          the amount actually captured (charged) for that transaction — what the customer was charged and what hit the payment.
+      - name: refunded_amount
+        description: ""
+      - name: type
+        description: ""
+      - name: external_id
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: stripe_charge_id
+        description: ""
+      - name: cost
+        description: ""
+      - name: stripe_reserve_applied_payment_intent_id
+        description: ""
+      - name: description
+        description: ""
+      - name: label
+        description: ""
+      - name: allow_discount
+        description: ""
+      - name: discount_amount
+        description: ""
+      - name: tax_code
+        description: ""
+      - name: addon_id
+        description: ""
+      - name: additional_id
+        description: ""
+      - name: discount_id
+        description: ""
+      - name: initiated_at
+        description: ""
+      - name: associated_transaction_id
+        description: ""
+      - name: number_of_days
+        description: ""
+      - name: user_id
+        description: ""
+      - name: effective_date
+        description: ""
+      - name: avalara_line_id
+        description: ""
+      - name: fee_id
+        description: ""
+      - name: reimbursement_id
+        description: ""
+      - name: charge_amount
+        description: ""
+      - name: charge_quantity
+        description: ""
+      - name: release_date
+        description: ""
+      - name: card_last_4
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

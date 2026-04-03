@@ -1,0 +1,11 @@
+{
+  "sourceRoot": "/Users/mark.wopata/code/cursor_all_data_org_code",
+  "sourceRoots": [
+    "/Users/mark.wopata/code/cursor_all_data_org_code/ba_gitlab_repos/ba-finance-dbt",
+    "/Users/mark.wopata/code/cursor_all_data_org_code/dbt_cloud/business-intelligence",
+    "/Users/mark.wopata/code/cursor_all_data_org_code/looker"
+  ],
+  "generatedAt": "2026-04-03T12:06:00.247Z",
+  "copied": 7636,
+  "skipped": 2527
+}

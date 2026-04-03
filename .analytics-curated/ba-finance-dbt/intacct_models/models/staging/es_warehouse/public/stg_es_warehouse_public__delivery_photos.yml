@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__delivery_photos
+    description: Model for es_warehouse.public.delivery_photos
+    columns:
+      - name: delivery_photo_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          - unique
+      - name: delivery_id
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

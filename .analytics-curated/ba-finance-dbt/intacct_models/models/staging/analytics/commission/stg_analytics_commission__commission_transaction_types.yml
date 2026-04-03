@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__commission_transaction_types
+    description: Model for analytics.commission.commission_transaction_types
+    columns:
+      - name: commission_transaction_key
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: commission_transaction_type_id
+        description: ""
+      - name: credit_transaction_type_id
+        description: ""
+      - name: transaction_name
+        description: ""
+      - name: transaction_group
+        description: ""
+      - name: transaction_description
+        description: ""

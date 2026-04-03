@@ -1,0 +1,378 @@
+version: 2
+
+models:
+  - name: stg_t3__telematics_health
+    description: "stg_t3__telematics_health report table.
+      Note: `analytics.looker_inputs.tracker_type_required` is known to cause issues due to manual entry,
+      causing duplicate entries. We are ensuring no duplication occurs in this model while running a 
+      test in Monte Carlo https://getmontecarlo.com/monitors/6612de50-c8d0-4f14-b193-d47f1b5b5550/monitor-details."
+    columns:
+      - name: asset_id
+        data_type: number
+        data_tests:
+          - unique
+
+      - name: custom_name
+        data_type: varchar
+
+      - name: serial_vin
+        data_type: varchar
+
+      - name: make
+        data_type: varchar
+
+      - name: model
+        data_type: varchar
+
+      - name: year
+        data_type: number
+
+      - name: asset_class
+        data_type: varchar
+
+      - name: asset_type
+        data_type: varchar
+
+      - name: asset_type_thr
+        data_type: varchar
+
+      - name: company_id
+        data_type: number
+        data_tests:
+          - not_null
+
+      - name: company_name
+        data_type: varchar
+
+      - name: asset_inventory_status
+        data_type: varchar
+
+      - name: market_id
+        data_type: number
+
+      - name: market_name
+        data_type: varchar
+
+      - name: district
+        data_type: varchar
+
+      - name: region
+        data_type: varchar
+
+      - name: telematics_region
+        data_type: varchar
+
+      - name: ownership
+        data_type: varchar
+
+      - name: inventory_branch
+        data_type: varchar
+
+      - name: service_branch
+        data_type: varchar
+
+      - name: tracker_id
+        data_type: number
+
+      - name: tracker_serial
+        data_type: varchar
+
+      - name: device_serial
+        data_type: varchar
+
+      - name: tracker_type_id
+        data_type: number
+
+      - name: tracker_vendor
+        data_type: varchar
+
+      - name: tracker_type
+        data_type: varchar
+
+      - name: tracker
+        data_type: varchar
+
+      - name: phone_number
+        data_type: varchar
+
+      - name: tracker_last_date_installed
+        data_type: timestamp_ntz
+
+      - name: latest_report_timestamp
+        data_type: timestamp_ntz
+
+      - name: battery_voltage
+        data_type: number
+
+      - name: tracker_firmware_version
+        data_type: varchar
+
+      - name: ble_on_off
+        data_type: varchar
+
+      - name: geofences
+        data_type: varchar
+
+      - name: last_location
+        data_type: varchar
+
+      - name: is_ble_node
+        data_type: varchar
+
+      - name: unplugged
+        data_type: varchar
+
+      - name: street
+        data_type: varchar
+
+      - name: city
+        data_type: varchar
+
+      - name: state
+        data_type: varchar
+
+      - name: zip_code
+        data_type: varchar
+
+      - name: location
+        data_type: varchar
+
+      - name: last_checkin_timestamp
+        data_type: timestamp_tz
+
+      - name: asset_battery_voltage
+        data_type: number
+
+      - name: start_stale_gps_fix_timestamp
+        data_type: timestamp_tz
+
+      - name: last_location_timestamp
+        data_type: timestamp_tz
+
+      - name: latest_gps_fix_timestamp
+        data_type: timestamp_tz
+
+      - name: latest_satellites
+        data_type: number
+
+      - name: rssi
+        data_type: varchar
+
+      - name: rssi_timestamp
+        data_type: timestamp_tz
+
+      - name: last_cellular_contact
+        data_type: timestamp_tz
+
+      - name: hours
+        data_type: number
+
+      - name: odometer
+        data_type: number
+
+      - name: lat
+        data_type: float
+
+      - name: long
+        data_type: float
+
+      - name: dead_battery
+        data_type: varchar
+
+      - name: asset_health_detail
+        data_type: varchar
+
+      - name: last_address
+        data_type: varchar
+
+      - name: max_voltage_date
+        data_type: date
+
+      - name: max_voltage
+        data_type: number
+
+      - name: keypad_hardware
+        data_type: varchar
+
+      - name: keypad_app
+        data_type: varchar
+
+      - name: keypad_bootloader
+        data_type: varchar
+
+      - name: ecm_hardware
+        data_type: varchar
+
+      - name: ecm_app
+        data_type: varchar
+
+      - name: ecm_bootloader
+        data_type: varchar
+
+      - name: last_keypad_entry_date
+        data_type: timestamp_tz
+
+      - name: last_trip_date
+        data_type: timestamp_tz
+
+      - name: days_btwn_keypad_entry_and_trip
+        data_type: number
+
+      - name: keypad_vs_trip_health
+        data_type: varchar
+
+      - name: last_keycode_assignment_date
+        data_type: timestamp_tz
+
+      - name: last_keycode_assignment_status
+        data_type: varchar
+
+      - name: asset_health_status
+        data_type: varchar
+
+      - name: tracker_req_type
+        data_type: varchar
+
+      - name: tracker_install_status
+        data_type: varchar
+
+      - name: keypad_id
+        data_type: number
+
+      - name: keypad_serial
+        data_type: varchar
+
+      - name: keypad_req
+        data_type: varchar
+
+      - name: keypad_install_status
+        data_type: varchar
+
+      - name: keypad_req_type
+        data_type: varchar
+
+      - name: camera_id
+        data_type: number
+
+      - name: camera_serial
+        data_type: varchar
+
+      - name: camera_vendor
+        data_type: varchar
+
+      - name: camera_req
+        data_type: varchar
+
+      - name: camera_install_status
+        data_type: varchar
+
+      - name: camera_health
+        data_type: varchar
+
+      - name: last_camera_heartbeat
+        data_type: timestamp_ntz
+
+      - name: camera_install_date
+        data_type: timestamp_tz  
+
+      - name: has_can
+        data_type: varchar
+
+      - name: secondary_tracker_req
+        data_type: varchar
+
+      - name: secondary_tracker_install_status
+        data_type: varchar
+
+      - name: secondary_tracker_id
+        data_type: number
+
+      - name: secondary_tracker_serial
+        data_type: varchar
+
+      - name: secondary_tracker_type
+        data_type: varchar
+
+      - name: secondary_tracker_vendor
+        data_type: varchar
+
+      - name: secondary_tracker_last_checkin
+        data_type: varchar
+
+      - name: secondary_tracker_health_status
+        data_type: varchar
+
+      - name: ghost_tracker_id
+        data_type: number
+
+      - name: ghost_tracker_serial
+        data_type: varchar
+
+      - name: ghost_tracker_type
+        data_type: varchar
+
+      - name: ghost_tracker_vendor
+        data_type: varchar
+
+      - name: ghost_tracker_last_checkin
+        data_type: varchar
+
+      - name: ghost_tracker_health_status
+        data_type: varchar
+
+      - name: public_health_status
+        data_type: varchar
+
+      - name: is_reporting_ready
+        data_type: boolean
+
+      - name: tracker_grouping
+        data_type: varchar
+
+      - name: last_delivery_date
+        data_type: timestamp_ntz
+
+      - name: last_delivery_lat
+        data_type: float
+
+      - name: last_delivery_long
+        data_type: float
+
+      - name: last_delivery_drop_off_or_return
+        data_type: varchar
+
+      - name: last_delivery_contact_name
+        data_type: varchar
+
+      - name: last_delivery_contact_phone
+        data_type: varchar
+
+      - name: last_delivery_address
+        data_type: varchar
+
+      - name: tracker_model
+        data_type: varchar
+
+      - name: pending_keycode_count
+        data_type: number
+
+      - name: secondary_tracker_health_detail
+        data_type: varchar
+
+      - name: category
+        data_type: varchar
+
+      - name: pending_keycode_aged_count
+        data_type: number
+
+      - name: battery_voltage_type
+        data_type: varchar
+
+      - name: hdop
+        data_type: number
+
+      - name: hdop_timestamp
+        data_type: timestamp_tz  
+
+      - name: data_refresh_timestamp
+        data_type: timestamp_ntz

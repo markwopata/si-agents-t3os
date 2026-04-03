@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__payment_application_reversal_reasons
+    description: Model for es_warehouse.public.payment_application_reversal_reasons
+    columns:
+      - name: payment_application_reversal_reason_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: active
+        description: ""
+      - name: description
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_analytics_revmodel__es_financials_versions
+    description: Model for analytics.revmodel.es_financials_versions
+    columns:
+      - name: month_
+        description: ''
+      - name: version
+        description: ''
+      - name: version_set_name
+        description: ''
+      - name: date_registered
+        description: ''

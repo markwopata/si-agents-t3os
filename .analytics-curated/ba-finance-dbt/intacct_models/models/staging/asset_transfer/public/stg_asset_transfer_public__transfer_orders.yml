@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: stg_asset_transfer_public__transfer_orders
+    description: ""
+    columns:
+      - name: transfer_order_id
+        description: "Primary key for the transfer order record."
+        data_tests:
+            - unique
+
+      - name: transfer_order_number
+        description: transfer order identifier/number.
+
+      - name: asset_id
+        description: '{{ doc("admin_asset_id") }}'
+
+      - name: to_branch_id
+        description: "Destination branch/market ID receiving the asset."
+
+      - name: from_branch_id
+        description: "Origin branch/market ID sending the asset."
+
+      - name: requester_id
+        description: "User ID of the person who initiated the transfer request."
+
+      - name: approver_id
+        description: "User ID of the person who approved the transfer request."
+
+      - name: received_by_id
+        description: "User ID of the person who confirmed receipt of the asset."
+
+      - name: cancelled_by_id
+        description: "User ID of the person who cancelled the transfer (if applicable)."
+
+      - name: company_id
+        description: "Owning company ID associated with the transfer order."
+
+      - name: transfer_type_id
+        description: "Type/category of transfer (e.g., internal, rental, intercompany)."
+
+      - name: requester_note
+        description: "Free-text note entered by the requester."
+
+      - name: approver_note
+        description: "Free-text note entered by the approver."
+
+      - name: cancellation_note
+        description: "Reason or explanation provided when the transfer was cancelled."
+
+      - name: status
+        description: "Workflow status of the transfer (e.g., requested, approved, received, cancelled, closed)."
+
+      - name: is_rental_transfer
+        description: "Flag indicating if the transfer is associated with a rental move (true/false)."
+
+      - name: is_closed
+        description: "Flag indicating if the transfer order is fully completed/closed (true/false)."
+
+      - name: is_in_transit
+        description: >
+          Flag indicating if the transfer order is currently in transit (true/false). applies to assets currently in transit for a transfer where status = Approved. 
+          The primary driver of asset transfers is a branch needs an asset they don't currently have available to fulfill a rental. So they request it from a branch that is close by that has one available. 
+          A transfer leads to the asset changing its market to this new market
+
+      - name: date_created
+        description: "Datetime when the transfer request was created."
+
+      - name: date_updated
+        description: "Datetime of the latest update to the transfer order."
+
+      - name: date_approved
+        description: "Datetime when the transfer request was approved."
+
+      - name: date_received
+        description: "Datetime when the destination confirmed receipt of the asset."
+
+      - name: date_rejected
+        description: "Datetime when the transfer request was rejected (if applicable)."
+
+      - name: date_transfer_cancelled
+        description: "Datetime when the transfer was cancelled after approval (if applicable)."
+
+      - name: date_request_cancelled
+        description: "Datetime when the original transfer request was cancelled (pre-approval)."
+
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: _es_load_timestamp
+        description: "Timestamp when the transfer order record was loaded into Snowflake."

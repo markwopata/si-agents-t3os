@@ -1,0 +1,127 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__accounts_transaction
+    description: Table for accounts transaction records, including details about payments, liens, and remittance advice.
+    tags: [bisTrack]
+    columns:
+      - name: accounts_transaction_id
+        description: Unique identifier for the accounts transaction.
+      - name: group_statement_id
+        description: Foreign key to the group statement.
+      - name: imported_transaction
+        description: Boolean indicating if the transaction was imported.
+      - name: lien_id
+        description: Foreign key to the lien record.
+      - name: remittance_advice
+        description: Remittance advice details for the transaction.
+      - name: bt_branch_id
+        description:  "{{ doc('bt_branch_id') }}"
+      - name: customer_id
+        description: Foreign key to the customer.
+      - name: cash_transaction
+        description: Boolean indicating if this is a cash transaction.
+      - name: tax_amount
+        description: Tax amount for the transaction.
+      - name: delivery_address_id
+        description: Foreign key to the delivery address.
+      - name: external_reference
+        description: External reference for the transaction.
+      - name: bank_account_id
+        description: Foreign key to the bank account.
+      - name: lien_active
+        description: Boolean indicating if the lien is active.
+      - name: last_modified_by_id
+        description: User who last modified the record.
+      - name: amount_collected_in_currency
+        description: Amount collected in the transaction currency.
+      - name: nsf_represent
+        description: NSF (Non-Sufficient Funds) represent flag.
+      - name: payment_method_id
+        description: Foreign key to the payment method.
+      - name: document_id
+        description: Foreign key to the document.
+      - name: amount_outstanding_in_currency
+        description: Amount outstanding in the transaction currency.
+      - name: original_amount_in_currency
+        description: Original amount in the transaction currency.
+      - name: settlement_disc_amount_in_currency
+        description: Settlement discount amount in currency.
+      - name: settlement_disc_amount
+        description: Settlement discount amount.
+      - name: created_by_id
+        description: User who created the record.
+      - name: cash_drawer_id
+        description: Foreign key to the cash drawer.
+      - name: batch_reference
+        description: Reference for the batch.
+      - name: bank_reconciliation_id
+        description: Foreign key to the bank reconciliation.
+      - name: settlement_disc_due_date
+        description: Date when the settlement discount is due.
+      - name: tax_amount_in_currency
+        description: Tax amount in the transaction currency.
+      - name: exchange_rate
+        description: Exchange rate used for the transaction.
+      - name: transaction_type
+        description: Type of the transaction.
+      - name: invoice_address_id
+        description: Foreign key to the invoice address.
+      - name: internal_reference
+        description: Internal reference for the transaction.
+      - name: fully_paid_aging_date
+        description: Date when the transaction was fully paid (aging).
+      - name: row_ver
+        description: Row version for concurrency control.
+      - name: payment_due_date
+        description: Date when payment is due.
+      - name: source_app
+        description: Source application for the transaction.
+      - name: lien_release_date
+        description: Date when the lien was released.
+      - name: paid_by_id
+        description: Foreign key to the user who paid.
+      - name: statement_id
+        description: Foreign key to the statement.
+      - name: amount_collected
+        description: Amount collected for the transaction.
+      - name: fully_paid_actual_date
+        description: Date when the transaction was fully paid (actual).
+      - name: datetime_created
+        description: Timestamp when the record was created.
+      - name: notes
+        description: Notes or comments about the transaction.
+      - name: transaction_date
+        description: Date of the transaction.
+      - name: settlement_disc_taken
+        description: Boolean indicating if the settlement discount was taken.
+      - name: settlement_disc_not_allowed
+        description: Boolean indicating if the settlement discount is not allowed.
+      - name: exclude_from_bank_rec
+        description: Boolean indicating if excluded from bank reconciliation.
+      - name: last_discount_posting_date
+        description: Date of the last discount posting.
+      - name: settlement_disc_taken_in_currency
+        description: Settlement discount taken in currency.
+      - name: datetime_last_modified
+        description: Timestamp when the record was last modified.
+      - name: document_number
+        description: Document number for the transaction.
+      - name: original_amount
+        description: Original amount of the transaction.
+      - name: amount_outstanding
+        description: Amount outstanding for the transaction.
+      - name: currency_id
+        description: Foreign key to the currency.
+      - name: reason_id
+        description: Foreign key to the reason.
+      - name: account_payment_uplift_amount
+        description: Uplift amount for account payment.
+      - name: tax_settlement_disc_amount
+        description: Tax settlement discount amount.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: cheque_payor
+        description: Name of the cheque payor.

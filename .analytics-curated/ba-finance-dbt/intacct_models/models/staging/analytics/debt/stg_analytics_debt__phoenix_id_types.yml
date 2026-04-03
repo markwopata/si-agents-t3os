@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_analytics_debt__phoenix_id_types
+    description: Model for analytics.debt.phoenix_id_types
+    columns:
+      - name: phoenix_id
+        description: ''
+      - name: schedule
+        description: ''
+      - name: lender
+        description: ''
+      - name: sage_loan_id
+        description: ''
+      - name: sage_lender_id
+        description: ''
+      - name: financial_schedule_id
+        description: ''
+      - name: financial_lender_id
+        description: ''
+      - name: funded
+        description: ''
+      - name: sage_account_number
+        description: ''

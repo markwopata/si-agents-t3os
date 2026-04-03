@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: int_asset4000_assets_full_depreciation_dates
+    description: >
+      Date spine of an AS4K asset’s full depreciation schedule (start to finish)
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: depreciation_date
+        description: '{{ doc("asset_4000_depreciation_date") }}'

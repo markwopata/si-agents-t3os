@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: int_procurement_public_purchase_orders_1854
+    description: >
+      Filtered version of stg_procurement_public__purchase_orders where company_id = 1854.
+    columns:
+      - name: purchase_order_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_by_id
+        description: ""
+      - name: modified_by_id
+        description: ""
+      - name: requesting_branch_id
+        description: ""
+      - name: deliver_to_id
+        description: ""
+      - name: external_po_id
+        description: ""
+      - name: store_id
+        description: ""
+      - name: vendor_snapshot_id
+        description: ""
+      - name: deliver_to_snapshot_id
+        description: ""
+      - name: cost_center_snapshot_id
+        description: ""
+      - name: purchase_order_number
+        description: ""
+      - name: vendor_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: reference
+        description: ""
+      - name: status
+        description: ""
+      - name: search
+        description: ""
+      - name: url_t3
+        description: "{{ doc('url_t3_purchase_order') }}"
+      - name: amount_approved
+        description: ""
+      - name: is_external
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: promise_date
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: date_archived
+        description: ""

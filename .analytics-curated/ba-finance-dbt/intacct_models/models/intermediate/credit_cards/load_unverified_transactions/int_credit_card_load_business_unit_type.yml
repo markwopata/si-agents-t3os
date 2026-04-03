@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: int_credit_card_load_business_unit_type
+    description: >
+      Compiles all the business unit snapshot ids and joins them by its respective subdepartmentid and expense line id
+    columns:
+      - name: business_unit_snapshot_id
+        description: >
+          Unique identifier for each cc transaction that maps it to a subdepartment and expense line item id
+        data_tests:
+          - unique
+      - name: name
+        description: "Name of the subdepartment or expense line"
+      - name: business_unit_id
+        description: "Unique identifier of the business unit. This is either a subdepartment or expense line id"
+      - name: business_unit_type
+        description: "Business unit type. SUB_DEPARTMENT or EXPENSE_LINE"
+      - name: sub_department_id
+        description: "Sub-department id. Only populated when business_unit_type is SUB_DEPARTMENT"
+      - name: sub_department_name
+        description: >
+          Name of subdepartment such as Financial Analytics. Only populated when business_unit_type is SUB_DEPARTMENT
+      - name: expense_line_id
+        description: "Expense line id. Only populated when business_unit_type is EXPENSE_LINE"
+      - name: expense_line_name
+        description: >
+          Expense type the user picked for the transaction. e.g. Computer Software. Only populated when
+          business_unit_type is EXPENSE_LINE

@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: base_analytics_public__amex_cc_transactions
+    description: "Base model for Amex credit card transactions, renaming columns."
+    columns:
+      - name: corporate_account_number
+        description: "Corporate account number"
+      - name: cardmember_account_number
+        description: "Cardmember account number"
+      - name: full_name
+        description: "Concat first name, last name of the cardmember"
+      - name: first_name
+        description: "First name of the cardmember"
+      - name: last_name
+        description: "Last name of the cardmember"
+      - name: transaction_id
+        description: >
+          Identifier for the transaction. This will not be unique for a row.
+          Different corporate accounts can have the same transaction_id.
+      - name: transaction_description
+        description: "Description of the transaction"
+      - name: transaction_type
+        description: "Type of credit card transaction"
+      - name: supplier_number
+        description: "Supplier number"
+      - name: merchant_name
+        description: "Name of the merchant"
+      - name: sic_number
+        description: "SIC number - standard industrial classification"
+      - name: sic
+        description: "SIC description - standard industrial classification"
+      - name: sic_division
+        description: "SIC division - standard industrial classification"
+      - name: mcc_code
+        description: "Merchant category code"
+      - name: mcc
+        description: "Merchant category code description"
+      - name: mcc_group
+        description: "Merchant category grouping"
+      - name: transaction_date
+        description: "Date of the transaction"
+      - name: postal_code
+        description: "Postal code"
+      - name: supplier_postal_code
+        description: "Supplier postal code"
+      - name: transaction_reference_id
+        description: "Appears to always be unique"
+      - name: email
+        description: "Email of the cardmember"
+      - name: cardmember_status
+        description: "Status of the card"
+      - name: status
+        description: "Status of the card (duplicate)"
+      - name: account_status
+        description: "Account status"
+      - name: transaction_amount
+        description: "Net billed amount of the transaction"
+      - name: charge_amount
+        description: "Charge amount"
+      - name: credit_amount
+        description: "Credit amount"
+      - name: is_credit
+        description: "Indicates if the transaction is a credit"
+      - name: card_type
+        description: "Type of the card. amex for all lines."
+      - name: is_bypass_verification
+        description: "Indicates if the transaction should bypass receipt verification. Always false, so this column doesn't make sense here."

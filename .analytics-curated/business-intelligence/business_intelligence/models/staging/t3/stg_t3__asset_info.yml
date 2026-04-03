@@ -1,0 +1,121 @@
+version: 2
+
+models:
+  - name: stg_t3__asset_info
+    description: "Asset info model for T3 Fleet Utilization dashboard. "
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+
+      - name: ownership
+        data_type: varchar
+        description: "Ownership"
+      
+      - name: company_id
+        data_type: varchar
+        description: "Company ID"
+
+      - name: asset
+        data_type: varchar
+        description: "Asset"
+      
+      - name: custom_name
+        data_type: varchar
+        description: "Custom Name"
+
+      - name: asset_class
+        data_type: varchar
+        description: "Asset Class"
+
+      - name: branch
+        data_type: varchar
+        description: "Branch"
+
+      - name: service_branch
+        data_type: varchar
+        description: "Service Branch"  
+      
+      - name: make
+        data_type: varchar
+        description: "Make"
+
+      - name: model
+        data_type: varchar
+        description: "Model"
+      
+      - name: serial_number_vin
+        data_type: varchar
+        description: "Serial number or VIN"
+      
+      - name: serial_number
+        data_type: varchar
+        description: "Serial number"
+      
+      - name: vin
+        data_type: varchar
+        description: "VIN"
+
+      - name: dot_number
+        data_type: varchar
+        description: "DOT Number"
+      
+      - name: asset_type
+        data_type: varchar
+        description: "Asset Type"
+
+      - name: tracker_device_grouping
+        data_type: varchar
+        description: "Tracker Device Grouping"
+      
+      - name: tracker_device_serial
+        data_type: varchar
+        description: "Tracker Device Serial"
+
+      - name: tracker_tracker_id
+        data_type: varchar
+        description: "Tracker Tracker ID"
+      
+      - name: esdb_tracker_id
+        data_type: varchar
+        description: "ESDB Tracker ID"
+      
+      - name: driver_name
+        data_type: varchar
+        description: "Driver Name"
+
+      - name: license_plate_number
+        data_type: varchar
+        description: "License Plate Number"
+
+      - name: license_plate_state
+        data_type: varchar
+        description: "License Plate State"
+
+      - name: inventory_branch_id
+        data_type: number
+        description: "Inventory Branch ID"
+
+      - name: contact_in_72_hours
+        data_type: varchar
+        description: "Logic based column, based on last_location_timestamp and current_timestamp"
+
+      - name: category_id
+        data_type: number
+        description: "Category ID"
+
+      - name: category
+        data_type: varchar
+        description: "Category"
+
+      - name: parent_category_id
+        data_type: number
+        description: "Parent Category ID"
+
+      - name: parent_category
+        data_type: varchar
+        description: "Parent Category"
+
+      - name: data_refresh_timestamp
+        data_type: timestamp
+        description: "Data Refresh Timestamp"

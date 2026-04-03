@@ -1,0 +1,210 @@
+version: 2
+
+macros:
+
+  - name: sync_migrated_heap_users
+    description: A pre-hook macro that leverages Heap's USER_MIGRATIONS table to 
+      update all Heap tables. This makes the assumption that when a 
+      migration occurs, all properties stay the same, and this macro
+      updates HEAP_USER_ID and _DBT_UPDATED_TIMESTAMP from the 
+      USER_MIGRATIONS table.
+    arguments:
+      - name: source_table_name
+        type: string
+        description: The name of the Heap table that is to be synced.
+
+  - name: deduplicate
+    description: A macro that enforces uniqueness in the model 
+      based on the key.
+    arguments:
+      - name: primary_key
+        type: string
+        description: Key to enforce uniqueness on.
+      - name: sort_timestamp
+        type: datetime
+        description: Timestamp field that will help differentiate
+          if there is the same key.
+
+  - name: get_model_properties
+    description: A macro that parses through DBT's graph context variable
+      to pull a specific property from the project's nodes.
+    arguments:
+      - name: model_name
+        type: string
+        description: DBT source or ref model
+      - name: property
+        type: string
+        description: Property of the model
+
+  - name: dbt_run_started_at_formatted
+    description: This macro returns DBT's run_started_at variable formatted as timestamp NTZ string.
+
+  - name: get_unique_keys_for_model
+    description: Pulls the unique keys specified in the model's config. Returns as a list.
+      - Depends on macro get_model_properties
+    arguments: 
+      - name: model_name
+        type: string
+        description: DBT source or ref model
+
+  - name: get_incremental_helper_where_not_exists
+    description: This macro is meant to be used with a WHERE NOT EXISTS subquery. Using the unique key(s),
+      it ensures that only new records (not in target) are inserted during an incremental load. 
+      - Depends on macro get_unique_keys_for_model to get the unique keys
+    arguments:
+      - name: incremental_model
+        type: string
+        description: The target model that is being incrementally loaded into
+
+  - name: get_model_data_types
+    description: Returns a dictionary where each key is a column name from the model, 
+      and the corresponding value is its data type.
+      - Depends on built-in macro adapter.get_columns_in_relation
+
+  - name: get_records_in_table_a_not_in_table_b
+    description: A macro that returns records in Table A that do not exist in Table B, 
+      based on the join conditions.
+    arguments:
+      - name: table_a_ref
+        type: string
+        description: DBT source or ref model
+      - name: table_b_ref
+        type: string
+        description: DBT source or ref model
+      - name: join_keys
+        type: dictionary or list
+        description: If table_a and table_b have the same key names, pass a list. 
+          If table_a and table_b have different key names, pass a dictionary that maps between the respective keys.
+      - name: null_identifier
+        type: string
+        description: column name
+
+  - name: get_source_model
+    description: Returns a list of unique DBT sources for that model
+      - Depends on macro get_model_properties to get the source
+    arguments: 
+      - name: model_name
+        type: string
+        description: DBT source or ref model
+
+  - name: get_source_to_target_key_dict
+    description: This returns a dictionary of only the unique keys between a source model and a target model.
+      - Depends on macro
+        - get_source_to_target_mapping_dict to get a column mapping dictionary between source and target column names
+        - get_unique_keys_for_model to get the unique keys for the target model
+    arguments: 
+      - name: model_name
+        type: string
+        description: DBT source or ref model
+
+  - name: get_source_to_target_mapping_dict
+    description: This macro builds a dictionary of source model columns mapped to target model columns
+      - Depends on built-in macro dbt_utils.get_filtered_columns_in_relation to get columns of source and target models
+
+  - name: model_exists
+    description: This macro checks if the model already exists. It returns a value if the model does exist, None if it does.
+      - Depends on adapter.get_relation
+
+  - name: sync_heap_late_arriving_data
+    description: This macro helps synchronize previously unavailable data by comparing the source and target models 
+      with a one-year lookback window.
+      - Depends on macros
+        - get_unique_keys_for_model
+        - get_source_to_target_mapping_dict
+        - get_source_to_target_key_dict
+
+  - name: create_seed_incremental
+    description: This macro takes a seed file and adds some metadata fields to keep track of its history.
+      - _is_deleted
+      - _created_recordtimestamp
+      - _updated_recordtimestamp
+      - _deleted_recordtimestamp
+
+  - name: remove_duplicate_records_in_snapshot
+    description: This macro cleans up a dbt snapshot table that somehow has duplicate dbt_scd_id when we should expect unique dbt_scd_id.
+      This should only be run manually and done when snapshots somehow end up with unexpected duplicates. `dry_run` is set to true by default.
+    arguments: 
+      - name: relation
+        type: string
+        description: DBT snapshot model name
+      - name: dry_run
+        type: bool
+        description: If true, it'll only output a count of the expected query run in the logs. If false, it'll overwrite the target table.
+
+  - name: filter_source_updates
+    description: Filters incremental models reading from source systems. Two modes - time-window (uses CURRENT_TIMESTAMP) or watermark (uses MAX from target table via run_query). Watermark mode is schedule-agnostic. Supports backfill via dbt vars 'backfill_start_date' and 'backfill_end_date'.
+    arguments:
+      - name: column_name
+        type: string
+        description: Temporal column in SOURCE tables to filter on (e.g., '_orders_effective_start_utc_datetime', 'date_created')
+      - name: watermark_column
+        type: string
+        description: (Optional) Temporal column in TARGET model for watermark query. If omitted, assumes same column name as source. Only applies when append_only=true.
+      - name: buffer_amount
+        type: integer
+        description: Lookback buffer amount (default 1)
+      - name: time_unit
+        type: string
+        description: Buffer time unit - 'day', 'hour', or 'minute' (default 'day')
+      - name: append_only
+        type: boolean
+        description: True for append-only sources (watermark mode). False for sources with late arrivals (time-window mode). Default false.
+
+  - name: filter_transformation_updates
+    description: Filters records for incremental models when reading from processed/transformed data.
+      For incremental loads, it picks up records that have been updated since the last run based on _updated_recordtimestamp.
+      For initial loads, it processes all records (returns 1=1).
+    arguments:
+      - name: column_name
+        type: string
+        description: The transformation timestamp column to filter on (typically '_updated_recordtimestamp')
+
+  - name: filter_incremental_with_buffer_day
+    description: "[TO BE DEPRECATED] Use filter_source_updates or filter_transformation_updates instead.
+      Filters records for incremental models with a daily buffer. This macro is being phased out in favor of more specific filtering macros."
+    arguments:
+      - name: column_name
+        type: string
+        description: The temporal column to filter on
+      - name: buffer_days
+        type: integer
+        description: Number of days for the buffer (default 1)
+
+  - name: flatten_nested_fields
+    description: Introspects all VARIANT columns in a relation and returns a dict with
+      passthrough (non-VARIANT columns to select as-is) and columns (flattened field definitions).
+      Flattens one level only - FLAT fields are cast to string, OBJECT and ARRAY fields
+      are kept as VARIANT with a _raw suffix. Use flatten_field() to go deeper on a specific field.
+    arguments:
+      - name: relation
+        type: relation
+        description: A dbt relation (ref or source)
+      - name: exclude_cols
+        type: list
+        description: Optional list of uppercase column names to exclude from passthrough (e.g. ['_CREATED_RECORDTIMESTAMP'])
+
+  - name: flatten_field
+    description: Flattens one specific VARIANT field or path in a relation and returns
+      column definitions. Use this to go deeper on a specific nested field after flatten_nested_fields().
+      FLAT fields are cast to string, OBJECT and ARRAY fields are kept as VARIANT with a _raw suffix.
+    arguments:
+      - name: relation
+        type: relation
+        description: A dbt relation (ref or source)
+      - name: column_path
+        type: string
+        description: The column or path to flatten, e.g. 'KAFKA_HEADERS_RAW' or 'RECORD_CONTENT__DATA_RAW:operator_assignment'
+      - name: prefix
+        type: string
+        description: Optional alias prefix for generated column names. Derived from column_path if not provided.
+
+  - name: filter_incremental_with_buffer_minute
+    description: "[TO BE DEPRECATED] Use filter_source_updates or filter_transformation_updates instead.
+      Filters records for incremental models with a minute buffer. This macro is being phased out in favor of more specific filtering macros."
+    arguments:
+      - name: column_name
+        type: string
+        description: The temporal column to filter on
+      - name: buffer_minutes
+        type: integer
+        description: Number of minutes for the buffer (default 10)

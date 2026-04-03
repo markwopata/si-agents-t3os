@@ -1,0 +1,84 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_asset_service_intervals
+    description: Model for es_warehouse.public.v_asset_service_intervals
+    columns:
+      - name: asset_id
+        description: ""
+      - name: service_interval_id
+        description: ""
+      - name: maintenance_group_interval_id
+        description: ""
+      - name: maintenance_group_interval_name
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: usage_interval_id
+        description: ""
+      - name: time_interval_id
+        description: ""
+      - name: hours
+        description: ""
+      - name: odometer
+        description: ""
+      - name: service_interval_name
+        description: ""
+      - name: time_unit_id
+        description: ""
+      - name: time_value
+        description: ""
+      - name: usage_unit_id
+        description: ""
+      - name: usage_value
+        description: ""
+      - name: service_record_id
+        description: ""
+      - name: last_service_usage_value
+        description: ""
+      - name: next_service_usage_value
+        description: ""
+      - name: current_usage_value
+        description: ""
+      - name: until_next_service_usage
+        description: ""
+      - name: usage_percentage_remaining
+        description: ""
+      - name: usage_percentage
+        description: ""
+      - name: last_service_time_value
+        description: ""
+      - name: next_service_time_value
+        description: ""
+      - name: next_service_time_value_corrected
+        description: ""
+      - name: current_time_value
+        description: ""
+      - name: time_value_corrected
+        description: ""
+      - name: service_time_remaining_in_weeks
+        description: ""
+      - name: date_completed
+        description: ""
+      - name: _next_service_time_value
+        description: ""
+      - name: _last_service_time_value
+        description: ""
+      - name: _current_time_value
+        description: ""
+      - name: until_next_service_time
+        description: ""
+      - name: time_percentage_remaining
+        description: ""
+      - name: time_percentage
+        description: ""
+      - name: work_order_originator_id
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: warn_exceeded
+        description: ""
+      - name: trigger_exceeded
+        description: ""
+      - name: date_created
+        description: ""

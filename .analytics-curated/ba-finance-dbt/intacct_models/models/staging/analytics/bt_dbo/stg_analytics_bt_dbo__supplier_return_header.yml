@@ -1,0 +1,99 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__supplier_return_header
+    description: Details for inventory to supplier returns
+    tags: [bisTrack]
+    columns:
+      - name: supplier_return_id
+        description: "Unique identifier for the supplier return."
+      - name: exchange_rate
+        description: "Exchange rate applied to the supplier return."
+      - name: date_inspected
+        description: "Date when the returned goods were inspected."
+      - name: date_required
+        description: "Date by which the return is required."
+      - name: total_cost_in_currency
+        description: "Total cost of the return in the transaction currency."
+      - name: datetime_completed
+        description: "Timestamp when the return was completed."
+      - name: credit_amount
+        description: "Credit amount issued for the return."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: return_address
+        description: "Address to which the goods are returned."
+      - name: return_address_id
+        description: "Identifier for the return address."
+      - name: total_cost
+        description: "Total cost of the returned goods."
+      - name: date_returned
+        description: "Date when the goods were returned."
+      - name: supplier_id
+        description: "Identifier for the supplier."
+      - name: journey_id
+        description: "Identifier for the journey associated with the return."
+      - name: header_notes
+        description: "Header notes for the supplier return."
+      - name: purchase_order_id
+        description: "Identifier for the related purchase order."
+      - name: supplier_return_number
+        description: "Supplier return number assigned to the transaction."
+      - name: created_from_credit_note_id
+        description: "Identifier for the credit note from which this return was created."
+      - name: return_area_id
+        description: "Identifier for the area to which the goods are returned."
+      - name: deleted
+        description: "Indicates if the record was deleted."
+      - name: completed_notes
+        description: "Notes regarding the completion of the return."
+      - name: datetime_created
+        description: "Timestamp when the supplier return was created."
+      - name: last_modified_by_id
+        description: ""
+      - name: notes
+        description: ""
+      - name: return_city
+        description: ""
+      - name: returned_notes
+        description: ""
+      - name: other_flags
+        description: ""
+      - name: reference
+        description: ""
+      - name: completed_by_id
+        description: ""
+      - name: credit_note_numbers
+        description: ""
+      - name: dispatch_api_hold
+        description: ""
+      - name: datetime_last_modified
+        description: ""
+      - name: return_type
+        description: ""
+      - name: inspection_required
+        description: ""
+      - name: currency_id
+        description: ""
+      - name: stock_receipt_id
+        description: ""
+      - name: total_weight
+        description: ""
+      - name: inspection_notes
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: posting_date
+        description: ""
+      - name: return_status
+        description: ""
+      - name: completed
+        description: ""
+      - name: total_volume
+        description: ""
+      - name: reason_id
+        description: ""
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

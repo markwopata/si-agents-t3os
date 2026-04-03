@@ -1,0 +1,16 @@
+---
+version: 2
+
+sources:
+  - name: analytics_ap_accrual
+    tags: ["sources"]
+    database: analytics
+    schema: ap_accrual
+    description: >
+      This schema contains a few tables related to the API integration between CostCapture and Sage for the receipt
+      integration. Contact #help-financial-systems with questions about these tables. Please don't put any new tables here,
+      we plan to deprecate this schema.
+    tables:
+      - name: create_receipts_job_results
+        description: >
+          Results of the API requests sent to Sage from the T3 CostCapture receipt sync to Sage.

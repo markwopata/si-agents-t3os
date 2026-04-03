@@ -1,0 +1,138 @@
+version: 2
+
+models:
+  - name: int_purchase_orders_po_to_vi
+    description: |
+      Initial query for list of purchase orders and related documents (excludes apa true-up).
+
+      Model Name: PO Lineage
+      
+      Model:  The purpose of this model is to combine the different converting documents to its
+              original po. We do not have good visibility to all of the converting docs in sage or looker.
+              This model joins the converting docs back to the parent po along with the true up journals posted
+              for price variances. The model identifies po/po line status, unconverted qty/$. 
+
+      Model Steps:
+        - step 1: (int_purchase_orders_po_to_vi) combines converting doc to po
+        - step 2: (int_purchase_orders_po_true_ups) pulls all apa true ups
+        - step 3: (int_purchase_orders_po_union) union step 1 & 2
+        - step 4: (int_purchase_orders_po_aggregate) calculate po/po line totals
+        - step 5: (int_purchase_orders_po_lineage) joins step 3 & 4, adds unconverted row
+
+      Grain:
+        - One record per combination of:
+          - fk_subledger_line_id (PO line)
+          - apa_fk_gl_entry_id (GL entry id)
+          - converting_doc_fk_po_line_id (nullable)
+
+      Aggregations:
+        - relieved_quantity is summed
+        - relieved_by, closed_receipts, bill_numbers are listaggs over related documents
+
+    meta:
+      owner: "Zack Larimore <zack.larimore@equipmentshare.com>"
+      domain: "finance"
+      area: "PO, Purchase Orders"
+
+    tags: ["finance", "po", "ap", "intacct", "matching", "reconciliation"]
+
+    config:
+      materialized: table
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - fk_subledger_line_id
+            - apa_fk_gl_entry_id
+            - converting_doc_fk_po_line_id
+
+    columns:
+      - name: fk_subledger_line_id
+        description: "Foreign key to the PO line (Intacct subledger line)."
+
+      - name: gl_amount
+        description: "GL amount tied to fk_subledger_line_id (can duplicate when multiple transactions hit the same PO line)."
+
+      - name: receipt_number
+        description: "Short PO/receipt number reference."
+
+      - name: document_name
+        description: "Long PO document name."
+
+      - name: quantity
+        description: "PO line quantity (do not sum; row-level may duplicate across joins)."
+
+      - name: unit_price
+        description: "PO line unit price."
+
+      - name: extended_amount
+        description: "PO line extended amount; unit price * quantity."
+
+      - name: po_amount
+        description: "PO amount at the selected grain."
+
+      - name: cpo_amount
+        description: "Amount for Closed Purchase Orders when applicable; 0 otherwise."
+
+      - name: apa_trueup_amount
+        description: "Placeholder amount for APA true-up (0 in this model)."
+
+      - name: vi_amount
+        description: "Vendor invoice amount matched to the PO/receipt."
+
+      - name: expense_account_number
+        description: "Expense account number the PO is hitting (GL)."
+
+      - name: relieved_by
+        description: "Document types that relieved/converted the PO (listagg over related docs: e.g., 'closed receipt', 'invoice matched to receipt')."
+
+      - name: relieved_by_entry_date
+        description: "Entry date for the relieved/converted document."
+
+      - name: relieved_quantity
+        description: "Total quantity relieved/converted (summed across related documents)."
+
+      - name: closed_receipts
+        description: "Closed receipt document number(s) that closed remaining PO qty (listagg)."
+
+      - name: bill_numbers
+        description: "Vendor invoice/bill number(s) matched to the PO line (listagg)."
+
+      - name: sage_po_url
+        description: "Deep link to the Sage PO."
+
+      - name: entry_date
+        description: "GL entry date for the PO receipt."
+
+      - name: sage_journal_url
+        description: "Deep link to the Sage journal entry."
+
+      - name: t3_cost_capture_url
+        description: "Deep link to T3 cost capture on the PO line."
+
+      - name: journal_number
+        description: "Sage journal transaction number."
+
+      - name: vendor_id
+        description: "Vendor id from the PO header/line context."
+
+      - name: vendor_name
+        description: "Vendor name from the PO."
+
+      - name: line_description
+        description: "PO line description."
+
+      - name: mkt_id
+        description: "Market/branch/department id from GL (department_id)."
+
+      - name: converting_doc_fk_po_line_id
+        description: "fk_po_line_id from the converting/relieving document (nullable)."
+
+      - name: converting_doc
+        description: "Name of the converting document (e.g., Closed Purchase Order, Vendor Invoice)."
+
+      - name: recordno
+        description: "Reserved for APA true-ups (null in this model)."
+
+      - name: apa_fk_gl_entry_id
+        description: "Foreign key to gl_entry id."

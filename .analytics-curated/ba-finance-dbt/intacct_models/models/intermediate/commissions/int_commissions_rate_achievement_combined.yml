@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: int_commissions_rate_achievement_combined
+    description: Combines Rate Achievement models
+    columns:
+      - name: rate_tier_id
+        description: ""
+      - name: line_item_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: grace_period_flag
+        description: ""
+      - name: deal_floor_flag
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: deal_floor
+        description: ""
+      - name: rate_tier_name
+        description: ""
+      - name: commission_percentage
+        description: ""
+      - name: category
+        description: ""
+      - name: equipment_class_name
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: source_model
+        description: ""

@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: fct_invoice_amounts_past_due
+    description: "This model contains aging and balance details for customer invoices, including amounts and counts per aging bucket, credit limits, and overextended balances."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        data_tests:
+          - unique
+          - not_null
+      - name: credit_limit
+        description: "Credit limit for the customer."
+      - name: customer_total_balance_owed
+        description: "Total balance owed by the customer, including adjustments, advances, and payments."
+      - name: amount_overextended
+        description: "Amount by which the customer exceeds their credit limit."
+      - name: current_amount_invoices
+        description: "Amount of invoices in the current bucket."
+      - name: current_count_invoices
+        description: "Count of invoices in the current bucket."
+      - name: _31_60_days_past_due_amount_invoices
+        description: "Amount of invoices 31-60 days past due."
+      - name: _31_60_days_past_due_count_invoices
+        description: "Count of invoices 31-60 days past due."
+      - name: _61_90_days_past_due_amount_invoices
+        description: "Amount of invoices 61-90 days past due."
+      - name: _61_90_days_past_due_count_invoices
+        description: "Count of invoices 61-90 days past due."
+      - name: _91_120_days_past_due_amount_invoices
+        description: "Amount of invoices 91-120 days past due."
+      - name: _91_120_days_past_due_count_invoices
+        description: "Count of invoices 91-120 days past due."
+      - name: _120_days_past_due_amount_invoices
+        description: "Amount of invoices 120+ days past due."
+      - name: _120_days_past_due_count_invoices
+        description: "Count of invoices 120+ days past due."

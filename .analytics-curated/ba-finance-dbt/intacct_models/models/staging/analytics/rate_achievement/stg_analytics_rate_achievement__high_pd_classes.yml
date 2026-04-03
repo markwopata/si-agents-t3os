@@ -1,0 +1,8 @@
+---
+version: 2
+models:
+  - name: stg_analytics_rate_achievement__high_pd_classes
+    description: High Cost Pickup and Delivery Classes
+    config:
+      tags:
+        - commissions

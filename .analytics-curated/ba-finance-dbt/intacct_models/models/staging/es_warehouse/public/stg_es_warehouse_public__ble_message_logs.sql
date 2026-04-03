@@ -1,0 +1,23 @@
+SELECT
+    bml.is_low_battery,
+    bml.rssi,
+    bml.cumulative_machine_hours_in_seconds,
+    bml.ble_asset_id,
+    bml.ble_message_log_id,
+    bml.ble_tracker_id,
+    bml.gateway_tracking_event_id,
+    bml.ble_node_serial,
+    bml.gateway_asset_id,
+    bml.message_date,
+    bml.gateway_tracker_id,
+    bml.previous_cumulative_machine_hours,
+    bml.signal_power,
+    bml.flag,
+    bml.hours_update_audit_id,
+    bml.tracking_event_id,
+    bml.user_id,
+    bml.trackers_ble_advertisement_id,
+    bml.message_source,
+    bml.date_created,
+    bml._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'ble_message_logs') }} as bml

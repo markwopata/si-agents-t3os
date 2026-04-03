@@ -1,0 +1,21 @@
+---
+version: 2
+
+snapshots:
+  - name: market_snapshot
+    description: >
+      daily snapshot of the markets table, created to have a
+      point in time historical record of active markets to be
+      initially used in our asset_detail (https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/branch_earnings/branch_earnings_entries.py#L48)
+      table build. This will also provide a historical record
+      of child/parent relationships.
+
+    meta:
+      background_url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/branch_earnings/branch_earnings_entries.py
+    config:
+      enabled: true
+      tags: ["daily", "branch_earnings"]
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique

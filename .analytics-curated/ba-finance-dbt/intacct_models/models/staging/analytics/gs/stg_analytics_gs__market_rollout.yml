@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__market_rollout
+    description: ""
+    columns:
+      - name: market_id
+        description: ""
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: market_level
+        description: ""
+      - name: market_name
+        description: ""
+      - name: model_name
+        description: ""
+      - name: sales_model
+        description: ""
+      - name: xero_market_name
+        description: ""
+      - name: outside_service_model
+        description: ""
+      - name: market_factor
+        description: ""
+      - name: financing_start_month
+        description: ""
+      - name: market_end_month
+        description: ""
+      - name: market_start_month
+        description: ""
+      - name: sale_leaseback_month
+        description: ""
+      - name: sales_start_month
+        description: ""
+      - name: outside_service_start_month
+        description: ""
+      - name: sale_leaseback
+        description: ""
+      - name: rental_model_start_month
+        description: ""
+      - name: branch_earnings_start_month
+        description: ""
+      - name: _fivetran_synced
+        description: ""

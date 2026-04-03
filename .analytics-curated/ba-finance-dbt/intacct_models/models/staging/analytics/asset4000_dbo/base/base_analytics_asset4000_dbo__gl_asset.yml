@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: base_analytics_asset4000_dbo__gl_asset
+    description: cleaned and renamed model of analytics.asset4000_dbo.gl_asset
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+        data_tests:
+          - unique
+      - name: asset_title
+        description: ""
+
+      - name: asset_purchase_date
+        description: ""
+
+      - name: asset_capitalized_date
+        description: ""

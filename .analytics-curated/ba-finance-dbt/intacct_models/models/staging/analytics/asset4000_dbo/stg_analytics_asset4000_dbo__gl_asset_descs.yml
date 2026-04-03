@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_analytics_asset4000_dbo__gl_asset_descs
+    description: staging model of base_analytics_asset4000_dbo__gl_asset_descs that that includes only records that have not been marked as deleted
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: serial_number
+        description: ""
+
+      - name: admin_asset_id
+        description: '{{ doc("admin_asset_id") }}'
+
+      - name: facility_type
+        description: ""
+
+      - name: last_modified_by
+        description: ""
+
+      - name: make
+        description: ""
+
+      - name: model
+        description: ""
+
+      - name: invoice_number
+        description: ""
+
+      - name: invoice_number_two
+        description: ""
+
+      - name: invoice_number_three
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

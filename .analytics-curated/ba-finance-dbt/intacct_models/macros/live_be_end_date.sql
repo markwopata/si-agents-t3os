@@ -1,0 +1,16 @@
+{% macro live_be_end_date() %}
+  {% if execute %}
+    {% set my_date = last_branch_earnings_published_date() %}
+    {% set last_audit_id = run_query(
+        
+        "
+        SELECT dateadd(millisecond, -1, dateadd(day, 1, last_day(current_date())))
+        ").columns[0][0]
+        
+    %}
+  {% else %}  
+    {% set last_audit_id = -1 %}
+  {% endif %}
+
+  {% do return(last_audit_id) %}
+{% endmacro %}

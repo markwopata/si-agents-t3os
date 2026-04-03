@@ -1,0 +1,45 @@
+---
+version: 2
+
+models:
+  - name: stg_gl_resolve_adjustment
+    description: "Correct bad data in glresolve"
+    config:
+      tags: ["hourly", "intacct", "stage"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    columns:
+      - name: pk_gl_resolve_id
+        description: "Primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: fk_gl_entry_id
+        description: "{{ doc('fk_gl_entry_id') }}"
+        data_tests:
+          - not_null
+      - name: fk_subledger_header_id
+        description: "{{ doc('fk_subledger_header_id') }}"
+        data_tests:
+          - not_null
+      - name: fk_subledger_line_id
+        description: "{{ doc('fk_subledger_line_id') }}"
+        data_tests:
+          - not_null
+      - name: raw_amount
+        description: "Raw, positive subledger amount"
+      - name: raw_trx_amount
+        description: "Raw, positive subledger amount in original currency"
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

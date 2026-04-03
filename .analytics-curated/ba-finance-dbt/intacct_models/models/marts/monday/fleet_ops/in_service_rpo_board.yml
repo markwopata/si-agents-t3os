@@ -1,0 +1,134 @@
+---
+version: 2
+models:
+  - name: in_service_rpo_board
+    description: "Rental Purchase Options: In Service Monday board exposed as a table."
+    meta:
+      point_of_contact: Kimberly Johnson
+      owner: "@nick.logan"
+      monday_board_url: https://equipmentshare.monday.com/boards/7794526668
+    columns:
+      - name: item_id
+        description: "Unique identifier of the item (row) on the Monday board."
+        data_tests:
+          - unique
+      - name: rpo_program
+        description: "RPO-related field (rent-to-own context)."
+      - name: rpo_ending_date
+        description: "Date associated with rpo ending."
+      - name: notification_date
+        description: "Date associated with notification."
+      - name: customer_quote_approval
+        description: "Customer or account reference."
+      - name: gross_profit_margin
+        description: "Field from Monday board: gross profit margin."
+      - name: total_sales_tax
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_carrying_cost
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: credit_approval
+        description: "Field from Monday board: credit approval."
+      - name: total_asset_sales_price_quote
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_monthly_rent
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: ucc_released
+        description: "Field from Monday board: ucc released."
+      - name: sales_funds_received
+        description: "Field from Monday board: sales funds received."
+      - name: rsm_approval
+        description: "Assignment/owner field (person or team)."
+      - name: asset_returned
+        description: "Field from Monday board: asset returned."
+      - name: total_pm_quote
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: credit_application
+        description: "Field from Monday board: credit application."
+      - name: rpo_beginning_date
+        description: "Date associated with rpo beginning."
+      - name: link_to_promissory_note
+        description: "URL/link related to link to promissory note."
+      - name: rpo_status
+        description: "Status or state for rpo status."
+      - name: name
+        description: "Name/title for name."
+      - name: signed_rpo
+        description: "RPO-related field (rent-to-own context)."
+      - name: total_freight_charges
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: request_date
+        description: "Date associated with request."
+      - name: today_s_date
+        description: "Date associated with today s."
+      - name: conversion
+        description: "Field from Monday board: conversion."
+      - name: subitems
+        description: "Field from Monday board: subitems."
+      - name: conversion_price
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: rpo_term_months
+        description: "RPO-related field (rent-to-own context)."
+      - name: documents_pictures
+        description: "Field from Monday board: documents pictures."
+      - name: ucc_filed
+        description: "Field from Monday board: ucc filed."
+      - name: team_assign
+        description: "Assignment/owner field (person or team)."
+      - name: upload_cust_amort_schedule
+        description: "Field from Monday board: upload cust amort schedule."
+      - name: yard_name
+        description: "Name/title for yard name."
+      - name: total_ext_warranty_quote
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_eqs_dnet
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_discounts_2
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: full_term_rental_revenue
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_t3_charges
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: rsm_email
+        description: "Assignment/owner field (person or team)."
+      - name: state_and_filing_number
+        description: "Status or state for state and filing number."
+      - name: sales_invoice
+        description: "Field from Monday board: sales invoice."
+      - name: gm_email
+        description: "Email address."
+      - name: signor_name
+        description: "Name/title for signor name."
+      - name: signor_email_address
+        description: "Email address."
+      - name: rental_invoice_number
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: dealership_or_rental_fleet
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: sales_rep_email
+        description: "Email address."
+      - name: bill_of_sale_signed
+        description: "Field from Monday board: bill of sale signed."
+      - name: quote_date
+        description: "Date associated with quote."
+      - name: release_filing_number
+        description: "Numeric count or quantity."
+      - name: date_rpo_addendum_generated
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: total_eqs_cost
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: gross_profit
+        description: "Field from Monday board: gross profit."
+      - name: total_margin
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: rental_agreement_link
+        description: "URL/link related to rental agreement link."
+      - name: total_base_rental_quote
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: rent_contribution
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: sales_rep
+        description: "Field from Monday board: sales rep."
+      - name: total_pdi
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: applied_rent
+        description: "Monetary amount; stored as numeric/decimal in analytics."

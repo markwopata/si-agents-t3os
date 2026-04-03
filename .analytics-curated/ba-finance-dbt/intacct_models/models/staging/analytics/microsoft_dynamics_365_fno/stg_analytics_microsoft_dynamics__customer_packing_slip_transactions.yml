@@ -1,0 +1,127 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__customer_packing_slip_transactions
+    description: cleaned and renamed model of analytics.microsoft_dynamics_365_fno.custpackingsliptrans
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: inventtransid
+        description: ""
+      - name: deferredpostinvoicetransrecid
+        description: ""
+      - name: recid
+        description: ""
+      - name: tableid
+        description: ""
+      - name: versionnumber
+        description: ""
+      - name: salesid
+        description: ""
+      - name: salescategory
+        description: ""
+      - name: sourcedocumentline
+        description: ""
+      - name: itemid
+        description: ""
+      - name: modifiedtransactionid
+        description: ""
+      - name: createdtransactionid
+        description: ""
+      - name: packingslipid
+        description: ""
+      - name: dataareaid
+        description: ""
+      - name: deliverytype
+        description: ""
+      - name: inventreftype
+        description: ""
+      - name: defaultdimension
+        description: ""
+      - name: deliverypostaladdress
+        description: ""
+      - name: dlvterm
+        description: ""
+      - name: intrastatcommodity
+        description: ""
+      - name: name
+        description: ""
+      - name: ngpcodestable_fr
+        description: ""
+      - name: salesunit
+        description: ""
+      - name: sysdatastatecode
+        description: ""
+      - name: partition
+        description: ""
+      - name: amountcur
+        description: ""
+      - name: inventqty
+        description: ""
+      - name: linenum
+        description: ""
+      - name: priceunit
+        description: ""
+      - name: qty
+        description: ""
+      - name: remain
+        description: ""
+      - name: remaininvent
+        description: ""
+      - name: statisticvalue_lt
+        description: ""
+      - name: statvaluemst
+        description: ""
+      - name: valuemst
+        description: ""
+      - name: weight
+        description: ""
+      - name: pdscwqty
+        description: ""
+      - name: pdscwremain
+        description: ""
+      - name: fintag
+        description: ""
+      - name: sysrowversion
+        description: ""
+      - name: recversion
+        description: ""
+      - name: fullymatched
+        description: ""
+      - name: scrap
+        description: ""
+      - name: stockedproduct
+        description: ""
+      - name: lineheader
+        description: ""
+      - name: ordered
+        description: ""
+      - name: parmline
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: deliverydate
+        description: ""
+      - name: intrastatfulfillmentdate_hu
+        description: ""
+      - name: saleslineshippingdateconfirmed
+        description: ""
+      - name: saleslineshippingdaterequested
+        description: ""
+      - name: createdon
+        description: ""
+      - name: modifiedon
+        description: ""
+      - name: sink_created_on
+        description: ""
+      - name: sink_modified_on
+        description: ""
+      - name: modifieddatetime
+        description: ""
+      - name: createddatetime
+        description: ""
+      - name: _fivetran_synced
+        description: ""

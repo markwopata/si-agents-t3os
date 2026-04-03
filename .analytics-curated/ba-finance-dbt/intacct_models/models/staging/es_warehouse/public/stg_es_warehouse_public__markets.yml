@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__markets
+    description: Limited markets table
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: market_id
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+      - name: is_active
+        description: Bool flag for active status of market
+      - name: company_id
+        description: Company owner of market
+      - name: sales_email
+        description: Sales front email
+      - name: service_email
+        description: Service front email
+      - name: is_public_msp
+        description: Is market a maintenance service provider
+      - name: is_public_rsp
+        description: Is market a rental service provider
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

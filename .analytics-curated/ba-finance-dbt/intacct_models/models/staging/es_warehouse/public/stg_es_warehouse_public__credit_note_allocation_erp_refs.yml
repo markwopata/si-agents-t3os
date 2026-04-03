@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_note_allocation_erp_refs
+    description: Model for es_warehouse.public.credit_note_allocation_erp_refs
+    columns:
+      - name: credit_note_allocation_erp_ref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: erp_instance_id
+        description: ""
+      - name: credit_note_allocation_id
+        description: ""
+      - name: intacct_synced_date
+        description: ""
+      - name: reversal_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

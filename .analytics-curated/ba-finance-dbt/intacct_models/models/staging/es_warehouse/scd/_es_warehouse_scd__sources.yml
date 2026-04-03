@@ -1,0 +1,194 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_scd
+    tags: ["sources"]
+    database: es_warehouse
+    schema: scd
+    description: slowly changing dimensions of es_warehouse objects
+    tables:
+      - name: scd_asset_company
+        description: >
+          broadly speaking, an asset is owned by a company (ie company_id 1854 is EquipmentShare). Assets can change companies
+          in a  matter of minutes when someone puts in a company, realizes they put in the wrong one, and changes it
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - asset_id
+                  - date_start
+                  # surrogate key asset_scd_company_id should be unique
+
+      - name: scd_asset_inventory
+        description: >
+          A historical record of an asset's inventory locations. An asset can be in multiple locations over time
+        columns:
+          - name: scd_asset_inventory_id
+            data_tests:
+              - unique
+
+      - name: scd_asset_driver
+        description: >
+          A historical record of an asset's driver. An asset can have multiple drivers over time
+        columns:
+          - name: scd_asset_driver_id
+            data_tests:
+              - unique
+
+      - name: scd_asset_inventory_status
+        description: historical record of an asset's inventory status, with one row representing the asset's status at a specific point in time (e.g., on rent, ready to rent, assigned, etc.)
+      - name: scd_asset_rapid_rent
+        description: >
+          A historical record showing if an asset was designated as a Rapid Rental, a type of on-demand rental offered at customer jobsites
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - asset_id
+                  - date_start
+        meta:
+          additional_reading: https://help.estrack.com/en/articles/4180159-reserving-a-rapid-rent-using-the-equipmentshare-rent-mobile-app
+
+      - name: scd_asset_serial_number
+        description: >
+          A historical record of an asset's serial number. An asset can have multiple serial numbers over time
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - asset_id
+                  - date_start
+
+      - name: scd_asset_statuses_battery_voltage
+        description: >
+          A historical record of an asset's battery voltage. An asset can have changing battery voltages over time
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                enabled: false # Disabled due to ~2B rows; test takes ~3 mins. Grain is correct.
+                column_list:
+                  - asset_id
+                  - date_start
+
+      - name: scd_billing_company_preferences
+        description: >
+          A historical record of an company's billing preferences (rental_billing_cycle_strategy, is_national_account, etc.). An company can have multiple billing preferences over time
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - company_id
+                  - date_start
+
+      - name: scd_users_link_device_push_id
+        description: >
+          A historical record of an user's link device id. An user can have multiple link device ids over time
+        columns:
+          - name: user_scd_link_device_push_id
+            data_tests:
+              - unique
+
+      - name: pulling_inventory_events
+        description: >
+          A daily snapshot of an asset’s inventory status history
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - asset_id
+                  - generateddate
+
+      - name: scd_asset_odometer
+        description: >
+          A historical record of an asset's odometer measurement. An asset can have changing odometer measurements over time
+        columns:
+          - name: asset_scd_odometer_id
+            data_tests:
+              - unique:
+                  config:
+                    severity: warn # issue with the data. asset_scd_odometer_id should not have duplicates
+                    enabled: false # Disable test to avoid noisy slack alerts
+
+      - name: scd_asset_rental_status
+        description: >
+          A historical record of an asset's rental status. An asset can have changing rental statuses over time
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - asset_id
+                  - date_start
+              config:
+                severity: warn # issue with the data. Rental status should not share duplicate start_dates for an asset
+                enabled: false # Disable test to avoid noisy slack alerts
+
+      - name: scd_company_do_not_rent
+        description: >
+          A historical record of an company's do_not_rent status. An asset can have changing do_not_rent statuses over time
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                  - company_id
+                  - date_start
+
+      - name: scd_asset_rsp
+        description: >
+          A historical record of an asset's RSP (rental service provider - The branch that is reponsible for renting the equipment). An asset can have multiple RSPs over time
+        columns:
+          - name: scd_asset_rsp_id
+            data_tests:
+              - unique
+
+      - name: scd_order_salesperson
+        description: >
+          A historical record of salespersons assigned to an order. An order can have multiple salespersons over time
+        columns:
+          - name: user_scd_order_salesperson_id
+            data_tests:
+              - unique
+
+      - name: scd_asset_organization
+        description: >
+          A historical record of assets in an organization. An organization can have multiple assets in them over time
+        columns:
+          - name: scd_asset_organization_id
+            data_tests:
+              - unique:
+                  enabled: false # Disabled due to ~5B rows; test takes ~5 mins. Grain is correct.
+
+      - name: scd_asset_hours
+        description: >
+          A historical record of an asset’s usage in hours. Usage can change over time
+        columns:
+          - name: asset_scd_hours_id
+            data_tests:
+              - unique:
+                  config:
+                    severity: warn # should be unique but currently has duplicates
+                    enabled: false # Disable test to avoid noisy slack alerts
+
+      - name: scd_asset_msp
+        description: >
+          A historical record of an asset’s service_branch (MSP - Maintenance Service Provider: Branch that is responsible for servicing and maintenance of the asset or equipment. Should never be null for our equipment.). An asset can be serviced by multiple branches over time
+        columns:
+          - name: scd_asset_msp_id
+            data_tests:
+              - unique
+
+      - name: scd_asset_users
+        description: >
+          A historical record of an asset’s users. An asset can have multiple users over time
+        columns:
+          - name: asset_scd_user_id
+            data_tests:
+              - unique
+
+      - name: scd_invoice_salespersons
+        description: >
+          A historical record of a salesperson’s invoices. A salesperson may have multiple invoices over time
+        columns:
+          - name: invoice_id
+            data_tests:
+              - unique

@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__states
+    description: Model for es_warehouse.public.states
+    columns:
+      - name: state_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: abbreviation
+        description: ""
+      - name: name
+        description: ""
+      - name: geom2
+        description: ""
+      - name: geom
+        description: ""
+      - name: geom3
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

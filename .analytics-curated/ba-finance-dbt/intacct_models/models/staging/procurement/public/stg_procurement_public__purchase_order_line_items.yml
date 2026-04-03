@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_order_line_items
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: purchase_order_line_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: purchase_order_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: item_id
+        description: ""
+      - name: quantity
+        description: "Quantity ordered for the line item"
+      - name: price_per_unit
+        description: "Price per unit for the line item"
+      - name: _es_update_timestamp
+        description: "ES update timestamp"
+      - name: date_archived
+        description: "Date the PO line item was archived"
+      - name: purchase_order_line_memo
+        description: "Memo field associated with the PO line item"
+      - name: total_rejected
+        description: "Total quantity rejected for the line item"
+      - name: total_accepted
+        description: "Total quantity accepted for the line item"

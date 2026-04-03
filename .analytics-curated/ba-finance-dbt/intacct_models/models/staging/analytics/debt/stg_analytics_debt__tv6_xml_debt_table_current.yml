@@ -1,0 +1,48 @@
+---
+version: 2
+models:
+  - name: stg_analytics_debt__tv6_xml_debt_table_current
+    description: Model for analytics.debt.tv6_xml_debt_table_current
+    columns:
+      - name: pmt_schedule_id
+        description: ''
+      - name: customtype
+        description: ''
+      - name: date
+        description: ''
+      - name: positivecf
+        description: ''
+      - name: negativecf
+        description: ''
+      - name: interest
+        description: ''
+      - name: principal
+        description: ''
+      - name: balance
+        description: ''
+      - name: apr
+        description: ''
+      - name: nominal_rate
+        description: ''
+      - name: oec
+        description: ''
+      - name: financecharge
+        description: ''
+      - name: totalpayments
+        description: ''
+      - name: gaap_non_gaap
+        description: ''
+      - name: version_tv
+        description: ''
+      - name: phoenix_id
+        description: ''
+      - name: financing_facility_type
+        description: ''
+      - name: commencement_date
+        description: ''
+      - name: maturity_date
+        description: ''
+      - name: current_version
+        description: ''
+      - name: entity
+        description: ''

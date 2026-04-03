@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_alert_conditions
+    description: Model for es_warehouse.public.asset_alert_conditions
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: asset_alert_condition_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: on_exit_geofence
+        description: ""
+      - name: date_deactivated
+        description: ""
+      - name: asset_incident_threshold_id
+        description: ""
+      - name: asset_alert_condition_type_id
+        description: ""
+      - name: timefence_id
+        description: ""
+      - name: geofence_id
+        description: ""
+      - name: tracking_incident_type_id
+        description: ""
+      - name: on_enter_geofence
+        description: ""
+      - name: asset_alert_rule_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__cip_accounting_categories
+    description: Model for analytics.retool.cip_accounting_categories
+    columns:
+      - name: accounting_category_id
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: accounting_category_name
+        description: ''
+      - name: date_created
+        description: ''
+      - name: date_updated
+        description: ''

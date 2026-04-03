@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: stg_webex_contact_center_calls
+    description: "Daily aggregated Webex call metrics with call counts, total duration, and branch call flag"
+    columns:
+      - name: created_at
+        data_type: date
+        description: ""
+
+      - name: ended_at
+        data_type: date
+        description: ""
+
+      - name: termination_type
+        data_type: text
+        description: ""
+
+      - name: terminating_end
+        data_type: text
+        description: ""
+
+      - name: matched_skill_name
+        data_type: text
+        description: ""
+
+      - name: total_duration
+        data_type: number
+        description: ""
+
+      - name: calls
+        data_type: number
+        description: ""
+
+      - name: is_branch_call
+        data_type: boolean
+        description: ""

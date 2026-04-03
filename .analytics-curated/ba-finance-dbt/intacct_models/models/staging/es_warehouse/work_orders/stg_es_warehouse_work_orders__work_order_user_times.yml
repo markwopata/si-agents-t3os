@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_user_times
+    description: Model for es_warehouse.work_orders.work_order_user_times
+    columns:
+      - name: work_order_user_time_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: work_order_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: description
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: updated_by_user_id
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  # ========================================
+  # Bridge Views
+  # ========================================
+
+  - name: v_bridge_invoice_salesperson
+    description: "{{ doc('bridge_invoice_salesperson') }}"
+
+  - name: v_bridge_order_salesperson
+    description: "{{ doc('bridge_order_salesperson') }}"
+
+  - name: v_bridge_quote_salesperson
+    description: "{{ doc('bridge_quote_salesperson') }}"
+    config:
+      tags: ['quotes']
+
+  # ========================================
+  # Dimension Views
+  # ========================================
+
+  - name: v_dim_companies_bi
+    description: "{{ doc('dim_companies_bi') }}"
+
+  - name: v_dim_dates_bi
+    description: "{{ doc('dim_dates_bi') }}"
+
+  - name: v_dim_employees
+    description: "{{ doc('dim_employees') }}"
+
+  - name: v_dim_equipment_classes
+    description: "{{ doc('dim_equipment_classes') }}"
+
+  - name: v_dim_quote_customers
+    description: "{{ doc('dim_quote_customers') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_dim_quotes
+    description: "{{ doc('dim_quotes') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_dim_salesperson_enhanced
+    description: "{{ doc('dim_salesperson_enhanced') }}"
+
+  - name: v_dim_users_bi
+    description: "{{ doc('dim_users_bi') }}"
+
+  # ========================================
+  # Fact Views
+  # ========================================
+
+  - name: v_fact_asset_purchase_metrics
+    description: "{{ doc('fact_asset_purchase_metrics') }}"
+
+  - name: v_fact_asset_transfers_accumulating_snapshot
+    description: "{{ doc('fact_asset_transfers_accumulating_snapshot') }}"
+
+  - name: v_fact_company_customer_start
+    description: "{{ doc('fact_company_customer_start') }}"
+    config:
+      tags: ['credit_application']
+
+  - name: v_fact_credit_applications
+    description: "{{ doc('fact_credit_applications') }}"
+    config:
+      tags: ['credit_application']
+
+  - name: v_fact_quote_customer_conversion
+    description: "{{ doc('fact_quote_customer_conversion') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_fact_quote_escalations
+    description: "{{ doc('fact_quote_escalations') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_fact_quote_line_items
+    description: "{{ doc('fact_quote_line_items') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_fact_quotes
+    description: "{{ doc('fact_quotes') }}"
+    config:
+      tags: ['quotes']
+
+  - name: v_fact_safety_observation_details
+    description: "{{ doc('fact_safety_observation_details') }}"
+    config:
+      tags: ['safety_observation']
+
+  - name: v_fact_safety_observation_photos
+    description: "{{ doc('fact_safety_observation_photos') }}"
+    config:
+      tags: ['safety_observation']
+
+  - name: v_fact_tracker_vbus_events
+    description: "{{ doc('fact_tracker_vbus_events') }}"

@@ -1,0 +1,26 @@
+---
+version: 2
+sources:
+  - name: fleet_optimization_gold
+    tags:
+      - sources
+    database: fleet_optimization
+    schema: gold
+    description: Data in fleet_optimization.gold used for <todo>
+    tables:
+      - name: fact_purchasing
+        description: ''
+      - name: dim_equipment_classes_fleet_opt
+        description: ''
+      - name: dim_vendors
+        description: ''
+      - name: dim_purchase_orders
+        description: ''
+      - name: dim_assets_fleet_opt
+        description: ''
+      - name: dim_dates_fleet_opt
+        description: ''
+      - name: dim_purchase_order_line_items
+        description: ''
+      - name: dim_companies_fleet_opt
+        description: ''

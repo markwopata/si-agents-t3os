@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__financial_lenders
+    description: Model for es_warehouse.public.financial_lenders
+    columns:
+      - name: financial_lender_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

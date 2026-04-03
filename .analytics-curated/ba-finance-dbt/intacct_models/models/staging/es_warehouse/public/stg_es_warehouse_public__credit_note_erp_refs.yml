@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_note_erp_refs
+    description: Model for es_warehouse.public.credit_note_erp_refs
+    columns:
+      - name: credit_note_erp_ref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: credit_note_id
+        description: ""
+      - name: erp_instance_id
+        description: ""
+      - name: fk_credit_note_erp_refs_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: reversal_date
+        description: ""

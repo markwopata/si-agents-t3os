@@ -1,0 +1,69 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__po_header
+    description: "Sage Intacct PO header table."
+    columns:
+      - name: pk_po_header_id
+        description: "Primary key for PO header object. Maps to recordno in source."
+      - name: vendor_id
+        description: "{{ doc('vendor_id') }}"
+      - name: document_name
+        description: >
+          Unique document identifier. Maps to docid in source. Document name is in the format 
+          document_type-document_number, e.g. Purchase Order-123456
+      - name: fk_ap_header_id
+        description: "Foreign key to ap header table. Always/only populated for Vendor Invoice records."
+      - name: document_number
+        description: >
+          Document number is unique within a document type (the same number could appear for 2 different document types)
+      - name: document_type
+        description: "Type of document (docparid in source)."
+      - name: receipt_number
+        description: "Populated for Purchase Order and Closed Purchase Order records; equals document_number for those types."
+      - name: vendor_invoice_number
+        description: "Populated for Vendor Invoice records; equals document_number for those types."
+      - name: purchase_order_number
+        description: "Populated for Purchase Order Entry records; equals document_number for those types."
+      - name: po_state
+        description: "Document or header status (Pending, Converted, Submitted, Draft, Closed, etc). Maps to state in source."
+      - name: document_status
+        description: "Status of the PO document (active/inactive). Maps to status in source."
+      - name: po_message
+        description: "Header-level message for the PO. Free text field (message in source)."
+      - name: reference
+        description: "Reference field on the PO header (ponumber in source)."
+      - name: terms
+        description: >
+          Name of terms for this transaction. Can be changed by user to differ from vendor terms. e.g. Net 45
+      - name: source_document_name
+        description: "Name of the source document this PO was created from (createdfrom in source)."
+      - name: t3_po_created_by
+        description: "User who created the PO in T3 CostCapture (t3_po_created_by in source)."
+      - name: t3_pr_created_by
+        description: "User who created the PR in T3 CostCapture (t3_pr_created_by in source)."
+      - name: tmp_t3_po_created_by
+        description: "First part of t3_po_created_by, split by ' - '."
+      - name: tmp_po_number
+        description: "First part of document_number, split by '-'. Used for downstream use cases."
+      - name: is_blanket_po
+        description: >
+          Boolean to indicate if the PO is a blanket PO. Blanket POs do not hit the GL directly. Blanket POs can be
+          received to multiple times. Consider these an open agreement with the vendor to purchase more things. Vendor
+          will give us more items with the same PO number.
+      - name: gl_date
+        description: >
+          This is the date the transaction was posted to the GL. For receipts, this is date_created. For invoices, this
+          is posted date (whenposted)
+      - name: invoice_date
+        description: "Populated for Vendor Invoice transactions; whencreated for those types."
+      - name: document_date
+        description: "Date the document was created (whencreated)"
+      - name: date_created_header
+        description: "Date po header was created."
+      - name: date_updated_header
+        description: "Date po header was last updated."
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

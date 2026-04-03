@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: market_region_xwalk_unfiltered
+    description: >
+      - This is market_region_xwalk but is not filtered by the active flag.
+    columns:
+      - name: market_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: market_name
+        description: ""
+
+      - name: state
+        description: ""
+
+      - name: abbreviation
+        description: ""
+
+      - name: region
+        description: ""
+
+      - name: region_name
+        description: ""
+
+      - name: area_code
+        description: ""
+
+      - name: district
+        description: ""
+
+      - name: region_district
+        description: ""
+
+      - name: _id_dist
+        description: ""
+
+      - name: market_type_id
+        description: ""
+
+      - name: market_type
+        description: ""
+
+      - name: active
+        description: ""
+
+      - name: is_dealership
+        description: ""
+
+      - name: division_id
+        description: ""
+
+      - name: division_name
+        description: ""
+
+      - name: is_active_market
+        description: ""

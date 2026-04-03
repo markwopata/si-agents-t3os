@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__stat_pl
+    description: line_item_types mapped to statitiscal account numbers for more detail for branch earnings
+    columns:
+      - name: line_item_type
+        description: subcategories of revenue and expense accounts
+      - name: revenue_expense_categorization
+        description: the line item is part of revenue or expense type
+      - name: statistical_account
+        description: "accounts used for non-GAAP (when cash is received or paid out) transactions\n"

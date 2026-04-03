@@ -1,0 +1,61 @@
+---
+version: 2
+models:
+  - name: alteryx_invoice_line_items
+    description: >
+      Full history of Admin Invoice Line Item Details input into an Alteryx workflow.
+      The data is processed, validated, and integrated with related datasets to generate interim datasets for downstream workflows.
+
+    columns:
+      - name: line_item_id
+        description: "Unique identifier line item ID"
+        data_tests:
+          - unique
+
+      - name: invoice_no
+        description: "Unique identifier invoice number"
+
+      - name: invoice_id
+        description: "ID for the payment record in Admin"
+
+      - name: line_item_type
+        description: "Type of line item"
+
+      - name: description
+        description: "Description of the line item"
+
+      - name: rental_id
+        description: "ID of the rental associated with the line item"
+
+      - name: asset_id
+        description: "ID of the asset associated with the line item"
+
+      - name: tax_amount
+        description: "Tax amount of the line item"
+
+      - name: number_of_units
+        description: "Number of units associated with the line item"
+
+      - name: price_per_unit
+        description: "Price per unit associated with the line item"
+
+      - name: amount
+        description: "Amount of the line item"
+
+      - name: gl_date_created
+        description: "Date the line item was created"
+
+      - name: salesperson_user_id
+        description: "ID of the salesperson associated with the line item"
+
+      - name: salesperson_name
+        description: "Name of the salesperson associated with the line item"
+
+      - name: email_address
+        description: "Email address of the salesperson associated with the line item"
+
+      - name: invoice_created_by
+        description: "Name of the user who created the invoice"
+
+      - name: invoice_approved_by
+        description: "Name of the user who approved the invoice"

@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__sync_statuses
+    description: Model for es_warehouse.public.sync_statuses
+    columns:
+      - name: table_name
+        description: ""
+      - name: last_id
+        description: ""
+      - name: last_xmin
+        description: ""
+      - name: domain_id
+        description: ""
+      - name: inserted_on
+        description: ""
+      - name: notes
+        description: ""
+      - name: last_transformation_timestamp
+        description: ""
+      - name: backfill_timestamp
+        description: ""

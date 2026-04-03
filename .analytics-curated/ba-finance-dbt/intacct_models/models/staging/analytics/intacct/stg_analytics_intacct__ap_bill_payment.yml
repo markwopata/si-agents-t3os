@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ap_bill_payment
+    description: >
+      This table describes payments applied to AP bills. A payment is a cash outflow to a vendor. Until we apply the 
+      payment to AP bills, the AP bills stay open/unpaid.
+    columns:
+      - name: pk_ap_bill_payment_id
+        description: "Primary key for ap bill payment record"
+        data_tests:
+          - not_null
+          - unique
+      - name: amount
+        description: ""
+      - name: state
+        description: ""
+      - name: payment_date
+        description: ""
+      - name: payment_key
+        description: ""
+      - name: pay_item_key
+        description: ""
+      - name: record_key
+        description: ""
+      - name: paid_item_key
+        description: ""
+      - name: parent_payment
+        description: ""
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: transaction_amount
+        description: ""
+      - name: invoice_base_amount
+        description: ""
+      - name: invoice_transaction_amount
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: fk_created_by_user_id
+        description: ""
+      - name: fk_modified_by_user_id
+        description: ""
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

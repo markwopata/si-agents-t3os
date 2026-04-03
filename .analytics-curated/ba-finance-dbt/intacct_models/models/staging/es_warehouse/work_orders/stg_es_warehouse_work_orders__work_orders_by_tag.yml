@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_orders_by_tag
+    description: Model for es_warehouse.work_orders.work_orders_by_tag
+    columns:
+      - name: date_completed
+        description: ""
+      - name: name
+        description: ""
+      - name: company_tag_id
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: user_id
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: user_assignment_start_date
+        description: ""
+      - name: user_assignment_end_date
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""

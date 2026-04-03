@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_analytics_market_data__scd_market_region
+    description: "scd table that tracks any changes in market_region_xwalk"
+    columns:
+      - name: pk
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - unique
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+
+      - name: market_type_id
+        description: "id that maps to market type (e.g. Core, AS, Tooling, Materials)"
+
+      - name: market_type
+        description: "name of market type (e.g. Core, AS, Tooling, Materials)"
+
+      - name: state
+        description: "state branch resides in"
+
+      - name: abbreviation
+        description: "branch's abbreviation"
+
+      - name: area_code
+        description: "branch's telephone area code"
+
+      - name: _id_dist
+        description: "district's system id"
+
+      - name: district
+        description: "district string used in normal business language"
+
+      - name: region_district
+        description: "district string used in normal business language"
+
+      - name: region
+        description: "region number - maps to region name"
+
+      - name: region_name
+        description: "region's name"
+
+      - name: date_start
+        description: "date when change in table is detected"
+
+      - name: date_end
+        description: "date when new change in table is detected"
+
+      - name: date_added
+        description: "{{ doc('date_created') }}"
+        
+      - name: is_dealership
+        description: "branch dealership flag"
+        
+      - name: current_flag
+        description: "current flag that matches current market_region_xwalk record" 

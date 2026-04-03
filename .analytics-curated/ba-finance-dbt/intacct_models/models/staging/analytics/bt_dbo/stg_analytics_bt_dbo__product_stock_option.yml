@@ -1,0 +1,142 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_stock_option
+    description: table for product stocks, allows some analytics on stock 
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: allow_settlement_discount
+        description: 'Indicates if settlement discount is allowed.'
+      - name: default_label_template_id
+        description: 'Identifier for the default label template.'
+      - name: date_first_stocked
+        description: 'Date when the product was first stocked.'
+      - name: picking_required
+        description: 'Indicates if picking is required for the product.'
+      - name: weight_under_recvd_error_threshold
+        description: 'Threshold for weight under received error.'
+      - name: po_automatic_line_charge_multiplier
+        description: 'Multiplier for PO automatic line charge.'
+      - name: periods_analysed
+        description: 'Number of periods analysed for the product.'
+      - name: gmroi
+        description: 'Gross Margin Return on Investment.'
+      - name: selling_quantity_break_id
+        description: 'Identifier for the selling quantity break.'
+      - name: order_entry_manufactured_kit_id
+        description: 'Identifier for the order entry manufactured kit.'
+      - name: datetime_last_counted
+        description: 'Timestamp when the product was last counted.'
+      - name: full_stock_age
+        description: 'Age of the full stock.'
+      - name: so_automatic_line_charge_multiplier
+        description: 'Multiplier for SO automatic line charge.'
+      - name: date_last_aged
+        description: 'Date when the product was last aged.'
+      - name: bin_location
+        description: 'Location of the bin for the product.'
+      - name: manufacture_branch_id
+        description: 'Identifier for the manufacturing branch.'
+      - name: weight_over_recvd_warn_threshold
+        description: 'Threshold for weight over received warning.'
+      - name: sell_price_rounding_option
+        description: 'Option for rounding the selling price.'
+      - name: stock_level_max
+        description: 'Maximum stock level for the product.'
+      - name: shelf_life
+        description: 'Shelf life of the product.'
+      - name: average_age
+        description: 'Average age of the product.'
+      - name: quick_tally_avo_production_time_multiplier
+        description: 'Multiplier for quick tally AVO production time.'
+      - name: weight_under_recvd_warn_threshold
+        description: 'Threshold for weight under received warning.'
+      - name: weeks_cover
+        description: 'Number of weeks covered by the stock.'
+      - name: seasonality_id
+        description: 'Identifier for the seasonality of the product.'
+      - name: standard_purchase
+        description: 'Standard purchase price of the product.'
+      - name: packs_are_tagged
+        description: 'Indicates if packs are tagged.'
+      - name: lead_time
+        description: 'Lead time for the product.'
+      - name: stock_level_min
+        description: 'Minimum stock level for the product.'
+      - name: product_batch_type_id
+        description: 'Identifier for the product batch type.'
+      - name: quick_tally_avo_id
+        description: 'Identifier for quick tally AVO.'
+      - name: sell_price_rounding_per_id
+        description: 'Identifier for the sell price rounding period.'
+      - name: product_manager_id
+        description: 'Identifier for the product manager.'
+      - name: allow_processing_wo_if_source_stock_will_go_negative
+        description: 'Indicates if processing is allowed without source stock going negative.'
+      - name: description
+        description: 'Description of the product.'
+      - name: weight_over_recvd_error_threshold
+        description: 'Threshold for weight over received error.'
+      - name: full_stock_turn
+        description: 'Full stock turn for the product.'
+      - name: skip_stock_warning
+        description: 'Indicates if stock warnings should be skipped.'
+      - name: stock_count_group
+        description: 'Group for stock count.'
+      - name: purchase_and_transfer_branch_id
+        description: 'Identifier for the purchase and transfer branch.'
+      - name: stock_count_line_number
+        description: 'Line number for the stock count.'
+      - name: commission_code_id
+        description: 'Identifier for the commission code.'
+      - name: quick_tally_avo_option_id
+        description: 'Identifier for quick tally AVO option.'
+      - name: po_automatic_line_charge_id
+        description: 'Identifier for PO automatic line charge.'
+      - name: stock_class
+        description: 'Class of the stock.'
+      - name: pack_selling
+        description: 'Indicates if the product is sold in packs.'
+      - name: keep_untagged_pack_records
+        description: 'Indicates if untagged pack records should be kept.'
+      - name: pack_purchasing
+        description: 'Indicates if the product is purchased in packs.'
+      - name: use_actual_cost_for_packs
+        description: 'Indicates if actual cost is used for packs.'
+      - name: always_order_stock_back_to_back
+        description: 'Indicates if stock is always ordered back-to-back.'
+      - name: stock_count_id
+        description: 'Identifier for the stock count.'
+      - name: so_automatic_line_charge_id
+        description: 'Identifier for SO automatic line charge.'
+      - name: picking_zone
+        description: 'Picking zone for the product.'
+      - name: quick_tally_avo_price_multiplier
+        description: 'Multiplier for quick tally AVO price.'
+      - name: how_sourced
+        description: 'How the product is sourced.'
+      - name: sell_price_rounding
+        description: 'Rounding applied to the selling price.'
+      - name: use_memo_quantity_input
+        description: 'Indicates if memo quantity input is used.'
+      - name: input_per_id
+        description: 'Identifier for the input period.'
+      - name: price_sensitivity_id
+        description: 'Identifier for the price sensitivity.'
+      - name: average_valuation
+        description: 'Average valuation of the product.'
+      - name: vmi
+        description: 'Indicates if the product is VMI (Vendor Managed Inventory).'
+      - name: transfer_branch_id
+        description: 'Identifier for the transfer branch.'
+      - name: stocked
+        description: 'Indicates if the product is stocked.'
+      - name: dont_issue_if_negative_stock
+        description: 'Indicates if the product should not be issued if stock is negative.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

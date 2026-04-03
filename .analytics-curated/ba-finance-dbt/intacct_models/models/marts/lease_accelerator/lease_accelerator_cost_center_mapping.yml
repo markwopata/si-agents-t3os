@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: lease_accelerator_cost_center_mapping
+    description: >
+      List of LAS equipment lease assets— including terminated assets and child assets with no cost—mapped to a market_id at the time of allocation. The Fixed Accounting team uses this mapping to allocate rent costs to the correct market_id in the historical asset record.
+      This report is downloaded from Looker. Fixed Accounting applies filters on effective end dates (since both end dates and lease statuses can change) before creating journal entries: one for finance leases and another for operating leases.
+      Note: Assets with admin_asset_id = 0 do not have a corresponding historical record and cannot be mapped to a market_id.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - las_asset_id
+              - ledger_category
+    columns:
+      - name: admin_asset_id
+        description: "{{ doc('admin_asset_id') }}"
+
+      - name: las_cost_center
+        description: "The cost center identifier recorded in the LeaseAccelerator source (LAS)."
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: host_name
+        description: "The hostname of the asset, if applicable (typically for IT equipment)."
+
+      - name: market_id_match
+        description: "Boolean flag indicating whether the cost center (LAS market_id) matches the historical market_id; forced FALSE when either is null."
+
+      - name: description
+        description: "Free-text description of the asset as entered in LeaseAccelerator."
+
+      - name: lease
+        description: "Unique identifier or number of the lease agreement associated with the asset."
+
+      - name: market_id_name
+        description: "Human-readable name of the market / cost center, derived from historical asset records."
+
+      - name: asset_type
+        description: "Category of the asset (e.g., vehicle, equipment, IT hardware)."
+
+      - name: status
+        description: "Current status of the asset in LeaseAccelerator (e.g., Active, Terminated, Returned)."
+
+      - name: term
+        description: "Lease term length in months, as defined in the lease agreement."
+
+      - name: product_number
+        description: "Product or model number associated with the asset."
+
+      - name: manufacturer
+        description: "Manufacturer of the asset (e.g., Caterpillar, Dell)."
+
+      - name: serial_number
+        description: "Serial number of the asset, typically unique per unit."
+
+      - name: asset_reference_number
+        description: "Internal reference number for the asset provided by LeaseAccelerator."
+
+      - name: lease_genre
+        description: "Classification of the lease (e.g., Operating lease, Finance lease)."
+
+      - name: ledger_category
+        description: "Ledger or accounting category used for the asset in reporting."
+
+      - name: asset_cost_local
+        description: "Original asset cost in local currency."
+
+      - name: asset_rent_local
+        description: "Recurring lease rent amount in local currency."
+
+      - name: months_remaining
+        description: "Calculated number of months remaining in the lease term."
+
+      - name: date_entered
+        description: "Date the asset was entered into LeaseAccelerator."
+
+      - name: booking_ledger_date
+        description: "Date the asset was recorded in the financial ledger."
+
+      - name: commencement_date
+        description: "Date the lease commenced as per the agreement."
+
+      - name: original_end_date
+        description: "Planned end date of the lease when originally signed."
+
+      - name: effective_end_date
+        description: "Current effective end date of the lease, reflecting amendments or early terminations."

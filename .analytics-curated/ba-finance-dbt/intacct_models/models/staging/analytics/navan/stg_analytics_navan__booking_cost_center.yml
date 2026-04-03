@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_cost_center
+    description: Staging model for Navan booking cost center data, containing the cost center allocation information for travel bookings
+    columns:
+      - name: booking_uuid
+        description: Unique identifier for the booking record.
+      - name: index
+        description: Index value for the cost center entry.
+      - name: _fivetran_deleted
+        description: Indicates if the record was deleted by Fivetran.
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran.
+      - name: cost_center
+        description: Cost center associated with the booking.

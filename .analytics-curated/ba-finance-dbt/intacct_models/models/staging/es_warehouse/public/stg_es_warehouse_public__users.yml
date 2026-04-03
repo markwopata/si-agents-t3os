@@ -1,0 +1,119 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__users
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: deleted
+        description: ""
+      - name: accepted_terms
+        description: ""
+      - name: username
+        description: ""
+      - name: user_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: approved_for_purchase_orders
+        description: ""
+      - name: email_address
+        description: ""
+      - name: blockscore_id
+        description: ""
+      - name: employer_user_id
+        description: ""
+      - name: xero_salesperson_account_code
+        description: ""
+      - name: description
+        description: ""
+      - name: middle_name
+        description: ""
+      - name: phone_number
+        description: ""
+      - name: drivers_license
+        description: ""
+      - name: is_salesperson
+        description: ""
+      - name: birth_day
+        description: ""
+      - name: birth_year
+        description: ""
+      - name: last_name
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: braintree_payment_made
+        description: ""
+      - name: last_searched_zip_code
+        description: ""
+      - name: bad_email_address
+        description: ""
+      - name: security_level_id
+        description: ""
+      - name: password_hash
+        description: ""
+      - name: keypad_code
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: location_id
+        description: ""
+      - name: birth_month
+        description: ""
+      - name: bad_phone_number
+        description: ""
+      - name: first_name
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: verification_status_id
+        description: ""
+      - name: blockscore_people_id
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: timezone
+        description: ""
+      - name: link_device_push_id
+        description: ""
+      - name: user_type_id
+        description: ""
+      - name: read_only
+        description: ""
+      - name: preferred_landing_page
+        description: ""
+      - name: cell_phone_number
+        description: ""
+      - name: sms_opted_out
+        description: ""
+      - name: can_create_asset_financial_records
+        description: ""
+      - name: can_read_asset_financial_records
+        description: ""
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+      - name: branch_id
+        description: ""
+      - name: can_access_camera
+        description: ""
+      - name: can_rent
+        description: ""
+      - name: crm_contact_id
+        description: ""
+      - name: user_agent_id
+        description: ""
+      - name: can_grant_permissions
+        description: ""
+      - name: universal_contact_id
+        description: ""

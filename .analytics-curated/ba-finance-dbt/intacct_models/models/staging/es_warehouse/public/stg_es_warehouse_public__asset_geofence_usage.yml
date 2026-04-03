@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_geofence_usage
+    description: Model for es_warehouse.public.asset_geofence_usage
+    columns:
+      - name: geofence_id
+        description: ""
+      - name: date
+        description: ""
+      - name: asset_geofence_usage_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: hours
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

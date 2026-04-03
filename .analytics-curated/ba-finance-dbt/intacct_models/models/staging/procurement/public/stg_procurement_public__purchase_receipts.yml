@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_receipts
+    description: Model for procurement.public.purchase_receipts
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: purchase_receipt_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: note
+        description: ""
+      - name: store_id
+        description: ""
+      - name: purchase_id
+        description: ""
+      - name: date_received
+        description: ""
+      - name: transaction_id
+        description: ""
+      - name: modified_by_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

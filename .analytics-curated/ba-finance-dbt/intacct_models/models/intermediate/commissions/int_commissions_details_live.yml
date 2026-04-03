@@ -1,0 +1,240 @@
+---
+version: 2
+models:
+  - name: int_commissions_details_live
+    description: Final Output table for commissions. Used by Looker
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+        description: Unique identifier for the commission row.
+
+      - name: commission_rate
+        data_tests:
+          - not_null
+        description: Base commission rate from upstream (never mutated in this model).
+
+      - name: split
+        data_tests:
+          - not_null
+        description: Share of the commission for this salesperson (0–1).
+
+      - name: amount
+        data_tests:
+          - not_null
+        description: Monetary base used to compute commission_amount.
+
+      - name: is_exception
+        data_tests:
+          - not_null
+        description: Exception flag that alters the payout multiplier logic.
+
+      - name: line_item_id
+        description: Source billing line item identifier.
+
+      - name: salesperson_user_id
+        description: Salesperson user id associated with the commission row.
+
+      - name: invoice_id
+        description: Upstream invoice identifier.
+
+      - name: invoice_no
+        description: Human-readable invoice number.
+
+      - name: order_id
+        description: Sales order identifier.
+
+      - name: order_date
+        description: Sales order date.
+
+      - name: market_id
+        description: Market identifier.
+
+      - name: market_name
+        description: Market name.
+
+      - name: parent_market_id
+        description: Parent market identifier.
+
+      - name: parent_market_name
+        description: Parent market name.
+
+      - name: region
+        description: Region used for RC rollout gating.
+
+      - name: region_name
+        description: Region name.
+
+      - name: district
+        description: District identifier/name.
+
+      - name: ship_to_state
+        description: Ship-to state on the invoice.
+
+      - name: company_id
+        description: Customer company identifier.
+
+      - name: company_name
+        description: Customer company name.
+
+      - name: line_item_type_id
+        description: Billing line item type id.
+
+      - name: line_item_type
+        description: Billing line item type name.
+
+      - name: asset_id
+        description: Asset identifier on the invoice line.
+
+      - name: invoice_asset_make
+        description: Asset make from invoice.
+
+      - name: invoice_class_id
+        description: Invoice class id.
+
+      - name: invoice_class
+        description: Invoice class name.
+
+      - name: rental_class_id_from_rental
+        description: Rental class id from rental record.
+
+      - name: rental_class_from_line_item
+        description: Rental class derived from the line item.
+
+      - name: line_item_amount
+        description: Gross amount of the line item (before commission logic).
+
+      - name: email_address
+        description: Salesperson email from HRIS/ERP join.
+
+      - name: employee_id
+        description: Internal employee identifier.
+
+      - name: full_name
+        description: Salesperson full name.
+
+      - name: employee_title
+        description: Salesperson job title.
+
+      - name: transaction_type
+        description: Human-readable transaction label derived from transaction_type_id and credit note context.
+
+      - name: employee_manager_id
+        description: Manager’s employee id.
+
+      - name: employee_manager
+        description: Manager’s full name.
+
+      - name: salesperson_type_id
+        description: Salesperson type id (Primary/Secondary mapping).
+
+      - name: salesperson_type
+        description: Salesperson type label (Primary/Secondary).
+
+      - name: employee_type
+        description: Modeled classification for eligibility (commission, guarantee, non-salesperson).
+
+      - name: secondary_rep_count
+        description: Count of secondary reps on the deal (used for splits/eligibility logic).
+
+      - name: rate_tier_id
+        description: Commission rate tier id used at time of billing.
+
+      - name: rate_tier_name
+        description: Commission rate tier name.
+
+      - name: book_rate
+        description: Book rate for the rental (if applicable).
+
+      - name: benchmark_rate
+        description: Benchmark rate (pricing reference).
+
+      - name: floor_rate
+        description: Floor rate (lowest allowed pricing threshold).
+
+      - name: business_segment_id
+        description: Business segment identifier.
+
+      - name: rental_id
+        description: Rental identifier.
+
+      - name: rental_date_created
+        description: Rental record creation timestamp.
+
+      - name: rental_start_date
+        description: Rental start date.
+
+      - name: rental_billed_days
+        description: Number of billed days on the rental.
+
+      - name: cheapest_period
+        description: Cheapest period logic result for the rental.
+
+      - name: quoted_rates
+        description: Quoted rates captured on the rental.
+
+      - name: override_rate
+        description: Optional rate override used by amount logic when base rate is non-zero.
+
+      - name: is_override
+        description: Flag indicating whether an override_rate was applied.
+
+      - name: allocation_cost_center
+        description: Mapped cost center used for payroll allocation.
+
+      - name: transaction_date
+        description: The commission transaction date used for eligibility and payroll period.
+
+      - name: billing_approved_date
+        description: Invoice billing approved date (used for eligibility windows).
+
+      - name: transaction_type_id
+        description: Transaction class (1=commission, 2=clawback, 3=reimbursement).
+
+      - name: commission_type
+        description: Workflow role/type (e.g., 1=TAM, 2=NAM, 3=RC, etc.).
+
+      - name: commission_type_id
+        description: Commission type id from employee commission info (eci).
+
+      - name: date_terminated
+        description: Employee termination date (null if active).
+
+      - name: is_payable
+        description: Final payability after applying all policy and dedupe rules.
+
+      - name: original_payable
+        description: Historical payability used to mirror prior pay decisions for credits/clawbacks/reimbursements.
+
+      - name: is_finalized
+        description: Flag indicating finalized status at time of extraction (may be false for live view).
+
+      - name: reimbursement_factor
+        description: Percent factor applied for reimbursements (defaults to 1 when null).
+
+      - name: credit_note_line_item_id
+        description: Line item id of the related credit note, when present.
+
+      - name: transaction_description
+        description: Human-friendly description (e.g., Commission Paid, 120 Day Clawback, Credit Note Reimbursement).
+
+      - name: commission_month
+        description: Month bucket of transaction_date (date_trunc(month, transaction_date)).
+
+      - name: commission_amount
+        description: >
+          Final calculated payout:
+          iff(commission_rate != 0, coalesce(override_rate, commission_rate), commission_rate)
+          * split * coalesce(reimbursement_factor, 1)
+          * (case when is_exception and transaction_type_id = 1 then 1 when is_exception then 0 else 1 end)
+          * amount
+
+      - name: paycheck_date
+        description: Payroll paycheck date associated with the commission_month, if applicable.
+
+      - name: hidden
+        description: UI helper flag to hide rows not yet finalized for the upcoming paycheck.
+
+      - name: manual_adjustment_id
+        description: Identifier for manually adjusted rows (if any).

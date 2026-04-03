@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__fuel_purchases
+    description: Model for es_warehouse.public.fuel_purchases
+    columns:
+      - name: fuel_purchase_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: address
+        description: ""
+      - name: city
+        description: ""
+      - name: purchase_date
+        description: ""
+      - name: card_holder
+        description: ""
+      - name: transaction_sequence_number
+        description: ""
+      - name: purchase_code
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: state_id
+        description: ""
+      - name: purchase_code_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: purchase_price
+        description: ""
+      - name: gallons_purchased
+        description: ""
+      - name: cost_per_gallon
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

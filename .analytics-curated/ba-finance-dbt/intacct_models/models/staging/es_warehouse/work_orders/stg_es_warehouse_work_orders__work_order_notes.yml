@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_notes
+    description: Model for es_warehouse.work_orders.work_order_notes
+    columns:
+      - name: work_order_note_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+      - name: work_order_id
+        description: ""
+      - name: note
+        description: ""
+      - name: creator_user_id
+        description: ""
+      - name: archived_date
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

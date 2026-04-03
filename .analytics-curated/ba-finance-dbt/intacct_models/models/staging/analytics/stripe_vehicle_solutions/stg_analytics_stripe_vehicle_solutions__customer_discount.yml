@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__customer_discount
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the customer discount."
+      - name: date_end
+        description: "Date the discount ends (for repeating coupons), otherwise null."
+      - name: date_start
+        description: "Date the coupon was applied."
+      - name: promotion_code
+        description: "Promotion code applied to create this discount."
+      - name: checkout_session
+        description: "Checkout session this discount is applied to, if applicable."
+      - name: coupon_id
+        description: "ID of the coupon applied."
+      - name: invoice_item_id
+        description: "Invoice item or line item the discount was applied to, if applicable."
+      - name: customer_id
+        description: "ID of the customer associated with this discount."
+      - name: subscription_id
+        description: "ID of the subscription that this discount applies to, if applicable."
+      - name: invoice_id
+        description: "Invoice the discount was applied to, if applied directly."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

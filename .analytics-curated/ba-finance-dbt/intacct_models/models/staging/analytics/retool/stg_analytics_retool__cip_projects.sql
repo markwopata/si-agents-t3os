@@ -1,0 +1,21 @@
+select
+    cp.project_id,
+    cp.project_code,
+    cp.project_name,
+    cp.project_type_id,
+    cp.project_status_id,
+    cp.description,
+    cp.market_id,
+    cp.start_date,
+    cp.end_date,
+    cp.is_completed,
+    cp.is_archived,
+    cp.has_accounting_capitalized,
+    cp.capitalization_date,
+    cp.construction_project_manager_employee_id,
+    cp.created_by,
+    cp.updated_by,
+    cp.date_created,
+    cp.date_updated,
+    cp.date_archived
+from {{ source('analytics_retool', 'cip_projects') }} as cp

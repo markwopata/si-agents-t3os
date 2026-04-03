@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: base_analytics_asset4000_dbo__gl_ass_grpdetail_bk
+    description: cleaned and renamed model of analytics.asset4000_dbo.gl_ass_grpdetail_bk
+    columns:
+      - name: book_code
+        description: 'Code of the book'
+      - name: entity_name
+        description: 'Name of the entity'
+      - name: group_id
+        description: 'Order of the group tag'
+      - name: group_code
+        description: 'Code of the group'
+      - name: change_type
+        description: 'Type of change'
+      - name: useful_life_years
+        description: 'Useful life in years'
+      - name: insure_percent_points
+        description: 'Insurance percentage points'
+      - name: insure_percent
+        description: 'Insurance percentage'
+      - name: capitalization_value
+        description: 'Capitalization value'
+      - name: depreciation_code
+        description: 'Depreciation code'
+      - name: disposal_percent_points
+        description: 'Disposal percentage points'
+      - name: disposal_percent
+        description: 'Disposal percentage'
+      - name: residual_percent_points
+        description: 'Residual percentage points'
+      - name: residual_percent
+        description: 'Residual percentage'
+      - name: irs_depreciation_convention_code
+        description: 'IRS depreciation convention code'
+      - name: assgdbk_irs_sept10depn
+        description: ''
+      - name: residual_percent_last_modified_timestamp
+        description: 'Timestamp when residual percentage was last modified'
+      - name: acquisition_percent_points
+        description: 'Acquisition percentage points'
+      - name: acquisition_percent
+        description: 'Acquisition percentage'
+      - name: disposal_type
+        description: 'Type of disposal'
+      - name: assgdbk_irs_electads
+        description: ''
+      - name: acquisition_type
+        description: 'Type of acquisition'
+      - name: assgdbk_irs_sect179exp
+        description: ''
+      - name: assgdbk_irs_depallw
+        description: ''
+      - name: _fivetran_deleted
+        description: 'Flag indicating if the record was deleted by Fivetran'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran'

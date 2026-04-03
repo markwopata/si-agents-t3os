@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__bank_account
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the bank account."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with this bank account."
+      - name: account
+        description: "Bank account number (masked)."
+      - name: account_holder_name
+        description: "Name of the bank account holder."
+      - name: account_holder_type
+        description: "Type of account holder (individual or company)."
+      - name: bank_name
+        description: "Name of the bank."
+      - name: country
+        description: "Two-letter country code of the bank account."
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: fingerprint
+        description: "Uniquely identifies this bank account globally."
+      - name: last_4
+        description: "Last four digits of the bank account number."
+      - name: routing_number
+        description: "Routing number for the bank account."
+      - name: status
+        description: "Verification status of the bank account."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: is_deleted
+        description: "Whether the bank account has been deleted."
+      - name: customer_id
+        description: "ID of the customer this bank account belongs to."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_quotes_quotes__request_source
+    description: "Staging model for request sources in the quotes domain"
+    config:
+      tags:
+        - staging
+        - quotes
+    columns:
+      - name: request_source_id
+        description: "Unique identifier for the request source"
+      - name: name
+        description: "Name of the request source"
+      - name: _es_update_timestamp
+        description: "Timestamp when the record was last updated in ES"
+      - name: _es_load_timestamp
+        description: "Timestamp when the record was loaded into ES"

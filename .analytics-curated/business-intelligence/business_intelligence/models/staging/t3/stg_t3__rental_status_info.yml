@@ -1,0 +1,82 @@
+version: 2
+
+
+models:
+  - name: stg_t3__rental_status_info
+    description: "Staging model for Rental status Info"
+    columns:
+      - name: rental_id
+        data_type: number
+        description: "Rental ID"
+
+      - name: status
+        data_type: varchar
+        description: "Rental status, 'on_rent','reservation', 'off_rent'"
+
+      - name: asset_id
+        data_type: number
+        description: "Unique ID of the asset"
+
+      - name: rental_start_date
+        data_type: date
+        description: "Start date of rental (cast to DATE)"
+
+      - name: rental_end_date
+        data_type: date
+        description: "End date of rental (cast to DATE)"
+
+      - name: price_per_day
+        data_type: float
+        description: "Daily price of the asset rental"
+
+      - name: price_per_week
+        data_type: float        
+        description: "Weekly price of the asset rental"
+
+      - name: price_per_month
+        data_type: float
+        description: "Monthly price of the asset rental"
+
+      - name: ordered_by
+        data_type: varchar
+        description: "Person who ordered the asset (first name + last name)"
+
+      - name: asset
+        data_type: varchar
+        description: "Name for the asset, or  Not assigned'"
+
+      - name: asset_class
+        data_type: varchar
+        description: "Class of the asset, or  null"
+
+      - name: purchase_order
+        data_type: varchar
+        description: "Purchase order name or identifier"
+
+      - name: purchase_order_id
+        data_type: varchar
+        description: "Purchase order ID"
+
+      - name: delivery_address
+        data_type: varchar
+        description: "Full delivery address, including street, city, state, zip"
+
+      - name: jobsite
+        data_type: varchar
+        description: "Jobsite location"
+
+      - name: next_cycle_date
+        data_type: date
+        description: "Next billing cycle date"
+
+      - name: cycles_next_seven_days
+        data_type: boolean
+        description: "Boolean flag if next cycle is within 7 days"
+
+      - name: pull_recent_asset_assignment
+        data_type: number
+        description: "Placeholder for recent asset assignment,currently null"
+
+      - name: vendor
+        data_type: varchar
+        description: "Company Renting the Equipment"

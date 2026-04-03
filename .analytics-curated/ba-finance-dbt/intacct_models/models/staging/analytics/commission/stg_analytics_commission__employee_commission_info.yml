@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__employee_commission_info
+    description: Model for analytics.commission.employee_commission_info
+    columns:
+      - name: employee_commission_info_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: user_id
+        description: ""
+      - name: commission_type_id
+        description: ""
+      - name: guarantee_amount
+        description: ""
+      - name: guarantee_start
+        description: ""
+      - name: guarantee_end
+        description: ""
+      - name: commission_start
+        description: ""
+      - name: commission_end
+        description: ""
+      - name: comments
+        description: ""
+      - name: date_updated
+        description: ""

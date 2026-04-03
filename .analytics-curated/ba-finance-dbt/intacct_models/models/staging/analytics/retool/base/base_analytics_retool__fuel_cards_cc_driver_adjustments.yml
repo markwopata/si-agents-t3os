@@ -1,0 +1,11 @@
+---
+version: 2
+models:
+  - name: base_analytics_retool__fuel_cards_cc_driver_adjustments
+    description: cleaned and renamed model of analytics.retool.fuel_card_cc_driver_adjustments
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - transaction_id
+              - es_update_timestamp

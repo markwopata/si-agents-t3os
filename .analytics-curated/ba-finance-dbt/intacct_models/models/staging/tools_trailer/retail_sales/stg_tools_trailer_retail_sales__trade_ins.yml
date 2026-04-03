@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_tools_trailer_retail_sales__trade_ins
+    description: Retail Sales attachments.
+    config:
+      tags: ["retail_sales"]
+    columns:
+        - name: pk_id
+          description: "Primary key for each cost item record."
+          data_tests:
+            - unique
+            - not_null
+        - name: quote_pk_id
+          description: "Primary key for the quote associated with this cost item. Foreign key to the quotes table."
+          data_tests:
+            - not_null
+        - name: quote_id
+          description: "Identifier for the quote. This is how the business identifies the quote."
+          data_tests:
+            - not_null
+        - name: trade_in_pk_id
+          description: >
+            Key for the trade in. This can be duplicated as the quote_pk_id (version) with 
+            the trade_in_pk_id is the unique identifier for the trade in."
+          data_tests:
+            - not_null
+        - name: asset_pk_id
+          description: "Foreign key to the asset associated with this trade in."
+          data_tests:
+            - not_null
+        - name: asset_id
+          description: "Asset ID of the Trade In"
+        - name: build_spec
+          description: "Additional information about the build specification of the trade in asset."
+        - name: hours
+          description: "Machine hours on the trade in asset."
+        - name: make
+          description: "Trade In make."
+        - name: model
+          description: "Trade In model."
+        - name: model_year
+          description: "Trade In model year."
+        - name: payoff_amount
+          description: "Trade In payoff amount (what the customer currently owes on the asset)."
+        - name: serial_number
+          description: "Serial Number of the trade in."
+        - name: trade_in_over_allowance
+          description: "The amount over the allowance for the trade in asset."
+        - name: trade_in_value
+          description: "The value of the trade in asset."

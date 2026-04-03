@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__equipment_classes
+    description: Model for es_warehouse.public.equipment_classes
+    columns:
+      - name: equipment_class_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: description
+        description: ""
+      - name: deleted
+        description: ""
+      - name: weekly_minimum
+        description: ""
+      - name: rentable
+        description: ""
+      - name: category_id
+        description: ""
+      - name: primary_photo_id
+        description: ""
+      - name: company_division_id
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: metric_name
+        description: ""
+      - name: company_id
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

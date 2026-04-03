@@ -1,0 +1,90 @@
+---
+version: 2
+exposures:
+  - name: db_branch_earnings_dashboard__element_2382
+    label: Branch Earnings Dashboard::Element_2382
+    type: dashboard
+    url: "https://equipmentshare.looker.com/dashboards/180"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+      - source('analytics_branch_earnings', 'parent_market')
+      - source('analytics_gs', 'plexi_periods')
+      - source('analytics_public', 'branch_earnings_dds_snap')
+    owner:
+      name: "@vishesh.mathur"
+      email: vishesh.mathur@equipmentshare.com
+    meta:
+      looker_type: dashboard_element
+      folder: Branch Earnings
+      folder_id: "9021"
+      folder_url: https://equipmentshare.looker.com/folders/9021
+      looker_project:
+      looker_model:
+      looker_view:
+      explore_lookml_url:
+      tables_not_in_dbt: []
+      dashboard_id: "180"
+      element_type: vis/looker_grid
+      dashboard_title: Branch Earnings Dashboard
+      dashboard_url: https://equipmentshare.looker.com/dashboards/180
+      element_id: "2382"
+  - name: db_branch_earnings_dashboard__hours_reported_in_ukg
+    label: Branch Earnings Dashboard::Hours Reported in UKG
+    type: dashboard
+    url: "https://equipmentshare.looker.com/dashboards/180"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+      - source('analytics_branch_earnings', 'parent_market')
+      - source('analytics_gs', 'plexi_periods')
+      - source('analytics_intacct', 'department')
+    owner:
+      name: "@vishesh.mathur"
+      email: vishesh.mathur@equipmentshare.com
+    meta:
+      looker_type: dashboard_element
+      folder: Branch Earnings
+      folder_id: "9021"
+      folder_url: https://equipmentshare.looker.com/folders/9021
+      looker_project:
+      looker_model:
+      looker_view:
+      explore_lookml_url:
+      tables_not_in_dbt:
+        - analytics.payroll.cost_center_vault
+        - analytics.payroll.stg_analytics_payroll__company_directory_vault
+      dashboard_id: "180"
+      element_type: vis/looker_grid
+      dashboard_title: Branch Earnings Dashboard
+      dashboard_url: https://equipmentshare.looker.com/dashboards/180
+      element_id: "2592"
+  - name: db_high_level_financials_overview__market_map
+    label: High Level Financials Overview::Market Map
+    type: dashboard
+    url: "https://equipmentshare.looker.com/dashboards/524"
+    description: ""
+    depends_on:
+      - ref('market_region_xwalk')
+      - source('analytics_branch_earnings', 'parent_market')
+      - source('analytics_public', 'es_companies')
+      - source('es_warehouse_public', 'locations')
+      - source('es_warehouse_public', 'markets')
+    owner:
+      name: "@brody.cridlebaugh"
+      email: brody.cridlebaugh@equipmentshare.com
+    meta:
+      looker_type: dashboard_element
+      folder: Branch Earnings
+      folder_id: "9021"
+      folder_url: https://equipmentshare.looker.com/folders/9021
+      looker_project:
+      looker_model:
+      looker_view:
+      explore_lookml_url:
+      tables_not_in_dbt: []
+      dashboard_id: "524"
+      element_type: vis/looker_google_map
+      dashboard_title: High Level Financials Overview
+      dashboard_url: https://equipmentshare.looker.com/dashboards/524
+      element_id: "7680"

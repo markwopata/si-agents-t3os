@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: market_auto_premium_recovery
+    description: >
+      "The monthly auto insurance premium model figures out how much each branch needs to pay for insurance each month. It is based on two main 
+      things: the average number of vehicles the branch had over the past 12 months and its claims history. Claims include accidents where the 
+      branch was at fault and bigger losses from damage, and just like with regular insurance, each claim stays on record for a year before it 
+      drops off. Using a 12-month average helps keep premiums steady, so one bad month does not skew results, but repeated accidents will raise 
+      costs. Starting in June 2025, we switched to a new and improved way of calculating premiums. For months before that, the older version can
+       be found in the market_auto_premium_recovery_old table."
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - branch_earnings_month
+            - market_id
+                
+    columns:
+      - name: market_id
+        description: '{{ doc("market_id") }}'
+
+      - name: avg_vehicle_count_rolling_12mo
+        description: "average vehicle count for the market over the trailing 12 months"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: claims_count_rolling_12mo
+        description: "total auto insurance claims for the market over last 12 months"
+        datatests:
+          - not_null
+
+      - name: claims_per_vehicle_rolling_12mo
+        description: "accidents per vehicle calculated as total claims in the last 12 months (claims_count_rolling_12mo) divided by average vehicle count over last 12 months (avg_vehicle_count_rolling_12mo)"
+        datatests:
+          - not_null
+
+      - name: insurance_rate_per_vehicle
+        description: "yearly insurance rate per vehicle based on the claims per vehicle falling into a specific bin"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: monthly_premium_charge
+        description: "total amount charged in insurance premium to the market for the month based on the average vehicle count and insurance rate per vehicle"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: branch_earnings_month
+        description: "current timestamp of when the record was last modified"
+
+        

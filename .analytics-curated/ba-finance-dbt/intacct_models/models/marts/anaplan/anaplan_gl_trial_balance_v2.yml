@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: anaplan_gl_trial_balance_v2
+    description: >
+      Trial balance filtered to 2021+ with department fallbacks, formatted for Anaplan consumption. Chris Kinney has 
+      requested a copy without some fields and just an ending balance for use in forecast model.
+    config:
+      materialized: view
+      persist_docs:
+        columns: true
+    columns:
+      - name: pk_gl_trial_balance_id
+        description: "Surrogate primary key for the trial balance row, generated as an MD5 hash of entity, department, and account identifiers."
+        data_tests:
+          - not_null
+          - unique
+      - name: period_start_date
+        description: "First day of the fiscal month the balances relate to."
+      - name: entity_id
+        description: "Unique identifier of the Intacct entity."
+      - name: entity_name
+        description: "Name of the Intacct entity."
+      - name: department_id
+        description: "Department identifier with 'No department_id' fallback when null."
+      - name: department_name
+        description: "Department name with 'No department_name' fallback when null."
+      - name: account_number
+        description: "General Ledger account number."
+      - name: account_name
+        description: "Human-readable name of the GL account."
+      - name: account_type
+        description: "Intacct account type (balance-sheet or income-statement). Determines cumulative versus period-to-date logic."
+      - name: segment_helper
+        description: "Concatenation of account_number and department_id (or fallback) for Anaplan segment mapping."
+      - name: ending_balance
+        description: "Balance of the account at the end of the fiscal month."

@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__spn
+    description: Model for es_warehouse.public.spn
+    columns:
+      - name: spn
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: length
+        description: ""
+      - name: spn_name
+        description: ""
+      - name: spn_desc
+        description: ""
+      - name: spn_type
+        description: ""
+      - name: type
+        description: ""
+      - name: value_offset
+        description: ""
+      - name: value_scale
+        description: ""
+      - name: units
+        description: ""
+      - name: delimiter
+        description: ""
+      - name: not_avail_bitmask
+        description: ""
+      - name: oper_range_hi
+        description: ""
+      - name: oper_range_low
+        description: ""
+      - name: slot_id
+        description: ""

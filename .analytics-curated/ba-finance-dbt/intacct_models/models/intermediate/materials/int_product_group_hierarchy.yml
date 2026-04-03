@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: int_product_group_hierarchy
+    description: "Intermediate model for product group hierarchy."
+    columns:
+      - name: product_group_id
+        description: "Identifier for the product group."
+        data_tests:
+          - unique
+          - not_null
+      - name: level_1_id
+        description: "Level 1 identifier in the product hierarchy."
+      - name: level_1_name
+        description: "Level 1 name in the product hierarchy."
+      - name: level_2_id
+        description: "Level 2 identifier in the product hierarchy."
+      - name: level_2_name
+        description: "Level 2 name in the product hierarchy."

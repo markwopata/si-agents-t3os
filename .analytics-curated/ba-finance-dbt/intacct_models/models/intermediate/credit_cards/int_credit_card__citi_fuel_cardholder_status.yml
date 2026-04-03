@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: int_credit_card__citi_fuel_cardholder_status
+    description: >
+      "This model shows whether each employee's Citi, Fuel, or Amex card is open or closed"
+
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - employee_id
+              - corporate_account_number
+              - is_travel_card
+
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: full_name
+        description: "First and last name of the cardholder"
+
+      - name: corporate_account_number
+        description: "Internal ES Account number the card is associated with"
+
+      - name: corporate_account_name
+        description: "The name of the corporate account the card is associated with"
+
+      - name: card_type
+        description: "whether the card is a citi or fuel card"
+
+      - name: is_travel_card
+        description: "boolean flag to indicate if the card is a travel card"
+
+      - name: account_open_or_closed_date
+        description: "the date the account was opened or closed"
+
+      - name: card_status_description
+        description: "Detailed description of the open or closed status of the card."
+
+      - name: is_card_open
+        description: "boolean flag to indicate if the card is open (true) or closed (false)"

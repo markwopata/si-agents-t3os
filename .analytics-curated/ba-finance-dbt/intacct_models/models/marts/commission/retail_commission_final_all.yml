@@ -1,0 +1,9 @@
+---
+version: 2
+models:
+  - name: retail_commission_final_all
+    description: "This model is a mart of the finalized Commission Data. It includes manual adjustments"
+    columns:
+      - name: commission_id
+        data_tests:
+          - unique

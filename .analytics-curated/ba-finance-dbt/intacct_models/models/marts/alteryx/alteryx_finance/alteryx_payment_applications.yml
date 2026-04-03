@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: alteryx_payment_applications
+    description: >
+      Retrieves details on how payments are applied to invoices by joining payment application and payment ID data.
+      It shows amounts applied, who applied them, when, to what invoice(s), and includes any reversal info, helping track the full history of each payment's usage and mapping.
+
+    columns:
+      - name: payment_application_id
+        description: "Unique ID for the application of payments to invoices in Admin"
+        data_tests:
+          - unique
+
+      - name: payment_id
+        description: "ID for the payment record in Admin"
+
+      - name: invoice_id
+        description: "ID for the invoice record in Admin"
+
+      - name: amount
+        description: "Amouont of the payment"
+
+      - name: user_id
+        description: "ID of the user who applied the payment to the invoice"
+
+      - name: date
+        description: "Date of the Payment"
+
+      - name: reversed_date
+        description: "Date application of payment was reversed"
+
+      - name: reversed_by_user_id
+        description: "ID of the user who reversed the application of the payment"
+
+      - name: reversal_reason
+        description: "Reason the application of the payment was reversed"
+
+      - name: _es_update_timestamp
+        description: "Timestamp the payment record was updated in snowflake"
+
+      - name: payment_application_reversal_reason_id
+        description: "ID of the reason the application of the payment was reversed"

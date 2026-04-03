@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_type
+    description: List of bistrack product types
+    columns:
+      - name: product_type_id
+        description: 'Unique identifier for the product type.'
+        data_tests:
+          - not_null
+          - unique
+      - name: product_type_name
+        description: 'Name of the product type.'
+      - name: _fivetran_deleted
+        description: '{{ doc("_fivetran_deleted") }}'
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'

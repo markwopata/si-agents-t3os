@@ -1,0 +1,75 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__asset_financing_snapshots
+    description: Model for analytics.public.asset_financing_snapshots
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - date
+          where: "date > '2022-01-30'"
+    columns:
+      - name: oec
+        description: ""
+      - name: company_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: make
+        description: ""
+      - name: model
+        description: ""
+      - name: asset_type
+        description: ""
+      - name: first_rental
+        description: ""
+      - name: year
+        description: ""
+      - name: market_id
+        description: ""
+      - name: contractor_owned_flag
+        description: ""
+      - name: asset_type_adj
+        description: ""
+      - name: sage_operating_type
+        description: ""
+      - name: financing_facility_type
+        description: ""
+      - name: lender
+        description: ""
+      - name: financial_schedule_id
+        description: ""
+      - name: phoenix_id
+        description: ""
+      - name: commencement_date
+        description: ""
+      - name: sage_account_number
+        description: ""
+      - name: finance_status
+        description: ""
+      - name: owned_status
+        description: ""
+      - name: purchase_date
+        description: ""
+      - name: nbv
+        description: "Estimated net book value using 10 yr/20% salvage, 7 yr /10 % salvage simplifying assumptions."
+      - name: date
+        description: "Report date - should be end of month. There is at least one instance where this is not the case (another run was done middle month)"
+        data_tests:
+          - not_null
+      - name: category
+        description: ""
+      - name: snapshot_date
+        description: "Date the snapshot was taken"
+      - name: aphl_status
+        description: ""
+      - name: "NLV/NBV%"
+        description: ""
+      - name: "NEW/USED"
+        description: ""
+      - name: new_last_appraisal_date
+        description: ""
+      - name: date_created
+        description: ""

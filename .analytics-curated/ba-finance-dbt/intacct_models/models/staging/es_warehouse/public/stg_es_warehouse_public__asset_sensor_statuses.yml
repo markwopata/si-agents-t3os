@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_sensor_statuses
+    description: Model for es_warehouse.public.asset_sensor_statuses
+    columns:
+      - name: asset_sensor_status_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: asset_sensor_id
+        description: ""
+      - name: value
+        description: ""
+      - name: value_timestamp
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: asset_sensor_health_type_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

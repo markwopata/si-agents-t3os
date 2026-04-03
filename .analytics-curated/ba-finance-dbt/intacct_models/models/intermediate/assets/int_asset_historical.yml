@@ -1,0 +1,177 @@
+---
+version: 2
+models:
+  - name: int_asset_historical
+    description: >
+      Historical details of assets combining ownership and financing details.
+      Includes daily timestamps and links to relevant records.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "delete+insert"
+      unique_key: "date_trunc('day', daily_timestamp)"
+      cluster_by: ["daily_timestamp", "asset_id"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - daily_timestamp
+    columns:
+      - name: pk_asset_daily_timestamp_id
+        description: "Primary key for the asset and daily timestamp"
+      - name: asset_id
+        description: "Unique identifier for the asset"
+      - name: daily_timestamp
+        description: "Daily timestamp for the historical record"
+      - name: month_end_date
+        description: "This will be not null for month end records, allowing us to quickly get to EOM numbers."
+      - name: rental_branch_id
+        description: "Identifier for the rental branch that owns the asset"
+      - name: rental_branch_name
+        description: "Name of the branch that rents the asset"
+      - name: service_branch_id
+        description: "Identifier for the branch that services this asset"
+      - name: service_branch_name
+        description: "Name of the branch that services this asset"
+      - name: inventory_branch_id
+        description: "Identifier for the inventory branch associated with the asset"
+      - name: inventory_branch_name
+        description: "Name of the inventory branch associated with the asset"
+      - name: transfer_status
+        description: "Workflow status of the transfer (e.g., requested, approved, received, cancelled, closed)."
+      - name: is_in_transit
+        description: >
+          Flag indicating if the transfer order is currently in transit (true/false). applies to assets currently in transit for a transfer where status = Approved. 
+          The primary driver of asset transfers is a branch needs an asset they don't currently have available to fulfill a rental. So they request it from a branch that is close by that has one available. 
+          A transfer leads to the asset changing its market to this new market
+      - name: market_id
+        description: "Generally understood to be the market that owns this asset (coalesced from rental/inventory branch)"
+      - name: market_name
+        description: "Name of the market that owns the asset"
+      - name: market_company_id
+        description: "Identifier for the company that owns the market"
+      - name: owning_company_name
+        description: "Name of the company that owns the asset"
+      - name: asset_company_id
+        description: "Identifier for the company that owns the asset"
+      - name: asset_inventory_status
+        description: "Current inventory status of the asset (e.g. Make Ready, Needs Inspection, etc.)"
+      - name: is_asset_unavailable
+        description: "Flag indicating if the asset is unavailable (Make Ready, Needs Inspection, Soft Down, Hard Down)"
+      - name: is_rerent_asset
+        description: "Flag indicating if the asset is a re-rent asset (serial/custom name/vin like 'RR%' or in re-rent company)"
+      - name: days_in_status
+        description: "Number of days the asset has been in the current inventory status"
+      - name: rental_id
+        description: "Concatenated list of rental IDs if asset is involved in multiple rentals on the same day"
+      - name: is_on_rent
+        description: "Flag indicating if the asset is currently on rent. Expecting TRUE and FALSE values"
+        data_tests:
+          - dbt_expectations.expect_column_distinct_count_to_equal:
+              value: 2
+      - name: is_last_rental_in_day
+        description: "Flag indicating if this is the last rental assignment for the asset on this day. Expecting TRUE and FALSE values"
+        data_tests:
+          - dbt_expectations.expect_column_distinct_count_to_equal:
+              value: 2
+              row_condition: "is_last_rental_in_day is not null"
+      - name: oec
+        description: "Original equipment cost or purchase price"
+      - name: asset_type_id
+        description: "Foreign key to the asset_types table"
+      - name: asset_type
+        description: "Asset type is the general type of the asset, such as equipment, vehicle, etc."
+      - name: purchase_date
+        description: "Date the asset was purchased"
+      - name: po_number
+        description: "Purchase order number"
+      - name: first_rental_date
+        description: "Timestamp the asset was first rented"
+      - name: make
+        description: "Equipment make is the name of the manufacturer or brand of the equipment"
+      - name: model
+        description: "Equipment model is the specific model of the equipment"
+      - name: year
+        description: "Year of manufacture"
+      - name: category_id
+        description: "Foreign key to the categories table for more general categorization of the asset"
+      - name: category
+        description: "More general categorization of the asset"
+      - name: equipment_class_id
+        description: "Foreign key to the equipment_classes table"
+      - name: equipment_class
+        description: "General classification of equipment derived through the model -> class mapping"
+      - name: finance_status
+        description: "The financial status of the asset (e.g. Paid in Cash, Net Terms, etc.)"
+      - name: financial_schedule_id
+        description: "Identifier for the financial schedule."
+      - name: financing_facility_type
+        description: "Type of financing facility"
+      - name: schedule_commencement_date
+        description: "Commencement date of the financial schedule"
+      - name: schedule_account_number
+        description: "Account number associated with the financial schedule"
+      - name: schedule_number
+        description: "Current schedule number"
+      - name: lender_name
+        description: "Name of the lender associated with the financial schedule"
+      - name: sage_lender_vendor_id
+        description: "Sage vendor ID for the lender"
+      - name: loan_name
+        description: "Name of the loan associated with the financial schedule"
+      - name: payout_program_id
+        description: "Unique identifier for the payout program"
+      - name: payout_program_name
+        description: "Name of the payout program"
+      - name: payout_program_type
+        description: "Type of the payout program"
+      - name: asset_payout_percentage
+        description: "Payout percentage for the asset"
+      - name: is_payout_program_unpaid
+        description: "Indicates if the payout program is unpaid"
+        data_tests:
+          - not_null
+      - name: is_payout_program_enrolled
+        description: "Indicates if the asset is enrolled in a payout program"
+        data_tests:
+          - not_null
+      - name: is_own_program_asset
+        description: "Flag indicating if the asset is part of an OWN program"
+      - name: is_managed_by_es_owned_market
+        description: "Flag indicating if the asset is managed by an EquipmentShare owned market"
+      - name: in_total_fleet
+        description: "Flag indicating if the asset is in the total fleet (ES-owned market and not a re-rent asset)"
+      - name: in_rental_fleet
+        description: "Flag indicating if the asset is in the rental fleet (received in fleet track or never in fleet track, and ES-owned)"
+      - name: total_oec
+        description: "Original equipment cost if asset is in total fleet, otherwise 0"
+      - name: total_units
+        description: "1 if asset is in total fleet, otherwise 0"
+      - name: rental_fleet_oec
+        description: "Original equipment cost if asset is in rental fleet, otherwise 0"
+      - name: rental_fleet_units
+        description: "1 if asset is in rental fleet, otherwise 0"
+      - name: unavailable_oec
+        description: "Original equipment cost if asset is in rental fleet and unavailable, otherwise 0"
+        data_tests:
+          - dbt_expectations.expect_column_sum_to_be_between:
+              min_value: 1000000000
+              row_condition: month_end_date >= (select max(month_end_date) from analytics.assets.int_asset_historical)
+              group_by: [month_end_date]
+      - name: unavailable_units
+        description: "1 if asset is in rental fleet and unavailable, otherwise 0"
+      - name: oec_on_rent
+        description: "Original equipment cost if asset is in rental fleet, on rent, and is the last rental in day, otherwise 0"
+      - name: units_on_rent
+        description: "1 if asset is in rental fleet, on rent, and is the last rental in day, otherwise 0"
+      - name: rental_revenue
+        description: "Rental revenue associated with the asset for the day"
+      - name: pending_return_oec
+        description: "Original equipment cost if asset is in rental fleet and is a pending return"
+      - name: pending_return_units
+        description: "1 if asset is in rental fleet and is a pending return, otherwise 0"
+      - name: _non_rental_revenue
+        description: "Rental revenue for assets not in the rental fleet - internal metric"
+      - name: _non_rental_oec_with_rental_revenue
+        description: "OEC for assets not in the rental fleet but with rental revenue - internal metric"

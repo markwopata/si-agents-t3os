@@ -1,0 +1,106 @@
+version: 2
+
+models:
+  - name: int_claims__work_comp_insurance_claims
+    description: > 
+      "A consolidated list of Workers’ Compensation claims filed by EquipmentShare branches to our insurance claims processor (Hartford). 
+      This enhanced report combines both sources to provide a unified view of each claim, now enriched with employee and market_id data for 
+      greater detail and insight."
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_of_injury
+            - claim_number
+            - market_id
+            - employee_id
+
+    columns:
+      - name: date_of_injury
+        description: ""
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+        datatests:
+          - not_null        
+
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: employee_name
+        description: ""
+
+      - name: claim_number
+        description: ""
+
+      - name: ncci_codes
+        description: "insurance industry codes that classify the type of injury or illness"
+
+      - name: indemnity_paid
+        description: "amount paid to the employee for lost wages due to the injury"
+
+      - name: medical_paid
+        description: "amount paid for medical expenses related to the injury"
+
+      - name: expense_paid
+        description: "amount paid for expenses related to the claim, such as legal fees or administrative costs"
+
+      - name: total_paid
+        description: "sum of indemnity, medical, and expense paid amounts"
+
+      - name: indemnity_outstanding
+        description: "amount that is still owed to the employee for lost wages"
+
+      - name: medical_outstanding
+        description: "amount that is still owed for medical expenses related to the injury"
+
+      - name: expense_outstanding
+        description: "amount that is still owed for expenses related to the claim, such as legal fees or administrative costs"
+
+      - name: total_outstanding
+        description: "sum of indemnity, medical, and expense outstanding amounts"
+
+      - name: indemnity_incurred
+        description: "total amount incurred for indemnity payments, including both paid and outstanding amounts"
+
+      - name: medical_incurred
+        description: "total amount incurred for medical payments, including both paid and outstanding amounts"
+
+      - name: expense_incurred
+        description: "total amount incurred for expenses related to the claim, including both paid and outstanding amounts"
+
+      - name: total_incurred
+        description: "total amount incurred for the claim, including both paid and outstanding amounts"
+
+      - name: line_of_business
+        description: ""
+
+      - name: claim_status
+        description: "status on whether the claim is still open or closed"
+
+      - name: accident_state
+        description: "US state where the accident occurred"
+
+      - name: claim_description
+        description: ""
+
+      - name: accident_description
+        description: ""
+
+      - name: injured_body_part
+        description: ""
+
+      - name: injury_severity_description
+        description: ""
+
+      - name: litigation_status
+        description: ""
+
+      - name: wc_claim_type
+        description: "whether the claim is a Loss Time (LT) or Medical Only (MO) claim"
+
+      - name: closed_date
+        description: "date in which the claim was closed, if applicable"
+
+      - name: released_to_work_date
+        description: ""

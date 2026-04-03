@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_status_value_types
+    description: Model for es_warehouse.public.asset_status_value_types
+    columns:
+      - name: asset_status_value_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: asset_status_value_type_canonical_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

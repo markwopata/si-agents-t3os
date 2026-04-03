@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_t3__rental_asset_class_spend
+    description: "Aggregated invoice and asset rental data combining invoice line items, asset details, orders, rental locations, purchase orders, and utilization metrics."
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Identifier of the order related to the asset."
+
+      - name: custom_name
+        data_type: varchar
+        description: "Alias name of the asset."
+
+      - name: company_id
+        data_type: varchar
+        description: "ID of the company associated with the invoice."
+
+      - name: vendor
+        data_type: varchar
+        description: "Name of the vendor (company supplying the assets)."
+
+      - name: purchase_order
+        data_type: varchar
+        description: "Name or label of the purchase order linked to the invoice."
+
+      - name: jobsite
+        data_type: varchar
+        description: "Nickname of the jobsite (location) where the rental occurred."
+
+      - name: rental_status
+        data_type: varchar
+        description: "Status of the rental as recorded in asset_list_rental."
+
+      - name: invoice_date
+        data_type: timestamp_tz
+        description: "Date when the invoice was issued."
+
+      - name: asset_class
+        data_type: varchar
+        description: "Class/category of the asset; 'No Class Assigned' if not available."
+
+      - name: order_id
+        data_type: number
+        description: "Identifier of the order related to the invoice."
+
+      - name: invoice_no
+        data_type: varchar
+        description: "Reference number of the invoice."
+
+      - name: invoice_id
+        data_type: number
+        description: "Unique identifier for the invoice."
+
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: "Date when the billing for the invoice was approved."
+
+      - name: asset_list
+        data_type: number
+        description: "Comma-separated list of distinct custom names of assets associated with the rental."
+
+      - name: line_item_total
+        data_type: number
+        description: "Total billed amount for the line item in the invoice, used for cost aggregation."
+
+      - name: rental_rate_filter
+        data_type: boolean
+        description: "Flag indicating the type of rental rate applied to the invoice line item."
+

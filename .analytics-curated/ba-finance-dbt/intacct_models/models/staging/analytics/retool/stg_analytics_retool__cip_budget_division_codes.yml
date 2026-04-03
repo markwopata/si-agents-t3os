@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__cip_budget_division_codes
+    description: Model for analytics.retool.cip_budget_division_codes
+    columns:
+      - name: pk_id
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: division_code
+        description: ''
+      - name: division_name
+        description: ''

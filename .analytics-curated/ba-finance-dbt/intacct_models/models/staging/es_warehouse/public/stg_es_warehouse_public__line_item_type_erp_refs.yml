@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__line_item_type_erp_refs
+    description: cleaned model of es_warehouse.public.line_item_type_erp_refs
+    columns:
+      - name: line_item_type_erp_ref_id
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: erp_instance_id
+        description: ""
+      - name: intacct_gl_account_no
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

@@ -1,0 +1,84 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_hq_rental_payments_timeline
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - rental_date
+    columns:
+      - name: reservation_id
+        description: "The reservation id from HQ Rentals."
+
+      - name: market_id
+        description: "The market id associated with the rental."
+      
+      - name: market_name
+        description: "The market name associated with the rental."
+
+      - name: city
+        description: "The city where the rental took place."
+
+      - name: rental_date
+        description: "Date for each day in the rental period"
+
+      - name: earliest_charge_date
+        description: "The earliest date a charge was made for the rental."
+
+      - name: pick_up_date
+        description: "The date the vehicle was picked up."
+      
+      - name: payment_timing_type
+        description: "The type of payment timing for the rental."
+      
+      - name: event
+        description: "The event associated with the rental payment timeline. Options are 'Pick Up Date', 'Return Date', 'Payment Date', 'Refund Date'"
+
+      - name: is_month_end
+        description: "Indicates if the rental date is the last day of the month."
+
+      - name: paid_amount
+        description: "The amount paid for the rental."
+      
+      - name: sales_tax_amount
+        description: "The sales tax amount for the rental."
+
+      - name: cumulative_paid
+        description: "The cumulative amount paid up to the rental date."
+
+      - name: deposit_amount
+        description: "The deposit amount for the rental."
+
+      - name: refunded_amount
+        description: "The amount refunded for the rental."
+
+      - name: email
+        description: "The email associated with the rental reservation."
+
+      - name: is_active_employee
+        description: "Indicates if the renter is an active employee."
+      
+      - name: total_revenue
+        description: "The total revenue generated from the rental."
+
+      - name: rental_duration
+        description: "The duration of the rental in days."
+
+      - name: daily_revenue
+        description: "The daily revenue generated from the rental."
+      
+      - name: cumulative_revenue
+        description: "The cumulative revenue up to the rental date."
+
+      - name: delta_month_to_date
+        description: "The difference in months from the rental date to the current date."
+
+      - name: deferred_revenue
+        description: "The amount of revenue that is deferred."
+
+      - name: unbilled_revenue
+        description: "The amount of revenue that is unbilled."

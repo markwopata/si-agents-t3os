@@ -1,0 +1,802 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_public
+    tags: ["sources"]
+    database: es_warehouse
+    schema: public
+    description: >
+      data in es_warehouse.public (es_warehouse database / public schema) where postgres/T3/Admin data is streamed from
+      Very high level overview: T3 Postgres Databases (source) -> WAL consumers (Kubernetes) -> Kinesis Streams -> Lambda
+      -> Internal Landing Zone (Snowflake) -> Raw Databases (Snowflake) -> es_warehouse/trackers/etc databases (Snowflake)
+    meta:
+      point_of_contact: Data Platform team (Monique Jimenez)
+    tables:
+      - name: markets
+        description: "Limited markets table"
+
+      - name: users
+        description: every user using admin/T3
+        columns:
+          - name: user_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: line_items
+        description: >
+          Detailed rows in an invoice. Each item purchased represents a line item.  An invoice can have 0 or many line items.
+        columns:
+          - name: line_item_id
+            data_tests:
+              - unique
+
+      - name: invoices
+        desciption: >
+          one row is one invoice. Records a transaction between a buyer and a seller and includes info on amounts and date
+          details. An order can have 0 or many invoices
+        columns:
+          - name: invoice_id
+            data_tests:
+              - unique
+              - not_null
+
+        description: ""
+      - name: orders
+        description: >
+          An order is a customer's request to purchase products or services. Represents the collection of invoices. A purchase
+          order can be linked to multiple orders
+        columns:
+          - name: order_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: approved_invoice_salespersons
+        description: the salespersons/TAMs associated with ES/Admin invoices
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - invoice_id
+                - primary_salesperson_id
+
+      - name: order_salespersons
+
+        description: ""
+      - name: companies
+
+        description: ""
+      - name: billing_company_preferences
+
+        description: ""
+      - name: billing_providers
+
+        description:
+          "The billing_provider table defines the relationship between a billing entity and the specific remit-to
+          location used when issuing invoices. Each record represents a distinct billing provider used in the invoicing process,
+          which may correspond to internal brands, joint ventures, or affiliated dealer entities."
+      - name: branch_erp_refs
+        description: list of branches
+
+      - name: line_item_types
+        description: list of historical line item types
+
+      - name: assets
+        description: historical list of assets and its characteristics
+
+      - name: assets_aggregate
+        description: view of the assets table + additional info on asset classifications and assignments
+        meta:
+          generated_from: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ES_WAREHOUSE_STAGE/schemas/PUBLIC/view/ASSETS_AGGREGATE
+        columns:
+          - name: asset_id
+            data_tests:
+              - unique
+
+      - name: line_item_type_erp_refs
+        description: GL account number (sage intacct) linked to a line item type id
+        columns:
+          - name: line_item_type_erp_ref_id
+            data_tests:
+              - unique
+
+      - name: credit_note_line_items
+        description: list of credit notes (whenever ES give customer credit) with line items
+        columns:
+          - name: credit_note_line_item_id
+            description: ""
+            data_tests:
+              - not_null
+              - unique
+
+      - name: credit_notes
+        description: list of credit notes (whenever ES give customer credit)
+
+      - name: payments
+        description: list of payments
+        columns:
+          - name: payment_id
+            data_tests:
+              - unique
+
+      - name: bank_account_erp_refs
+        description: GL bank account number (sage intacct) linked to a bank account id
+
+      - name: payment_applications
+        description: >
+          list of payment appplications. One payment can be applied/linked to multiple invoices
+
+      - name: v_payout_programs
+        description: list of assets mapped to a payout program name
+        columns:
+          - name: payout_program_assignment_id
+            data_tests:
+              - unique
+
+      - name: credit_note_erp_refs
+        description: TBD
+        columns:
+          - name: credit_note_erp_ref_id
+            description: ""
+            data_tests:
+              - not_null
+              - unique
+
+      - name: invoice_erp_refs
+        description: TBD
+
+      - name: asset_purchase_history
+        description: TBD
+
+      - name: asset_types
+        description: TBD
+
+      - name: equipment_models
+        description: TBD
+
+      - name: equipment_makes
+        description: TBD
+
+      - name: equipment_classes_models_xref
+        description: TBD
+
+      - name: equipment_classes
+        description: TBD
+
+      - name: categories
+        description: TBD
+
+      - name: purchase_orders
+        description: list of active/non-active purchase orders and the company associated with it
+        columns:
+          - name: purchase_order_id
+            data_tests:
+              - unique
+
+      - name: disputes
+        description:
+          Disputes are the process of resolving disagreements or discrepancies between a business and its
+          customers. one row is one dispute
+        meta:
+          relation: es_warehouse.public.disputes
+        columns:
+          - name: dispute_id
+            data_tests:
+              - unique
+
+      - name: dispute_events
+        description: >
+          the process of addressing and resolving invoice-related issues, such as discrepancies in pricing, quantity, or delivery.
+          one row is one event and one dispute can have many events
+        meta:
+          relation: es_warehouse.public.dispute_events
+        columns:
+          - name: dispute_event_id
+            data_tests:
+              - unique
+
+      - name: dispute_event_types
+        description: mapping table of the types of dispute events. eventually turn into seed pending business approval
+        meta:
+          relation: es_warehouse.public.dispute_event_types
+        columns:
+          - name: dispute_event_type_id
+            data_tests:
+              - unique
+
+      - name: dispute_credit_reasons
+        description: mapping table of the types of credit reasons. eventually turn into seed pending business approval
+        meta:
+          relation: es_warehouse.public.dispute_credit_reasons
+        columns:
+          - name: dispute_credit_reason_id
+            data_tests:
+              - unique
+
+      - name: dispute_reasons
+        description: mapping table of the types of dispute reasons.
+        meta:
+          relation: es_warehouse.public.dispute_reasons
+        columns:
+          - name: dispute_reason_id
+            data_tests:
+              - unique
+
+      - name: credit_note_allocations
+        description: list of credit note allocations. one credit note can be allocated to multiple invoices
+      - name: rentals
+        description: >
+          Each item purchased represents a rental.
+        columns:
+          - name: rental_id
+            data_tests:
+              - unique
+      - name: company_purchase_orders
+        description: >
+          List of purchase orders — equivalent to “Fleet Track” (purchasing.equipmentshare.com).
+          Used to track purchases of fleet equipment, non-rental vehicles, and attachments.
+          Will eventually populate the Admin > Assets tab > Purchase History.
+        columns:
+          - name: company_purchase_order_id
+            data_tests:
+              - unique
+      - name: company_purchase_order_line_items
+        description: >
+          list of purchase orders line items. a single PO can include multiple line items.
+          company_purchase_order_id is a FK to the company_purchase_orders table
+        columns:
+          - name: company_purchase_order_line_item_id
+            data_tests:
+              - unique
+      - name: branch_rental_rates
+        description: ""
+      - name: accounts
+        description: ""
+      - name: admin_cycle
+        description: ""
+      - name: asset_alert_association_assets
+        description: ""
+      - name: asset_alert_rules
+        description: ""
+      - name: asset_photos
+        description: ""
+      - name: asset_sensor_statuses
+        description: ""
+      - name: asset_status_key_values
+        description: ""
+      - name: business_segments
+        description: ""
+      - name: company_document_types
+        description: ""
+      - name: company_rental_rates
+        description: ""
+      - name: hau_fix
+        description: ""
+      - name: hours_fix
+        description: ""
+      - name: postgres_hourly_asset_usage
+        description: ""
+      - name: asset_statuses_sv
+        description: ""
+      - name: asset_status_key_values_history_old
+        description: ""
+      - name: battery_voltage_types
+        description: ""
+      - name: company_documents
+        description: ""
+      - name: domains
+        description: ""
+      - name: equipment_classes_maintenance_groups_xref
+        description: ""
+      - name: global_line_items
+        description: ""
+      - name: idle_time_diff
+        description: ""
+      - name: j1939_decode
+        description: ""
+      - name: location_rental_rates
+        description: ""
+      - name: new_asset_statuses
+        description: ""
+      - name: payment_application_reversal_reasons
+        description: ""
+      - name: payment_method_types
+        description: ""
+      - name: payout_program_original_lists
+        description: ""
+      - name: pgn_has_spn
+        description: ""
+      - name: podio_assets
+        description: ""
+      - name: trip_types
+        description: ""
+      - name: delivery_photos
+        description: ""
+      - name: es_vehicles_with_mc4
+        description: ""
+      - name: fuel_purchases
+        description: ""
+      - name: locations_old
+        description: ""
+      - name: asset_engine_specification
+        description: ""
+      - name: asset_status_value_types
+        description: ""
+      - name: contract_types
+        description: ""
+      - name: hourly_asset_usage
+        description: ""
+      - name: pgn
+        description: ""
+      - name: podio_companies
+        description: ""
+      - name: service_records
+        description: ""
+      - name: severity_levels
+        description: ""
+      - name: third_party_rental_cost_types
+        description: ""
+      - name: cameras
+        description: ""
+      - name: company_purchase_order_user_limits
+        description: ""
+      - name: fuel_entries
+        description: ""
+      - name: global_line_items_v1
+        description: ""
+      - name: delivery_types
+        description: ""
+      - name: pgn_category
+        description: ""
+      - name: photos
+        description: ""
+      - name: states
+        description: ""
+      - name: telematics_health_report
+        description: ""
+      - name: tracker_visible_ble_node_logs
+        description: ""
+      - name: tracking_diagnostic_and_obd_codes
+        description: ""
+      - name: tracking_obd_dtc_codes
+        description: ""
+      - name: trips
+        description: ""
+      - name: tsp_assets
+        description: ""
+      - name: units
+        description: ""
+      - name: usage_intervals
+        description: ""
+      - name: vehicle_state_usage
+        description: ""
+      - name: f_ifta_detail
+        description: ""
+      - name: maintenance_groups
+        description: ""
+      - name: service_intervals
+        description: ""
+      - name: tracker_company_assignment_logs
+        description: ""
+      - name: v_generators
+        description: ""
+      - name: wex_purchase_codes
+        description: ""
+      - name: asset_alert_association_types
+        description: ""
+      - name: asset_condition_snapshots
+        description: ""
+      - name: asset_engine_statuses
+        description: ""
+      - name: asset_idles
+        description: ""
+      - name: asset_inspection_items
+        description: ""
+      - name: asset_keypad_entries
+        description: ""
+      - name: asset_last_location
+        description: ""
+      - name: asset_total_fuel_used_audit
+        description: ""
+      - name: company_notes
+        description: ""
+      - name: deleted_assets_original_company
+        description: ""
+      - name: asset_incident_thresholds
+        description: ""
+      - name: asset_sensor_statuses_audit
+        description: ""
+      - name: asset_statuses_mv
+        description: ""
+      - name: camera_event_medias
+        description: ""
+      - name: company_contracts
+        description: ""
+      - name: company_erp_refs
+        description: ""
+      - name: deliveries
+        description: ""
+      - name: failure_mode_identifiers
+        description: ""
+      - name: fuel_entry_types
+        description: ""
+      - name: fuel_types
+        description: ""
+      - name: global_invoices
+        description: ""
+      - name: net_terms
+        description: ""
+      - name: out_of_lock_7_days_rolling
+        description: ""
+      - name: payment_application_erp_refs
+        description: ""
+      - name: sync_meta
+        description: ""
+      - name: tracker_types
+        description: ""
+      - name: v_skid_loaders
+        description: ""
+      - name: command_audit
+        description: >
+          Log of actions that create, update, or delete data via ES API (Admin/T3), including invoices, rentals, and work orders, etc.
+      - name: contracts
+        description: ""
+      - name: locations
+        description: ""
+      - name: notes
+        description: ""
+      - name: order_statuses
+        description: ""
+      - name: rental_location_assignments
+        description: ""
+      - name: rental_statuses
+        description: ""
+      - name: engine_makes
+        description: ""
+      - name: asset_usage
+        description: ""
+      - name: company_divisions
+        description: ""
+      - name: company_dot_numbers
+        description: ""
+      - name: maintenance_group_intervals
+        description: ""
+      - name: camera_vendors
+        description: ""
+      - name: inventory_item_assignments
+        description: ""
+      - name: j1939_config
+        description: ""
+      - name: notification_delivery_logs
+        description: ""
+      - name: payouts
+        description: ""
+      - name: rental_part_assignments
+        description: ""
+      - name: location_address_vw
+        description: ""
+      - name: telematics_service_providers_assets_daily_utilization
+        description: ""
+      - name: trackers_mapping
+        description: ""
+      - name: tracker_groupings
+        description: ""
+      - name: tracking_events
+        description: ""
+      - name: tracking_incidents
+        description: ""
+      - name: upload_job_statuses
+        description: ""
+      - name: v_assets_keypads
+        description: ""
+      - name: v_asset_service_intervals
+        description: ""
+      - name: v_out_of_lock
+        description: ""
+      - name: warranty_items
+        description: ""
+      - name: notification_types
+        description: ""
+      - name: order_notes
+        description: ""
+      - name: telematics_service_providers_fleet_daily_utilization
+        description: ""
+      - name: v_current_rental
+        description: ""
+      - name: v_scissors
+        description: ""
+      - name: wal_status
+        description: ""
+      - name: asset_geofence_encounters
+        description: ""
+      - name: asset_inspections
+        description: ""
+      - name: asset_service_intervals
+        description: ""
+      - name: asset_settings
+        description: ""
+      - name: asset_statuses
+        description: ""
+      - name: asset_tracker_assignments
+        description: ""
+      - name: bills
+        description: ""
+      - name: company_keypad_codes
+        description: ""
+      - name: consumables
+        description: ""
+      - name: equipment_model_tag_xref
+        description: ""
+      - name: fuel_tax_rate
+        description: ""
+      - name: geofences
+        description: ""
+      - name: hourly_asset_geofence_usage
+        description: ""
+      - name: tags
+        description: ""
+      - name: asset_camera_assignments
+        description: ""
+      - name: asset_inspection_item_fail_types
+        description: ""
+      - name: ble_message_logs
+        description: ""
+      - name: branch_asset_assignments
+        description: ""
+      - name: delivery_statuses
+        description: ""
+      - name: equipment_classes_markets_xref
+        description: ""
+      - name: financial_lenders
+        description: ""
+      - name: organizations
+        description: ""
+      - name: sany
+        description: ""
+      - name: tbl_asset_statuses
+        description: ""
+      - name: third_party_rental_costs
+        description: ""
+      - name: unhealthy_tracker_trait_types
+        description: ""
+      - name: upload_jobs
+        description: ""
+      - name: asset_purchase_history_logs
+        description: ""
+      - name: company_purchase_order_audit_log
+        description: ""
+      - name: company_purchase_order_types
+        description: ""
+      - name: equipment_conditions
+        description: ""
+      - name: geofence_types
+        description: ""
+      - name: keypad_code_assignment_statuses
+        description: ""
+      - name: odometer_update_audit
+        description: ""
+      - name: payout_program_schedules
+        description: ""
+      - name: camera_events
+        description: ""
+      - name: credit_note_allocation_erp_refs
+        description: ""
+      - name: delivery_inventory_items
+        description: ""
+      - name: hours_of_service_types
+        description: ""
+      - name: hours_update_audit
+        description: ""
+      - name: rental_protection_plans
+        description: ""
+      - name: warranty_documents
+        description: ""
+      - name: global_invoices_v1
+        description: ""
+      - name: global_line_item_types
+        description: ""
+      - name: j1939_data
+        description: ""
+      - name: keypad_codes
+        description: ""
+      - name: keypad_code_assignments
+        description: ""
+      - name: payout_program_assignments
+        description: ""
+      - name: time_tracking_entry_records_sv
+        description: ""
+      - name: rental_purchase_options
+        description: ""
+      - name: rpt_utilization_dashboard_genie
+        description: ""
+      - name: telematics_service_providers_assets
+        description: ""
+      - name: time_fences
+        description: ""
+      - name: trackers
+        description: ""
+      - name: tracker_state_cache
+        description: ""
+      - name: tracker_vendors
+        description: ""
+      - name: tracking_diagnostic_codes
+        description: ""
+      - name: unhealthy_tracker_trait_logs
+        description: ""
+      - name: v_can_snapshot_config_queue
+        description: ""
+      - name: v_ifta_detail
+        description: ""
+      - name: xero_equipment_parts_revenue
+        description: ""
+      - name: equipment_assignments
+        description: ""
+      - name: global_line_item_types_v1
+        description: ""
+      - name: rate_types
+        description: ""
+      - name: third_party_rentals
+        description: ""
+      - name: trips_fix
+        description: ""
+      - name: notification_delivery_logs_old
+        description: ""
+      - name: v_mec_1330
+        description: ""
+      - name: trips_last_month
+        description: ""
+      - name: amarok_security_branch_alarms
+        description: ""
+      - name: api_media_request_logs
+        description: ""
+      - name: assets_sv
+        description: ""
+      - name: asset_alert_associations
+        description: ""
+      - name: asset_alert_conditions
+        description: ""
+      - name: asset_alert_subscriptions
+        description: ""
+      - name: asset_consumables
+        description: ""
+      - name: asset_incident_threshold_durations
+        description: ""
+      - name: asset_incident_threshold_fields
+        description: ""
+      - name: asset_sensors
+        description: ""
+      - name: asset_sensor_types
+        description: ""
+      - name: financial_schedule_logs
+        description: ""
+      - name: asset_statuses_old
+        description: ""
+      - name: asset_tag_xref
+        description: ""
+      - name: financial_schedules
+        description: ""
+      - name: j1939_config_has_pgn
+        description: ""
+      - name: kcg_trip_detail2_view
+        description: ""
+      - name: keypad_asset_assignments
+        description: ""
+      - name: last_delivery_location
+        description: ""
+      - name: morey_standard_j1939_definitions
+        description: ""
+      - name: organization_geofence_xref
+        description: ""
+      - name: organization_user_xref
+        description: ""
+      - name: payment_erp_refs
+        description: ""
+      - name: payment_history
+        description: ""
+      - name: payout_programs
+        description: ""
+      - name: hourly_asset_usage_test
+        description: ""
+      - name: jobs
+        description: ""
+      - name: kcg_trip_detail2
+        description: ""
+      - name: fuel_units
+        description: ""
+      - name: asset_alert_condition_types
+        description: ""
+      - name: asset_files
+        description: ""
+      - name: asset_warranty_xref
+        description: ""
+      - name: delivery_facilitator_types
+        description: ""
+      - name: incremental_changes
+        description: ""
+      - name: payout_program_master_agreements
+        description: ""
+      - name: podio_make_model
+        description: ""
+      - name: spn
+        description: ""
+      - name: suspect_parameter_numbers
+        description: ""
+      - name: upload_job_types
+        description: ""
+      - name: consumable_categories
+        description: ""
+      - name: asset_geofence_usage
+        description: ""
+      - name: credit_note_types
+        description: ""
+      - name: keypads
+        description: ""
+      - name: notification_subscriptions
+        description: ""
+      - name: organization_asset_xref
+        description: ""
+      - name: payment_refund_erp_refs
+        description: ""
+      - name: payout_program_types
+        description: ""
+      - name: podio_users
+        description: ""
+      - name: remaining_rental_cost
+        description: ""
+      - name: rental_types
+        description: ""
+      - name: sales_track_logins
+        description: ""
+      - name: spatial_ref_sys
+        description: ""
+      - name: sync_statuses
+        description: ""
+      - name: tasks
+        description: ""
+      - name: third_party_assets
+        description: ""
+      - name: time_intervals
+        description: ""
+      - name: tracking_incident_types
+        description: ""
+      - name: vw_work_order_to_create
+        description: ""
+      - name: v_can_snapshot_trackers
+        description: ""
+      - name: warranties
+        description: ""
+      - name: entry_records
+        description: ""
+      - name: podio_es_markets
+        description: ""
+      - name: v_excavators
+        description: ""
+      - name: credit_note_statuses
+        description: ""
+      - name: credit_notes_reasons_xref
+        description: ""
+      - name: credit_note_request_reasons
+        description: ""
+
+      - name: line_item_deductions
+        description: 
+          entries of line items that have deductions applied to them. one row is one line item deduction
+        meta:
+          more_information: https://updates.equipmentshare.com/release/FzHeD-internal-apply-deductions-to-an-invoice-in-es-admin
+        columns:
+          - name: line_item_deduction_id
+            data_tests:
+              - unique
+
+      - name: line_item_deduction_types
+        description: >
+          list of line item deduction types available (include New Customer Discount, Promotional Discount, Military Discount, etc)
+        meta:
+          more_information: https://updates.equipmentshare.com/release/FzHeD-internal-apply-deductions-to-an-invoice-in-es-admin
+        columns:
+          - name: line_item_deduction_type_id
+            data_tests:
+              - unique
+        

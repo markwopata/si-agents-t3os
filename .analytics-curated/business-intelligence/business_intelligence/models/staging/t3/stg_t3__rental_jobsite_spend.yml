@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: stg_t3__rental_jobsite_spend
+    description: "Aggregated invoice and asset rental data combining invoice line items, asset details, orders, rental locations, purchase orders, and utilization metrics at the jobsite level."
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Identifier of the order related to the asset."
+
+      - name: custom_name
+        data_type: varchar
+        description: "Alias name of the asset."
+
+      - name: asset_class
+        data_type: varchar
+        description: "Class of the asset, 'No Class Assigned' if not available."
+
+      - name: company_id
+        data_type: varchar
+        description: "Company Id"
+
+      - name: rental_id
+        data_type: varchar
+        description: "Rental Id"
+
+      - name: user_id
+        data_type: varchar
+        description: "User Id"
+
+      - name: rental_status
+        data_type: varchar
+        description: "Rental Status"
+
+      - name: rental_rate_filter
+        data_type: boolean
+        description: "Rental Rate true/false"
+
+      - name: vendor
+        data_type: varchar
+        description: "Vendor"
+
+      - name: purchase_order
+        data_type: varchar
+        description: "Purchase Order"
+
+      - name: jobsite
+        data_type: varchar
+        description: "Jobsite"
+
+      - name: order_id
+        data_type: number
+        description: "Order Id"
+
+      - name: invoice_no
+        data_type: varchar
+        description: "Invoice Number"
+
+      - name: invoice_id
+        data_type: number
+        description: "Invoice Id"
+
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: "Billimg date approval"
+
+      - name: invoice_date
+        data_type: timestamp_tz
+        description: "Invoice date"
+
+      - name: asset_list
+        data_type: varchar
+        description: "Custom names"
+
+      - name: line_item_total
+        data_type: number
+        description: "Total billed amount"
+

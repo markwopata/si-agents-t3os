@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: stg_analytics_asset4000_dbo__gl_acct_period
+    description: staging model of base_analytics_asset4000_dbo__gl_acct_period that that includes only records that have not been marked as deleted
+    columns:
+      - name: period_sequence
+        description: ""
+
+      - name: year
+        description: ""
+
+      - name: period_dsdepchg
+        description: ""
+
+      - name: period_name
+        description: ""
+
+      - name: period_closed_flag
+        description: ""
+
+      - name: period_lastinqtr
+        description: ""
+
+      - name: period_number
+        description: ""
+
+      - name: period_units
+        description: ""
+
+      - name: period_sunits
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: is_period_closed
+        description: ""
+
+      - name: period_start_date
+        description: ""
+
+      - name: period_end_date
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

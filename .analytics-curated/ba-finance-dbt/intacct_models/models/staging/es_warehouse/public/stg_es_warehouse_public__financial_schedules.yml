@@ -1,0 +1,107 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__financial_schedules
+    description: Model for es_warehouse.public.financial_schedules
+    columns:
+      - name: financial_schedule_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: master_agreement_number
+        description: ""
+      - name: master_agreement_date
+        description: ""
+      - name: master_agreement_url
+        description: ""
+      - name: previous_schedule_number
+        description: ""
+      - name: current_schedule_number
+        description: ""
+      - name: advance_payment_month
+        description: ""
+      - name: skip_number_of_months
+        description: ""
+      - name: adjustment_period_days
+        description: ""
+      - name: loan_term_months
+        description: ""
+      - name: prepayment_penalty
+        description: ""
+      - name: prepayment_penalty_for_selling
+        description: ""
+      - name: schedule_start_date
+        description: ""
+      - name: first_payment_date
+        description: ""
+      - name: schedule_url
+        description: ""
+      - name: equipment_acceptance_date
+        description: ""
+      - name: financial_reporting_covenants
+        description: ""
+      - name: financial_ratio_covenants
+        description: ""
+      - name: personal_guarantees_granted
+        description: ""
+      - name: cross_default
+        description: ""
+      - name: cross_colateralization
+        description: ""
+      - name: es_has_pptx_responsibility
+        description: ""
+      - name: lender_has_pptx_responsibility
+        description: ""
+      - name: financial_schedule_date
+        description: ""
+      - name: notes
+        description: ""
+      - name: agreement_type_id
+        description: ""
+      - name: downpayment_application_type_id
+        description: ""
+      - name: interest_rate_index_id
+        description: ""
+      - name: interest_rate_type_id
+        description: ""
+      - name: interest_rate_calculation_type_id
+        description: ""
+      - name: prepayment_type_id
+        description: ""
+      - name: skip_payment_type_id
+        description: ""
+      - name: originating_lender_id
+        description: ""
+      - name: loan_servicer_id
+        description: ""
+      - name: asset_owner_id
+        description: ""
+      - name: debt_payment_stream_financier_id
+        description: ""
+      - name: reporting_frequency_type_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: implicit_interest_rate
+        description: ""
+      - name: spread
+        description: ""
+      - name: prepayment_penalty_year_1
+        description: ""
+      - name: prepayment_penalty_year_2
+        description: ""
+      - name: prepayment_penalty_year_3
+        description: ""
+      - name: prepayment_penalty_year_4
+        description: ""
+      - name: prepayment_penalty_year_5
+        description: ""
+      - name: prepayment_penalty_year_6
+        description: ""
+      - name: prepayment_penalty_year_7
+        description: ""
+      - name: lfr
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

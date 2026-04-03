@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__general_ledger
+    description: Table for BisTrack general ledger entries.
+    tags: [bisTrack]
+    columns:
+      - name: general_ledger_id
+        description: "Unique identifier for the general ledger entry."
+      - name: gl_code_id
+        description: "Identifier for the general ledger code."
+      - name: transaction_date
+        description: "Date of the transaction."
+      - name: posting_date
+        description: "Date the transaction was posted to the ledger."
+      - name: amount
+        description: "Total amount of the transaction."
+      - name: reference
+        description: "Reference information for the transaction."
+      - name: notes
+        description: "Additional notes or comments for the entry."
+      - name: created_by_id
+        description: "Identifier for the user who created the entry."
+      - name: datetime_created
+        description: "Timestamp when the general ledger entry was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the entry was last modified."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the entry."
+      - name: gl_code
+        description: "General ledger code associated with the entry."
+      - name: source_id
+        description: "Identifier for the source of the transaction."
+      - name: source_type
+        description: "Type of source for the transaction."
+      - name: reference_number
+        description: "Reference number for the transaction."
+      - name: credit_amount
+        description: "Credit amount for the general ledger entry."
+      - name: debit_amount
+        description: "Debit amount for the general ledger entry."
+      - name: distribution_type
+        description: "Type of distribution for the entry."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

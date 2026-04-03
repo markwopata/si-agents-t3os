@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__dispute_credit_reasons
+    description: Model for es_warehouse.public.dispute_credit_reasons
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: dispute_credit_reason_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: active
+        description: ""
+      - name: description
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

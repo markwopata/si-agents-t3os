@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__incremental_changes
+    description: Model for es_warehouse.public.incremental_changes
+    columns:
+      - name: incremental_changes_id
+        description: ""
+      - name: changes
+        description: ""
+      - name: processed
+        description: ""

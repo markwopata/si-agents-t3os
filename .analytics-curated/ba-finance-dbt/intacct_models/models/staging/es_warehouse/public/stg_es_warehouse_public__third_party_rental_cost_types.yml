@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__third_party_rental_cost_types
+    description: Model for es_warehouse.public.third_party_rental_cost_types
+    columns:
+      - name: third_party_rental_cost_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

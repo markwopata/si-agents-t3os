@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_statuses_battery_voltage
+    description: Model for es_warehouse.scd.scd_asset_statuses_battery_voltage
+    columns:
+      - name: asset_statuses_battery_voltage_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

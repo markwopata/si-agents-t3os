@@ -1,0 +1,204 @@
+version: 2
+
+models:
+  - name: vsg_reservations_daily_on_rent
+    description: >
+        This table is used to track the number of reservations that are currently on rent. 
+        It is updated daily with the current count of reservations that have a status of 'On Rent' in the source snapshot table. 
+        The unique key for this table is a combination of the as_of_date and dbt_scd_id, which allows us to track changes over time while also maintaining a history of all records.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "merge"
+      unique_key: ['as_of_date', 'dbt_scd_id']
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - as_of_date
+              - dbt_scd_id
+    columns:
+      - name: as_of_date
+        description: Date the daily point-in-time snapshot was captured.
+
+      - name: collected_at
+        description: Timestamp when the daily snapshot was collected.
+
+      - name: dbt_scd_id
+        description: Unique surrogate key for the SCD2 snapshot record from the reservations snapshot.
+
+      - name: id
+        description: Primary key of the reservation in the source system.
+
+      - name: reservation_id
+        description: Numeric reservation identifier extracted from the prefixed ID.
+
+      - name: confirm_insurance
+        description: Indicates whether insurance confirmation was completed.
+
+      - name: confirm_license
+        description: Indicates whether driver license confirmation was completed.
+
+      - name: phone
+        description: Customer phone number associated with the reservation.
+
+      - name: vehicle_vin
+        description: Vehicle VIN associated with the reservation.
+
+      - name: email
+        description: Customer email address.
+
+      - name: customer_first_name
+        description: Customer first name.
+
+      - name: return_at
+        description: Scheduled return timestamp (UTC).
+
+      - name: pickup_at
+        description: Scheduled pickup timestamp (UTC).
+
+      - name: pickup_location
+        description: Name of the pickup location.
+
+      - name: return_location
+        description: Name of the return location.
+
+      - name: pickup_timezone
+        description: IANA timezone of the pickup location.
+
+      - name: return_timezone
+        description: IANA timezone of the return location.
+
+      - name: status
+        description: Reservation status at the time of the snapshot (e.g., Pending, Started, On Rent, Returned, Canceled).
+
+      - name: vehicle_model
+        description: Vehicle model associated with the reservation.
+
+      - name: customer_last_name
+        description: Customer last name.
+
+      - name: prefixed_id
+        description: Reservation identifier including system prefix.
+
+      - name: pickup_location_id
+        description: Identifier of the pickup location.
+
+      - name: return_location_id
+        description: Identifier of the return location.
+
+      - name: vehicle_class
+        description: Vehicle class or category.
+
+      - name: payment_balance
+        description: Outstanding payment balance for the reservation.
+
+      - name: security_balance
+        description: Outstanding security balance for the reservation.
+
+      - name: platform
+        description: Booking platform through which the reservation was created.
+
+      - name: platform_id
+        description: Platform-specific reservation identifier.
+
+      - name: notes
+        description: Internal notes associated with the reservation.
+
+      - name: region_id
+        description: Region identifier from the source system.
+
+      - name: region_name
+        description: Human-readable name of the region.
+
+      - name: created_at
+        description: Timestamp when the reservation was created in the source system.
+
+      - name: billing_complete
+        description: Indicates whether billing has been completed.
+
+      - name: pickup_photos
+        description: Indicator or reference to pickup photos.
+
+      - name: return_photos
+        description: Indicator or reference to return photos.
+
+      - name: return_user_id
+        description: Identifier of the user who processed the return.
+
+      - name: pickup_user_id
+        description: Identifier of the user who processed the pickup.
+
+      - name: upload_return_photos
+        description: Indicates whether return photos were uploaded.
+
+      - name: upload_pickup_photos
+        description: Indicates whether pickup photos were uploaded.
+
+      - name: damage_waiver
+        description: Indicates whether a damage waiver was applied.
+
+      - name: charging_balance
+        description: Outstanding charging-related balance.
+
+      - name: charging_method
+        description: Charging method used for the reservation.
+
+      - name: late
+        description: Indicates whether the reservation was returned late.
+
+      - name: extended
+        description: Indicates whether the reservation was extended beyond the original return time.
+
+      - name: returned_at
+        description: Timestamp when the vehicle was returned.
+
+      - name: picked_up_at
+        description: Timestamp when the vehicle was picked up.
+
+      - name: updated_at
+        description: Timestamp when the reservation was last updated in the source system.
+
+      - name: return_schedule_priority
+        description: Return scheduling priority value.
+
+      - name: pickup_schedule_priority
+        description: Pickup scheduling priority value.
+
+      - name: collections_status
+        description: Collections status associated with the reservation.
+
+      - name: gclid
+        description: Google Click ID associated with the reservation.
+
+      - name: tesla_rents_id
+        description: Tesla Rents identifier, if applicable.
+
+      - name: is_expired
+        description: Indicates whether the reservation has expired.
+
+      - name: _fivetran_deleted
+        description: Fivetran soft-delete indicator.
+
+      - name: _fivetran_synced
+        description: Timestamp of the last synchronization from Fivetran.
+
+      - name: created_by_service
+        description: Service that created the reservation record.
+
+      - name: dbt_updated_at
+        description: Timestamp used by dbt to detect changes in the snapshot.
+
+      - name: dbt_snapshot_date
+        description: Day-truncated snapshot timestamp representing when the snapshot version was recorded.
+
+      - name: dbt_valid_from
+        description: Timestamp when this snapshot version became valid.
+
+      - name: dbt_valid_to
+        description: Timestamp when this snapshot version was invalidated (null if current at snapshot time).
+
+      - name: pickup_at_local_tz
+        description: Pickup timestamp converted to the pickup location’s local timezone.
+
+      - name: pick_up_date
+        description: Day-truncated local pickup date.

@@ -1,0 +1,105 @@
+---
+version: 2
+models:
+  - name: base_analytics_intacct__gl_entry
+    description: Cleaned up version of intacct.glentry
+    columns:
+      - name: pk_gl_entry_id
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: entry_date
+        description:
+          "Raw entry date in journal entry. Downstream will override this for retained earnings entries (RE) so
+          we can\n add up to the correct balance sheet balances (for RE)\n"
+      - name: fk_account_id
+        description: "{{ doc('fk_account_id') }}"
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+        data_tests:
+          - not_null
+      - name: fk_department_id
+        description: "{{ doc('fk_department_id') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: fk_entity_id
+        description: "{{ doc('fk_entity_id') }}"
+        data_tests:
+          - not_null:
+              where: "entry_state != 'Draft'"
+      - name: asset_id
+        description: asset ID on journal entry lines (custom text field). Accounting needs this for COGS and revenue reporting.
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+        data_tests:
+          - not_null:
+              where: "entry_state != 'Draft'"
+      - name: raw_amount
+        description: "{{ doc('gle_raw_amount') }}"
+      - name: entry_description
+        description: "{{ doc('entry_description') }}"
+      - name: journal_title
+        description: "{{ doc('journal_title') }}"
+      - name: debit_credit
+        description: "{{ doc('debit_credit') }}"
+      - name: debit_credit_sign
+        description: "{{ doc('debit_credit_sign') }}"
+      - name: net_amount
+        description: "Apply debit_credit_sign to raw_amount (note this will result in negative revenues for P&L accounts\n"
+      - name: positive_revenue_sign
+        description: "{{ doc('positive_revenue_sign') }}"
+      - name: applied_sign
+        description: "{{ doc('gle_applied_sign') }}"
+      - name: amount
+        description: Amount with all signs applied - should result in being able to sum P&L accounts to net income
+      - name: raw_trx_amount
+        description: "{{ doc('raw_trx_amount') }}"
+      - name: net_trx_amount
+        description: "{{ doc('net_trx_amount') }}"
+      - name: trx_amount
+        description: "{{ doc('trx_amount') }}"
+      - name: exchange_rate
+        description: "{{ doc('exchange_rate') }}"
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: base_currency_code
+        description: "{{ doc('base_currency_code') }}"
+      - name: exchange_rate_date
+        description: "{{ doc('exchange_rate_date') }}"
+      - name: fk_expense_type_id
+        description: "{{ doc('fk_expense_type_id') }}"
+      - name: fk_journal_id
+        description: "{{ doc('fk_journal_id') }}"
+        data_tests:
+          - not_null
+      - name: line_number
+        description: "{{ doc('gle_line_number') }}"
+      - name: document
+        description: "{{ doc('gle_document') }}"
+      - name: fk_ud_loan_id
+        description: "{{ doc('fk_ud_loan_id') }}"
+      - name: gl_dim_transaction_identifier
+        description: "{{ doc('gl_dim_transaction_identifier') }}"
+      - name: gl_dim_asset_id
+        description: "{{ doc('gl_dim_asset_id') }}"
+      - name: ud_t3_work_order_number
+        description: "{{ doc('ud_t3_work_order_number') }}"
+      - name: ud_admin_invoice_number
+        description: "{{ doc('ud_admin_invoice_number') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: entry_state
+        description: "{{ doc('entry_state') }}"
+      - name: is_statistical
+        description: "{{ doc('is_statistical') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

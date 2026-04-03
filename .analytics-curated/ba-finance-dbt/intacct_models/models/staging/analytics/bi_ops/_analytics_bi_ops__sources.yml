@@ -1,0 +1,18 @@
+---
+version: 2
+
+sources:
+  - name: analytics_bi_ops
+    tags: ["sources"]
+    database: analytics
+    schema: bi_ops
+    description: >
+      Data in analytics.bi_ops (analytics database / bi_ops schema) used for business intelligence operations.
+    tables:
+      - name: salesperson_info
+        description: >
+          The analytics.bi_ops.salesperson_info table tracks time-bound details about salespeople, including their roles, regions, employment status, and reporting managers.
+        columns:
+          - name: user_id
+            data_tests:
+              - not_null

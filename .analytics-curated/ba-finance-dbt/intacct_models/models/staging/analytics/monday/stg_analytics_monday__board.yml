@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_analytics_monday__board
+    description: Board object in monday.com. Streamed from Fivetran.
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: items_count
+        description: "Number of items (rows) in the board"
+      - name: owner_id
+        description: ""
+      - name: board_folder_id
+        description: ""
+      - name: name
+        description: "Board name"
+      - name: workspace_id
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: permission
+        description: ""
+      - name: top_group_id
+        description: ""
+      - name: type
+        description: ""
+      - name: state
+        description: ""
+      - name: board_kind
+        description: ""
+      - name: description
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

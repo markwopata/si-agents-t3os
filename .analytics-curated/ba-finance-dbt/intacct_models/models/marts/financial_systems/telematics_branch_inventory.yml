@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: telematics_branch_inventory
+    description: "Sums the quantity of Telematics devices and parts per branch.
+    Results include the current warehouse on-hand inventory of each item and are filtered to show only items currently operational for ES internal telematics installs on ES-owned assets."
+    columns:
+      - name: unique_identifier
+        description: "Unique ID field for the records in the results (Dynamic ID field)"
+        data_tests:
+          - unique
+
+      - name: branch_id
+        description: "Branch ID ESDB/Intacct"
+
+      - name: branch_name
+        description: "Branch name from Intacct"
+
+      - name: esdb_part_id
+        description: "Part ID from ESDB"
+
+      - name: branch_onhand_quantity
+        description: "Sum of units on hand across the entirety of the branch's inventory"
+
+      - name: d365_item_id
+        description: "D365 Item ID"
+
+      - name: warehouse_item_name
+        description: "Most Recent Product Name in D365"
+
+      - name: warehouse_quantity
+        description: "Available On Hand Quantity across the entirety of the Telematics Warehouse"

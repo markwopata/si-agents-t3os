@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_supplier
+    description: Table for product supplier relationships, linking products to their suppliers.
+    columns:
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: supplier_id
+        description: 'Identifier for the supplier.'
+      - name: supplier_product_id
+        description: 'Identifier for the supplier product.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

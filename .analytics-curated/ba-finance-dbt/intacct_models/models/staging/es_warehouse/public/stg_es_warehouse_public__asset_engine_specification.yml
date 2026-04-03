@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_engine_specification
+    description: Model for es_warehouse.public.asset_engine_specification
+    columns:
+      - name: asset_engine_specification_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: engine_make_id
+        description: ""
+      - name: engine_model_name
+        description: ""
+      - name: engine_serial_number
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

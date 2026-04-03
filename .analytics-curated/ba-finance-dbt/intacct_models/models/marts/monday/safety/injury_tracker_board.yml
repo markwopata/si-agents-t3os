@@ -1,0 +1,152 @@
+version: 2
+models:
+- name: injury_tracker_board
+  description: Injury Tracker Board exposed as a table. This board tracks injury and
+    incident information.
+  meta:
+    point_of_contact: Danielle Baldwin
+    owner: '@nick.logan'
+    monday_board_url: 'https://equipmentshare.monday.com/boards/5511739672 # ask Danielle for Monday board access'
+  columns:
+  - name: item_id
+    description: Monday-generated pk
+    tests:
+      - unique
+  - name: days_of_restricted_duty_includes_accomodated_work
+    description: 'Column from Monday board representing ''Days of restricted duty
+      **includes accomodated work**'' (Monday column ID: numeric).'
+  - name: incident_type
+    description: 'Column from Monday board representing ''Incident Type'' (Monday
+      column ID: color_mkwkxhg5).'
+  - name: email_status
+    description: 'Column from Monday board representing ''Email Status'' (Monday column
+      ID: status_1_mkn1tm8j).'
+  - name: days_away
+    description: 'Column from Monday board representing ''Days away'' (Monday column
+      ID: days_away).'
+  - name: job_title
+    description: 'Column from Monday board representing ''Job Title'' (Monday column
+      ID: mirror_mkm5qxe9).'
+  - name: days_with_es
+    description: 'Column from Monday board representing ''Days with ES'' (Monday column
+      ID: formula__1).'
+  - name: creation_log
+    description: 'Column from Monday board representing ''Creation log'' (Monday column
+      ID: pulse_log_mkqntx97).'
+  - name: ten_by_ten
+    description: 'Column from Monday board representing ''10 x 10'' (Monday column
+      ID: files__1).'
+  - name: location_of_incident
+    description: 'Column from Monday board representing ''Location of incident'' (Monday
+      column ID: color_mkwhmqqr).'
+  - name: slack_status
+    description: 'Column from Monday board representing ''Slack Status'' (Monday column
+      ID: status_1_mkn59rsy).'
+  - name: people
+    description: 'Column from Monday board representing ''People'' (Monday column
+      ID: people_mkmdg9tq).'
+  - name: branch
+    description: 'Column from Monday board representing ''Location'' (Monday column
+      ID: location_mkq9s0qf), tied to Master Markets board.'
+  - name: district
+    description: 'Column from Monday board representing ''District'' (Monday column
+      ID: region4).'
+  - name: safety_accountability_form
+    description: 'Column from Monday board representing ''Safety Accountability Form''
+      (Monday column ID: files8__1).'
+  - name: send_to_l_d
+    description: 'Column from Monday board representing ''Send to L&D'' (Monday column
+      ID: color_mknpfyt0).'
+  - name: division
+    description: 'Column from Monday board representing ''Division'' (Monday column
+      ID: lookup_mkq45pdj).'
+  - name: request_saf
+    description: 'Column from Monday board representing ''Request SAF'' (Monday column
+      ID: status_1_mkn828xn).'
+  - name: manager_email
+    description: 'Column from Monday board representing ''Manager Email'' (Monday
+      column ID: email_mkn14fqf).'
+  - name: name
+    description: 'Column from Monday board representing ''Name'' (Monday column ID:
+      name).'
+  - name: date_of_incident
+    description: 'Column from Monday board representing ''Date of Incident'' (Monday
+      column ID: date).'
+  - name: lost_time_paid_past_waiting_period
+    description: 'Column from Monday board representing ''Lost Time (time paid past
+      waiting period)'' (Monday column ID: text).'
+  - name: manager
+    description: 'Column from Monday board representing ''Manager'' (Monday column
+      ID: mirror_1_mkm5z1xg).'
+  - name: returned_to_work_with_no_restrictions_and_or_case_closed_date
+    description: 'Column from Monday board representing ''Returned to Work with NO
+      Restrictions and/or Case Closed Date'' (Monday column ID: text7).'
+  - name: new_safety_orientation_tracker
+    description: 'Column from Monday board representing ''NEW - Safety Orientation
+      Tracker'' (Monday column ID: board_relation_mkpdwm3z).'
+  - name: incident_investigation
+    description: 'Column from Monday board representing ''Incident Investigation''
+      (Monday column ID: files).'
+  - name: total_dart_days
+    description: 'Column from Monday board representing ''TOTAL DART days'' (Monday
+      column ID: total_dart_days).'
+  - name: employee_title
+    description: 'Column from Monday board representing ''Employee Title'' (Monday
+      column ID: employee_title).'
+  - name: region
+    description: 'Column from Monday board representing ''Region'' (Monday column
+      ID: status_18__1).'
+  - name: orientation_status
+    description: 'Column from Monday board representing ''Orientation Status'' (Monday
+      column ID: lookup_mkpdytty).'
+  - name: root_cause
+    description: 'Column from Monday board representing ''Root Cause'' (Monday column
+      ID: dup__of_10_x_10__1).'
+  - name: day_of_incident
+    description: 'Column from Monday board representing ''Day of Incident'' (Monday
+      column ID: dropdown0__1).'
+  - name: investigation_needed
+    description: 'Column from Monday board representing ''Investigation Needed?''
+      (Monday column ID: status_13__1).'
+  - name: investigation_report
+    description: 'Column from Monday board representing ''Investigation Report'' (Monday
+      column ID: files_1_mkkqshes).'
+  - name: course
+    description: 'Column from Monday board representing ''Course'' (Monday column
+      ID: dropdown_mknpsexb).'
+  - name: connect_boards
+    description: 'Column from Monday board representing ''Connect boards'' (Monday
+      column ID: board_relation_mkq0y77).'
+  - name: employee_id
+    description: 'Column from Monday board representing ''Employee ID'' (Monday column
+      ID: dup__of_job_title_mkm5edw0).'
+  - name: employee_email
+    description: 'Column from Monday board representing ''Employee Email'' (Monday
+      column ID: lookup_mknrp4yr).'
+  - name: date_hired
+    description: 'Column from Monday board representing ''Date Hired'' (Monday column
+      ID: mirror_2_mkm5d0jw).'
+  - name: recordable
+    description: 'Column from Monday board representing ''Recordable?'' (Monday column
+      ID: osha_recordable__).'
+  - name: body_part
+    description: 'Column from Monday board representing ''Body Part'' (Monday column
+      ID: dup__of_body_part8__1).'
+  - name: subitems
+    description: 'Column from Monday board representing ''Subitems'' (Monday column
+      ID: subitems).'
+  - name: work_location
+    description: 'Column from Monday board representing ''Work Location'' (Monday
+      column ID: work_location).'
+  - name: month
+    description: 'Column from Monday board representing ''Month'' (Monday column ID:
+      color_mkpgm324).'
+  - name: market_id
+    description: 'Column from Monday board representing ''Market ID'' (Monday column
+      ID: mirror_1__1).'
+  - name: status
+    description: 'Column from Monday board representing ''Status'' (Monday column
+      ID: status_1__1).'
+  - name: description
+    description: 'Column from Monday board representing ''Description'' (Monday column
+      ID: injury_summary).'

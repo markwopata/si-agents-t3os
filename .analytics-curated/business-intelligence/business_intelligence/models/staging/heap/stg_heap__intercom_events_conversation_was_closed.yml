@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: stg_heap__intercom_events_conversation_was_closed
+    description: "{{ doc('heap__intercom_events_conversation_was_closed') }}"
+    columns:
+      - name: heap_user_id
+        data_type: number
+        description: "{{ doc('heap__user_id') }}"
+        data_tests:
+          - not_null
+
+      - name: event_id
+        data_type: number
+        description: "{{ doc('heap__event_id') }}"
+
+      - name: session_id
+        data_type: number
+        description: "{{ doc('heap__intercom_session_id') }}"
+
+      - name: intercom_conversation_closed_time
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__timestamp') }}"
+
+      - name: type
+        data_type: varchar
+        description: "{{ doc('heap__intercom_event_type') }}"
+
+      - name: library
+        data_type: varchar
+        description: "{{ doc('heap__library') }}"
+
+      - name: platform
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: device_type
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: country
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: region
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: city
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: ip
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: referrer
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: landing_page_query
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: landing_page_hash
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: target_text
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: heap_device_id
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: heap_previous_page
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: assigned_admin_email
+        data_type: varchar
+        description: "{{ doc('heap__intercom_assigned_admin_email') }}"
+
+      - name: first_message_delivered_as
+        data_type: varchar
+        description: "{{ doc('heap__intercom_first_message_delivered_as') }}"
+
+      - name: first_message_type
+        data_type: varchar
+        description: "{{ doc('heap__intercom_first_message_type') }}"
+
+      - name: app_id
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: conversation_id
+        data_type: varchar
+        description: "{{ doc('heap__intercom_conversation_id') }}"
+
+      - name: first_message_author_type
+        data_type: varchar
+        description: "{{ doc('heap__intercom_first_message_author_type') }}"
+
+      - name: num_conversation_parts
+        data_type: varchar
+        description: "{{ doc('heap__intercom_num_conversation_parts') }}"
+
+      - name: platform_type_os_
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: _dbt_updated_timestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_dbt_updated_timestamp') }}"

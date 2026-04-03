@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_events
+    description: Model for es_warehouse.work_orders.work_order_events
+    columns:
+      - name: work_order_event_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: entity_id
+        description: ""
+      - name: action
+        description: ""
+      - name: event_time
+        description: ""
+      - name: changes
+        description: ""
+      - name: user_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: changes__archived_date
+        description: Extracted from json in column changes (roughly changes:archived_date)
+      - name: changes__work_order_status_id
+        description: Extracted from json in column changes (roughly changes:work_order_status_id)
+      - name: changes__billing_type_id
+        description: Extracted from json in column changes (roughly changes:billing_type_id)

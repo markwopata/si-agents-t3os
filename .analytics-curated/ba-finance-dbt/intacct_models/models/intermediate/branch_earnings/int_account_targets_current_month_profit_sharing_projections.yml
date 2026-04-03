@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: int_account_targets_current_month_profit_sharing_projections
+    description: >
+      Profit sharing accrual estimation by market, GL month, and employee.
+      Builds an employee hierarchy per market (recursive), creates an employee spine, then joins
+      to projected net income/revenue to calculate projected accrual amounts.
+
+    columns:
+      - name: market_id
+        description: "Market identifier."
+        tests:
+          - not_null
+
+      - name: gl_month
+        description: "GL month for the projection/accrual (month grain)."
+        tests:
+          - not_null
+
+      - name: months_open_at_time
+        description: "Number of months since branch_earnings_start_month at the time of the GL month (1-indexed)."
+
+      - name: month_end_projected_net_income
+        description: "Projected month-end net income for the market and GL month."
+
+      - name: month_end_projected_revenue
+        description: "Projected month-end revenue for the market and GL month."
+
+      - name: employee_id
+        description: "Employee identifier."
+
+      - name: department
+        description: "Department parsed from default_cost_centers_full_path."
+
+      - name: account_no
+        description: "Mapped payroll account number based on department."
+
+      - name: account_name
+        description: "Mapped payroll account name based on department."
+
+      - name: employee_title_classification
+        description: "Standardized employee title classification used for eligibility and percent logic."
+
+      - name: profit_sharing_pct
+        description: "Profit sharing percentage assigned by employee_title_classification. Used to calculate the accrual."
+
+      - name: projected_profit_sharing_accrual
+        description: >
+          Projected profit sharing accrual amount. For non-managers (Not Classified), splits 2% of
+          net income evenly across employees in the market for the month; for managers uses profit_sharing_pct.
+        tests:
+          - not_null
+
+      - name: rev_sharing_amount
+        description: "For under 12's in months 3, 6, and 9, this is the flat dollar award if the revenue goal is acheived."
+
+      - name: projected_revenue_sharing_accrual
+        description: >
+          Projected revenue sharing accrual for under 12 markets in months 3, 6, and 9. If projected revenue meets/exceeds market goals and
+          employee is Not Classified, splits rev_sharing_amount across employees; otherwise uses rev_sharing_amount.
+        tests:
+          - not_null

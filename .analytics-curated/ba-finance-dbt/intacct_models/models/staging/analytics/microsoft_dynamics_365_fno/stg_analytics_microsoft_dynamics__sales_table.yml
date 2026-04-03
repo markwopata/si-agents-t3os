@@ -1,0 +1,528 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__sales_table
+    description: ""
+    columns:
+      - name: salesid
+        description: ""
+        data_tests:
+          - unique
+      - name: id
+        description: ""
+
+      - name: addressrefrecid
+        description: ""
+
+      - name: addressreftableid
+        description: ""
+
+      - name: contactpersonid
+        description: ""
+
+      - name: statprocid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: taxid
+        description: ""
+
+      - name: vatnumrecid
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: recid
+        description: ""
+
+      - name: servicecoderefrecid
+        description: ""
+
+      - name: autosummarymoduletype
+        description: ""
+
+      - name: bankdocumenttype
+        description: ""
+
+      - name: casetagging
+        description: ""
+
+      - name: constarget_jp
+        description: ""
+
+      - name: creditcardauthorizationerror
+        description: ""
+
+      - name: customsexportorder_in
+        description: ""
+
+      - name: customsshippingbill_in
+        description: ""
+
+      - name: deliverydatecontroltype
+        description: ""
+
+      - name: documentstatus
+        description: ""
+
+      - name: einvoicelinespec
+        description: ""
+
+      - name: fiscaldoctype_pl
+        description: ""
+
+      - name: freightsliptype
+        description: ""
+
+      - name: girotype
+        description: ""
+
+      - name: incltax
+        description: ""
+
+      - name: intercompanyallowindirectcreation
+        description: ""
+
+      - name: intercompanyallowindirectcreationorig
+        description: ""
+
+      - name: intercompanyautocreateorders
+        description: ""
+
+      - name: intercompanydirectdelivery
+        description: ""
+
+      - name: intercompanydirectdeliveryorig
+        description: ""
+
+      - name: intercompanyorder
+        description: ""
+
+      - name: intercompanyorigin
+        description: ""
+
+      - name: invoiceautonumbering_lt
+        description: ""
+
+      - name: itemtagging
+        description: ""
+
+      - name: listcode
+        description: ""
+
+      - name: mcrorderstopped
+        description: ""
+
+      - name: natureofassessee_in
+        description: ""
+
+      - name: onetimecustomer
+        description: ""
+
+      - name: packingslipautonumbering_lt
+        description: ""
+
+      - name: pallettagging
+        description: ""
+
+      - name: pdsbatchattribautores
+        description: ""
+
+      - name: releasestatus
+        description: ""
+
+      - name: reservation
+        description: ""
+
+      - name: returnreplacementcreated
+        description: ""
+
+      - name: returnstatus
+        description: ""
+
+      - name: salesstatus
+        description: ""
+
+      - name: salestype
+        description: ""
+
+      - name: settlevoucher
+        description: ""
+
+      - name: shipcarrierblindshipment
+        description: ""
+
+      - name: shipcarrierdlvtype
+        description: ""
+
+      - name: shipcarrierexpeditedshipment
+        description: ""
+
+      - name: shipcarrierfuelsurcharge
+        description: ""
+
+      - name: shipcarrierresidential
+        description: ""
+
+      - name: skipupdate
+        description: ""
+
+      - name: systementrysource
+        description: ""
+
+      - name: touched
+        description: ""
+
+      - name: unitedvatinvoice_lt
+        description: ""
+
+      - name: skipcreatemarkup
+        description: ""
+
+      - name: skiplineupdate
+        description: ""
+
+      - name: invoiceregister_lt
+        description: ""
+
+      - name: packingslipregister_lt
+        description: ""
+
+      - name: foreigntrade_mx
+        description: ""
+
+      - name: sourcecertificate_mx
+        description: ""
+
+      - name: vatnumtabletype
+        description: ""
+
+      - name: overridesalestax
+        description: ""
+
+      - name: mpsfullrunctpstatus
+        description: ""
+
+      - name: isintegration
+        description: ""
+
+      - name: mpsexcludesalesorder
+        description: ""
+
+      - name: mpsupdateexcludesalesorder
+        description: ""
+
+      - name: salesorderintegrationcreationtype
+        description: ""
+
+      - name: commissiontype_it
+        description: ""
+
+      - name: printdynamicqrcode_in
+        description: ""
+
+      - name: invoicetype_w
+        description: ""
+
+      - name: cfditemporaryexport_mx
+        description: ""
+
+      - name: credmanexcludesalesorder
+        description: ""
+
+      - name: credmanreleasedfromcreditcontrol
+        description: ""
+
+      - name: credmanrejected
+        description: ""
+
+      - name: credmanincreditcontrol
+        description: ""
+
+      - name: domprocessed
+        description: ""
+
+      - name: domignore
+        description: ""
+
+      - name: domexceptiontype
+        description: ""
+
+      - name: subbillcreatedfromsb
+        description: ""
+
+      - name: subbillsuppresschilditems
+        description: ""
+
+      - name: revrecfolloworiginalpricingmethod
+        description: ""
+
+      - name: revrecmultiplesoreallocation
+        description: ""
+
+      - name: gupskippricingcalculation
+        description: ""
+
+      - name: gupdelaypricingcalculation
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: covstatus
+        description: ""
+
+      - name: creditcardcustrefid
+        description: ""
+
+      - name: creditnotereasoncode
+        description: ""
+
+      - name: currencycode
+        description: ""
+
+      - name: custaccount
+        description: ""
+
+      - name: custgroup
+        description: ""
+
+      - name: customerref
+        description: ""
+
+      - name: deadline
+        description: ""
+
+      - name: defaultdimension
+        description: ""
+
+      - name: deliveryname
+        description: ""
+
+      - name: deliverypostaladdress
+        description: ""
+
+      - name: directdebitmandate
+        description: ""
+
+      - name: dlvmode
+        description: ""
+
+      - name: dlvreason
+        description: ""
+
+      - name: dlvterm
+        description: ""
+
+      - name: email
+        description: ""
+
+      - name: estimate
+        description: ""
+
+      - name: inventlocationid
+        description: ""
+
+      - name: inventsiteid
+        description: ""
+
+      - name: invoiceaccount
+        description: ""
+
+      - name: languageid
+        description: ""
+
+      - name: manualentrychangepolicy
+        description: ""
+
+      - name: matchingagreement
+        description: ""
+
+      - name: payment
+        description: ""
+
+      - name: postingprofile
+        description: ""
+
+      - name: purchorderformnum
+        description: ""
+
+      - name: retailchanneltable
+        description: ""
+
+      - name: salesname
+        description: ""
+
+      - name: salesoriginid
+        description: ""
+
+      - name: shipcarrierpostaladdress
+        description: ""
+
+      - name: shippingdateconfirmed
+        description: ""
+
+      - name: shippingdaterequested
+        description: ""
+
+      - name: sourcedocumentheader
+        description: ""
+
+      - name: systementrychangepolicy
+        description: ""
+
+      - name: taxgroup
+        description: ""
+
+      - name: transportationdocument
+        description: ""
+
+      - name: workersalesresponsible
+        description: ""
+
+      - name: workersalestaker
+        description: ""
+
+      - name: accountingdistributiontemplate
+        description: ""
+
+      - name: fundingsource
+        description: ""
+
+      - name: reportingcurrencyfixedexchrate
+        description: ""
+
+      - name: phone
+        description: ""
+
+      - name: fintag
+        description: ""
+
+      - name: subbillbilltoname
+        description: ""
+
+      - name: subbillbilltopostaladdress
+        description: ""
+
+      - name: cashdiscbasedate
+        description: ""
+
+      - name: cashdiscbasedays
+        description: ""
+
+      - name: cashdiscpercent
+        description: ""
+
+      - name: creditcardapprovalamount
+        description: ""
+
+      - name: discpercent
+        description: ""
+
+      - name: fixedduedate
+        description: ""
+
+      - name: fixedexchrate
+        description: ""
+
+      - name: smmsalesamounttotal
+        description: ""
+
+      - name: creditcardauthorizationerror_2
+        description: ""
+
+      - name: touched_2
+        description: ""
+
+      - name: skipcreatemarkup_2
+        description: ""
+
+      - name: skiplineupdate_2
+        description: ""
+
+      - name: overridesalestax_2
+        description: ""
+
+      - name: isintegration_2
+        description: ""
+
+      - name: mpsexcludesalesorder_2
+        description: ""
+
+      - name: domprocessed_2
+        description: ""
+
+      - name: domignore_2
+        description: ""
+
+      - name: revrecfolloworiginalpricingmethod_2
+        description: ""
+
+      - name: skipupdate_2
+        description: ""
+
+      - name: unitedvatinvoice_lt_2
+        description: ""
+
+      - name: credmanexcludesalesorder_2
+        description: ""
+
+      - name: credmanreleasedfromcreditcontrol_2
+        description: ""
+
+      - name: credmanrejected_2
+        description: ""
+
+      - name: credmanincreditcontrol_2
+        description: ""
+
+      - name: deliverydate
+        description: ""
+
+      - name: deadline_2
+        description: ""
+
+      - name: receiptdateconfirmed
+        description: ""
+
+      - name: receiptdaterequested
+        description: ""
+
+      - name: returndeadline
+        description: ""
+
+      - name: returnitemnum
+        description: ""
+
+      - name: returnreasoncodeid
+        description: ""
+
+      - name: directdebitmandate_2
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: _fivetran_
+        description: ""

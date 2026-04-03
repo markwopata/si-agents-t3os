@@ -1,0 +1,86 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vsg_postgres__public__vehicles
+    description: "List of vehicles"
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: vin
+        description: ""
+      - name: region_id
+        description: ""
+      - name: status
+        description: ""
+      - name: notes
+        description: ""
+      - name: cleaning_start
+        description: ""
+      - name: color
+        description: ""
+      - name: model
+        description: ""
+      - name: cleaning_end
+        description: ""
+      - name: license_plate
+        description: ""
+      - name: address
+        description: ""
+      - name: location_id
+        description: ""
+      - name: created_at
+        description: ""
+      - name: year
+        description: ""
+      - name: platform
+        description: ""
+      - name: polled_at
+        description: ""
+      - name: location_at
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: battery_level
+        description: ""
+      - name: battery_range
+        description: ""
+      - name: charging_state
+        description: ""
+      - name: locked
+        description: ""
+      - name: odometer
+        description: ""
+      - name: state
+        description: ""
+      - name: latitude
+        description: ""
+      - name: longitude
+        description: ""
+      - name: front_driver_tread_depth
+        description: ""
+      - name: front_passenger_tread_depth
+        description: ""
+      - name: back_driver_tread_depth
+        description: ""
+      - name: back_passenger_tread_depth
+        description: ""
+      - name: rack_rate
+        description: >
+          the rack rate of the vehicle in dollars. before Resla released dynamic rack rates (stg_analytics_vsg_postgres__public__vehicle_rack_rates) in 2025-11-10, they were using this value
+      - name: purchase_value
+        description: ""
+      - name: model_id
+        description: ""
+      - name: license_plate_state
+        description: ""
+      - name: pickup_photos_at
+        description: ""
+      - name: show_on_website
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

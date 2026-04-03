@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__cip_expense_classifications
+    description: Model for analytics.retool.cip_expense_classifications
+    meta:
+      point_of_contact: Vishesh Mathur
+      owner: "@vishesh.mathur"
+    columns:
+      - name: pk_gl_detail_id
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: division_code
+        description: ''
+      - name: created_by
+        description: ''
+      - name: updated_by
+        description: ''
+      - name: accounting_category_id
+        description: ''
+      - name: project_id
+        description: FK to cip_projects. This is the project id for the project associated with this expense classification
+      - name: date_created
+        description: ''
+      - name: date_updated
+        description: ''

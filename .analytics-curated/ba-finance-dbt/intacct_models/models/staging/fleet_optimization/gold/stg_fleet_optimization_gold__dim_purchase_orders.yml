@@ -1,0 +1,80 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_purchase_orders
+    description: Model for fleet_optimization.gold.dim_purchase_orders
+    columns:
+      - name: purchase_order_key
+        description: Hashed key comprised of composite primary key purchase_order_id and purchase_order_source
+        data_tests:
+          - unique
+      - name: purchase_order_source
+        description: Silver-layer source of PO Data. At this time, the source will always evaluate to ESDB.
+      - name: purchase_order_id
+        description: Unique identifier for purchase orders, corresponds to purchase order number (without type prefix, 
+          e.g. SPO) in FleetTrack.
+      - name: purchase_order_market_key
+        description: See documentation of platform's dim_markets, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_markets
+      - name: purchase_order_vendor_key
+        description: Unique identifier for an EquipmentShare vendor.
+      - name: purchase_order_approved_at_date_key
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: purchase_order_created_at_date
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: purchase_order_modified_date
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: purchase_order_submitted_date_key
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: purchase_order_approved_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: purchase_order_created_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: purchase_order_submitted_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: purchase_order_type_id
+        description: "Numeric and string value that classifies the type of asset purchased by the order (applies to the entire
+          order, not just individual lines). \nThe most common type is Serialized Rental Asset, which is a purchase that will
+          eventually correspond to an asset id and will be used in the rental fleet.\nOther types include Vehicle Rental Assets,
+          Bulk Rental Assets, or Dealership Fleet.\nNote: for dealership fleet, a more robust filter can be found in dim_purchase_order_line_items
+          as po_line_purchase_purpose."
+      - name: purchase_order_type
+        description: "Numeric and string value that classifies the type of asset purchased by the order (applies to the entire
+          order, not just individual lines). \nThe most common type is Serialized Rental Asset, which is a purchase that will
+          eventually correspond to an asset id and will be used in the rental fleet.\nOther types include Vehicle Rental Assets,
+          Bulk Rental Assets, or Dealership Fleet.\nNote: for dealership fleet, a more robust filter can be found in dim_purchase_order_line_items
+          as po_line_purchase_purpose."
+      - name: purchase_order_net_term_id
+        description: "Numeric and string value that classifies the payment terms for the entire purchase order.\nNet terms
+          are added to the invoice date to create the due date, though due date can be overwritten and may not correspond
+          to this formula.\nAs of 1/21/25, some net terms are missing from FleetTrack but will be added at a later date."
+      - name: purchase_order_net_term_description
+        description: "Numeric and string value that classifies the payment terms for the entire purchase order.\nNet terms
+          are added to the invoice date to create the due date, though due date can be overwritten and may not correspond
+          to this formula.\nAs of 1/21/25, some net terms are missing from FleetTrack but will be added at a later date."
+      - name: purchase_order_days_in_net_term
+        description: "Numeric and string value that classifies the payment terms for the entire purchase order.\nNet terms
+          are added to the invoice date to create the due date, though due date can be overwritten and may not correspond
+          to this formula.\nAs of 1/21/25, some net terms are missing from FleetTrack but will be added at a later date."
+      - name: purchase_order_note
+        description: "Lightly-cleansed free-text notes pertaining to the entire purchase order. \nIf field is blank in FleetTrack,
+          will indicate 'No Note'. \nIf field has text containing \"void\" or \"delete\", purchase_order_note_indicates_void_or_delete
+          will be True.\nNote that POs and PO lines that have been deleted are filtered from model."
+      - name: purchase_order_has_net_terms_flag
+        description: Boolean indicating if purchase order has net terms associated with invoice due date. Will be false 
+          if no net terms are specified or PO is cash on delivery.
+      - name: purchase_order_is_approved_flag
+        description: Boolean indicating that PO has associated approval date. If no, flag will return False.
+      - name: purchase_order_note_indicates_void_or_delete
+        description: "Lightly-cleansed free-text notes pertaining to the entire purchase order. \nIf field is blank in FleetTrack,
+          will indicate 'No Note'. \nIf field has text containing \"void\" or \"delete\", purchase_order_note_indicates_void_or_delete
+          will be True.\nNote that POs and PO lines that have been deleted are filtered from model."
+      - name: purchase_order_recordtimestamp
+        description: Timestamp of last run of purchase order line items dimension

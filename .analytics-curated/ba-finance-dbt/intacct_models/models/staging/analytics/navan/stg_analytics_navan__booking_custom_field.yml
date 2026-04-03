@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_custom_field
+    description: Staging model for Navan booking custom fields, containing user-defined fields and values associated with travel bookings
+    columns:
+      - name: booking_uuid
+        description: Unique identifier for the booking record.
+      - name: index
+        description: Index value for the custom field entry.
+      - name: _fivetran_deleted
+        description: Indicates if the record was deleted by Fivetran.
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran.
+      - name: name
+        description: Name of the custom field.
+      - name: value
+        description: Value of the custom field.

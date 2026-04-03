@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_idles
+    description: Model for es_warehouse.public.asset_idles
+    columns:
+      - name: asset_id
+        description: ""
+      - name: end_idle_incident_id
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: end_timestamp
+        description: ""
+      - name: start_idle_incident_id
+        description: ""
+      - name: idle_threshold_seconds
+        description: ""
+      - name: start_timestamp
+        description: ""
+      - name: duration_seconds
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: idle_range
+        description: ""
+      - name: asset_idle_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          - unique
+      - name: fuel_consumption_gallons_new
+        description: ""
+      - name: fuel_consumed_gallons
+        description: ""
+      - name: state_id
+        description: ""
+      - name: street
+        description: ""
+      - name: county
+        description: ""
+      - name: city
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: idle_range__end_bound
+        description: Extracted from json in column idle_range (roughly idle_range:end_bound)
+      - name: idle_range__start_bound
+        description: Extracted from json in column idle_range (roughly idle_range:start_bound)
+      - name: idle_range__end_range
+        description: Extracted from json in column idle_range (roughly idle_range:end_range)
+      - name: idle_range__start_range
+        description: Extracted from json in column idle_range (roughly idle_range:start_range)

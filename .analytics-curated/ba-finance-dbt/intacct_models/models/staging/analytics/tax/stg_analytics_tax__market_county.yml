@@ -1,0 +1,27 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_tax__market_county
+    meta:
+        generated_from: One-off Python script
+        python_script: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-tax/-/blob/main/ad_hoc_scripts/get_counties.py?ref_type=heads
+    description: >
+      Staging model for market county. Contains market to county mappings.
+    columns:
+      - name: market_id
+        description: The ID of the market.
+        data_tests:
+          - unique
+          - dbt_utils.at_least_one
+      - name: market_name
+        description: The name of the market.
+
+      - name: latitude
+        description: The latitude of the market location.
+
+      - name: longitude
+        description: The longitude of the market location.
+
+      - name: county
+        description: The name of the county the market is located in.

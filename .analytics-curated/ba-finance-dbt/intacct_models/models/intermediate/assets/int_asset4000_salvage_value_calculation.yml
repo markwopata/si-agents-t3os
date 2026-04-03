@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: int_asset4000_salvage_value_calculation
+    description: list of asset4000 assets with the most recent salvage value
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: asset4000_report_date
+        description: ""
+
+      - name: revaluation_date
+        description: ""
+
+      - name: salvage_value
+        description: the estimated value of an asset at the end of its useful life

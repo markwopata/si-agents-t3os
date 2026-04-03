@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracker_company_assignment_logs
+    description: Model for es_warehouse.public.tracker_company_assignment_logs
+    columns:
+      - name: tracker_company_assignment_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: tracker_account_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

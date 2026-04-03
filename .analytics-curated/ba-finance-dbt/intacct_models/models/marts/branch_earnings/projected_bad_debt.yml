@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: projected_bad_debt
+    description: |
+      Materializes a table for projected bad debt for branch earnings. Projected bad debt will identify invoices that are past due 9 months.
+      Calculations are done for multiple months, so they can see bad debt in advance and take action.
+    config:
+      tags: ["branch_earnings", "hourly"]
+    columns:
+      - name: invoice_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: expected_bad_debt_date
+        description: "Date we expect to charge this invoice as bad debt. (9 months past billing approved date)"
+      - name: expected_bad_debt_month
+        description: "Month we expect to charge this invoice as bad debt. (9 months past billing approved date)"
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: billing_approved_date
+        description: ""
+      - name: paid_date
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: salesperson
+        description: "Primary salesperson for the invoice."
+      - name: amount
+        description: "Invoice amount divided by 2 that will be charged as bad debt if the invoice hits 9 months past due."
+      - name: legal_audit_flag
+        description: |
+          Flag for if invoice is with legal. Could also indicate the customer has filed for bankrupcy.
+          In dashboard, we'll use flag to highlight the invoices with legal.

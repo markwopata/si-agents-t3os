@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_account_mapping
+    description: ""
+    columns:
+      - name: pk_account_mapping_id
+        data_type: number
+        description: ""
+        data_tests:
+          - unique
+      - name: account_number
+        data_type: varchar
+        description: ""
+      - name: account_name
+        data_type: varchar
+        description: ""
+      - name: fk_account_category_id
+        data_type: number
+        description: ""
+      - name: account_category
+        data_type: varchar
+        description: ""
+      - name: fk_segment_id
+        data_type: number
+        description: ""
+      - name: segment
+        data_type: varchar
+        description: ""
+      - name: revenue_expense
+        data_type: varchar
+        description: ""
+      - name: is_branch_earnings_account
+        data_type: boolean
+        description: ""

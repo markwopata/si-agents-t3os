@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__telematics_service_providers_assets_daily_utilization
+    description: Model for es_warehouse.public.telematics_service_providers_assets_daily_utilization
+    columns:
+      - name: asset_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: utilization_date
+        description: ""
+      - name: hours_total
+        description: ""
+      - name: hours_added
+        description: ""

@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: int_asset4000_asset_costs
+    description: >
+      Asset4000 GAAP costs producing AS4K balance sheet
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+    columns:
+      - name: asset_code
+        description: ""
+
+      - name: depreciation_date
+        description: ""
+
+      - name: next_gl_assignment_date
+        description: ""
+
+      - name: asset_gl_assignment_date
+        description: ""
+
+      - name: life_used
+        description: ""
+
+      - name: life_used_months
+        description: ""
+
+      - name: useful_life_years
+        description: ""
+
+      - name: useful_life_months
+        description: ""
+
+      - name: asset_class
+        description: ""
+
+      - name: nbv
+        description: ""
+
+      - name: period_depreciation_expense
+        description: ""
+
+      - name: max_depreciation_date
+        description: ""
+
+      - name: max_asset_life_used_months
+        description: ""
+
+      - name: latest_depreciation_date_rank
+        description: ""

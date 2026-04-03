@@ -1,0 +1,377 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__inventory_table
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - product
+              - createdon
+    columns:
+      - name: id
+        description: ""
+
+      - name: item_id
+        description: ""
+
+      - name: batchnumgroupid
+        description: ""
+
+      - name: costgroupid
+        description: ""
+
+      - name: defaultdimension
+        description: ""
+
+      - name: intrastatcommodity
+        description: ""
+
+      - name: itembuyergroupid
+        description: ""
+
+      - name: primaryvendorid
+        description: ""
+
+      - name: propertyid
+        description: ""
+
+      - name: reqgroupid
+        description: ""
+
+      - name: serialnumgroupid
+        description: ""
+
+      - name: servicecodetable_in
+        description: ""
+
+      - name: sortcode
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: serviceaccountingcodetable_in
+        description: ""
+
+      - name: wfsoldpartnumber
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: costmodel
+        description: ""
+
+      - name: matchingpolicy
+        description: ""
+
+      - name: pmfproducttype
+        description: ""
+
+      - name: salesmodel
+        description: ""
+
+      - name: salespricemodelbasic
+        description: ""
+
+      - name: batchmergedatecalculationmethod
+        description: ""
+
+      - name: bommanualreceipt
+        description: ""
+
+      - name: itemtype
+        description: ""
+
+      - name: namealias
+        description: ""
+
+      - name: ngpcodestable_fr
+        description: ""
+
+      - name: product
+        description: ""
+
+      - name: taxratetype
+        description: ""
+
+      - name: modifiedby
+        description: ""
+
+      - name: createdby
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: versionnumber
+        description: ""
+
+      - name: item_type
+        description: ""
+
+      - name: abccontributionmargin
+        description: ""
+
+      - name: abcrevenue
+        description: ""
+
+      - name: abctieup
+        description: ""
+
+      - name: abcvalue
+        description: ""
+
+      - name: approxtaxvalue_br
+        description: ""
+
+      - name: bomlevel
+        description: ""
+
+      - name: density
+        description: ""
+
+      - name: depth
+        description: ""
+
+      - name: fiscallifonormalvalue
+        description: ""
+
+      - name: grossdepth
+        description: ""
+
+      - name: grossheight
+        description: ""
+
+      - name: grosswidth
+        description: ""
+
+      - name: height
+        description: ""
+
+      - name: minimumpalletquantity
+        description: ""
+
+      - name: netweight
+        description: ""
+
+      - name: pdscwwmsminimumpalletqty
+        description: ""
+
+      - name: pdscwwmsqtyperlayer
+        description: ""
+
+      - name: pdscwwmsstandardpalletqty
+        description: ""
+
+      - name: pdsshelflife
+        description: ""
+
+      - name: pdstargetfactor
+        description: ""
+
+      - name: pmfyieldpct
+        description: ""
+
+      - name: qtyperlayer
+        description: ""
+
+      - name: salescontributionratio
+        description: ""
+
+      - name: salespercentmarkup
+        description: ""
+
+      - name: scrapconst
+        description: ""
+
+      - name: scrapvar
+        description: ""
+
+      - name: standardpalletquantity
+        description: ""
+
+      - name: statisticsfactor
+        description: ""
+
+      - name: taraweight
+        description: ""
+
+      - name: taxpackagingqty
+        description: ""
+
+      - name: unitvolume
+        description: ""
+
+      - name: width
+        description: ""
+
+      - name: wmsarrivalhandlingtime
+        description: ""
+
+      - name: wmspickingqtytime
+        description: ""
+
+      - name: intrastatchargeperkg
+        description: ""
+
+      - name: costbomlevel
+        description: ""
+
+      - name: metgauge
+        description: ""
+
+      - name: metwidth
+        description: ""
+
+      - name: metgaugeend
+        description: ""
+
+      - name: metwidthend
+        description: ""
+
+      - name: revrecmedianpricemaximumtolerance
+        description: ""
+
+      - name: revrecmedianpriceminimumtolerance
+        description: ""
+
+      - name: autoreportfinished
+        description: ""
+
+      - name: fiscallifoavoidcalc
+        description: ""
+
+      - name: fiscallifonormalvaluecalc
+        description: ""
+
+      - name: forecastdmpinclude
+        description: ""
+
+      - name: icmsonservice_br
+        description: ""
+
+      - name: intrastatexclude
+        description: ""
+
+      - name: pdspotencyattribrecording
+        description: ""
+
+      - name: pdsvendorcheckitem
+        description: ""
+
+      - name: phantom
+        description: ""
+
+      - name: preventphysicaldimensionsync
+        description: ""
+
+      - name: bomwhsreleasepolicy
+        description: ""
+
+      - name: displayhazard_mx
+        description: ""
+
+      - name: bundle
+        description: ""
+
+      - name: revrecexcludefromcarveout
+        description: ""
+
+      - name: revrecmedianprice
+        description: ""
+
+      - name: revrecrevenuerecognitionenabled
+        description: ""
+
+      - name: revrecrevenuetype
+        description: ""
+
+      - name: revrecbundle
+        description: ""
+
+      - name: skipintracompanysync_ru
+        description: ""
+
+      - name: taxationorigin_br
+        description: ""
+
+      - name: usealtitemid
+        description: ""
+
+      - name: dsa_in
+        description: ""
+
+      - name: exciserecordtype_in
+        description: ""
+
+      - name: exempt_in
+        description: ""
+
+      - name: scaleindicator_br
+        description: ""
+
+      - name: nongst_in
+        description: ""
+
+      - name: hmimindicator
+        description: ""
+
+      - name: coodualuseproduct
+        description: ""
+
+      - name: metrawmaterialitem
+        description: ""
+
+      - name: metitemtypevalue
+        description: ""
+
+      - name: metitemtypevalueend
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: productlifecyclestateid
+        description: ""
+
+      - name: esdbpartid_custom
+        description: ""

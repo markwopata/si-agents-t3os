@@ -1,0 +1,51 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_standardfleet_supercharging_reimbursements
+    description: >
+      Clean up standard fleet supercharging reimbursement data. Some data was only coming through in a single file.
+      Some columns were also renamed. Dropped any unused or useless columns.
+    columns:
+      - name: period_start_date
+        description: "Start date of the period (month-truncated)"
+      - name: status
+        description: "Payment status of the reimbursement"
+      - name: tesla_invoice_number
+        description: "Tesla invoice number when available"
+      - name: category
+        description: "Reservation charges reporting category"
+      - name: currency
+        description: "Currency code for the amounts"
+      - name: kwh
+        description: "Kilowatt-hours consumed for the charging session"
+      - name: supercharge_amount
+        description: "Amount charged by Supercharger (adjusted for known date-specific cents issue)"
+      - name: total_cost
+        description: "Total cost of the reservation or session"
+      - name: upcharge
+        description: "Any platform upcharges applied to the session"
+      - name: standard_fleet_fee
+        description: "Processing fee retained by the platform"
+      - name: net_payout
+        description: "Net payout amount after fees"
+      - name: file_name
+        description: "Source file name from ingestion"
+      - name: ck_payments_enabled
+        description: "Flag indicating if CK payments were enabled"
+      - name: vin
+        description: "Vehicle VIN"
+      - name: session_id
+        description: "Charge session identifier"
+      - name: reservation_charge_id
+        description: "Reservation charge identifier"
+      - name: payment_intent_id
+        description: "Payment intent identifier (Stripe)"
+      - name: sf_account_id
+        description: "StandardFleet account identifier"
+      - name: _es_update_timestamp
+        description: "Source update timestamp from Elementary sync"
+      - name: index
+        description: >
+          Row number used to uniquely identify records. Within ssr.vin, ssr.reservation_charge_id, 
+          tesla_invoice_number order by _es_update_timestamp desc, total_cost desc

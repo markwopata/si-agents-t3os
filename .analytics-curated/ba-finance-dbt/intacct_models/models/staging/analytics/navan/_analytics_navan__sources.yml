@@ -1,0 +1,118 @@
+---
+version: 2
+sources:
+  - name: analytics_navan
+    tags:
+      - sources
+    database: analytics
+    schema: navan
+    description: Data in analytics.navan used for tracking and analyzing travel bookings from Navan (formerly TripActions), a corporate travel and expense management platform
+    tables:
+      - name: booking
+        description: 'Main booking data from Navan travel management platform'
+        columns:
+          - name: uuid
+            data_tests:
+              - unique
+      - name: booking_billable_entity
+        description: 'Billable entity information associated with Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_booker
+        description: 'Information about the person who made the booking in Navan'
+        columns:
+          - name: booking_uuid
+            data_tests:
+              - unique
+      - name: booking_cost_center
+        description: 'Cost center information associated with Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_credit
+        description: 'Credit information associated with Navan bookings'
+        columns:
+          - name: booking_uuid
+            data_tests:
+              - unique
+      - name: booking_custom_field
+        description: 'Custom field data associated with Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_department
+        description: 'Department information associated with Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_destination
+        description: 'Destination information for Navan travel bookings'
+        columns:
+          - name: booking_uuid
+            data_tests:
+              - unique
+      - name: booking_eticket
+        description: 'Electronic ticket information for Navan travel bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_origin
+        description: 'Origin information for Navan travel bookings'
+        columns:
+          - name: booking_uuid
+            data_tests:
+              - unique
+      - name: booking_out_of_policy_violation_type
+        description: 'Information about policy violations in Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_passenger
+        description: 'Passenger information for Navan travel bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_region
+        description: 'Region information associated with Navan bookings'
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - booking_uuid
+                - index
+      - name: booking_reshopping
+        description: 'Reshopping information for Navan travel bookings'
+        columns:
+          - name: booking_uuid
+            data_tests:
+              - unique
+      - name: booking_seat
+        description: 'Seat information for Navan travel bookings'
+      - name: booking_segment
+        description: 'Segment information for Navan travel bookings'
+      - name: booking_subsidiary
+        description: 'Subsidiary information associated with Navan bookings'
+      - name: booking_trip_uuid
+        description: 'Trip UUID information for Navan bookings'

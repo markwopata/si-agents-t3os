@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__cost_adjustment_header
+    description: Table for header level cost adjustments, to adjust COGS
+    tags: [bisTrack]
+    columns:
+      - name: cost_adjustment_header_id
+        description: "Unique identifier for the cost adjustment header."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: created_by_id
+        description: "Identifier for the user who created the cost adjustment."
+      - name: datetime_created
+        description: "Timestamp when the cost adjustment was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the cost adjustment was last modified."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the cost adjustment."
+      - name: notes
+        description: "Additional notes or comments for the cost adjustment."
+      - name: posting_date
+        description: "Date when the cost adjustment was posted."
+      - name: reference
+        description: "Reference information for the cost adjustment."
+      - name: status
+        description: "Current status of the cost adjustment."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

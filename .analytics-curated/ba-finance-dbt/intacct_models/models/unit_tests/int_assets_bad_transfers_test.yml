@@ -1,0 +1,1199 @@
+version: 2
+
+unit_tests:
+  - name: test_bad_asset_transfers_single_transfer_rental_first_then_sale
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2024-01-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'
+            date_end: '2024-03-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-20'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '1'
+          when_market_is_12_months: '2025-01-01'
+          end_cost_date: '2024-01-15'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+
+  - name: test_bad_asset_transfers_single_transfer_sale_first_then_rental
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2024-01-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'
+            date_end: '2024-03-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-10'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '1'
+          when_market_is_12_months: '2025-01-01'
+          end_cost_date: '2024-01-10'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+
+  - name: test_bad_asset_transfers_between_mature_markets
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Old Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Old Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2022-06-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'
+            date_end: '2024-03-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-20'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows: []
+
+  - name: test_bad_asset_transfers_single_transfer_then_never_rented_or_sold
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-03-01'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-03-01'
+          equipment_charge_date: '2024-02-01'
+          is_first_dump_charge: false
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-03-01'
+          equipment_charge_date: '2024-03-01'
+          is_first_dump_charge: false
+
+  - name: test_bad_asset_transfers_single_transfer_then_asset_sold
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-20'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-01-20'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+
+  - name: test_bad_asset_transfers_single_transfer_to_hard_down_market
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B - Hard Down'
+            market_id: '502'
+            market_name: 'Parent Market B - Hard Down'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows: []
+
+  - name: test_bad_asset_transfers_single_transfer_then_rented_to_intercompany
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-02-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows:
+          - company_id: '1854'
+          - owned: true
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'
+            date_end: '2024-03-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '12'
+          when_market_is_12_months: '2024-02-01'
+          end_cost_date: '2024-02-01'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '12'
+          when_market_is_12_months: '2024-02-01'
+          end_cost_date: '2024-02-01'
+          equipment_charge_date: '2024-02-01'
+          is_first_dump_charge: false
+
+  - name: test_bad_asset_transfers_multiple_transfers_with_rental
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'  # First market
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'  # Second market
+            date_start: '2024-01-01'
+            date_end: '2024-03-31'
+          - asset_id: '1'
+            rental_branch_id: '103'  # Third market
+            date_start: '2024-04-01'
+            date_end: '2024-12-31'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'  # Mature market
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-06-01'  # New market (< 12 months)
+          - child_market_id: '103'
+            child_market_name: 'Market C'
+            market_id: '503'
+            market_name: 'Parent Market C'
+            branch_earnings_start_month: '2023-01-01'  # Also mature market
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'  # First rental in Market B
+            date_end: '2024-02-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-01-15'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+
+  - name: test_bad_asset_transfers_multiple_transfers
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'  # First market
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'  # Second market
+            date_start: '2024-01-01'
+            date_end: '2024-03-31'
+          - asset_id: '1'
+            rental_branch_id: '103'  # Third market
+            date_start: '2024-04-01'
+            date_end: '2024-12-31'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'  # Mature market
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-06-01'  # New market (< 12 months)
+          - child_market_id: '103'
+            child_market_name: 'Market C'
+            market_id: '503'
+            market_name: 'Parent Market C'
+            branch_earnings_start_month: '2023-01-01'  # Also mature market
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-03-31'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-03-31'
+          equipment_charge_date: '2024-02-01'
+          is_first_dump_charge: false
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-03-31'
+          equipment_charge_date: '2024-03-01'
+          is_first_dump_charge: false
+
+  - name: test_bad_asset_transfers_cancelled_rental_should_be_ignored
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'  # Mature market
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-06-01'  # New market
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'  # For cancelled rental
+            user_id: '5432'
+          - order_id: '9877'  # For valid rental
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '8'  # Cancelled rental
+          - rental_id: '2002'
+            order_id: '9877'
+            rental_status_id: '7'  # Valid rental
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'  # Cancelled rental
+            asset_id: '1'
+            date_start: '2024-01-10'
+            date_end: '2024-02-10'
+          - rental_id: '2002'  # Valid rental
+            asset_id: '1'
+            date_start: '2024-02-05'
+            date_end: '2024-02-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-02-05'  # Date of first valid rental, ignoring the cancelled rental
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-02-05'  # Date of first valid rental, ignoring the cancelled rental
+          equipment_charge_date: '2024-02-01'
+          is_first_dump_charge: false
+
+  - name: test_bad_asset_transfers_gap_between_transfers
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'  # 3-day gap between this and previous record
+            date_start: '2024-01-04'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'  # Mature market
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2023-06-01'  # New market
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+          - asset_id: '2'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows: []
+
+  - name: test_bad_asset_transfers_multiple_rentals_in_new_market
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'  # Mature market
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-06-01'  # New market
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'  # First rental
+            user_id: '5432'
+          - order_id: '9877'  # Second rental
+            user_id: '5432'
+          - order_id: '9878'  # Third rental
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'  # First valid rental
+          - rental_id: '2002'
+            order_id: '9877'
+            rental_status_id: '7'  # Second valid rental
+          - rental_id: '2003'
+            order_id: '9878'
+            rental_status_id: '7'  # Third valid rental
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'  # First rental
+            date_end: '2024-02-15'
+          - rental_id: '2002'
+            asset_id: '1'
+            date_start: '2024-02-20'  # Second rental
+            date_end: '2024-03-20'
+          - rental_id: '2003'
+            asset_id: '1'
+            date_start: '2024-04-01'  # Third rental
+            date_end: '2024-05-01'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '8'
+          when_market_is_12_months: '2024-06-01'
+          end_cost_date: '2024-01-15'  # Date of first rental only
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+
+  - name: test_bad_asset_transfers_transfer_within_same_month
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-15'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2023-12-16'
+            date_end: '2023-12-28'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows: []
+
+  - name: test_bad_asset_transfers_transfer_within_same_parent_market
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-01-29'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows: []
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows: []
+    expect:
+      rows: []
+
+  - name: test_bad_asset_transfers_single_transfer_then_asset_sold_multiple_times
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: '2023-03-01'
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows: []
+      - input: ref('stg_es_warehouse_public__users')
+        rows: []
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows: []
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows: []
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-20'
+          - invoice_id: '3002'
+            billing_approved: true
+            billing_approved_date: '2024-02-20'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+          - invoice_id: '3002'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-02-20'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: '11'
+          when_market_is_12_months: '2024-03-01'
+          end_cost_date: '2024-02-20'
+          equipment_charge_date: '2024-02-01'
+          is_first_dump_charge: false
+
+  - name: test_bad_asset_transfers_single_transfer_to_branch_without_start_month
+    model: int_asset_bad_transfers
+    given:
+      - input: ref('stg_es_warehouse_scd__scd_asset_rsp')
+        rows:
+          - asset_id: '1'
+            rental_branch_id: '101'
+            date_start: '2022-01-01'
+            date_end: '2023-12-31'
+            _es_update_timestamp: null
+          - asset_id: '1'
+            rental_branch_id: '102'
+            date_start: '2024-01-01'
+            date_end: '2024-06-30'
+      - input: ref('market')
+        rows:
+          - child_market_id: '101'
+            child_market_name: 'Market A'
+            market_id: '501'
+            market_name: 'Parent Market A'
+            branch_earnings_start_month: '2022-01-01'
+          - child_market_id: '102'
+            child_market_name: 'Market B'
+            market_id: '502'
+            market_name: 'Parent Market B'
+            branch_earnings_start_month: null
+      - input: ref('stg_es_warehouse_public__markets')
+        rows: []
+      - input: ref('stg_es_warehouse_public__assets_aggregate')
+        rows:
+          - asset_id: '1'
+            oec: try_cast('10000.000000000000' as decimal(38,12))
+      - input: ref('stg_es_warehouse_public__orders')
+        rows:
+          - order_id: '9876'
+            user_id: '5432'
+      - input: ref('stg_es_warehouse_public__users')
+        rows:
+          - user_id: '5432'
+            company_id: '1854'
+      - input: ref('stg_analytics_public__es_companies')
+        rows: []
+      - input: ref('stg_es_warehouse_public__rentals')
+        rows:
+          - rental_id: '2001'
+            order_id: '9876'
+            rental_status_id: '7'
+      - input: ref('stg_es_warehouse_public__equipment_assignments')
+        rows:
+          - rental_id: '2001'
+            asset_id: '1'
+            date_start: '2024-01-15'
+            date_end: '2024-03-15'
+      - input: ref('stg_es_warehouse_public__invoices')
+        rows:
+          - invoice_id: '3001'
+            billing_approved: true
+            billing_approved_date: '2024-01-20'
+      - input: ref('stg_es_warehouse_public__line_items')
+        rows:
+          - invoice_id: '3001'
+            asset_id: '1'
+            line_item_type_id: '24'
+    expect:
+      rows:
+        - asset_id: '1'
+          oec: try_cast('10000.000000000000' as decimal(38,12))
+          from_market_id: '501'
+          from_market_name: 'Parent Market A'
+          from_date_end: '2023-12-31'
+          from_age_at_transfer: '24'
+          to_market_id: '502'
+          to_market_name: 'Parent Market B'
+          to_age_at_transfer: null
+          when_market_is_12_months: null
+          end_cost_date: '2024-01-15'
+          equipment_charge_date: '2024-01-01'
+          is_first_dump_charge: true

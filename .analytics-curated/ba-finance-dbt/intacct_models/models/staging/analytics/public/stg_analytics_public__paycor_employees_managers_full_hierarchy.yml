@@ -1,0 +1,11 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__paycor_employees_managers_full_hierarchy
+    description: cleaned and renamed model of analytics.public.paycor_employees_managers_full_hierarchy
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - employee_id
+              - manager_employee_id

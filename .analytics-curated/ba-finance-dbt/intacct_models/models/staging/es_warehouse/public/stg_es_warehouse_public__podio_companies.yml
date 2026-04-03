@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__podio_companies
+    description: Model for es_warehouse.public.podio_companies
+    columns:
+      - name: company_id
+        description: ""
+      - name: name
+        description: ""
+      - name: street_address
+        description: ""
+      - name: owner_name
+        description: ""
+      - name: phone_number
+        description: ""
+      - name: net_terms
+        description: ""

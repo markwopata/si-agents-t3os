@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__rental_protection_plans
+    description: Model for es_warehouse.public.rental_protection_plans
+    columns:
+      - name: rental_protection_plan_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: percent
+        description: ""
+      - name: expiry_date
+        description: ""
+      - name: rental_protection_plan_type_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

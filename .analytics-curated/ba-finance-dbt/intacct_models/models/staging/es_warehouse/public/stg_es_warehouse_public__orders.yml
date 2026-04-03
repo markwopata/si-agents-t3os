@@ -1,0 +1,62 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__orders
+    description: "Staging model for orders from es_warehouse_public. Renames and standardizes fields for downstream use."
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: order_id
+        description: "Unique identifier for the order."
+        data_tests:
+          - not_null
+          - unique
+      - name: salesperson_user_id
+        description: "Identifier for the salesperson associated with the order. Foreign key to users table"
+      - name: order_status_id
+        description: "Foreign key to the order_statuses table. Represents the current status of the order."
+      - name: insurance_policy_id
+        description: "Identifier for the insurance policy associated with the order."
+      - name: user_id
+        description: "Identifier for the user who placed the order. Foreign key to users table."
+      - name: location_id
+        description: "Foreign key to the locations table. Represents the location associated with the order."
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: supplier_company_id
+        description: "Company providing the service. There aren't any order -> invoice that are non-1854."
+      - name: external_id
+        description: "External system identifier for the order."
+      - name: purchase_order_id
+        description: "Identifier for the purchase order associated with the order."
+      - name: universal_contact_id
+        description: "Universal contact identifier for the order."
+      - name: job_id
+        description: "Identifier for the job associated with the order."
+      - name: project_type
+        description: ""
+      - name: order_invoice_memo
+        description: "Memo or note for the order invoice."
+      - name: reference
+        description: "Reference information for the order."
+      - name: url_admin
+        description: "Link to the order in the admin interface."
+      - name: is_deleted
+        description: "Indicates if the order is marked as deleted."
+      - name: is_insurance_covers_rental
+        description: "Indicates if insurance covers the rental."
+      - name: is_delivery_required
+        description: "Indicates if delivery is required for the order."
+      - name: is_crm_enabled
+        description: "Indicates if CRM is enabled for the order."
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: accepted_by
+        description: "Identifier for the user who accepted the order. Foreign key to users table."
+      - name: accepted_date
+        description: "Timestamp when the order was accepted."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

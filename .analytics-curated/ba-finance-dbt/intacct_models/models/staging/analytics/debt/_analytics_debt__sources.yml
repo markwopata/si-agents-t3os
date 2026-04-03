@@ -1,0 +1,18 @@
+---
+version: 2
+sources:
+  - name: analytics_debt
+    tags:
+      - sources
+    database: analytics
+    schema: debt
+    description: Data in analytics.debt used for <todo>
+    tables:
+      - name: tv6_xml_debt_table_current
+        description: ''
+      - name: phoenix_id_types
+        description: ''
+      - name: loan_attributes
+        description: ''
+      - name: loan_amortization
+        description: ''

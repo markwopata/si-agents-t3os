@@ -1,0 +1,109 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__rentals
+    description: Model for es_warehouse.public.rentals
+    columns:
+      - name: rental_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: job_description
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: lien_notice_sent
+        description: ""
+      - name: delivery_instructions
+        description: ""
+      - name: delivery_required
+        description: ""
+      - name: drop_off_delivery_required
+        description: ""
+      - name: return_delivery_required
+        description: ""
+      - name: return_delivery_id
+        description: ""
+      - name: borrower_user_id
+        description: ""
+      - name: start_date_estimated
+        description: ""
+      - name: rental_protection_plan_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: taxable
+        description: ""
+      - name: end_date_estimated
+        description: ""
+      - name: rental_status_id
+        description: ""
+      - name: deleted
+        description: ""
+      - name: drop_off_delivery_id
+        description: ""
+      - name: rental_type_id
+        description: ""
+      - name: price
+        description: ""
+      - name: delivery_charge
+        description: ""
+      - name: amount_received
+        description: ""
+      - name: return_charge
+        description: ""
+      - name: off_rent_date_requested
+        description: ""
+      - name: end_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: rental_purchase_option_id
+        description: ""
+      - name: part_type_id
+        description: ""
+      - name: has_re_rent
+        description: ""
+      - name: is_below_floor_rate
+        description: ""
+      - name: quantity
+        description: ""
+      - name: external_id
+        description: ""
+      - name: purchase_price
+        description: ""
+      - name: rate_type_id
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: price_per_hour
+        description: ""
+      - name: is_flat_monthly_rate
+        description: ""
+      - name: is_flexible_rate
+        description: ""
+      - name: inventory_product_id
+        description: ""
+      - name: inventory_product_name
+        description: ""
+      - name: inventory_product_name_historical
+        description: ""
+      - name: one_time_charge
+        description: ""
+      - name: rental_pricing_structure_id
+        description: ""
+      - name: shift_type_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: url_admin
+        description: "Link to the rental in the admin interface"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

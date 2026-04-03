@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__transaction_statuses
+    description: ""
+    columns:
+      - name: transaction_status_id
+        description: Primary key for table
+      - name: transaction_status_name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

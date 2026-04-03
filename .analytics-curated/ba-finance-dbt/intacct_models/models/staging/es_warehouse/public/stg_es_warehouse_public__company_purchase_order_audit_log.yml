@@ -1,0 +1,159 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_purchase_order_audit_log
+    description: Model for es_warehouse.public.company_purchase_order_audit_log
+    columns:
+      - name: company_purchase_order_audit_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: action
+        description: ""
+      - name: parameters
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: parameters__changes__duedate
+        description: Extracted from json in column parameters (roughly parameters:changes:duedate)
+      - name: parameters__changes__order_status
+        description: Extracted from json in column parameters (roughly parameters:changes:order_status)
+      - name: parameters__changes__submitted_at
+        description: Extracted from json in column parameters (roughly parameters:changes:submitted_at)
+      - name: parameters__changes__company_purchase_order_type_id
+        description: Extracted from json in column parameters (roughly parameters:changes:company_purchase_order_type_id)
+      - name: parameters__changes__created_at
+        description: Extracted from json in column parameters (roughly parameters:changes:created_at)
+      - name: parameters__changes__created_by_user_id
+        description: Extracted from json in column parameters (roughly parameters:changes:created_by_user_id)
+      - name: parameters__changes__equipment_class_id
+        description: Extracted from json in column parameters (roughly parameters:changes:equipment_class_id)
+      - name: parameters__changes__fuel_card
+        description: Extracted from json in column parameters (roughly parameters:changes:fuel_card)
+      - name: parameters__changes__invoice_date
+        description: Extracted from json in column parameters (roughly parameters:changes:invoice_date)
+      - name: parameters__changes__reconciliation_status
+        description: Extracted from json in column parameters (roughly parameters:changes:reconciliation_status)
+      - name: parameters__changes__odometer
+        description: Extracted from json in column parameters (roughly parameters:changes:odometer)
+      - name: parameters__changes__toll_transponder
+        description: Extracted from json in column parameters (roughly parameters:changes:toll_transponder)
+      - name: parameters__changes__fhwt
+        description: Extracted from json in column parameters (roughly parameters:changes:fhwt)
+      - name: parameters__changes__lienholder_on_title
+        description: Extracted from json in column parameters (roughly parameters:changes:lienholder_on_title)
+      - name: parameters__changes__sage_record_id
+        description: Extracted from json in column parameters (roughly parameters:changes:sage_record_id)
+      - name: parameters__changes__reconciliation_status_date
+        description: Extracted from json in column parameters (roughly parameters:changes:reconciliation_status_date)
+      - name: parameters__changes__week_to_be_paid
+        description: Extracted from json in column parameters (roughly parameters:changes:week_to_be_paid)
+      - name: parameters__changes__tire_rim_size
+        description: Extracted from json in column parameters (roughly parameters:changes:tire_rim_size)
+      - name: parameters__company_purchase_order_id
+        description: Extracted from json in column parameters (roughly parameters:company_purchase_order_id)
+      - name: parameters__changes__note
+        description: Extracted from json in column parameters (roughly parameters:changes:note)
+      - name: parameters__changes__pending_schedule
+        description: Extracted from json in column parameters (roughly parameters:changes:pending_schedule)
+      - name: parameters__changes__registration_cost
+        description: Extracted from json in column parameters (roughly parameters:changes:registration_cost)
+      - name: parameters__changes__original_promise_date
+        description: Extracted from json in column parameters (roughly parameters:changes:original_promise_date)
+      - name: parameters__changes__due_date
+        description: Extracted from json in column parameters (roughly parameters:changes:due_date)
+      - name: parameters__changes__equipment_model_id
+        description: Extracted from json in column parameters (roughly parameters:changes:equipment_model_id)
+      - name: parameters__changes__release_date
+        description: Extracted from json in column parameters (roughly parameters:changes:release_date)
+      - name: parameters__changes__year
+        description: Extracted from json in column parameters (roughly parameters:changes:year)
+      - name: parameters__changes__company_purchase_order_line_item_number
+        description: Extracted from json in column parameters (roughly parameters:changes:company_purchase_order_line_item_number)
+      - name: parameters__changes__attachments
+        description: Extracted from json in column parameters (roughly parameters:changes:attachments)
+      - name: parameters__changes__license_plate
+        description: Extracted from json in column parameters (roughly parameters:changes:license_plate)
+      - name: parameters__changes__sales_tax
+        description: Extracted from json in column parameters (roughly parameters:changes:sales_tax)
+      - name: parameters__changes__gvwr
+        description: Extracted from json in column parameters (roughly parameters:changes:gvwr)
+      - name: parameters__changes__paid_date
+        description: Extracted from json in column parameters (roughly parameters:changes:paid_date)
+      - name: parameters__changes__payment_type
+        description: Extracted from json in column parameters (roughly parameters:changes:payment_type)
+      - name: parameters__changes__finance_status
+        description: Extracted from json in column parameters (roughly parameters:changes:finance_status)
+      - name: parameters__changes__net_terms_id
+        description: Extracted from json in column parameters (roughly parameters:changes:net_terms_id)
+      - name: parameters__changes__factory_build_specifications
+        description: Extracted from json in column parameters (roughly parameters:changes:factory_build_specifications)
+      - name: parameters__changes__license_state_id
+        description: Extracted from json in column parameters (roughly parameters:changes:license_state_id)
+      - name: parameters__changes__dot_unit_number
+        description: Extracted from json in column parameters (roughly parameters:changes:dot_unit_number)
+      - name: parameters__changes__tire_size
+        description: Extracted from json in column parameters (roughly parameters:changes:tire_size)
+      - name: parameters__company_purchase_order_line_item_id
+        description: Extracted from json in column parameters (roughly parameters:company_purchase_order_line_item_id)
+      - name: parameters__changes__net_price
+        description: Extracted from json in column parameters (roughly parameters:changes:net_price)
+      - name: parameters__changes__approved_at
+        description: Extracted from json in column parameters (roughly parameters:changes:approved_at)
+      - name: parameters__changes__approved_by_user_id
+        description: Extracted from json in column parameters (roughly parameters:changes:approved_by_user_id)
+      - name: parameters__changes__company_purchase_order_line_item_id
+        description: Extracted from json in column parameters (roughly parameters:changes:company_purchase_order_line_item_id)
+      - name: parameters__changes__vendor_id
+        description: Extracted from json in column parameters (roughly parameters:changes:vendor_id)
+      - name: parameters__changes__asset_id
+        description: Extracted from json in column parameters (roughly parameters:changes:asset_id)
+      - name: parameters__changes__title_status
+        description: Extracted from json in column parameters (roughly parameters:changes:title_status)
+      - name: parameters__changes__deleted_at
+        description: Extracted from json in column parameters (roughly parameters:changes:deleted_at)
+      - name: parameters__changes
+        description: Extracted from json in column parameters (roughly parameters:changes)
+      - name: parameters__changes__serial
+        description: Extracted from json in column parameters (roughly parameters:changes:serial)
+      - name: parameters__changes__submitted_by_user_id
+        description: Extracted from json in column parameters (roughly parameters:changes:submitted_by_user_id)
+      - name: parameters__changes__quantity
+        description: Extracted from json in column parameters (roughly parameters:changes:quantity)
+      - name: parameters__changes__pdf
+        description: Extracted from json in column parameters (roughly parameters:changes:pdf)
+      - name: parameters__changes__modified_at
+        description: Extracted from json in column parameters (roughly parameters:changes:modified_at)
+      - name: parameters__changes__titled_owner
+        description: Extracted from json in column parameters (roughly parameters:changes:titled_owner)
+      - name: parameters__changes__aftermarket_oec
+        description: Extracted from json in column parameters (roughly parameters:changes:aftermarket_oec)
+      - name: parameters__changes__invoice_due_date
+        description: Extracted from json in column parameters (roughly parameters:changes:invoice_due_date)
+      - name: parameters__changes__daystilldue
+        description: Extracted from json in column parameters (roughly parameters:changes:daystilldue)
+      - name: parameters__changes__invoice_number
+        description: Extracted from json in column parameters (roughly parameters:changes:invoice_number)
+      - name: parameters__changes__market_id
+        description: Extracted from json in column parameters (roughly parameters:changes:market_id)
+      - name: parameters__changes__license_expiration
+        description: Extracted from json in column parameters (roughly parameters:changes:license_expiration)
+      - name: parameters__changes__tax
+        description: Extracted from json in column parameters (roughly parameters:changes:tax)
+      - name: parameters__changes__current_promise_date
+        description: Extracted from json in column parameters (roughly parameters:changes:current_promise_date)
+      - name: parameters__changes__company_purchase_order_id
+        description: Extracted from json in column parameters (roughly parameters:changes:company_purchase_order_id)
+      - name: parameters__changes__freight_cost
+        description: Extracted from json in column parameters (roughly parameters:changes:freight_cost)
+      - name: parameters__changes__vin
+        description: Extracted from json in column parameters (roughly parameters:changes:vin)
+      - name: parameters__changes__title_processed
+        description: Extracted from json in column parameters (roughly parameters:changes:title_processed)
+      - name: parameters__changes__rebate
+        description: Extracted from json in column parameters (roughly parameters:changes:rebate)

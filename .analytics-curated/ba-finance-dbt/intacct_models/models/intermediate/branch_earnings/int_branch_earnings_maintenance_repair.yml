@@ -1,0 +1,48 @@
+---
+version: 2
+models:
+  - name: int_branch_earnings_maintenance_repair
+    description: Maintenance and repair branch earnings accounts, trending and release combined.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - month_start
+              - account_number
+            # description: An account_number can only have a single row for a given month_start and market
+    columns:
+      - name: market_id
+        description: Integer market identifier (cast from trunc(market_id)).
+        data_tests:
+          - not_null
+
+      - name: market_name
+        description: Human-readable market name.
+        data_tests:
+          - not_null
+
+      - name: month_start
+        description: First day of the month for the GL date.
+
+      - name: account_number
+        description: GL account number/code (string).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["5000", "GDDA", "6310", "6311", "6302", "6305", "6327"]
+
+      - name: account_name
+        description: GL account name.
+
+      - name: amount
+        description: Summed amount for the (market, month, account) grain in the source.
+        data_tests:
+          - not_null
+
+      - name: source
+        description: Source of record for the row ('DDS' for finalized, 'BEL' for trending).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["DDS", "BEL"]

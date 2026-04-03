@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__topup
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: created
+        description: ""
+      - name: currency
+        description: ""
+      - name: description
+        description: ""
+      - name: expected_availability_date
+        description: ""
+      - name: failure_code
+        description: ""
+      - name: failure_message
+        description: ""
+      - name: livemode
+        description: ""
+      - name: metadata
+        description: ""
+      - name: statement_descriptor
+        description: ""
+      - name: status
+        description: ""
+      - name: transfer_group
+        description: ""
+      - name: source_id
+        description: ""
+      - name: balance_transaction_id
+        description: ""
+      - name: _fivetran_synced
+        description: ""

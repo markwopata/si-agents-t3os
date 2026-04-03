@@ -1,0 +1,19 @@
+SELECT
+    vsl.tracker_id,
+    vsl.device_serial,
+    vsl.tracker_type_id,
+    vsl.asset_id,
+    vsl.year,
+    vsl.equipment_make_id,
+    vsl.make_name,
+    vsl.model,
+    vsl.equipment_model_id,
+    vsl.model_name,
+    vsl.equipment_class_id,
+    vsl.class_name,
+    vsl.category_id,
+    vsl.category_name,
+    vsl.cat_canonical_name,
+    vsl.cat_singular_name,
+    vsl.bus_type
+FROM {{ source('es_warehouse_public', 'v_skid_loaders') }} as vsl

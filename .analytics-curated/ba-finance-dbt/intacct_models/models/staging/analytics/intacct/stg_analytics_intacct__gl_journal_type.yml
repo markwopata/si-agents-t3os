@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__gl_journal_type
+    description: Sourced from intacct.gljournal - contains info about journal types
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    columns:
+      - name: pk_journal_type_id
+        description: Primary key of table.
+        data_tests:
+          - not_null
+          - unique
+      - name: journal_type
+        description: "{{ doc('journal_type') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: extended_journal_type
+        description: "{{ doc('extended_journal_type') }}"
+      - name: is_adjustment
+        description: Flag for adjustment journal
+      - name: status
+        description: active/inactive status
+      - name: book_id
+        description: Id of GL book (ACCRUAL or other). You can have multiple GL books, but we currently have one.
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

@@ -1,0 +1,23 @@
+select
+    txdtc.pmt_schedule_id,
+    txdtc.customtype,
+    txdtc.date,
+    txdtc.positivecf,
+    txdtc.negativecf,
+    txdtc.interest,
+    txdtc.principal,
+    txdtc.balance,
+    txdtc.apr,
+    txdtc.nominal_rate,
+    txdtc.oec,
+    txdtc.financecharge,
+    txdtc.totalpayments,
+    txdtc.gaap_non_gaap,
+    txdtc.version_tv,
+    txdtc.phoenix_id,
+    txdtc.financing_facility_type,
+    txdtc.commencement_date,
+    txdtc.maturity_date,
+    txdtc.current_version,
+    txdtc.entity
+from {{ source('analytics_debt', 'tv6_xml_debt_table_current') }} as txdtc

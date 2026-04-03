@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__store_types
+    description: Model for es_warehouse.inventory.store_types
+    columns:
+      - name: store_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

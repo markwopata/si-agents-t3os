@@ -1,0 +1,62 @@
+---
+version: 2
+models:
+  - name: inventory_balance_monthly_snapshot
+    description: >
+      Monthly inventory balance snapshot. If we already have a snapshot for the month (using chicago time), nothing gets appended.  Otherwise
+      appends current inventory balance.
+    config:
+      tags: ["hourly", "intacct"]
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - pk_inventory_balance_id
+              - period_start_date
+    columns:
+      - name: pk_inventory_balance_id
+        description: "Store_id concat part_id, should be unique for any period_start_date"
+      - name: timestamp
+        description: "Timestamp of when the snapshot was taken."
+      - name: period_start_date
+        description: >
+          Intended to snapshot month end values. This is the start_date of the period.  If we run first chicago hour after
+          10/1 midnight, period_start_date would be 2024-09-01 for September month end.
+      - name: store_part_id
+        data_tests:
+          - not_null
+        description: ""
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: store_id
+        description: ""
+      - name: store_name
+        description: ""
+      - name: part_id
+        description: ""
+      - name: part_number
+        description: ""
+      - name: description
+        description: "Part description is stored in part_types table"
+      - name: parent_store_id
+        description: "Parent store if it exists"
+      - name: provider_name
+        description: ""
+      - name: min
+        description: "Threshold in store_parts"
+      - name: max
+        description: "Max in store_parts"
+      - name: quantity
+        description: ""
+      - name: total_quantity
+        description: "total_quantity = quantity"
+      - name: cost
+        description: "Most recent cost of store/part"
+      - name: average_cost
+        description: "Weighted average cost of store/part"
+      - name: total_value
+        description: "quantity * average_cost"
+      - name: market_name
+        description: ""
+      - name: is_default_store
+        description: "Bool for whether or not this inventory location is the primary for the branch"

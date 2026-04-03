@@ -1,0 +1,119 @@
+---
+version: 2
+
+models:
+  - name: lease_accelerator_roll_forward
+    description: >
+      mart of LAS' roll forward report
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - ledgerentrysubid
+              - market_id
+              - accountdescription
+              - schedule
+              - entry_type
+              - event_details
+    columns:
+      - name: ledgerentrysubid
+        description: ""
+
+      - name: entity_id
+        description: ""
+
+      - name: gl_account_number
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: accountdescription
+        description: ""
+
+      - name: schedule
+        description: ""
+
+      - name: comments
+        description: ""
+
+      - name: entry_type
+        description: ""
+
+      - name: affected_component
+        description: ""
+
+      - name: triggering_event
+        description: ""
+
+      - name: event_details
+        description: ""
+
+      - name: je_type
+        description: ""
+
+      - name: posting_code
+        description: ""
+
+      - name: jeshortdesc
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: reporting_currency
+        description: ""
+
+      - name: ledger_category
+        description: ""
+
+      - name: functional_currency
+        description: ""
+
+      - name: transactional_currency
+        description: ""
+
+      - name: transactional_dr
+        description: ""
+
+      - name: transactional_cr
+        description: ""
+
+      - name: transactional_net
+        description: ""
+
+      - name: functional_dr
+        description: ""
+
+      - name: functional_cr
+        description: ""
+
+      - name: functional_net
+        description: ""
+
+      - name: reporting_dr
+        description: ""
+
+      - name: reporting_cr
+        description: ""
+
+      - name: reporting_net
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: most_recent_run
+        description: ""
+
+      - name: ledger_date
+        description: ""
+
+      - name: fx_conversion_date
+        description: ""
+
+      - name: time_of_run
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""

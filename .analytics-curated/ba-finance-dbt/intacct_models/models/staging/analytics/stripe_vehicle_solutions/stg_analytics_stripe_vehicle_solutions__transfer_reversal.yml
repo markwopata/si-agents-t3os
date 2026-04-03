@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__transfer_reversal
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: ""
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: created
+        description: ""
+      - name: currency
+        description: ""
+      - name: destination_payment_refund
+        description: ""
+      - name: metadata
+        description: ""
+      - name: balance_transaction_id
+        description: ""
+      - name: source_refund_id
+        description: ""
+      - name: transfer_id
+        description: ""
+      - name: _fivetran_synced
+        description: ""

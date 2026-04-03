@@ -1,0 +1,90 @@
+---
+version: 2
+models:
+  - name: retail_to_rental_board
+    description: "Retail to Rental Monday board exposed as a table. Request access from David Lettington."
+    meta:
+      point_of_contact: Kimberly Johnson; David Lettington for board access
+      owner: "@nick.logan"
+      monday_board_url: https://equipmentshare.monday.com/boards/5364542893
+    columns:
+      - name: item_id
+        description: "Unique identifier of the item (row) on the Monday board."
+        data_tests:
+          - unique
+      - name: branch_location_is_other
+        description: "Field from Monday board: branch location is other."
+      - name: support_column_for_units
+        description: "Numeric count or quantity."
+      - name: status_notes
+        description: "Status or state for status notes."
+      - name: vendor
+        description: "Vendor/supplier name."
+      - name: msp_rsp
+        description: "Field labeled MSP/RSP on the board."
+      - name: regional_manager
+        description: "Field from Monday board: regional manager."
+      - name: national_account_price
+        description: "Customer or account reference."
+      - name: reason_for_denial
+        description: "Field from Monday board: reason for denial."
+      - name: subitems
+        description: "Field from Monday board: subitems."
+      - name: rental_in_30_days
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: avg_yard_30_day_utilization
+        description: "Field from Monday board: avg yard 30 day utilization."
+      - name: additional_information
+        description: "Field from Monday board: additional information."
+      - name: customer_name
+        description: "Name/title for customer name."
+      - name: ownership_updated
+        description: "Assignment/owner field (person or team)."
+      - name: attachment_yes_or_no
+        description: "Field from Monday board: attachment yes or no."
+      - name: ies_vendor_invoice
+        description: "Vendor/supplier name."
+      - name: submitted_date
+        description: "Date associated with submitted."
+      - name: why_not_transfer
+        description: "Field from Monday board: why not transfer."
+      - name: status_1
+        description: "Status or state for status 1."
+      - name: branch_location
+        description: "Field from Monday board: branch location."
+      - name: rm_email
+        description: "Email address."
+      - name: name
+        description: "Name/title for name."
+      - name: unit_photos
+        description: "Field from Monday board: unit photos."
+      - name: retail_oec
+        description: "Field from Monday board: retail oec."
+      - name: status
+        description: "Status or state for status."
+      - name: make_and_model
+        description: "Field from Monday board: make and model."
+      - name: floor_plan_unit_or_paid_asset
+        description: "Field from Monday board: floor plan unit or paid asset."
+      - name: credit_pdf
+        description: "Field from Monday board: credit pdf."
+      - name: projected_rental_rate_per_30_days
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: people
+        description: "Field from Monday board: people."
+      - name: finance_status_updated
+        description: "Status or state for finance status updated."
+      - name: length_of_rental_in_days
+        description: "Monetary amount; stored as numeric/decimal in analytics."
+      - name: internally_transfer
+        description: "Field from Monday board: internally transfer."
+      - name: retail_credit
+        description: "Field from Monday board: retail credit."
+      - name: rental_start_date
+        description: "Date associated with rental start."
+      - name: cat_class
+        description: "Field from Monday board: cat class."
+      - name: ies_to_es_invoice
+        description: "Field from Monday board: ies to es invoice."
+      - name: sales_rep_name_and_number
+        description: "Name/title for sales rep name and number."

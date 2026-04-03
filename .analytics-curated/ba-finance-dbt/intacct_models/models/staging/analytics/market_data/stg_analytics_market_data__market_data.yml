@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_analytics_market_data__market_data
+    description: ""
+    columns:
+      - name: market_data_id
+        description: ""
+        data_tests:
+          - dbt_utils.at_least_one
+
+      - name: market_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: district_id
+        description: ""
+
+      - name: market_type_id
+        description: ""
+
+      - name: division_id
+        description: ""
+
+      - name: is_active_market
+        description: ""
+
+      - name: is_dealership
+        description: ""

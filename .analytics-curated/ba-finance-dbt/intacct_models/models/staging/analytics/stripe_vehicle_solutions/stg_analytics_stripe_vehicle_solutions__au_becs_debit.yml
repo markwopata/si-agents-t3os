@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__au_becs_debit
+    description: Unused as of 2025-10-16
+    columns:
+      - name: payment_method_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: bsb_number
+        description: ""
+      - name: fingerprint
+        description: ""
+      - name: last_4
+        description: ""
+      - name: _fivetran_synced
+        description: ""

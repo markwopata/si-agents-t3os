@@ -1,0 +1,9 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_line_item_details
+    description: retail commissions for TAMs (and RAMs)
+    columns:
+      - name: line_item_id
+        data_tests:
+          - not_null

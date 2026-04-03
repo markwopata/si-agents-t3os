@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__battery_voltage_types
+    description: Model for es_warehouse.public.battery_voltage_types
+    columns:
+      - name: battery_voltage_type_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: threshold
+        description: ""
+      - name: name
+        description: ""
+      - name: is_internal
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: threshold__include_lower
+        description: Extracted from json in column threshold (roughly threshold:include_lower)
+      - name: threshold__include_upper
+        description: Extracted from json in column threshold (roughly threshold:include_upper)
+      - name: threshold__lower_bound
+        description: Extracted from json in column threshold (roughly threshold:lower_bound)
+      - name: threshold__upper_bound
+        description: Extracted from json in column threshold (roughly threshold:upper_bound)

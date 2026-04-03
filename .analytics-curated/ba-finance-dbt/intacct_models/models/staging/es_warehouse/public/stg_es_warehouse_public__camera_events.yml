@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__camera_events
+    description: Model for es_warehouse.public.camera_events
+    columns:
+      - name: camera_event_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: event_log_id
+        description: ""
+      - name: device_id
+        description: ""
+      - name: recorder_id
+        description: ""
+      - name: request_id
+        description: ""
+      - name: event_data
+        description: ""
+      - name: event_time
+        description: ""
+      - name: event_type
+        description: ""
+      - name: heading
+        description: ""
+      - name: engine_active
+        description: ""
+      - name: speed
+        description: ""
+      - name: tsp_serial_number
+        description: ""
+      - name: location
+        description: ""
+      - name: altitude
+        description: ""
+      - name: camera_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: smartwitness_api_media_request_log_id
+        description: ""
+      - name: tracking_incident_id
+        description: ""
+      - name: clip_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

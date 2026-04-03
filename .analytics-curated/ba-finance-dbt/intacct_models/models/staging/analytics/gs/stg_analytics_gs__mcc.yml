@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__mcc
+    description: Merchant Category Codes for Credit Card transactions. Used to map to our General Ledger Accounts
+    meta:
+      point_of_contact: Vishesh Mathur
+      google_drive_link: https://docs.google.com/spreadsheets/d/1u7xtia_omJVIFnAitT4ikRTEdpWeendE07JsP3oWLe4/edit#gid=1027669593
+    columns:
+      - name: _row
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: mcc_code
+        description: ''
+      - name: mcc_description
+        description: ''
+      - name: account_number
+        description: ''
+      - name: account_name
+        description: ''
+      - name: _fivetran_synced
+        description: ''

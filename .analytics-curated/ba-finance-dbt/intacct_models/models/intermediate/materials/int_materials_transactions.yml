@@ -1,0 +1,42 @@
+---
+version: 2
+models:
+  - name: int_materials_transactions
+    description: "Intermediate model for bistrack Invoices and Credit Notes, includes cost and revenues."
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: line_id
+        description: "Unique identifier for the invoice line item or credit note line item."
+        data_test:
+          data_tests:
+            - not_null
+            - unique
+      - name: header_number
+        description: "Identifier for the related header number, reflected in sage."
+      - name: header_id
+        description: "Identifier for the related header, invoice or credit note header."
+      - name: description
+        description: "Description of the line item - product or service."
+      - name: unit_amount
+        description: "Unit amount for the line item."
+      - name: total_cost
+        description: "Total cost for the line item."
+      - name: total_amount
+        description: "Total amount for the line item."
+      - name: total_tax
+        description: "Total tax for the line item."
+      - name: total_margin
+        description: "Total margin for the line item."
+      - name: datetime_created
+        description: "Timestamp when the record was created."
+      - name: quantity
+        description: "Quantity for the line item."
+      - name: product_id
+        description: "Product identifier for the line item."
+      - name: rev_gl_code
+        description: "Revenue GL code, populates sage export."
+      - name: exp_gl_code
+        description: "Expense GL code, populates sage export."
+      - name: line_type
+        description: "Type of the line item.(Invoice or Credit Note)"

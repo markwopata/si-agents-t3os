@@ -1,0 +1,79 @@
+---
+version: 2
+
+models:
+  - name: retail_sales_line_detail
+    description: >
+        Retail Sales Line Detail Model. This model contains all the line items related to retail sales.
+        This is the current/active version of line items only (filters out historical quote versions).
+    config:
+      tags: ["retail_sales"]
+    columns:
+      - name: pk_id
+        description: >
+          The primary key for the record. This is composed of the original record ID with a suffix 
+          indicating cost ('-C') or revenue ('-R') line type.
+        data_tests:
+          - not_null
+          - unique
+      - name: quote_pk_id
+        description: >
+          The primary key ID of the quote this line item belongs to.
+        data_tests:
+          - not_null
+      - name: asset_pk_id
+        description: >
+          The primary key ID of the asset this line item is associated with.
+        data_tests:
+          - not_null
+      - name: quote_asset_pk_id
+        description: >
+          A composite key combining quote_pk_id and asset_pk_id to uniquely identify 
+          the asset within a specific quote.
+        data_tests:
+          - not_null
+      - name: quote_id
+        description: >
+          The unique identifier for the quote.
+        data_tests:
+          - not_null
+      - name: description
+        description: >
+          A JSON object containing detailed information about the line item. 
+          For assets: includes make, model, and serial number.
+          For additional items: includes line type, price, cost, and description.
+          For rebates: includes line type, dollar amount, percentage, rebate OEC, and description.
+          For trade-ins: includes asset details and trade-in values.
+      - name: cost_revenue
+        description: >
+          Indicates whether this line represents a cost or revenue entry. 
+          Values are 'cost' or 'revenue'.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['cost', 'revenue']
+      - name: line_type
+        description: >
+          The type of line item. Values include:
+          - 'asset': Primary asset being sold
+          - Various additional item types (e.g., 'delivery', 'setup', 'warranty')
+          - Rebate type IDs for manufacturer rebates
+          - 'trade in over allowance': Additional cost for trade-in over allowance
+        data_tests:
+          - not_null
+      - name: amount
+        description: >
+          The monetary amount for this line item. 
+          For cost lines: represents the cost amount.
+          For revenue lines: represents the revenue/price amount.
+          Rebate costs are negative values to reduce overall cost.
+      - name: is_current
+        description: >
+          Boolean flag indicating whether this record represents the current/active version 
+          of the quote. Only current versions are included in this mart model.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:         
+                values: [true]

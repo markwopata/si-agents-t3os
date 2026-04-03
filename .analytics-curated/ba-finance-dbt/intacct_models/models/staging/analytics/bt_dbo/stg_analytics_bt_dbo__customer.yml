@@ -1,0 +1,175 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__customer
+    description: Table containing customer details, including contact information and preferences.
+    tags: [bisTrack]
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+      - name: competitor
+        description: "Indicates if the customer is a competitor."
+      - name: retention_percentage_default
+        description: "Default retention percentage for the customer."
+      - name: webtrack_password
+        description: "Password for the customer’s WebTrack account."
+      - name: settlement_discount
+        description: "Settlement discount percentage or amount."
+      - name: auto_email_order_on_completion
+        description: "Indicates if orders are auto-emailed on completion."
+      - name: edi_send_price_in_quantity_per
+        description: "EDI setting for sending price in quantity per."
+      - name: payment_terms_id
+        description: "Identifier for the payment terms."
+      - name: sales_area_id
+        description: "Identifier for the sales area."
+      - name: rewards_card_number
+        description: "Rewards card number associated with the customer."
+      - name: charge_rolling_margin
+        description: "Charge rolling margin for the customer."
+      - name: enforce_order_contact_details_on_direct
+        description: "Enforce order contact details on direct orders."
+      - name: popup_last_modified_by_id
+        description: "Identifier for the user who last modified the popup."
+      - name: stratification_weighting_id
+        description: "Identifier for stratification weighting."
+      - name: default_sales_as_net_of_discount
+        description: "Indicates if default sales are net of discount."
+      - name: send_statement_fax
+        description: "Indicates if statements are sent by fax."
+      - name: print_invoice
+        description: "Indicates if invoices are printed."
+      - name: company_type_id
+        description: "Identifier for the company type."
+      - name: allow_settlement_on_direct
+        description: "Allow settlement on direct orders."
+      - name: edi_send_quantity_in_sell_per
+        description: "EDI setting for sending quantity in sell per."
+      - name: webtrack_trading_branch_id
+        description: "Identifier for the WebTrack trading branch."
+      - name: send_statement_print
+        description: "Indicates if statements are sent by print."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the record."
+      - name: allow_retention_on_contracts
+        description: "Allow retention on contracts."
+      - name: show_euros_on_invoice
+        description: "Show euros on invoice."
+      - name: email_invoice
+        description: "Indicates if invoices are sent by email."
+      - name: intrastat_delivery_terms_id
+        description: "Identifier for Intrastat delivery terms."
+      - name: number_of_orders_placed_on_hold
+        description: "Number of orders placed on hold."
+      - name: approval_number_limit
+        description: "Approval number limit for the customer."
+      - name: email_address
+        description: "Email address of the customer."
+      - name: statements_by_job
+        description: "Indicates if statements are by job."
+      - name: enforce_order_contact_details_on_delivered
+        description: "Enforce order contact details on delivered orders."
+      - name: print_test_certificates
+        description: "Indicates if test certificates are printed."
+      - name: qa_contact
+        description: "Quality assurance contact for the customer."
+      - name: telephone_1
+        description: "Primary telephone number."
+      - name: allow_webtrack_trading
+        description: "Allow WebTrack trading for the customer."
+      - name: requires_account_payment_reference
+        description: "Requires account payment reference."
+      - name: telephone_2
+        description: "Secondary telephone number."
+      - name: country
+        description: "Country of the customer."
+      - name: udf_user_id
+        description: "User-defined field: user ID."
+      - name: udf_marketing_email_subscription
+        description: "User-defined field: marketing email subscription."
+      - name: post_code
+        description: "Postal code of the customer."
+      - name: replacement_id
+        description: "Identifier for the replacement customer."
+      - name: never_put_orders_on_hold
+        description: "Indicates if orders are never put on hold."
+      - name: edi_customer_reference_2
+        description: "EDI customer reference 2."
+      - name: edi_customer_reference_1
+        description: "EDI customer reference 1."
+      - name: restock_charge_percent
+        description: "Restock charge percentage."
+      - name: transport_instruction_id
+        description: "Identifier for transport instruction."
+      - name: documents_per_page
+        description: "Number of documents per page."
+      - name: default_sales_as_net_of_discount
+        description: "Indicates if default sales are net of discount."
+      - name: send_statement_fax
+        description: "Indicates if statements are sent by fax."
+      - name: print_invoice
+        description: "Indicates if invoices are printed."
+      - name: company_type_id
+        description: "Identifier for the company type."
+      - name: allow_settlement_on_direct
+        description: "Allow settlement on direct orders."
+      - name: edi_send_quantity_in_sell_per
+        description: "EDI setting for sending quantity in sell per."
+      - name: webtrack_trading_branch_id
+        description: "Identifier for the WebTrack trading branch."
+      - name: send_statement_print
+        description: "Indicates if statements are sent by print."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the record."
+      - name: allow_retention_on_contracts
+        description: "Allow retention on contracts."
+      - name: show_euros_on_invoice
+        description: "Show euros on invoice."
+      - name: email_invoice
+        description: "Indicates if invoices are sent by email."
+      - name: intrastat_delivery_terms_id
+        description: "Identifier for Intrastat delivery terms."
+      - name: number_of_orders_placed_on_hold
+        description: "Number of orders placed on hold."
+      - name: approval_number_limit
+        description: "Approval number limit for the customer."
+      - name: email_address
+        description: "Email address of the customer."
+      - name: statements_by_job
+        description: "Indicates if statements are by job."
+      - name: enforce_order_contact_details_on_delivered
+        description: "Enforce order contact details on delivered orders."
+      - name: print_test_certificates
+        description: "Indicates if test certificates are printed."
+      - name: qa_contact
+        description: "Quality assurance contact for the customer."
+      - name: telephone_1
+        description: "Primary telephone number."
+      - name: allow_webtrack_trading
+        description: "Allow WebTrack trading for the customer."
+      - name: requires_account_payment_reference
+        description: "Requires account payment reference."
+      - name: telephone_2
+        description: "Secondary telephone number."
+      - name: country
+        description: "Country of the customer."
+      - name: udf_user_id
+        description: "User-defined field: user ID."
+      - name: udf_marketing_email_subscription
+        description: "User-defined field: marketing email subscription."
+      - name: post_code
+        description: "Postal code of the customer."
+      - name: replacement_id
+        description: "Identifier for the replacement customer."
+      - name: never_put_orders_on_hold
+        description: "Indicates if orders are never put on hold."
+      - name: edi_customer_reference_2
+        description: "EDI customer reference 2."
+      - name: edi_customer_reference_1
+        description: "EDI customer reference 1."
+      - name: restock_charge_percent
+        description: "Restock charge percentage."
+      - name: transport_instruction_id
+        description: "Identifier for transport instruction."
+      - name: documents_per_page
+        description: "Number of documents per page."

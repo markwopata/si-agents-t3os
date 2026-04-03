@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__j1939_config
+    description: Model for es_warehouse.public.j1939_config
+    columns:
+      - name: j1939_config_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: config_name
+        description: ""
+      - name: config_description
+        description: ""

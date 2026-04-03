@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_dot_numbers
+    description: Model for es_warehouse.public.company_dot_numbers
+    columns:
+      - name: dot_number_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: dot_number
+        description: ""
+      - name: company_id
+        description: ""
+      - name: description
+        description: ""
+      - name: date_modified
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

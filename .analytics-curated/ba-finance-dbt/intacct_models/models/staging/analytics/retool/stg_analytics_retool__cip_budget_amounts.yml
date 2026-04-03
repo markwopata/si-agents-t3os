@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__cip_budget_amounts
+    description: Model for analytics.retool.cip_budget_amounts
+    columns:
+      - name: pk_id
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: market_id
+        description: ''
+      - name: division_code
+        description: ''
+      - name: budget_amount
+        description: ''
+      - name: budget_revision
+        description: ''
+      - name: project_id
+        description: FK to cip_projects. This is the project id for the project associated with this budget
+      - name: created_by
+        description: ''
+      - name: updated_by
+        description: ''
+      - name: date_created
+        description: ''
+      - name: date_updated
+        description: ''

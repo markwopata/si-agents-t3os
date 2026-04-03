@@ -1,0 +1,19 @@
+---
+version: 2
+
+models:
+  - name: balance_sheet_v
+    description: "Balance sheet grouped by account, period"
+    config:
+      tags: ["hourly", "intacct"]
+    columns:
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: account_title
+        description: "Name or title for the account"
+      - name: period_start_date
+        description: "Start date of the period"
+      - name: amount
+        description: "Amount aggregated by account, department, entity, period"
+      - name: category
+        description: "Account category"

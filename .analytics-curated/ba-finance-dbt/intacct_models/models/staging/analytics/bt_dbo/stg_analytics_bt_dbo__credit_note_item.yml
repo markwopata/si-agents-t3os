@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__credit_note_item
+    description: Table for details of items on a credit note
+    tags: [bisTrack]
+    columns:
+      - name: credit_note_item_id
+        description: "Unique identifier for the credit note item."
+      - name: credit_note_header_id
+        description: "Identifier for the related credit note header."
+      - name: product_id
+        description: "Identifier for the product associated with the credit note item."
+      - name: quantity
+        description: "Quantity of the product credited."
+      - name: unit_price
+        description: "Unit price of the product credited."
+      - name: total_price
+        description: "Total price for the credited product."
+      - name: tax_amount
+        description: "Tax amount applied to the credit note item."
+      - name: notes
+        description: "Additional notes or comments for the credit note item."
+      - name: created_by_id
+        description: "Identifier for the user who created the credit note item."
+      - name: datetime_created
+        description: "Timestamp when the credit note item was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the credit note item was last modified."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the credit note item."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

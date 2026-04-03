@@ -1,0 +1,62 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_companies_fleet_opt
+    description: Model for fleet_optimization.gold.dim_companies_fleet_opt
+    columns:
+      - name: company_key
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+        data_tests:
+          - unique
+      - name: company_source
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_id
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_name
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_has_fleet
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_has_fleet_cam
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_timezone
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_credit_limit
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_do_not_rent
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_has_msa
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_has_rentals
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_net_terms
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_is_eligible_for_payouts
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_is_rsp_partner
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_is_telematics_service_provider
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies
+      - name: company_is_ies_company
+        description: Flag indicating if company is IES company e.g. associated with a dealership
+      - name: company_is_equipmentshare_company
+        description: "Logic applied at the company_id level to determine if company is owned by equipmentshare. \nLooks first
+          at analytics.public.es_companies to find company_id included in list.\nAlso looks at if company is IES company based
+          on IES company flag."
+      - name: company_recordtimestamp
+        description: See documentation of platform's dim_companies, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_companies

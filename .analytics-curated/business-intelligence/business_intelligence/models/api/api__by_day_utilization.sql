@@ -1,0 +1,15 @@
+SELECT bdu.date,
+    bdu.day_name,
+    bdu.asset_id,
+    bdu.rental_company_id,
+    bdu.owner_company_id,
+    bdu.on_time_utc,
+    bdu.in_progress_on_time_utc,
+    bdu.run_time_utc,
+    bdu.idle_time_utc,
+    bdu.miles_driven_utc,
+    bdu.hauled_time_utc,
+    bdu.hauling_time_utc,
+    bdu.hauling_distance_utc,
+    bdu.hauled_distance_utc
+FROM {{ ref('stg_t3__by_day_utilization') }} bdu

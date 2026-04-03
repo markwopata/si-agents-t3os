@@ -1,0 +1,21 @@
+---
+version: 2
+
+models:
+  - name: trending_be_snapshot_historical_delta_calculation
+    description: >
+      This model calculates the delta between consecutive snapshot runs of the trending branch earnings model.
+      Contains pks
+    config:
+      materialized: "incremental"
+      unique_key: ["pk_id", "latest_timestamp", "previous_timestamp"]
+      enabled: true
+      tags: ["daily", "branch_earnings"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - pk_id
+              - latest_timestamp
+              - previous_timestamp

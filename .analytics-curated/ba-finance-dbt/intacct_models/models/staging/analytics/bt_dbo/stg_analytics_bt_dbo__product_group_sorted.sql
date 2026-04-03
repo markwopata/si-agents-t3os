@@ -1,0 +1,20 @@
+SELECT
+    p._fivetran_id as fivetran_id,
+    p.level4id as level_4_id,
+    p.parentid as parent_id,
+    p.levelposition as level_position,
+    p.productgroupid as product_group_id,
+    p.treelevel as tree_level,
+    p.level3id as level_3_id,
+    p.level2id as level_2_id,
+    p.level1id as level_1_id,
+    p.glcode as gl_code,
+    p.level5id as level_5_id,
+    p.name as name,
+    p.documenttext as document_text,
+    p.treesequence as tree_sequence,
+    p.overallposition as overall_position,
+    p.deleted as deleted,
+    p._fivetran_deleted as _fivetran_deleted,
+    p._fivetran_synced as _fivetran_synced
+FROM {{ source('analytics_bt_dbo', 'productgroupsorted') }} as p

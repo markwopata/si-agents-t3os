@@ -1,0 +1,139 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_catalogue
+    description: Table for all products in the product catalogue, including details like pricing, dimensions, and supplier information.
+    columns:
+      - name: product_catalogue_id
+        description: 'Unique identifier for the product catalogue.'
+        data_tests:
+          - not_null
+          - unique
+      - name: price_per
+        description: 'Price per unit of the product.'
+      - name: ship_via
+        description: 'Shipping method for the product.'
+      - name: retail_sales_center_id
+        description: 'Identifier for the retail sales center.'
+      - name: description_2
+        description: 'Additional description for the product.'
+      - name: rrp
+        description: 'Recommended retail price of the product.'
+      - name: supplier_id
+        description: 'Identifier for the supplier.'
+      - name: description_3
+        description: 'Additional description for the product.'
+      - name: last_modified_by_file_name
+        description: 'File name of the last modification.'
+      - name: description_1
+        description: 'Primary description for the product.'
+      - name: replaced_by
+        description: 'Identifier for the product that replaces this one.'
+      - name: vat_code
+        description: 'VAT code applicable to the product.'
+      - name: bis_track_id
+        description: 'Tracking identifier for the product in the BIS system.'
+      - name: status
+        description: 'Current status of the product.'
+      - name: return_code
+        description: 'Code indicating the return status of the product.'
+      - name: catalogue_format
+        description: 'Format of the product catalogue.'
+      - name: supplier_code
+        description: 'Code assigned to the supplier.'
+      - name: product_code
+        description: 'Code assigned to the product.'
+      - name: trade_price
+        description: 'Trade price of the product.'
+      - name: quantity_on_hand
+        description: 'Quantity of the product available in stock.'
+      - name: weight
+        description: 'Weight of the product.'
+      - name: ean
+        description: 'European Article Number (EAN) for the product.'
+      - name: round_up_to_inner_outer_pallet
+        description: 'Indicator for rounding up to inner or outer pallet.'
+      - name: lead_time
+        description: 'Lead time for the product.'
+      - name: width_per
+        description: 'Width per unit of the product.'
+      - name: created_by_file_name
+        description: 'File name of the creation record.'
+      - name: manufacturer_code
+        description: 'Code assigned to the manufacturer.'
+      - name: discount_1
+        description: 'First discount applied to the product.'
+      - name: discount_2
+        description: 'Second discount applied to the product.'
+      - name: discount_3
+        description: 'Third discount applied to the product.'
+      - name: discount_4
+        description: 'Fourth discount applied to the product.'
+      - name: pallet_quantity
+        description: 'Quantity of the product per pallet.'
+      - name: inner_quantity
+        description: 'Quantity of the product per inner packaging.'
+      - name: inner_cost
+        description: 'Cost of the product per inner packaging.'
+      - name: outer_cost
+        description: 'Cost of the product per outer packaging.'
+      - name: sell_per_conversion_quantity
+        description: 'Conversion quantity for selling units.'
+      - name: next_special_suffix
+        description: 'Suffix for the next special product.'
+      - name: direct_cost
+        description: 'Direct cost of the product.'
+      - name: height
+        description: 'Height of the product.'
+      - name: deleted
+        description: 'Indicator if the product is deleted.'
+      - name: length_per
+        description: 'Length per unit of the product.'
+      - name: datetime_created
+        description: 'Datetime when the product was created.'
+      - name: weight_per
+        description: 'Weight per unit of the product.'
+      - name: width
+        description: 'Width of the product.'
+      - name: height_per
+        description: 'Height per unit of the product.'
+      - name: quantity_round_option
+        description: 'Option for rounding product quantities.'
+      - name: quantity_round_text
+        description: 'Text description for quantity rounding.'
+      - name: sell_price_band_1
+        description: 'First price band for selling the product.'
+      - name: sell_price_band_3
+        description: 'Third price band for selling the product.'
+      - name: sell_price_band_2
+        description: 'Second price band for selling the product.'
+      - name: sell_price_band_4
+        description: 'Fourth price band for selling the product.'
+      - name: datetime_last_modified
+        description: 'Datetime when the product was last modified.'
+      - name: product_group_code
+        description: 'Code for the product group.'
+      - name: cube_size
+        description: 'Cube size of the product.'
+      - name: outer_quantity
+        description: 'Quantity of the product per outer packaging.'
+      - name: pallet_cost
+        description: 'Cost of the product per pallet.'
+      - name: price_sensitivity_id
+        description: 'Identifier for price sensitivity.'
+      - name: length
+        description: 'Length of the product.'
+      - name: catalogue_page
+        description: 'Page number in the product catalogue.'
+      - name: rrp_per
+        description: 'Recommended retail price per unit.'
+      - name: _fivetran_deleted
+        description: 'Indicator for deletion by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Indicator for synchronization by Fivetran.'
+      - name: centrally_stocked
+        description: 'Indicator if the product is centrally stocked.'
+      - name: primary_retail_sales_center_id
+        description: 'Identifier for the primary retail sales center.'
+      - name: secondary_retail_sales_center_id
+        description: 'Identifier for the secondary retail sales center.'

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: asset4000_las_assets
+    description: >
+      unioned model of LAS and AS4000 assets at a point in time.
+      One row is one Asset4000k asset code in the AS4000 section.
+      One row is one LAS asset_id in the LAS section.
+    config:
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - admin_asset_id
+              - report_date
+              - source
+              - asset_code
+              - las_asset_id

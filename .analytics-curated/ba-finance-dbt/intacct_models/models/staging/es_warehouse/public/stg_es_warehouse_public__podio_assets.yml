@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__podio_assets
+    description: Model for es_warehouse.public.podio_assets
+    columns:
+      - name: asset_id
+        description: ""
+      - name: serial_number
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: make
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: model
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""

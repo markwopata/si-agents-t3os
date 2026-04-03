@@ -1,0 +1,30 @@
+---
+version: 2
+models:
+  - name: stg_analytics_monday__groups
+    description: This table tells you what grouping a monday.com item was entered into. Streamed from Fivetran.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - group_id
+    columns:
+      - name: board_id
+        description: ""
+      - name: group_id
+        description: ""
+      - name: is_archived
+        description: ""
+      - name: color
+        description: ""
+      - name: is_deleted
+        description: ""
+      - name: position
+        description: ""
+      - name: group_title
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

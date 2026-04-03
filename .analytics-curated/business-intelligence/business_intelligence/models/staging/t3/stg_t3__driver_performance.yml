@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: stg_t3__driver_performance
+    description: "Driver performance metrics including violations, scores, and assignment information."
+    columns:
+      - name: date
+        data_type: date
+        description: "Date"
+
+      - name: year
+        data_type: number
+        description: "Year"
+
+      - name: month
+        data_type: varchar
+        description: "Month (zero-padded)"
+
+      - name: week_num
+        data_type: varchar
+        description: "Week number (zero-padded)"
+
+      - name: year_month
+        data_type: varchar
+        description: "Year and month in format YYYY-MM"
+
+      - name: year_week
+        data_type: varchar
+        description: "Year and week in format YYYY-WW"
+
+      - name: driver_name
+        data_type: varchar
+        description: "Driver name"
+
+      - name: company_id
+        data_type: number
+        description: "Company ID (rental or owner)"
+
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+
+      - name: asset_name
+        data_type: varchar
+        description: "Asset name"
+
+      - name: branch
+        data_type: varchar
+        description: "Branch/market name"
+
+      - name: groups
+        data_type: varchar
+        description: "Groups asset belongs to"
+
+      - name: run_time_utc_seconds
+        data_type: number
+        description: "Total run time in UTC seconds"
+
+      - name: miles_driven_utc
+        data_type: number
+        description: "Total miles driven in UTC"
+
+      - name: speeding_violations
+        data_type: number
+        description: "Speeding violations (test data)"
+
+      - name: cornering_violations
+        data_type: number
+        description: "Cornering violations (test data)"
+
+      - name: acceleration_decceleration_violations
+        data_type: number
+        description: "Acceleration/deceleration violations (test data)"
+
+      - name: total_violations
+        data_type: number
+        description: "Total tracking incident violations"
+
+      - name: severe_violations
+        data_type: number
+        description: "Count of severe violations (aggressive deceleration, hard cornering, etc.)"
+
+      - name: ten_mph_over
+        data_type: number
+        description: "Count of violations where speed exceeded threshold by 10+ mph"
+
+      - name: debug_weekly_violations
+        data_type: number
+        description: "Driver weekly total violations (diagnostic)"
+
+      - name: debug_weekly_days
+        data_type: number
+        description: "Driver weekly days used (diagnostic)"
+
+      - name: debug_monthly_violations
+        data_type: number
+        description: "Driver monthly total violations (diagnostic)"
+
+      - name: debug_monthly_days
+        data_type: number
+        description: "Driver monthly days used (diagnostic)"
+
+      - name: start_date
+        data_type: date
+        description: "Driver assignment start date"
+
+      - name: end_date
+        data_type: date
+        description: "Driver assignment end date"
+
+      - name: total_days_assigned
+        data_type: number
+        description: "Total days assigned to asset"
+
+      - name: total_days_used
+        data_type: number
+        description: "Total days with utilization"
+
+      - name: total_days_not_used
+        data_type: number
+        description: "Total days without utilization"
+
+      - name: assignment_duration_days
+        data_type: number
+        description: "Assignment duration in days"
+
+      - name: weekly_score
+        data_type: number
+        description: "Driver weekly performance score (0-100)"
+
+      - name: monthly_score
+        data_type: number
+        description: "Driver monthly performance score (0-100)"
+
+      - name: safety_score_percent
+        data_type: number
+        description: "Safety score percentage relative to company total violations"

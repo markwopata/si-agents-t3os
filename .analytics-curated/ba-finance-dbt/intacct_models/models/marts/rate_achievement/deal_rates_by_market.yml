@@ -1,0 +1,38 @@
+---
+version: 2
+
+models:
+  - name: deal_rates_by_market
+    description: >
+        deal rates at a market level. quotes team uses this model in the quotes tool
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - equipment_class_id
+              - date_created
+    columns:
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: equipment_class_id
+        description: "{{ doc('equipment_class_id') }}"
+
+      - name: price_per_month
+        description: Price of the discount rate per month
+
+      - name: date_created
+        description: Timestamp when the discount rate was created
+
+      - name: date_voided
+        description: Timestamp when the discount rate was voided
+
+      - name: created_by
+        description: User who created the discount rate
+
+      - name: voided_by
+        description: User who voided the discount rate
+
+      - name: active
+        description: Indicates if the discount rate is active

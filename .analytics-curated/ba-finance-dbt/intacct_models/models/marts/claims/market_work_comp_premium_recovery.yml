@@ -1,0 +1,57 @@
+---
+version: 2
+
+models:
+  - name: market_work_comp_premium_recovery
+    description: >
+      "The monthly worker compensation premium model determines how much each market pays for insurance each month. It is based on the average 
+      employee headcount over the past 12 months and the number of claims involving lost time, which are cases where an employee missed work due 
+      to an injury. Each claim stays on record for a full year before it drops off, so the impact lasts 12 months. Using this rolling average helps 
+      keep premiums steady, so one unusual month does not skew the results, while ongoing claims will still raise costs. Starting in June 2025, we 
+      switched to a new and improved way of calculating premiums. For months before that, the older version can be found in 
+      the market_work_comp_premium_recovery_old table.
+    
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - branch_earnings_month
+            - market_id
+            
+    columns:
+      - name: market_id
+        description: '{{ doc("market_id") }}'
+
+      - name: avg_headcount_rolling_12mo
+        description: "Average headcount for each market over the last 12 months"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: claims_count_rolling_12mo
+        description: "Total number of worker's compensation claims that incurred in Lost Time (LT) for each market over last 12 months"
+        datatests:
+          - not_null
+
+      - name: claims_per_employee_rolling_12mo
+        description: "Total number of claims in LT over last 12 months (claims_count_rolling_12mo) divided by average headcount over last 12 months (avg_headcount_rolling_12mo)"
+        datatests:
+          - not_null
+
+      - name: insurance_rate_per_employee
+        description: "Yearly insurance rate per employee based on the claims per employee falling into each bin"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: monthly_premium_charge
+        description: "Total amount charged in insurance premium to the market for the month based on the average headcount and insurance rate per employee"
+        datatests:
+          - not_null
+          - not_zero
+
+      - name: branch_earnings_month
+        description: "month for which the premium charge is being calculated for that market"
+
+      - name: modified_date
+        description: "current timestamp of when the record was last modified"
+  

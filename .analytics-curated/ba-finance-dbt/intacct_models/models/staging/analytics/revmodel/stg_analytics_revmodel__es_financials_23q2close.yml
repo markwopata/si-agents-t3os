@@ -1,0 +1,52 @@
+---
+version: 2
+models:
+  - name: stg_analytics_revmodel__es_financials_23q2close
+    description: Model for analytics.revmodel.es_financials_23q2close
+    columns:
+      - name: month_
+        description: ''
+      - name: raw_amount
+        description: ''
+      - name: net_amount
+        description: ''
+      - name: amount
+        description: ''
+      - name: department
+        description: ''
+      - name: entity
+        description: ''
+      - name: account
+        description: ''
+      - name: accountno
+        description: ''
+      - name: internal_is_grouping
+        description: ''
+      - name: market_id
+        description: ''
+      - name: market_name
+        description: ''
+      - name: cost_revenue
+        description: ''
+      - name: market_start_month
+        description: ''
+      - name: months_open
+        description: ''
+      - name: year_quarter
+        description: ''
+      - name: year_
+        description: ''
+      - name: new_market_startup_cost_flag
+        description: ''
+      - name: capitalization_cost_flag
+        description: ''
+      - name: amortization_flag
+        description: ''
+      - name: rent_expense_flag
+        description: ''
+      - name: src
+        description: ''
+      - name: version
+        description: ''
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__ble_message_logs
+    description: Model for es_warehouse.public.ble_message_logs
+    columns:
+      - name: is_low_battery
+        description: ""
+      - name: rssi
+        description: ""
+      - name: cumulative_machine_hours_in_seconds
+        description: ""
+      - name: ble_asset_id
+        description: ""
+      - name: ble_message_log_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          - unique
+      - name: ble_tracker_id
+        description: ""
+      - name: gateway_tracking_event_id
+        description: ""
+      - name: ble_node_serial
+        description: ""
+      - name: gateway_asset_id
+        description: ""
+      - name: message_date
+        description: ""
+      - name: gateway_tracker_id
+        description: ""
+      - name: previous_cumulative_machine_hours
+        description: ""
+      - name: signal_power
+        description: ""
+      - name: flag
+        description: ""
+      - name: hours_update_audit_id
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: trackers_ble_advertisement_id
+        description: ""
+      - name: message_source
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

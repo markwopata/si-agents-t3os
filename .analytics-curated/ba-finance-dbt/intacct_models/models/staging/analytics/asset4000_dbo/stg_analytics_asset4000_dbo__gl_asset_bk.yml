@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_asset4000_dbo__gl_asset_bk
+    description: Asset level details by book. This tells us original cost, residual value, depreciation method etc. For a given asset's group, the asset would start with the asset group default, but user can likely override this at an asset level. Needs to be tested.
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: book_code
+        description: ""
+
+      - name: irs_depreciation_convention
+        description: ""
+
+      - name: asset_acquisition_type
+        description: ""
+
+      - name: asset_purchase_cost
+        description: ""
+
+      - name: depreciation_acquisition_percentage
+        description: ""
+
+      - name: asset_minimum_value
+        description: ""
+
+      - name: asset_residual_value
+        description: ""
+
+      - name: irs_bonus_depreciation_amount
+        description: ""
+
+      - name: is_process_indicator
+        description: ""
+
+      - name: is_asset_auctioned
+        description: ""
+
+      - name: asset_expiration_date
+        description: ""
+
+      - name: asset_depreciation_start_date
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__trackers_mapping
+    description: Model for es_warehouse.public.trackers_mapping
+    columns:
+      - name: tracker_device_serial
+        description: ""
+      - name: tracker_vendor
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: asset_name
+        description: ""
+      - name: company_id
+        description: ""
+      - name: asset_type
+        description: ""
+      - name: keypad_controller_type_id
+        description: ""
+      - name: tracker_tracker_id
+        description: ""
+      - name: esdb_tracker_id
+        description: ""
+      - name: tracker_grouping
+        description: ""

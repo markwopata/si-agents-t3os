@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__charge_payment_method_details
+    description: Unused as of 2025-10-16
+    columns:
+      - name: charge_id
+        description: ""
+      - name: payment_method_type
+        description: ""
+      - name: value
+        description: ""
+      - name: _fivetran_synced
+        description: ""

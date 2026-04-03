@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: market_data
+    description: "This appears to have once been a database that had data coming in from Fivetran."
+    database: analytics
+    schema: market_data
+    tables:
+      - name: division_types
+        description: "{{ doc('analytics__market_data__division_types') }}"
+        columns:
+          - name: division_id
+            data_type: number
+            description: "{{ doc('market_data__market_division_id') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [1,2,3,4,5,6,7,8]
+                  config:
+                    severity: warn
+          - name: name
+            data_type: varchar
+            description: "{{ doc('market_data__market_division_name') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Rental', 'Corp', 'Tele', 'E-Commerce', 'Manufacturing', 'Materials', 'T3', 'National']
+                  config:
+                    severity: warn
+

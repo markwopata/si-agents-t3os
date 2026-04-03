@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__branch_earnings_dds_snap
+    description: official monthly profit/loss statement by market
+    columns:
+      - name: pk
+        description: ""
+      - name: market_id
+        description: ""
+      - name: market_name
+        description: ""
+      - name: type
+        description: ""
+      - name: code
+        description: ""
+      - name: revenue_expense_category
+        description: ""
+      - name: department
+        description: ""
+      - name: payroll_type
+        description: ""
+      - name: gl_account
+        description: ""
+      - name: account_number
+        description: '{{ doc("gl_account_number") }}'
+      - name: accounts_receivable_type
+        description: ""
+      - name: descr
+        description: ""
+      - name: doc_no
+        description: ""
+      - name: url_sage
+        description: ""
+      - name: url_yooz
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: url_track
+        description: ""
+      - name: amt
+        description: ""
+      - name: gl_date
+        description: ""

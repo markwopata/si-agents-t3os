@@ -1,0 +1,58 @@
+---
+version: 2
+
+models:
+  - name: stg_branch_rental_rates_corrections
+    description: >
+      Stage table cleaning up branch_rental_rates. There should only be one record per branch_id, equipment_class_id, rate_type_id, and start_date.
+      Use start_date and end_date to properly filter on this.
+    config:
+      tags: ["hourly", "es_warehouse"]
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - branch_id
+              - equipment_class_id
+              - rate_type_id
+              - start_date
+    columns:
+      - name: branch_rental_rate_id
+        description: "Primary key for the branch rental rate."
+        data_tests:
+          - unique
+          - not_null
+      - name: branch_id
+        description: "Market id"
+      - name: market_id
+        description: "Market id"
+      - name: equipment_class_id
+        description: "Identifier for the equipment class."
+      - name: rate_type_id
+        description: "Identifier for the rate type."
+      - name: price_per_hour
+        description: "Price per hour for the rental."
+      - name: price_per_day
+        description: "Price per day for the rental."
+      - name: price_per_week
+        description: "Price per week for the rental."
+      - name: price_per_month
+        description: "Price per month for the rental."
+      - name: date_created
+        description: "Date when the rental rate was created."
+      - name: start_date
+        description: "Start date for the rental rate. Alias for date_created."
+      - name: date_voided
+        description: "Date when the rental rate was voided. Don't use this for date filters. There are instances where the next start date overlaps on date_voided."
+      - name: end_date
+        description: "End date for the rental rate."
+      - name: created_by_user_id
+        description: "user_id of the person who created the rate. Foreign key to es_warehouse.users"
+      - name: voided_by_user_id
+        description: "user_id of the person who voided the rate. Foreign key to es_warehouse.users"
+      - name: is_call_for_pricing
+        description: "Flag indicating if pricing should be called."
+      - name: is_active
+        description: "Flag indicating if the rate is active."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,106 @@
+---
+version: 2
+models:
+  - name: int_master_markets_single_market
+    description: "One row per market_id from the master_markets_board, prioritizing active projects and most recently updated. Used for construction and budget reporting."
+    config:
+        tags: ['construction']
+    columns:
+      - name: board_id
+        description: "Id for the monday board. This will match what's in the url."
+      - name: item_id
+        description: "Unique id for the item. An item is a row in a board."
+      - name: group_id
+        description: ""
+      - name: group_title
+        description: "Name of the item grouping"
+      - name: grouping_name
+        description: ""
+      - name: is_active_project
+        description: ""
+      - name: market_id
+        description: ""
+      - name: branch_name
+        description: "Free text input of the new branch"
+      - name: address
+        description: "Address for this location/property."
+      - name: region_district
+        description: "Region district in typical 4-1 format"
+      - name: region
+        description: "Region number"
+      - name: division
+        description: "This includes market_type and division (Core Solutions and Materials both show here)"
+      - name: market_type
+        description: "Alias for division. This includes market_type and division (Core Solutions and Materials both show here)"
+      - name: branch_abbreviation
+        description: ""
+      - name: sales_service_email
+        description: ""
+      - name: url_market_google_drive_folder
+        description: ""
+      - name: project_manager_name
+        description: ""
+      - name: construction_project_manager_name
+        description: "Construction project manager who is responsible for the project. There can be multiple listed, comma separated."
+      - name: useable_acres
+        description: "Estimated amount of acres that can be used for fleet on a yard."
+      - name: total_acres
+        description: "Total acres for the property."
+      - name: shop_sq_ft
+        description: "Square feet dedicated to shop space."
+      - name: office_sq_ft
+        description: "Square feet dedicated to office space."
+      - name: total_sq_ft
+        description: "Total square feet for the building."
+      - name: building_type
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: drawings_status
+        description: ""
+      - name: yard_status
+        description: ""
+      - name: utilities_status
+        description: ""
+      - name: launch_phase
+        description: ""
+      - name: subitem_status
+        description: ""
+      - name: business_license_status
+        description: ""
+      - name: new_market_notifications_status
+        description: ""
+      - name: certificate_of_occupancy_status
+        description: ""
+      - name: point_of_contact_status
+        description: ""
+      - name: fleet_transportation_status
+        description: ""
+      - name: fleet_placement_flag
+        description: ""
+      - name: early_fleet_placement_comments
+        description: ""
+      - name: general_manager_recruiting_status
+        description: ""
+      - name: general_manager_name
+        description: ""
+      - name: general_manager_email
+        description: ""
+      - name: due_diligence_end_date
+        description: ""
+      - name: basic_operational_readiness_completed_date
+        description: ""
+      - name: basic_operational_readiness_target_date
+        description: ""
+      - name: target_construction_completion_date
+        description: ""
+      - name: washbay_completion_date
+        description: ""
+      - name: actual_first_rental_date
+        description: ""
+      - name: close_date
+        description: ""
+      - name: possession_date
+        description: ""
+      - name: last_updated_date
+        description: ""

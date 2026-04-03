@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: int_products
+    description: "Intermediate model for product details."
+    columns:
+      - name: pk_product_id
+        description: "Primary key for the product."
+        data_tests:
+          - unique
+          - not_null
+      - name: product_code
+        description: "Code representing the product."
+      - name: product_group_id
+        description: "Identifier for the product group."
+      - name: level_1_id
+        description: "Level 1 identifier in the product hierarchy."
+      - name: level_1_name
+        description: "Level 1 name in the product hierarchy."
+      - name: level_2_id
+        description: "Level 2 identifier in the product hierarchy."
+      - name: level_2_name
+        description: "Level 2 name in the product hierarchy."
+      - name: short_description
+        description: "Short description of the product."
+      - name: description
+        description: "Detailed description of the product."
+      - name: datetime_created
+        description: "Timestamp when the product was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the product was last modified."

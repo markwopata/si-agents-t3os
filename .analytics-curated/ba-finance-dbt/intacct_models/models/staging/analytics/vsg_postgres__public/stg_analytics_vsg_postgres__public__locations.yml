@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vsg_postgres__public__locations
+    description: Model for analytics.vsg_postgres__public.locations
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_at
+        description: ""
+      - name: region_id
+        description: ""
+      - name: hq_id
+        description: ""
+      - name: name
+        description: ""
+      - name: prefix
+        description: ""
+      - name: is_airport
+        description: ""
+      - name: timezone
+        description: ""
+      - name: min_hours_before_pickup
+        description: ""
+      - name: country
+        description: ""
+      - name: state
+        description: ""
+      - name: city
+        description: ""
+      - name: street
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: latitude
+        description: ""
+      - name: longitude
+        description: ""
+      - name: active
+        description: ""
+      - name: imageurl
+        description: ""
+      - name: show_on_website
+        description: ""
+      - name: pickup_instructions_html
+        description: ""
+      - name: return_instructions_html
+        description: ""
+      - name: bodyshop
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

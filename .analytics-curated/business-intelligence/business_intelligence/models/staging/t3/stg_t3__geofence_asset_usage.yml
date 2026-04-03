@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: stg_t3__geofence_asset_usage
+    description: "Geofence asset usage by company, geofence, and asset with utilization metrics and period-over-period change."
+    columns:
+      - name: company_id
+        data_type: varchar
+        description: "Company ID"
+
+      - name: geofence_id
+        data_type: varchar
+        description: "Geofence ID"
+
+      - name: asset_id
+        data_type: varchar
+        description: "Asset ID"
+
+      - name: usage_date
+        data_type: date
+        description: "Date of usage"
+
+      - name: ownership
+        data_type: varchar
+        description: "Ownership (OWNED or RENTED)"
+
+      - name: hours_in_geofence
+        data_type: number
+        description: "Hours the asset spent in the geofence"
+
+      - name: geofence_name
+        data_type: varchar
+        description: "Geofence name"
+
+      - name: geofence_created_date
+        data_type: date
+        description: "Date the geofence was created"
+
+      - name: geofence_last_usage_date
+        data_type: date
+        description: "Last date the geofence had usage"
+
+      - name: geofence_under_utilization_reason
+        data_type: varchar
+        description: "Reason if geofence is under-utilized (e.g. never utilized, months since last)"
+
+      - name: asset
+        data_type: varchar
+        description: "Asset custom name"
+
+      - name: asset_type
+        data_type: varchar
+        description: "Asset type"
+
+      - name: asset_last_usage_date
+        data_type: date
+        description: "Last date the asset had usage in a geofence"
+
+      - name: asset_under_utilization_reason
+        data_type: varchar
+        description: "Reason if asset is under-utilized in geofences"
+
+      - name: driver_name
+        data_type: varchar
+        description: "Driver name"
+
+      - name: make
+        data_type: varchar
+        description: "Asset make"
+
+      - name: model
+        data_type: varchar
+        description: "Asset model"
+
+      - name: serial_number_vin
+        data_type: varchar
+        description: "Serial number or VIN"
+
+      - name: tracker
+        data_type: varchar
+        description: "Tracker identifier"
+
+      - name: tracker_type
+        data_type: varchar
+        description: "Tracker type"
+
+      - name: tracker_last_report_date
+        data_type: date
+        description: "Date of tracker last report"
+
+      - name: tracker_last_check_in_date
+        data_type: date
+        description: "Date of tracker last check-in"
+
+      - name: tracker_health_status
+        data_type: varchar
+        description: "Tracker health status (public health and asset health detail)"
+
+      - name: pct_chg_7d
+        data_type: number
+        description: "Period-over-period percent change in usage (last 7 days vs prior 7 days)"
+
+      - name: pct_chg_30d
+        data_type: number
+        description: "Period-over-period percent change in usage (last 30 days vs prior 30 days)"
+
+      - name: pct_chg_90d
+        data_type: number
+        description: "Period-over-period percent change in usage (last 90 days vs prior 90 days)"

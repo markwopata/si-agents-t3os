@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: stg_t3__company_values
+    description: "
+        Note: For t3_by_day_utilization model for Fleet Utilization dashboard.
+      "
+    columns:
+      - name: order_id
+        data_type: varchar
+        description: "Ownership"
+
+      - name: rental_company_id
+        data_type: varchar
+        description: "Rental Company ID"
+      
+      - name: owner_company_id
+        data_type: varchar
+        description: "Owner Company ID"
+
+      - name: rental_id
+        data_type: varchar
+        description: "Rental ID"
+      
+      - name: asset_id
+        data_type: varchar
+        description: "Asset ID"
+      
+      - name: start_date
+        data_type: varchar
+        description: "Start Date"
+
+      - name: end_date
+        data_type: varchar
+        description: "End Date"
+
+      - name: job_id
+        data_type: number
+        description: "Job ID"
+
+      - name: job_name
+        data_type: varchar
+        description: "Job Name"
+
+      - name: phase_job_id
+        data_type: number
+        description: "Phase Job ID"
+
+      - name: phase_job_name
+        data_type: varchar
+        description: "Phase Job Name"
+
+      - name: data_refresh_timestamp
+        data_type: timestamp
+        description: "Data Refresh Timestamp"

@@ -1,0 +1,91 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__card
+    description: Saved card details used for payments.
+    columns:
+      - name: id
+        description: "Unique identifier for the card."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with this card."
+      - name: address_city
+        description: "City, district, suburb, town, or village."
+      - name: address_country
+        description: "Two-letter country code (ISO 3166-1 alpha-2)."
+      - name: address_line_1
+        description: "Address line 1 (street, PO Box, or company name)."
+      - name: address_line_1_check
+        description: "Result of address line 1 verification check."
+      - name: address_line_2
+        description: "Address line 2 (apartment, suite, unit, or building)."
+      - name: address_state
+        description: "State, county, province, or region."
+      - name: address_zip
+        description: "ZIP or postal code."
+      - name: address_zip_check
+        description: "Result of postal code verification check."
+      - name: brand
+        description: "Card brand (American Express, Diners Club, Discover, JCB, MasterCard, UnionPay, Visa, or Unknown)."
+      - name: country
+        description: "Two-letter ISO code representing the country of the card."
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: created
+        description: ""
+      - name: cvc_check
+        description: "Result of the CVC verification check."
+      - name: description
+        description: "Optional description for the card."
+      - name: dynamic_last_4
+        description: "Last four digits for dynamically tokenized cards."
+      - name: exp_month
+        description: "Expiration month."
+      - name: exp_year
+        description: "Expiration year."
+      - name: fingerprint
+        description: "Uniquely identifies this particular card number across cards."
+      - name: funding
+        description: "Card funding type (credit, debit, prepaid, or unknown)."
+      - name: iin
+        description: "Issuer identification number (first digits)."
+      - name: issuer
+        description: "Card issuer."
+      - name: last_4
+        description: "Last four digits of the card number."
+      - name: name
+        description: "Cardholder name."
+      - name: recipient
+        description: "Recipient this card belongs to (if not a customer or account)."
+      - name: tokenization_method
+        description: "If the card number is tokenized, this is the method used."
+      - name: network
+        description: "Card network."
+      - name: is_deleted
+        description: "Whether the card has been deleted."
+      - name: three_d_secure
+        description: "3D Secure authentication details."
+      - name: three_d_secure_authenticated
+        description: "Whether 3D Secure authentication was performed."
+      - name: three_d_secure_authentication_flow
+        description: "How the customer was authenticated by the issuing bank."
+      - name: three_d_secure_result
+        description: "Outcome of 3D Secure authentication."
+      - name: three_d_secure_result_reason
+        description: "Additional info about why 3D Secure succeeded or failed."
+      - name: three_d_secure_succeeded
+        description: "Whether 3D Secure authentication succeeded."
+      - name: three_d_secure_version
+        description: "Version of 3D Secure used."
+      - name: wallet_type
+        description: "Type of card wallet (amex_express_checkout, apple_pay, etc.)."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: account_id
+        description: "ID of the account this card belongs to."
+      - name: customer_id
+        description: "ID of the customer this card belongs to."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: analytics_service
+    tags: ["sources"]
+    database: analytics
+    schema: service
+    description: "Data in analytics.service (analytics database / service schema) used for business intelligence analytics."
+    tables:
+      - name: major_asset_repair_requests
+        description: |
+          Stores major asset repair capitalization requests submitted via retool. 
+          The purpose of the process is to incentivize branches to fix assets that are expensive.
+          It is a tool for branches to leverage for larger repairs.
+          This allows them to make the repair and to capitalize the cost rather than expense it immediately.
+          Allowing branches to start generating revenue to offset the cost of the repairs.
+          These requests do not necessarily mean they are approved.
+        meta:
+          retool_link: https://equipmentshare.retool-hosted.com/apps/b4b06f54-b84f-4e58-82a6-c9fa0d1a6d5a/Service/Major%20Asset%20Repair%20Submissions/Home
+        columns:
+          - name: major_asset_repair_requests_id
+            description: "Identity primary key for the request."
+            data_tests:
+              - unique
+              - not_null
+
+          

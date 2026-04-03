@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__tax_amount
+    description: Unused as of 2025-10-16
+    columns:
+      - name: type
+        description: ""
+      - name: type_id
+        description: ""
+      - name: index
+        description: ""
+      - name: tax_rate_id
+        description: ""
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: taxability_reason
+        description: ""
+      - name: taxable_amount
+        description: ""
+      - name: inclusive
+        description: ""
+      - name: _fivetran_synced
+        description: ""

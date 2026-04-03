@@ -1,0 +1,20 @@
+select
+    p.branchid as bt_branch_id,
+    p.productid as product_id,
+    p.supplierid as supplier_id,
+    p.imcsproduct as imcs_product,
+    p.discount1 as discount_1,
+    p.discount2 as discount_2,
+    p.discount3 as discount_3,
+    p.buyperid as buy_per_id,
+    p.discount4 as discount_4,
+    p.standardbuy as standard_buy,
+    p.optionlastupdated as option_last_updated,
+    p.parproduct as par_product,
+    p.leadtime as lead_time,
+    p.cutoff as cut_off,
+    p.standardbuydatetime as standard_buy_datetime,
+    p.purchasingnotes as purchasing_notes,
+    p._fivetran_deleted as _fivetran_deleted,
+    p._fivetran_synced as _fivetran_synced
+from {{ source('analytics_bt_dbo', 'productsupplierprice') }} as p

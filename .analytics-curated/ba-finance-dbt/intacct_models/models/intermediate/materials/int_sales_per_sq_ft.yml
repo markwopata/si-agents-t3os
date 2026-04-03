@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: int_sales_per_sq_ft
+    description: "Intermediate model for sales per square foot calculations."
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+            - revenue_month
+            - bt_branch_id
+    columns:
+      - name: revenue_month
+        description: "Month for which the revenue is calculated."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: market_name
+        description: "Name of the market."
+      - name: square_footage
+        description: "Square footage of the branch."
+      - name: total_revenue
+        description: "Total revenue for the branch in the given month."
+      - name: sales_per_sq_ft
+        description: "Sales per square foot for the branch."

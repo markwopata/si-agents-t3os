@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_user_assignments
+    description: Model for es_warehouse.work_orders.work_order_user_assignments
+    columns:
+      - name: work_order_id
+        description: ""
+      - name: work_order_user_assignment_type_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: work_order_user_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

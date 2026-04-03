@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__part_types
+    description: ""
+    columns:
+      - name: part_type_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: ""
+      - name: image_url
+        description: ""
+      - name: part_category_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: class_number
+        description: ""
+      - name: verified_for_company
+        description: ""
+      - name: verified_globally
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

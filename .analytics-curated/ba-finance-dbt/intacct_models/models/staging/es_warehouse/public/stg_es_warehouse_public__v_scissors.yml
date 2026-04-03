@@ -1,0 +1,40 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_scissors
+    description: Model for es_warehouse.public.v_scissors
+    columns:
+      - name: tracker_id
+        description: ""
+      - name: device_serial
+        description: ""
+      - name: tracker_type_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: year
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: make_name
+        description: ""
+      - name: model
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: model_name
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: class_name
+        description: ""
+      - name: category_id
+        description: ""
+      - name: category_name
+        description: ""
+      - name: cat_canonical_name
+        description: ""
+      - name: cat_singular_name
+        description: ""
+      - name: bus_type
+        description: ""

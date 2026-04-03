@@ -1,0 +1,19 @@
+select 
+    _es_update_timestamp,
+    _es_load_timestamp,
+    commission_override_request_id,
+    review_user_id,
+    equipment_utilization,
+    company_id,
+    review_status,
+    request_user_id,
+    request_rate,
+    review_note,
+    date_updated,
+    request_note,
+    market_id,
+    review_date,
+    date_created,
+    equipment_class_id,
+    equipment_rate
+from {{ source('sworks_commissions', 'commission_override_requests')}}

@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__stock_transaction_type
+    description: reference table for stock transaction types used in stock transactions
+    tags: [bisTrack]
+    columns:
+      - name: stock_transaction_type_id
+        description: "Type of stock transaction (e.g., receipt, issue, adjustment)."
+      - name: type_name
+        description: "Name of the stock transaction type."
+      - name: description
+        description: "Description of the stock transaction type."
+      - name: is_active
+        description: "Indicates if the stock transaction type is active."
+      - name: created_date
+        description: "Date when the stock transaction type was created."
+      - name: modified_date
+        description: "Date when the stock transaction type was last modified."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

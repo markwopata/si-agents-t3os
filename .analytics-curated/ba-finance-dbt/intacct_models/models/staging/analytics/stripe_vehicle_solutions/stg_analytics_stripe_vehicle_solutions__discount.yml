@@ -1,0 +1,40 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__discount
+    description: Unused as of 2025-10-16. A discount represents the application of a coupon or promotion code to an object.
+    columns:
+      - name: id
+        description: "Unique identifier for the discount."
+      - name: amount_in_cents
+        description: "Amount of the discount in cents."
+      - name: amount
+        description: "Amount of the discount (cents / 100.0)."
+      - name: date_end
+        description: "If the coupon is repeating, the date the discount will end; otherwise null."
+      - name: date_start
+        description: "Date the coupon was applied."
+      - name: promotion_code
+        description: "Promotion code applied to create this discount."
+      - name: checkout_session_line_item_id
+        description: "ID of the specific line item within the checkout session that the discount is applied to."
+      - name: credit_note_line_item_id
+        description: "ID of the credit note line item associated with this discount."
+      - name: coupon_id
+        description: "ID of the coupon applied to create this discount."
+      - name: invoice_item_id
+        description: "Invoice item or invoice line item ID the discount was applied to."
+      - name: checkout_session_id
+        description: "Checkout session to which this discount is applied (payment mode)."
+      - name: customer_id
+        description: "ID of the customer associated with this discount."
+      - name: subscription_id
+        description: "ID of the subscription that the coupon is applied to, if any."
+      - name: invoice_id
+        description: "Invoice the discount’s coupon was applied to, if applied directly to an invoice."
+      - name: type
+        description: "Object type for the discount."
+      - name: type_id
+        description: "Identifier of the related object type (e.g., coupon ID, promotion code)."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

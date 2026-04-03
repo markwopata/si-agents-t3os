@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__fuel_tax_rate
+    description: Model for es_warehouse.public.fuel_tax_rate
+    columns:
+      - name: fuel_tax_rate_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: state_id
+        description: ""
+      - name: gasoline_rate
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

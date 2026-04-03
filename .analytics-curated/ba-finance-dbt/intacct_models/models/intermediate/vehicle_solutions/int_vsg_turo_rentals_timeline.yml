@@ -1,0 +1,39 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_turo_rentals_timeline
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - rental_date
+    columns:
+      - name: reservation_id
+        description: "The reservation id from HQ Rentals."
+
+      - name: rental_date
+        description: "Date for each day in the rental period"
+
+      - name: total_earnings
+        description: "The total revenue generated from the rental."
+
+      - name: trip_start
+        description: "The date the vehicle was picked up."
+
+      - name: trip_end
+        description: "The date the vehicle was returned."
+
+      - name: trip_days
+        description: "The duration of the rental in days."
+
+      - name: has_payment_activity
+        description: "Flag if there was any payment activity for the rental."
+
+      - name: earliest_charge_date
+        description: "The earliest date a charge was made for the rental."
+
+      - name: is_month_end
+        description: "Indicates if the rental period ends in the last day of the month."

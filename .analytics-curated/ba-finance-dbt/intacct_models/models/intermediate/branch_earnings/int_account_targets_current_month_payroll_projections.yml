@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: int_account_targets_current_month_payroll_projections
+    description: >
+      Projects month-end payroll amounts by account for live/trending periods. For regular payroll, the projection is based
+      on avg cost/headcount by department. For OT hours, the projection blends a seasonal-adjusted trailing 3-month average
+      with a historical MTD percentage, weighted by the percentage of the month completed to date, to account for seasonality
+      and current trending patterns in OT hours.
+    columns:
+      - name: market_id
+        description: Market identifier (child market id from live actuals input).
+        tests:
+          - not_null
+
+      - name: gl_month
+        description: Month (date_trunc month) for the actuals/projection period.
+        tests:
+          - not_null
+
+      - name: account_no
+        description: Source GL account number.
+        tests:
+          - not_null
+
+      - name: account_name
+        description: Source GL account name.
+        tests:
+          - not_null
+
+      - name: rev_exp
+        description: Revenue/Expense category (REV/EXP) from upstream live actuals.
+        tests:
+          - not_null
+
+      - name: account_category
+        description: Department/bucket label for the account from upstream mapping.
+        tests:
+          - not_null
+
+      - name: cost_type
+        description: Cost type classification, either controllable or fixed
+        tests:
+          - not_null
+
+      - name: actual_amount
+        description: Month-to-date actual amount for the account for the month.
+        tests:
+          - not_null
+
+      - name: comp_metric
+        description: Metric flag determining which denominator is used for comp_metric_amount.
+        tests:
+          - not_null
+
+      - name: comp_metric_amount
+        description: Current MTD denominator amount (OEC or revenue metric) for the month.
+        tests:
+          - not_null
+
+      - name: headcount
+        description: >
+          Gives headcount for given month and account based on department mapping.
+
+      - name: cost_per_head_day
+        description: Trailing 3-month average cost/headcount for the given account/department.
+
+      - name: cost_per_ot_hour
+        description: Trailing 3-month average cost/OT hour for the given account/department.
+
+      - name: avg_ot_hours
+        description: Trailing 3-month average of OT hours logged for the month.
+
+      - name: ot_mom_pct_change
+        description: Month-over-month percentage change in OT hours for the given account/department, used to adjust the trailing 3-month average for seasonality and current trends.
+
+      - name: ot_hours
+        description: OT hours logged for given month/account based on department mapping.
+
+      - name: hist_ot_mtd_pct
+        description: Historical mtd OT hours logged for the given month/account based on department mapping.
+
+      - name: current_month_completed_pct
+        description: Percent of the current month that has been completed to date.
+
+      - name: month_end_projected_amount
+        description: >
+          Projected month-end account amount. For completed (but unpublished) months, will use the tredning amount
+          but only if the live model contains accounting payroll entries, not estimates. If completed month still is pulling
+          estimates, default to use this model's projected amount. For non-OT accounts, projection is based on avg cost/headcount
+          by department. For OT accounts, projection blends a seasonal-adjusted trailing 3-month average with a historical MTD percentage,
+          weighted by the percentage of the month completed to date, to account for seasonality and current trending patterns in OT hours.
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - market_id
+            - gl_month
+            - account_no
+            - account_name

@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__podio_make_model
+    description: Model for es_warehouse.public.podio_make_model
+    columns:
+      - name: category_id
+        description: ""
+      - name: cat_name
+        description: ""
+      - name: subcat_id
+        description: ""
+      - name: subcat_name
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: class_name
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: make
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: model
+        description: ""

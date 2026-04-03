@@ -1,0 +1,51 @@
+---
+version: 2
+
+models:
+  - name: vsg_reservations_daily_vehicle_status
+    description: >
+        This table is used to track the vehicle status of the rental fleet.
+        It is updated daily with the current count of vehicles in each status in each region.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "merge"
+      unique_key: ['as_of_date', 'vin']
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - as_of_date
+              - vin
+    columns:
+      - name: as_of_date
+        description: Date the daily point-in-time snapshot was captured.
+
+      - name: collected_at
+        description: Timestamp when the daily snapshot was collected.
+
+      - name: region_name
+        description: name of the region.
+
+      - name: vin
+        description: VIN of the vehicle.
+
+      - name: model
+        description: Model of the vehicle.
+
+      - name: platform
+        description: Platform of the vehicle.
+
+      - name: status
+        description: Status of the vehicle.
+
+      - name: notes
+        description: Notes associated with the vehicle.
+
+      - name: latest_return_date
+        description: Timestamp of the latest return date for the vehicle.
+
+      - name: days_since_last_return
+        description: Number of days since the latest return date for the vehicle.
+
+      - name: total_vins
+        description: Total number of vehicles in the given status in the given region.

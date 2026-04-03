@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_t3__benchmarks_class_utilization
+    description: "Rental Utilization by Class for EquipmentShare assets over various relative time periods."
+    columns:
+      - name: asset_class
+        data_type: varchar
+        description: "Asset Class"
+
+      - name: distinct_asset_count
+        data_type: number
+        description: "Distinct Asset Count"
+      
+      - name: on_time_hours
+        data_type: number
+        description: "On Time Hours"
+
+      - name: rental_date_count
+        data_type: number
+        description: "Rental Date Count"
+
+      - name: utilization_30_day_class_benchmark
+        data_type: number
+        description: "30 Day Rental Utilization - Single Shift"
+
+      - name: utilization_30_day_class_benchmark_double_shift
+        data_type: number
+        description: "30 Day Rental Utilization - Double Shift"
+
+      - name: utilization_30_day_class_benchmark_triple_shift
+        data_type: number
+        description: "30 Day Rental Utilization - Triple Shift"
+
+
+  

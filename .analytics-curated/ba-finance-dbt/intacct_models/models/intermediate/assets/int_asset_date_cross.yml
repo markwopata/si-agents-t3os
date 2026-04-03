@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: int_asset_date_cross
+    description: >
+      Cross join of assets with a series of daily timestamps.
+      Used for incremental loading of asset data.
+    config:
+      materialized: "incremental"
+      incremental_strategy: "delete+insert"
+      unique_key: "daily_timestamp" # This may seem strange, but we want to drop and reinsert on days.
+      cluster_by: ["daily_timestamp", "asset_id"]
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - daily_timestamp
+    columns:
+      - name: asset_id
+        description: "Unique identifier for the asset"
+      - name: daily_timestamp
+        description: "Daily timestamp for the cross join record"

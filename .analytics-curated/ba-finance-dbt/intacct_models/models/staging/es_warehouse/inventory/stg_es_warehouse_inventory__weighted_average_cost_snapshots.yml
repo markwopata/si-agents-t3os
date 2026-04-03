@@ -1,0 +1,56 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__weighted_average_cost_snapshots
+    description: ""
+    columns:
+      - name: wac_snapshot_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: created_by_user_id
+        description: ""
+      - name: reason
+        description: ""
+      - name: transaction_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+        data_tests:
+          - not_null
+      - name: inventory_location_id
+        description: ""
+      - name: is_override
+        description: ""
+      - name: incoming_cost_per_item
+        description: ""
+      - name: total_quantity
+        description: ""
+      - name: product_id
+        description: AKA part_id. Foreign key to inventory.parts table
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'parts')
+              field: part_id
+          - not_null
+      - name: modified_by_user_id
+        description: ""
+      - name: weighted_average_cost
+        description: ""
+      - name: date_applied
+        description: ""
+        data_tests:
+          - not_null
+      - name: incoming_quantity
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_archived
+        description: ""
+      - name: is_current
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: _es_load_timestamp
+        description: ""

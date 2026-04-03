@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__refund
+    description: >
+      Refund objects allow you to refund a previously created charge that isn't refunded yet. Funds are refunded to the 
+      credit or debit card that's initially charged.
+    meta:
+      documentation_url: https://docs.stripe.com/api/refunds
+    columns:
+      - name: id
+        description: "Primary key for the refund."
+        data_tests:
+          - not_null
+          - unique
+      - name: amount_in_cents
+        description: "Refund amount in cents."
+      - name: amount
+        description: "Refund amount in dollars (amount_in_cents / 100.0)."
+      - name: connected_account_id
+        description: "ID of the connected account associated with this refund."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the refund, useful for display."
+      - name: failure_reason
+        description: "Reason for refund failure, if applicable."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: reason
+        description: "Reason for the refund."
+      - name: receipt_number
+        description: "Transaction number appearing on email receipts sent for this refund."
+      - name: status
+        description: "Status of the refund."
+      - name: balance_transaction_id
+        description: "> ID of the latest balance transaction linked to this payout, describing its impact on your account balance. The payout to balance_transaction relationship is 1:many."
+      - name: charge_id
+        description: "ID of the charge that was refunded."
+      - name: failure_balance_transaction_id
+        description: "Balance transaction ID associated with a refund failure, if applicable."
+      - name: payment_intent_id
+        description: "ID of the PaymentIntent associated with this refund."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

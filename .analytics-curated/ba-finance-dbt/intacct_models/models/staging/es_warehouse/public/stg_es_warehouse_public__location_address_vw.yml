@@ -1,0 +1,10 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__location_address_vw
+    description: Model for es_warehouse.public.location_address_vw
+    columns:
+      - name: location_id
+        description: ""
+      - name: address
+        description: ""

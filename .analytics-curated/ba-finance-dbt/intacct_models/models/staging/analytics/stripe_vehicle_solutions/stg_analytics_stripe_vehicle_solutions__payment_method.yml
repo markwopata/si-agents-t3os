@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__payment_method
+    description: PaymentMethod objects represent customer payment instruments that can be used with PaymentIntents or saved to Customers.
+    columns:
+      - name: id
+        description: "Unique identifier for the payment method."
+        data_tests:
+          - not_null
+          - unique
+      - name: billing_detail_address_city
+        description: "City, district, suburb, town, or village."
+      - name: billing_detail_address_country
+        description: "Two-letter country code (ISO 3166-1 alpha-2)."
+      - name: billing_detail_address_line_1
+        description: "Address line 1 (street, PO Box, or company name)."
+      - name: billing_detail_address_line_2
+        description: "Address line 2 (apartment, suite, unit, or building)."
+      - name: billing_detail_address_postal_code
+        description: "ZIP or postal code."
+      - name: billing_detail_address_state
+        description: "State, county, province, or region."
+      - name: billing_detail_email
+        description: "Email address."
+      - name: billing_detail_name
+        description: "Full name."
+      - name: billing_detail_phone
+        description: "Billing phone number (including extension)."
+      - name: date_created
+        description: "Date and time the payment method was created."
+      - name: is_livemode
+        description: "Indicates if this is a test payment method."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: type
+        description: "Type of the PaymentMethod. An additional object is present matching this value with type-specific details."
+      - name: customer_id
+        description: "ID of the Customer this payment method is saved to, if any."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

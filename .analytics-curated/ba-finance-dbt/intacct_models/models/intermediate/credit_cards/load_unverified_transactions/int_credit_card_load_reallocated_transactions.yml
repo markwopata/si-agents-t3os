@@ -1,0 +1,86 @@
+---
+version: 2
+models:
+  - name: int_credit_card_load_reallocated_transactions
+    description: >
+      Credit card transactions that have been reallocated or do not require verification (bypass verification = True)
+    columns:
+      - name: pk_transaction
+        description: >
+          The primary key is comprised of the user id, transaction date, transaction amount, and a row number
+          partitioned by user id, transaction amount, and transaction date.
+        data_tests:
+          - unique
+          - not_null
+      - name: pk_upload
+        description: "Primary key of receipt upload if a receipt is linked."
+      - name: transaction_id
+        description: "Unique credit card transaction identifier."
+        data_tests:
+          - unique
+      - name: transaction_date
+        description: "Date the transaction posted."
+      - name: transaction_amount
+        description: "Total amount charged on the card."
+      - name: transaction_merchant_name
+        description: "Merchant name for the transaction."
+      - name: transaction_mcc_code
+        description: "Merchant category code (numeric)."
+      - name: transaction_mcc
+        description: "Merchant category description."
+      - name: transaction_card_type
+        description: "Four-letter abbreviation of card type (fuel, citi, amex, etc.)."
+      - name: upload_id
+        description: "Receipt upload ID (purchase_id) if matched."
+      - name: upload_date
+        description: "Date the user entered in costcapture"
+      - name: upload_amount
+        description: "Amount user entered in costcapture for the receipt"
+      - name: employee_id
+        description: "Workday employee identifier."
+      - name: full_name
+        description: "Employee full name (first & last)."
+      - name: work_email
+        description: "Employee work email address (lower-case)."
+      - name: transaction_default_cost_centers_full_path
+        description: "Full path of employee's cost center in work day."
+      - name: transaction_card_holder_name
+        description: "Full name of card holder"
+      - name: upload_market_id
+        description: "Uploader's market_id"
+      - name: upload_market_verified
+        description: "Static text/flag for market verification outcome. Always 'Unrecognized Market Value'"
+      - name: sub_department_id
+        description: "Sub-department ID (budget hierarchy)."
+      - name: sub_department
+        description: "Sub-department name."
+      - name: expense_line_id
+        description: >
+          Expense line ID. Expense line is expense type the user picked for the transaction - e.g. Computer Software
+      - name: expense_line
+        description: >
+          Expense line name. Expense line is expense type the user picked for the transaction - e.g. Computer Software
+      - name: verified_status
+        description: "Numeric code representing verification status (2=reallocated,3=bypass). Always 2 or 3."
+      - name: verified_status_desc
+        description: "Human-readable description of verified_status. Always 'Reallocated' or 'Travel Platform'"
+      - name: upload_notes
+        description: "Notes entered with the receipt upload."
+      - name: upload_url
+        description: "URL where the receipt image is stored."
+      - name: upload_submitted_at_date
+        description: "Timestamp when the receipt was submitted."
+      - name: upload_modified_at_date
+        description: "Timestamp when the receipt was last modified."
+      - name: load_section
+        description: "Label indicating the logical section of data load. Always 'Reallocation Transaction'"
+      - name: recordtimestamp
+        description: "Time this model was run."
+      - name: corporate_account_number
+        description: "Corporate card account number."
+      - name: corporate_account_name
+        description: "Corporate card account name."
+      - name: is_personal_expense
+        description: "toggle added to the Expenses app to indicate if the credit card transaction is a personal expense or not"
+      - name: is_return
+        description: "toggle added to the Expenses app to indicate if the credit card transaction represents a credit issued by the vendor"

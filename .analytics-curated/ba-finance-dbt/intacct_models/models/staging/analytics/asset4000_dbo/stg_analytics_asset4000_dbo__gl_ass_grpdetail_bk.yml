@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: stg_analytics_asset4000_dbo__gl_ass_grpdetail_bk
+    description: ""
+    columns:
+      - name: group_id
+        description: ""
+
+      - name: group_code
+        description: ""
+
+      - name: book_code
+        description: ""
+
+      - name: depreciation_code
+        description: ""
+
+      - name: change_type
+        description: ""
+
+      - name: entity_name
+        description: ""
+
+      - name: disposal_type
+        description: ""
+
+      - name: acquisition_type
+        description: ""
+
+      - name: useful_life_years
+        description: ""
+
+      - name: insure_percent_points
+        description: ""
+
+      - name: insure_percentage
+        description: ""
+
+      - name: capitalization_value
+        description: ""
+
+      - name: disposal_percent_points
+        description: ""
+
+      - name: disposal_percentage
+        description: ""
+
+      - name: residual_percent_points
+        description: ""
+
+      - name: residual_percentage
+        description: ""
+
+      - name: acquisition_percent_points
+        description: ""
+
+      - name: acquisition_percentage
+        description: ""
+
+      - name: assgdbk_irs_electads
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: residual_percent_last_modified_timestamp
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__pulling_inventory_events
+    description: Model for es_warehouse.scd.pulling_inventory_events
+    columns:
+      - name: generateddate
+        description: ""
+      - name: eventdate
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: make
+        description: ""
+      - name: class
+        description: ""
+      - name: asset_inventory_status
+        description: ""
+      - name: rental_branch_id
+        description: ""
+      - name: unavailablecount
+        description: ""
+      - name: unavailableoec
+        description: ""
+      - name: totalcount
+        description: ""
+      - name: totaloec
+        description: ""

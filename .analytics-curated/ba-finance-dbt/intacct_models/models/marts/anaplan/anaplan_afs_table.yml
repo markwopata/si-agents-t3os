@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: anaplan_afs_table
+    description: "Asset financing snapshot summary grouped by category, company, asset type, and date."
+    columns:
+      - name: period_start_date
+        description: "Date truncated to the first day of the month from the snapshot date"
+      - name: oec
+        description: "Sum of Original Equipment Cost (OEC) rounded to 2 decimal places"
+      - name: weighted_age_numerator
+        description: "Calculation used in weighted age formula - months difference between first rental date and snapshot date multiplied by OEC"
+      - name: weighted_age
+        description: "Weighted average age of assets in months, calculated as weighted_age_numerator divided by total OEC, rounded to 1 decimal place"
+      - name: company_id
+        description: "Unique identifier for the company"
+      - name: market_id
+        description: '{{ doc("market_id") }}'
+      - name: owning_company_name
+        description: "Name of the company that owns the asset"
+      - name: asset_ownership
+        description: "Categorization of asset ownership: 'EquipmentShare Owned', 'Own Program', 'Operating Lease', or 'Unknown Category'"
+      - name: asset_category
+        description: "Category of the asset from the int_assets table"
+      - name: rental_type
+        description: "Type of rental, defaults to 'Gen Rent' if not specified in fleet_specialty_mix. This is manually selected/maintained by Lindsey/Russell in the specialty mix view."
+      - name: pk_afs_id
+        description: "Unique identifier created by hashing the combination of date, company_id, asset_ownership, and asset_category"
+        data_tests:
+          - not_null
+          - unique

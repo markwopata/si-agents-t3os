@@ -1,0 +1,23 @@
+SELECT
+    l.location_id,
+    l.user_id,
+    l.nickname,
+    l.street_1,
+    l.street_2,
+    l.city,
+    l.state_id,
+    l.latitude,
+    l.longitude,
+    l.needs_review,
+    l.jobsite,
+    l.location_type_id,
+    l.description,
+    l.company_id,
+    l.location_geo,
+    l.universal_entity_id,
+    l.zip_code,
+    l.zip_code_extended,
+    l.date_created,
+    l.date_updated,
+    l._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'locations') }} as l

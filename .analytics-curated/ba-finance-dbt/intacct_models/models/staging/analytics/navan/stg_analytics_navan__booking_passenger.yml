@@ -1,0 +1,50 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_passenger
+    description: Staging model for Navan booking passenger information, containing details about travelers associated with bookings
+    columns:
+      - name: booking_uuid
+        description: ''
+      - name: index
+        description: ''
+      - name: _fivetran_deleted
+        description: ''
+      - name: _fivetran_synced
+        description: ''
+      - name: passport_issued_on
+        description: ''
+      - name: person_email
+        description: ''
+      - name: passport_expires_on
+        description: ''
+      - name: person_uuid
+        description: ''
+      - name: person_manager_name
+        description: ''
+      - name: passport_country_of_issue
+        description: ''
+      - name: person_name
+        description: ''
+      - name: person_subsidiary
+        description: ''
+      - name: person_cost_center
+        description: ''
+      - name: passport_country_of_citizenship
+        description: ''
+      - name: person_manager_uuid
+        description: ''
+      - name: person_manager_email
+        description: ''
+      - name: traveler_type
+        description: ''
+      - name: person_region
+        description: ''
+      - name: person_billable_entity
+        description: ''
+      - name: status
+        description: ''
+      - name: person_employeed_id
+        description: ''
+      - name: person_department
+        description: ''

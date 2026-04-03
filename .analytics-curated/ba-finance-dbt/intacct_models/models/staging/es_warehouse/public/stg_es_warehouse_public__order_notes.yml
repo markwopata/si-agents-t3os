@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__order_notes
+    description: Model for es_warehouse.public.order_notes
+    columns:
+      - name: order_note_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+      - name: order_id
+        description: ""
+      - name: content
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

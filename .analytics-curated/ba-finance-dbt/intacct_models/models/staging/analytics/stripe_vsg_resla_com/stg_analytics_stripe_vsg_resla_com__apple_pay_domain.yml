@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__apple_pay_domain
+    description: Model for analytics.stripe_vsg_resla_com.apple_pay_domain
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: ""
+      - name: created
+        description: ""
+      - name: domain_name
+        description: ""
+      - name: livemode
+        description: ""
+      - name: _fivetran_synced
+        description: ""

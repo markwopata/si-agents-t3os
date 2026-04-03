@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: int_asset_purchase_history
+    description: >
+      Purchase history of assets with relevant financial details.
+      Recast the log table into date_start/date_end format
+    config:
+      sort: ["date_start", "asset_id"]
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - date_start
+    columns:
+      - name: asset_id
+        description: "Unique identifier for the asset"
+      - name: date_start
+        description: "The start date of the purchase history record"
+      - name: date_end
+        description: "The end date of the purchase history record"
+      - name: finance_status
+        description: "The financial status of the asset (e.g. Paid in Cash, Net Terms, etc.)"
+      - name: financial_schedule_id
+        description: "Identifier for the financial schedule."
+      - name: po_number
+        description: "Purchase order number"
+      - name: oec
+        description: "Original equipment cost or purchase price"
+      - name: purchase_history_id
+        description: "Unique identifier for the asset_purchase_history record"

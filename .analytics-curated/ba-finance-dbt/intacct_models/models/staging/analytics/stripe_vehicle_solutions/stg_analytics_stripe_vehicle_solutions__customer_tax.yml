@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__customer_tax
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: ""
+      - name: country
+        description: ""
+      - name: created
+        description: ""
+      - name: livemode
+        description: ""
+      - name: type
+        description: ""
+      - name: value
+        description: ""
+      - name: object
+        description: ""
+      - name: verification_status
+        description: ""
+      - name: verification_verified_address
+        description: ""
+      - name: verification_verified_name
+        description: ""
+      - name: owner_type
+        description: ""
+      - name: owner_account_id
+        description: ""
+      - name: owner_customer_id
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: _fivetran_synced
+        description: ""

@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: anaplan_fleet_purchasing
+    description: >
+      Fleet purchasing data for Anaplan planning models. Original query from Hayden/Russell. Altered for understanding
+      and project standards (formatting + aliases).
+    columns:
+      - name: purchase_order_type
+        description: ""
+      - name: purchase_order_id
+        description: ""
+      - name: line_item_number
+        description: ""
+      - name: po_line_key
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: vendor_name
+        description: ""
+      - name: asset_description
+        description: ""
+      - name: po_class
+        description: ""
+      - name: po_make
+        description: ""
+      - name: sub_category_name
+        description: ""
+      - name: business_segment_name
+        description: ""
+      - name: po_line_order_status
+        description: ""
+      - name: date
+        description: ""
+      - name: capex_status
+        description: ""
+      - name: oec
+        description: ""
+      - name: qty
+        description: ""
+      - name: month_date
+        description: ""
+      - name: net_payment_terms
+        description: ""
+      - name: calc_payment_year
+        description: ""

@@ -1,0 +1,19 @@
+---
+version: 2
+
+sources:
+  - name: analytics_financial_systems
+    tags: ["sources"]
+    database: analytics
+    schema: financial_systems
+    description:
+      data in analytics.financial_systems (analytics database / financial_systems schema) used for ad-hoc purposes
+      (BA ETL scripts)
+    meta:
+      point_of_contact: Eric Prieto
+    tables:
+      - name: ogitem_to_newitem
+        description: ""
+      - name: item_id_to_gl_account
+        identifier: itemid_to_gl_account
+        description: ""

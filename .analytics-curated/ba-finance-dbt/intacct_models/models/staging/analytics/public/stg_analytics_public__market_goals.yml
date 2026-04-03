@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__market_goals
+    description: ""
+    columns:
+      - name: market_id
+        description: "Market ID that is the foreign key to the markets table."
+        data_tests:
+          - not_null
+      - name: name
+        description: "Name of the market."
+        data_tests:
+          - not_null
+      - name: market_level
+        description: >
+          Defines the level of the market. C# is core, AS# is Advanced Solutions,
+          and T# is Industrial Tooling.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['C1', 'C2', 'C3', 'C4', 'AS1', 'AS2', 'AS3', 'T1']
+                config:
+                  where: "extract(year from start_date) > '2022'" # Exclude legacy market_levels managed by Brody
+                meta:
+                  owner: "@zack.larimore"
+
+      - name: months
+        description: "Month for which the goal is set."
+      - name: revenue_goals
+        description: >
+          Revenue goal for the market in the given month (column = months). Goals are set at the
+          beginning of the year for each month of the year. 
+      - name: market_start_date
+        description: "Start date of the market. This is for reference only - use market_start_date in revmodel_market_rollout_conservative for actual market start dates."
+      - name: start_date
+        description: >
+          the date the revenue goal was entered
+        data_tests:
+          - not_null
+      - name: end_date
+        description: >
+          the date the revenue goal was ended / changed. reasons include tier and start date changes

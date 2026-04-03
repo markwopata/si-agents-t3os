@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_credit_card_fees
+    description: Credit Card Fees estimated based on last 3 months of actuals
+    columns:
+      - name: transaction_number
+        description: ""
+        data_tests:
+          - unique
+
+      - name: market_id
+        description: ""
+
+      - name: account_number
+        description: ""
+
+      - name: transaction_number_format
+        description: ""
+
+      - name: description
+        description: ""
+
+      - name: gl_date
+        description: ""
+
+      - name: document_type
+        description: ""
+
+      - name: document_number
+        description: ""
+
+      - name: url_sage
+        description: ""
+
+      - name: url_concur
+        description: ""
+
+      - name: url_admin
+        description: ""
+
+      - name: url_t3
+        description: ""
+
+      - name: amount
+        description: ""
+
+      - name: additional_data
+        description: ""
+
+      - name: source
+        description: ""
+
+      - name: load_section
+        description: ""
+
+      - name: source_model
+        description: ""

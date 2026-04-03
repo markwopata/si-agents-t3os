@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_inventory_status
+    description: Model for es_warehouse.scd.scd_asset_inventory_status
+    data_tests:
+      - test_date_start_end_overlaps:
+          name: test_stg_es_warehouse_scd__scd_asset_inventory_status_date_start_end_overlaps
+          date_start_column: date_start
+          date_end_column: date_end
+          group_by_columns: [asset_id]
+          config:
+            severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          name: test_stg_es_warehouse_scd__scd_asset_inventory_status_unique_asset_plus_date
+          column_list:
+            - asset_id
+            - date_start
+          config:
+            severity: warn
+    columns:
+      - name: asset_id
+        description: ""
+      - name: asset_inventory_status
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: id
+        description: ""
+      - name: asset_inv_status_seq
+        description: "Sequence number indicating how many times the asset has been in a specific inventory status."
+      - name: inventory_status_duration_days
+        description: "Duration in days that the asset has been in the current inventory status"

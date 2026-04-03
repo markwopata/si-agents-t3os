@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__price_list_entries
+    description: Model for procurement.public.price_list_entries
+    columns:
+      - name: price_list_entry_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_by_id
+        description: ""
+      - name: modified_by_id
+        description: ""
+      - name: price_list_id
+        description: ""
+      - name: item_id
+        description: ""
+      - name: currency_code_id
+        description: ""
+      - name: amount
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

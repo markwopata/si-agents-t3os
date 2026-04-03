@@ -1,0 +1,187 @@
+version: 2
+
+models:
+
+  - name: bridge_quote_salesperson
+    description: "{{ doc('bridge_quote_salesperson') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_salesperson_key
+        data_type: varchar
+        description: "{{ doc('quote_salesperson_key') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_quotes')
+                field: quote_key
+
+      - name: salesperson_user_key
+        data_type: varchar
+        description: "{{ doc('salesperson_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: salesperson_key
+        data_type: varchar
+        description: "{{ doc('salesperson_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson_enhanced')
+                field: salesperson_key
+
+      - name: salesperson_type
+        data_type: varchar
+        description: "{{ doc('salesperson_type') }}"
+        data_tests:
+          - not_null
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: bridge_order_salesperson
+    description: "{{ doc('bridge_order_salesperson') }}"
+    columns:
+      - name: order_salesperson_key
+        data_type: varchar
+        description: "{{ doc('order_salesperson_key') }}"
+        data_tests:
+          - not_null
+          - unique
+      
+      - name: order_key
+        data_type: varchar
+        description: "{{ doc('order_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_orders')
+                field: order_key
+
+      - name: order_salesperson_id
+        data_type: number
+        description: "{{ doc('order_salesperson_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'order_salespersons')
+                field: order_salesperson_id
+
+      - name: salesperson_user_key
+        data_type: varchar
+        description: "{{ doc('salesperson_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: salesperson_key
+        data_type: varchar
+        description: "{{ doc('salesperson_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson_enhanced')
+                field: salesperson_key
+
+      - name: salesperson_type
+        data_type: varchar
+        description: "{{ doc('salesperson_type') }}"
+        data_tests:
+          - not_null
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: bridge_invoice_salesperson
+    description: "{{ doc('bridge_invoice_salesperson') }}"
+    columns:
+      - name: invoice_salesperson_key
+        data_type: varchar
+        description: "{{ doc('invoice_salesperson_key') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: invoice_key
+        data_type: varchar
+        description: "{{ doc('platform__invoice_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_invoices')
+                field: invoice_key
+
+      - name: salesperson_user_key
+        data_type: varchar
+        description: "{{ doc('salesperson_user_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('platform', 'dim_users')
+                field: user_key
+
+      - name: salesperson_key
+        data_type: varchar
+        description: "{{ doc('salesperson_key') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson_enhanced')
+                field: salesperson_key
+
+      - name: salesperson_type
+        data_type: varchar
+        description: "{{ doc('salesperson_type') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: bridge_user_employee
+    description: "{{ doc('bridge_user_employee') }}"
+    columns:
+      - name: user_key
+        data_type: varchar
+        description: "{{ doc('platform__user_key') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: employee_key
+        data_type: varchar
+        description: "{{ doc('employee_key') }}"
+        data_tests:
+          - not_null
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"

@@ -1,0 +1,248 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__vendor
+    description: "Contains all information relating to vendor administration."
+    columns:
+
+      # ids
+      - name: pk_vendor_id
+        description: "Primary key for table, numeric."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: vendor_id
+        description: "Common identifier for Vendor ID for joining records across EQS systems."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: parent_vendor
+        description: "If this vendor is a subsidiary, this field holds the ID of the parent vendor."
+
+      - name: fk_terms_id
+        description: "Foreign key to terms table."
+
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+
+      - name: vendor_redirect
+        description: "If a vendor is acquired by a new company, this holds the ID of the new vendor to which payments and POs should be redirected."
+
+      - name: display_contact_key
+        description: "FK to the Contacts table that links general contact info to this vendor."
+
+      - name: pay_to_key
+        description: "FK to the Contacts table that links payment contact info to this vendor."
+
+      - name: return_to_key
+        description: "FK to the Contacts table that links return info to this vendor."
+
+      - name: ft_fleet_track_id
+        description: "Record Number for the vendor in Fleet Track. Allows pairing a Fleet Track Vendor ID with Sage."
+
+      - name: pay_method_record_no
+        description: "FK for the paymethod record in ANALYTICS.INTACCT.PAYMETHOD. Links vendors to their payment method. Note that we would have to create the PAYMETHOD model too."
+
+      - name: tax_id
+        description: "Vendor tax ID. Includes EINs and SSNs."
+
+      - name: vendor_portal_id
+        description: "Unique identifier for the vendor in the EquipmentShare Vendor Portal."
+
+      # strings
+      - name: vendor_name
+        description: "Name of vendor."
+        data_tests:
+          - not_null
+
+      - name: company_name_dba
+        description: "Doing Business As (DBA) name for the vendor."
+
+      - name: vendor_type
+        description: "Type of vendor."
+
+      - name: vendor_term
+        description: "Name of terms (e.g., NET 30)."
+
+      - name: vendor_status
+        description: "Vendor status (ACTIVE or INACTIVE)."
+
+      - name: vendor_category
+        description: "Vendor category."
+
+      - name: company_legal_name
+        description: "Legal name for vendor."
+
+      - name: name_1099
+        description: "Null unless the legal name is different from the main vendor name."
+
+      - name: comments
+        description: "Free text field that can be used for any purpose."
+
+      - name: form_1099_type
+        description: "Either NEC (Nonemployee Compensation) or MISC (Miscellaneous Income)."
+
+      - name: form_1099_box
+        description: "FK to a key unknown to analytics.intacct. Also used in aprecord, apdetail, and employee."
+
+      - name: billing_type
+        description: "Denotes how payments are applied to invoices; a rare 'balanceforward' value means payments reduce a single accumulating balance."
+
+      - name: ach_routing_number
+        description: "Routing number for the vendor. If the vendor is paid via ACH, this will be selected automatically."
+
+      - name: ach_account_number
+        description: "Account number for the vendor. If the vendor is paid via ACH, this will be selected automatically."
+
+      - name: ach_account_type
+        description: "Checking or Savings account."
+
+      - name: ach_remittance_type
+        description: "'CCD' (Cash Concentration or Disbursement), 'PPD' (Prearranged Payment and Deposits), or 'CTX' (Corporate Trade Exchange)."
+
+      - name: file_payment_service
+        description: "Specifies whether the vendor is enabled for file-based payment processing. Either 'NONE' or 'ACH'."
+
+      - name: mega_entity_name
+        description: "Sage Intacct entity name, e.g., 'Equipmentshare.com Inc.'"
+
+      - name: foreign_tax_id
+        description: "Foreign tax identification number. For vendors that are not US-based and need to report taxes in their home country."
+
+      - name: ud_vendor_esemailnotify
+        description: "Email address to receive vendor notifications from EquipmentShare."
+
+      - name: diversity_classification
+        description: "Diversity classification of the vendor, such as 'VBE - Veteran Owned Business'."
+
+      - name: alt_pay_method
+        description: "If set to 'FifthThird Epay' the vendor will be onboarded in FifthThird Direct as an Epay vendor; AP Aging will pay the vendor's bills with Epay virtual card."
+
+      - name: coi_url
+        description: "Link to HoundDog which shows the validation of the COI."
+
+      - name: external_sync_override
+        description: "Control flag whether a vendor record syncs to T3."
+
+      - name: epay_interest
+        description: "Historic field indicating if a vendor expressed interest in Epay during application. We now enroll all that select Epay in Clustdoc, but this box may still be checked."
+
+      - name: organization_type
+        description: "Business structure the vendor is legally organized under."
+
+      - name: ft_book_of_business
+        description: "Book of Business value that is displayed in Fleet Track."
+
+      - name: ft_category
+        description: "Category displayed in Fleet Track."
+
+      - name: ft_core_designation
+        description: "Indicates core (top 5 by spend or volume) or non-core vendors. If neither, may include the general BoB designation. Set via the Fleet Vendor List."
+
+      - name: ft_financing_designation
+        description: "Financing designation group displayed in Fleet Track."
+
+      - name: prenote_account
+        description: "Stores the vendor's account number for prenote validation until bank validation, then standard payment fields are populated."
+
+      - name: prenote_routing
+        description: "Stores the vendor's routing number for prenote validation until bank validation, then standard payment fields are populated."
+
+      - name: commodity
+        description: "Displays whether the vendor provides a good, service, or both."
+
+      - name: non_inventory
+        description: "Yes or No; indicates if the vendor is a non-inventory related product/service. The product/service is determined by the commodity value."
+
+      - name: approved_entities
+        description: "Internal entities of EquipmentShare that are approved to purchase from the vendor; determines what system the vendor will be propagated to."
+
+      - name: new_vendor_category
+        description: "The general industry/industries of the new vendor."
+
+      - name: vendor_sub_category
+        description: "Description of the sub-category the vendor falls under."
+
+      # booleans
+      - name: is_related_party
+        description: "Flag to check if the vendor is a party related to EquipmentShare."
+
+      - name: display_term_discount
+        description: "If a discount was applied to a payment, the terms should be displayed to the vendor."
+
+      - name: one_time
+        description: "The vendor is being set up for one-time use."
+
+      - name: is_owner
+        description: "Flag indicating if the vendor is the sole owner or a subsidiary."
+
+      - name: on_hold
+        description: "No purchasing activity for the vendor if this is toggled."
+
+      - name: do_not_cut_check
+        description: "No payment activity for the vendor if this is toggled."
+
+      - name: ach_enabled
+        description: "Denotes if the vendor is asking to be paid by ACH."
+
+      - name: wire_enabled
+        description: "Denotes if the vendor is asking to be paid by wire transfer."
+
+      - name: check_enabled
+        description: "Denotes if the vendor is asking to be paid by check."
+
+      - name: payment_notify
+        description: "Determines if the contact in the pay_to_key field will be notified via remittance."
+
+      - name: disp_loc_acct_no_check
+        description: "Whether the local account number should be displayed for that vendor."
+
+      - name: merge_payment_req
+        description: "Whether the vendor allows separate payments to be merged, or prevents consolidation."
+
+      - name: is_individual
+        description: "Denotes if the vendor is an individual person; affects whether they have an EIN or SSN."
+
+      - name: requires_coi
+        description: "Populated by HoundDog after receiving the application via Clustdoc."
+
+      - name: prevent_new_poe_in_sage
+        description: "Allows or prevents new purchase order entries to be written in Sage."
+
+      - name: excl_from_ext
+        description: "Flag excluding vendor from external systems."
+
+      # timestamps
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+
+      # dates
+      - name: earliest_coi_expiration_date
+        description: "Indicates the earliest date that a COI for this vendor will expire."
+
+      - name: msa_valid_through
+        description: "Date field intended to eventually prevent purchasing without signed term approval or valid MSA."
+
+      # numerics
+      - name: credit_limit
+        description: "Displays the credit limit for the vendor. If NULL there is no credit limit set."
+
+      - name: total_due
+        description: "The total amount due to the vendor at the current time."
+
+      - name: alt_pay_due_date_deduction
+        description: "Days deducted from the payment due date to determine the alternative payment due date."

@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tasks
+    description: Model for es_warehouse.public.tasks
+    columns:
+      - name: task_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: task_list_id
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: display_name
+        description: ""
+      - name: priority
+        description: ""
+      - name: task_type_id
+        description: ""
+      - name: required
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

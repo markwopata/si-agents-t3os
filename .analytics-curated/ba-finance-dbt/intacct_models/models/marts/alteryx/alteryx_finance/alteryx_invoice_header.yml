@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: alteryx_invoice_header
+    description: >
+      Full history of Admin Invoice Header data input into an Alteryx workflow.
+      The data is processed, validated, and integrated with related datasets to generate interim datasets for downstream workflows.
+
+    columns:
+      - name: invoice_no
+        description: "Unique identifier invoice number"
+        data_tests:
+          - unique
+
+      - name: invoice_id
+        description: "ID for the payment record in Admin"
+
+      - name: order_id
+        description: "ID of the order associated with the payment"
+
+      - name: date_created
+        description: "Date the payment was created"
+
+      - name: billing_approved_date
+        description: "Date the payment was approved for billing"
+
+      - name: paid_date
+        description: "Date the payment was paid"
+
+      - name: company_id
+        description: "ID of the company associated with the payment"
+
+      - name: is_internal_company
+        description: "Indicates whether the company associated with the invoice is an internal company"
+
+      - name: market_name
+        description: "Name of the market associated with the payment"
+
+      - name: reference
+        description: "Purchase Order Name"
+
+      - name: billed_amount
+        description: "Amount of the payment"
+
+      - name: owed_amount
+        description: "Unapplied amount of the payment"
+
+      - name: tax_amount
+        description: "Tax amount of the payment"
+
+      - name: invoice_memo
+        description: "Memo for the invoice"
+
+      - name: billing_provider_id
+        description: "ID of the billing provider associated with the payment"
+
+      - name: billing_provider_name
+        description: "Name of the billing provider associated with the payment"

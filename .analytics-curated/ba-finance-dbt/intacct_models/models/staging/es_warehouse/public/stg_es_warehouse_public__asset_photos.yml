@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_photos
+    description: Model for es_warehouse.public.asset_photos
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: photo_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,334 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ar_header
+    description: ""
+    columns:
+      - name: pk_ar_header_id
+        description: ""
+        data_tests:
+          - unique
+      - name: gl_date
+        description: ""
+      - name: description
+        description: ""
+      - name: document_number
+        description: ""
+      - name: due_date
+        description: ""
+      - name: totaldue
+        description: ""
+      - name: totalpaid
+        description: ""
+      - name: date_paid
+        description: ""
+      - name: whendiscount
+        description: ""
+      - name: modulekey
+        description: ""
+      - name: schopkey
+        description: ""
+      - name: shipto_visible
+        description: ""
+      - name: prbatchkey
+        description: ""
+      - name: ar_header_type
+        description: ""
+      - name: totalselected
+        description: ""
+      - name: fk_terms_id
+        description: ""
+      - name: custentity
+        description: ""
+      - name: systemgenerated
+        description: ""
+      - name: trx_totalselected
+        description: ""
+      - name: delivery_options
+        description: ""
+      - name: entity
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: rawstate
+        description: ""
+      - name: termvalue
+        description: ""
+      - name: retainagepercentage
+        description: ""
+      - name: trx_totalretained
+        description: ""
+      - name: trx_totalreleased
+        description: ""
+      - name: totalretained
+        description: ""
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: terms_name
+        description: ""
+      - name: prbatch
+        description: ""
+      - name: description2
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: invoice_amount
+        description: ""
+      - name: trx_totalentered
+        description: ""
+      - name: trx_totalpaid
+        description: ""
+      - name: trx_totaldue
+        description: ""
+      - name: contact_contactname
+        description: ""
+      - name: billtopaytocontactname
+        description: ""
+      - name: shiptoreturntocontactname
+        description: ""
+      - name: billtopaytokey
+        description: ""
+      - name: shiptoreturntokey
+        description: ""
+      - name: custmessageid
+        description: ""
+      - name: haspostedrevrec
+        description: ""
+      - name: base_currency_code
+        description: "{{ doc('base_currency_code') }}"
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: exch_rate_date
+        description: ""
+      - name: exch_rate_type_id
+        description: ""
+      - name: exchange_rate
+        description: "{{ doc('exchange_rate') }}"
+      - name: contact_companyname
+        description: ""
+      - name: contact_prefix
+        description: ""
+      - name: contact_firstname
+        description: ""
+      - name: contact_lastname
+        description: ""
+      - name: contact_initial
+        description: ""
+      - name: contact_printas
+        description: ""
+      - name: contact_phone1
+        description: ""
+      - name: contact_phone2
+        description: ""
+      - name: contact_cellphone
+        description: ""
+      - name: contact_pager
+        description: ""
+      - name: contact_fax
+        description: ""
+      - name: contact_email1
+        description: ""
+      - name: contact_email2
+        description: ""
+      - name: contact_url1
+        description: ""
+      - name: contact_url2
+        description: ""
+      - name: contact_mailaddress_address1
+        description: ""
+      - name: contact_mailaddress_address2
+        description: ""
+      - name: contact_mailaddress_city
+        description: ""
+      - name: contact_mailaddress_state
+        description: ""
+      - name: contact_mailaddress_zip
+        description: ""
+      - name: contact_mailaddress_country
+        description: ""
+      - name: contact_mailaddress_countrycode
+        description: ""
+      - name: shipto_companyname
+        description: ""
+      - name: shipto_prefix
+        description: ""
+      - name: shipto_firstname
+        description: ""
+      - name: shipto_lastname
+        description: ""
+      - name: shipto_initial
+        description: ""
+      - name: shipto_printas
+        description: ""
+      - name: shipto_phone1
+        description: ""
+      - name: shipto_phone2
+        description: ""
+      - name: shipto_cellphone
+        description: ""
+      - name: shipto_pager
+        description: ""
+      - name: shipto_fax
+        description: ""
+      - name: shipto_email1
+        description: ""
+      - name: shipto_email2
+        description: ""
+      - name: shipto_url1
+        description: ""
+      - name: shipto_url2
+        description: ""
+      - name: shipto_mailaddress_address1
+        description: ""
+      - name: shipto_mailaddress_address2
+        description: ""
+      - name: shipto_mailaddress_city
+        description: ""
+      - name: shipto_mailaddress_state
+        description: ""
+      - name: shipto_mailaddress_zip
+        description: ""
+      - name: shipto_mailaddress_country
+        description: ""
+      - name: shipto_mailaddress_countrycode
+        description: ""
+      - name: billto_companyname
+        description: ""
+      - name: billto_prefix
+        description: ""
+      - name: billto_firstname
+        description: ""
+      - name: billto_lastname
+        description: ""
+      - name: billto_initial
+        description: ""
+      - name: billto_printas
+        description: ""
+      - name: billto_phone1
+        description: ""
+      - name: billto_phone2
+        description: ""
+      - name: billto_cellphone
+        description: ""
+      - name: billto_pager
+        description: ""
+      - name: billto_fax
+        description: ""
+      - name: billto_email1
+        description: ""
+      - name: billto_email2
+        description: ""
+      - name: billto_url1
+        description: ""
+      - name: billto_url2
+        description: ""
+      - name: trx_entitydue
+        description: ""
+      - name: billto_mailaddress_address1
+        description: ""
+      - name: billto_mailaddress_address2
+        description: ""
+      - name: billto_mailaddress_city
+        description: ""
+      - name: billto_mailaddress_state
+        description: ""
+      - name: billto_mailaddress_zip
+        description: ""
+      - name: billto_mailaddress_country
+        description: ""
+      - name: billto_mailaddress_countrycode
+        description: ""
+      - name: contact_visible
+        description: ""
+      - name: billto_contactname
+        description: ""
+      - name: billbacktemplatekey
+        description: ""
+      - name: shipto_contactname
+        description: ""
+      - name: supdocid
+        description: ""
+      - name: invoice_state
+        description: ""
+      - name: taxsolutionid
+        description: ""
+      - name: custemailoptin
+        description: ""
+      - name: projectcontractkey
+        description: ""
+      - name: projectcontractid
+        description: ""
+      - name: shipto_taxgroup_recordno
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: megaentitykey
+        description: ""
+      - name: megaentityid
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: megaentityname
+        description: ""
+      - name: due_in_days
+        description: ""
+      - name: shipto_mailaddress_recordkey
+        description: ""
+      - name: billto_mailaddress_recordkey
+        description: ""
+      - name: billto_visible
+        description: ""
+      - name: bank_account
+        description: ""
+      - name: undeposited_funds_account_number
+        description: a temporary holding/clearing GL account for AR. Payments go here before going to the GL for the bank account
+      - name: payment_method
+        description: ""
+      - name: fk_payment_method_id
+        description: ""
+      - name: receiptdate
+        description: ""
+      - name: paymentdate
+        description: ""
+      - name: cleared
+        description: ""
+      - name: clrdate
+        description: ""
+      - name: is_on_hold
+        description: ""
+      - name: recon_date
+        description: ""
+      - name: userkey
+        description: ""
+      - name: deliverymethod
+        description: ""
+      - name: fk_entity_id
+        description: "{{ doc('fk_entity_id') }}"
+      - name: nr_totalentered
+        description: ""
+      - name: nr_trx_totalentered
+        description: ""
+      - name: payment_type
+        description: ""
+      - name: journal_title
+        description: "{{ doc('journal_title') }}"
+      - name: date_posted
+        description: ""
+      - name: invoice_memo
+        description: ""
+      - name: financialaccount
+        description: ""
+      - name: paymentamount
+        description: ""
+      - name: invoice_status
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

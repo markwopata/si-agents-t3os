@@ -1,0 +1,160 @@
+---
+version: 2
+
+models:
+  - name: gl_detail
+    description: >
+      GL detail at a subledger level. Adds in retained earnings entries so that balances can add up correctly.
+        Also makes some subledger corrections. This table is a one big table style wide table pulling in as much detail
+        about GL data as possible. Raw amounts are the positive credit or debit amount. Net amounts will be debit minus
+        credit. Columns that are just amount are meant to be calculated for end financial reporting. For the P&L,
+        revenues will be positive, expenses will be negative. This lets us use the field to sum directly to net income.
+        For the balance sheet, assets will be positive. Liabilities and equity will be negative.
+    config:
+      tags: ["hourly", "intacct"]
+      snowflake_warehouse: 'PROD_ANALYTICS_LARGE_PROCESSESING_WH'
+    columns:
+      - name: pk_gl_detail_id
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_gl_entry_id
+        description: "{{ doc('fk_gl_entry_id') }}"
+      - name: fk_gl_resolve_id
+        description: "{{ doc('fk_gl_resolve_id') }}"
+      - name: entry_date
+        description: >
+          This date is adjusted backward 1 month for retained earnings entries. Without adjusting for this,
+          balances don't add up for a given month.
+      - name: raw_entry_date
+        description: "Original entry date"
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: account_name
+        description: "{{ doc('account_name') }}"
+      - name: fk_account_id
+        description: "{{ doc('fk_account_id') }}"
+      - name: account_normal_balance
+        description: "{{ doc('account_normal_balance') }}"
+      - name: account_type
+        description: "{{ doc('account_type') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"
+      - name: extended_entity_name
+        description: "{{ doc('extended_entity_name') }}"
+      - name: raw_amount
+        description: "{{ doc('gle_raw_amount_w_sl') }}"
+      - name: entry_description
+        description: "{{ doc('entry_description') }}"
+      - name: journal_title
+        description: "{{ doc('journal_title') }}"
+      - name: debit_credit_sign
+        description: "{{ doc('debit_credit_sign') }}"
+      - name: debit_credit
+        description: "{{ doc('debit_credit') }}"
+      - name: net_amount
+        description: ""
+      - name: positive_revenue_sign
+        description: "{{ doc('positive_revenue_sign') }}"
+      - name: balance_sheet_sign
+        description: "{{ doc('balance_sheet_sign') }}"
+      - name: applied_sign
+        description: "{{ doc('gle_applied_sign') }}"
+      - name: amount
+        description: "{{ doc('gle_amount_w_sl') }}"
+      - name: raw_entry_amount
+        description: "{{ doc('raw_entry_amount') }}"
+      - name: net_entry_amount
+        description: "{{ doc('net_entry_amount') }}"
+      - name: entry_amount
+        description: "{{ doc('entry_amount') }}"
+      - name: exchange_rate
+        description: "{{ doc('exchange_rate') }}"
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: base_currency_code
+        description: "{{ doc('base_currency_code') }}"
+      - name: exchange_rate_date
+        description: "{{ doc('exchange_rate_date') }}"
+      - name: fk_expense_type_id
+        description: "{{ doc('fk_expense_type_id') }}"
+      - name: expense_type
+        description: "{{ doc('expense_type') }}"
+      - name: expense_category
+        description: "{{ doc('expense_category') }}"
+      - name: intacct_module
+        description: "{{ doc('intacct_module') }}"
+      - name: journal_type
+        description: "{{ doc('journal_type') }}"
+      - name: extended_journal_type
+        description: "{{ doc('extended_journal_type') }}"
+      - name: date_reversed
+        description: "{{ doc('date_reversed') }}"
+      - name: fk_reversed_from_journal_id
+        description: "{{ doc('fk_reversed_from_journal_id') }}"
+      - name: fk_journal_id
+        description: "{{ doc('fk_journal_id') }}"
+      - name: journal_transaction_number
+        description: "{{ doc('journal_transaction_number') }}"
+      - name: line_number
+        description: "{{ doc('gle_line_number') }}"
+      - name: document
+        description: "{{ doc('gle_document') }}"
+      - name: url_journal
+        description: "{{ doc('url_journal') }}"
+      - name: fk_subledger_header_id
+        description: "{{ doc('fk_subledger_header_id') }}"
+      - name: fk_subledger_line_id
+        description: "{{ doc('fk_subledger_line_id') }}"
+      - name: fk_ud_loan_id
+        description: "{{ doc('fk_ud_loan_id') }}"
+      - name: gl_dim_transaction_identifier
+        description: "{{ doc('gl_dim_transaction_identifier') }}"
+      - name: asset_id
+        description: asset ID on journal entry lines (custom text field). Accounting needs this for COGS and revenue reporting.
+      - name: gl_dim_asset_id
+        description: "{{ doc('gl_dim_asset_id') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: created_by_username
+        description: "{{ doc('created_by_username') }}"
+      - name: created_by_name
+        description: "{{ doc('created_by_name') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: updated_by_username
+        description: "{{ doc('updated_by_username') }}"
+      - name: updated_by_name
+        description: "{{ doc('updated_by_name') }}"
+      - name: entry_state
+        description: "{{ doc('entry_state') }}"
+      - name: journal_state
+        description: "{{ doc('journal_state') }}"
+      - name: is_statistical
+        description: "{{ doc('is_statistical') }}"
+      - name: combined_state
+        description: "{{ doc('combined_state') }}"
+      - name: is_true_entry
+        description: >
+          BA is generating some entry lines to correctly generate retained earnings lines. Sage makes these entries
+            in some other fashion & doesn't load them to the gl tables. This flag identifies if the entry is truly in
+            Sage intacct.
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: source
+        description: "Identify the different unions of the underlying query"

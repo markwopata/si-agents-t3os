@@ -1,0 +1,103 @@
+version: 2
+sources:
+  - name: lease_accelerator
+    tags: ["sources"]
+    database: analytics
+    schema: lease_accelerator
+    description: >
+      software that accounting uses to track what ES is renting/leasing from. Main lease categories are operating and capital leases
+    meta:
+      owner: "@erik.chu"
+    tables:
+      - name: ledger_export_api_download
+        description: >
+          the downloaded report from the LAS API that generates journal entries for lease accounting (e.g., rent, depreciation, liability reduction) uploaded to Sage
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads#L435
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - ledgerentryid
+                - ledgerentrysubid
+              where: ledgerentryid != '0'
+
+      - name: bu_asset_api_download
+        description: >
+          the downloaded report from the LAS API that provides a list of assets that ES is renting. focuses on active/in-active assets
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads#L456
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_id
+                - _es_update_timestamp
+
+      - name: bu_asset_all_equipment_api_download
+        description: >
+          the downloaded report from the LAS API that provides a list of assets that ES is renting.
+          Includes terminated assets, includes child assets with no cost, and only covers Equipment leases.
+          Used for Fixed Accounting cost center mapping report
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads#L456
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_id
+                - _es_update_timestamp
+
+      - name: leasing_summary_api_download
+        description: >
+          the downloaded report from the LAS API provides a list of assets that ES is renting. Accounting uses this report, after making adjustments, for lease-level analysis
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads#L265
+          # Skipping source test because this data is at the asset level but lacks unique asset identifiers
+
+      - name: roll_forward_api_download
+        description: >
+          the downloaded report from the LAS API that provides uses schedule-level journal entries to provide a rollforward
+          of accounts with FX treatment for audit support purposes. Rollforward is taking the ending balance from one period and using it as the starting balance for the next period
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads#L532
+
+      - name: portfolio_balance_api_download
+        description: >
+          a financial statement that lists the ending balances of all accounts within a specific investment portfolio at a particular point in time.
+          using this report to calculate ROUA (right of use assets), accumulated depreciation, and lease liability. Contains a one-time data load of historical records from 2024
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - starting_fiscal_period   #the point in time that the data is being pulled from
+                - schedule
+                - statement_sequencer
+                - gl_segment_2  # gl_account_number
+                - gl_segment_3  # cost_center
+                - month_end_date
+                - cost_center
+                - _es_update_timestamp
+
+      - name: payment_schedule_api_download
+        description: >
+          a lease level report that provides listing of lease payments due in the future by selected reporting frequency (currently month - can be modified).
+          Payments are allocated to periods on Cash basis. Payment dates are pivoted from columns to rows.
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/lease_accelerator_reports.py?ref_type=heads
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - schedule_number
+                - payment_date
+                - _es_update_timestamp

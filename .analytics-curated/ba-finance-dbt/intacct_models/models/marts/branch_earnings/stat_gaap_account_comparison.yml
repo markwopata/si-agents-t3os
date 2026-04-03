@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: stat_gaap_account_comparison
+    description: "Final table that aligns FA's derived Statistical accounts with their GAAP counterparts."
+    columns:
+      - name: gl_month
+        description: "GL Month, will only go through last closed month, according to latest month in branch_earnings_dds_snap."
+      - name: market_id
+        description: "Market ID for given account rev/exp line."
+      - name: market_name
+        description: "Market Name for given account rev/exp line."
+      - name: region_district
+        description: "District for given account rev/exp line."
+      - name: region
+        description: "Region ID for given account rev/exp line."
+      - name: region_name
+        description: "Region Name for given account rev/exp line."
+      - name: sort_group 
+        description: "Line item order to sort as would appear on the P/L."
+      - name: department
+        description: "Further grouping of accounts by department."
+      - name: revexp
+        description: "Identifies whether the account is a revenue or expense account."
+      - name: account_map_id
+        description: "The mapping id that is used to join the branch_earnings and gl_detail tables. For cases where there is a stat/gl account, the mapping_id will be filled in from the mapping seed files. For non-stat accounts, map_id is filled in with account number."
+      - name: gaap_account_number 
+        description: "Account number can come from the seed_gaap_acct_map seed file in cases where there is a stat-gaap match, otherwise account name comes from gl_detail."
+      - name: gaap_account_name
+        description: "Account name from either seed_gaap_acct_map seed file or gl_detail."
+      - name: branch_earnings_account_number
+        description: "Account number can come from the seed_stat_acct_map seed file in cases where there is a stat-gaap match, otherwise account name comes from branch_earnings_dds_snap."
+      - name: branch_earnings_account_name
+        description: "Account name from either seed_gaap_acct_map seed file or gl_detail."
+      - name: gaap_amount
+        description: "Amount coming from gl_detail, sign will correspond with rev/exp."
+      - name: branch_earnings_amount
+        description: "Amount coming from branch_earnings_dds_snap, sign will correspond with rev/exp."
+      - name: difference
+        description: "Difference between branch_earnings_amount and gaap_amount (branch_earnings_amount - gaap_amount)."
+        

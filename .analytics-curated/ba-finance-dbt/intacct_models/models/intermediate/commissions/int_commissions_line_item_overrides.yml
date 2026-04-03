@@ -1,0 +1,30 @@
+---
+version: 2
+models:
+  - name: int_commissions_line_item_overrides
+    description: Line Item Overrides for Commissions
+    columns:
+      - name: override_key
+        description: ""
+      - name: commission_override_request_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: request_start_date
+        description: ""
+      - name: request_end_date
+        description: ""
+      - name: order_date_created
+        description: ""
+      - name: invoice_end_date
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

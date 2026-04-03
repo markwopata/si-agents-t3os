@@ -1,0 +1,268 @@
+---
+version: 2
+models:
+  - name: int_credit_card_citi_extended_data
+    description:
+      Extended credit card data from Citi to include Vehicle rentals, Airline Tickets, and Lodging expenses.
+      This data is created by the ba-citi-sftp-etl job.
+    columns:
+      # Daily transaction fields
+      - name: employee_id
+        description: "Unique identifier for the employee making the transaction."
+
+      - name: transaction_id
+        description: "Unique identifier for the transaction."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: has_vehicle_rental_detail
+        description: "Boolean flag indicating if transaction has associated vehicle rental detail."
+        data_tests:
+          - not_null
+
+      - name: has_airline_detail
+        description: "Boolean flag indicating if transaction has associated airline detail."
+        data_tests:
+          - not_null
+
+      - name: has_lodging_detail
+        description: "Boolean flag indicating if transaction has associated lodging detail."
+        data_tests:
+          - not_null
+
+      - name: first_name
+        description: "Employee's first name."
+
+      - name: last_name
+        description: "Employee's last name."
+
+      - name: full_name
+        description: "Employee's full name."
+        data_tests:
+          - not_null
+
+      - name: mcc
+        description: "Merchant Category Code description."
+
+      - name: card_type
+        description: "Type of credit card used."
+        data_tests:
+          - not_null
+
+      - name: status
+        description: "Transaction status."
+
+      - name: merchant_name
+        description: "Name of the merchant where transaction occurred."
+        data_tests:
+          - not_null
+
+      - name: employee_title
+        description: "Employee's job title."
+
+      - name: corporate_account_number
+        description: "Corporate account number associated with the card."
+        data_tests:
+          - not_null
+
+      - name: corporate_account_name
+        description: "Corporate account name associated with the card."
+
+      - name: worker_type
+        description: "Type of worker (Employee, Contingent Worker, etc.)."
+
+      - name: transaction_amount
+        description: "Amount of the transaction."
+        data_tests:
+          - not_null
+
+      - name: mcc_code
+        description: "Merchant Category Code numeric value. (3751, 5734, etc.)"
+
+      - name: is_bypass_verification
+        description: "Boolean flag indicating if verification was bypassed."
+        data_tests:
+          - not_null
+
+      - name: transaction_date
+        description: "Date when the transaction occurred."
+        data_tests:
+          - not_null
+
+      # Vehicle rental fields
+      - name: vehicle_rental_sequence_number
+        description: "Sequence number for vehicle rental detail record."
+
+      - name: vehicle_rental_days_rented
+        description: "Number of days the vehicle was rented."
+
+      - name: vehicle_rental_rental_rate
+        description: "Daily rental rate for the vehicle."
+
+      - name: vehicle_rental_rate_per_mile
+        description: "Rate charged per mile driven."
+
+      - name: vehicle_rental_total_miles
+        description: "Total miles driven during the rental period."
+
+      - name: vehicle_rental_maximum_free_miles
+        description: "Maximum number of free miles included in rental."
+
+      - name: vehicle_rental_insurance_charges
+        description: "Insurance charges for the vehicle rental."
+
+      - name: vehicle_rental_weekly_rental_rate
+        description: "Weekly rental rate for the vehicle."
+
+      - name: vehicle_rental_total_authorized_amount
+        description: "Total authorized amount for the vehicle rental."
+
+      - name: vehicle_rental_source_file
+        description: "Source file for the vehicle rental data."
+
+      - name: vehicle_rental_return_location_id
+        description: "Location ID where the vehicle was returned."
+
+      - name: vehicle_rental_maintenance_code
+        description: "Maintenance code for the vehicle rental record."
+
+      - name: vehicle_rental_rental_agreement_number
+        description: "Rental agreement number for the vehicle."
+
+      - name: vehicle_rental_renter_name
+        description: "Name of the person renting the vehicle."
+
+      - name: vehicle_rental_rental_return_city
+        description: "City where the vehicle was returned."
+
+      - name: vehicle_rental_rental_return_state_province
+        description: "State where the vehicle was returned."
+
+      - name: vehicle_rental_rental_return_country
+        description: "Country where the vehicle was returned."
+
+      - name: vehicle_rental_rental_rate_indicator
+        description: "Indicator for the rental rate type."
+
+      - name: vehicle_rental_insurance_indicator
+        description: "Indicator for insurance coverage."
+
+      - name: vehicle_rental_vehicle_check_out_city
+        description: "City where the vehicle was checked out."
+
+      - name: vehicle_rental_vehicle_check_out_state_province
+        description: "State where the vehicle was checked out."
+
+      - name: vehicle_rental_vehicle_check_out_country
+        description: "Country where the vehicle was checked out."
+
+      - name: vehicle_rental_rental_class
+        description: "Class of the rental vehicle."
+
+      - name: vehicle_rental_corporate_identifier
+        description: "Corporate identifier for the vehicle rental."
+
+      - name: vehicle_rental_no_show_indicator
+        description: "Indicator if customer was a no-show."
+
+      - name: vehicle_rental_customer_service_toll_free_800_number
+        description: "Customer service toll-free number for the rental company."
+
+      - name: vehicle_rental_vehicle_return_location
+        description: "Location where the vehicle was returned."
+
+      - name: vehicle_rental_check_out_date
+        description: "Date when the vehicle was checked out."
+
+      - name: vehicle_rental_rental_return_date
+        description: "Date when the vehicle was returned."
+
+      - name: vehicle_rental_days_rented_estimated
+        description: "Estimated number of days rented based on check-out and return dates."
+
+      - name: vehicle_rental_es_update_timestamp
+        description: "Timestamp when the vehicle rental record was last updated in ES system."
+
+      # Airline fields
+      - name: airline_sequence_number
+        description: "Sequence number for airline detail record."
+
+      - name: airline_total_fare
+        description: "Total fare for the airline ticket."
+
+      - name: airline_ticket_number
+        description: "Airline ticket number."
+
+      - name: airline_source_file
+        description: "Source file for the airline data."
+
+      - name: airline_passenger_name
+        description: "Name of the passenger on the airline ticket."
+
+      - name: airline_maintenance_code
+        description: "Maintenance code for the airline record."
+
+      - name: airline_issuing_carrier
+        description: "Airline carrier that issued the ticket. (AA, UA, etc.)"
+
+      - name: airline_travel_agency_name
+        description: "Name of the travel agency that booked the ticket."
+
+      - name: airline_travel_agency_code
+        description: "Code of the travel agency that booked the ticket."
+
+      - name: airline_customer_code
+        description: "Customer code for the airline booking."
+
+      - name: airline_issue_date
+        description: "Date when the airline ticket was issued."
+
+      - name: airline_es_update_timestamp
+        description: "Timestamp when the airline record was last updated in ES system."
+
+      # Lodging fields
+      - name: lodging_sequence_number
+        description: "Sequence number for lodging detail record."
+
+      - name: lodging_customer_service_toll_free_800_num
+        description: "Customer service toll-free number for the lodging provider."
+
+      - name: lodging_property_phone_num
+        description: "Phone number of the lodging property."
+
+      - name: lodging_estimated_nights_stayed_arrival_departure
+        description: "Estimated nights stayed based on arrival and departure dates."
+
+      - name: lodging_estimated_nights_stayed_price_based
+        description: "Estimated nights stayed based on transaction amount divided by room rate."
+
+      - name: lodging_total_room_nights
+        description: "Total number of room nights for the lodging stay."
+
+      - name: lodging_room_rate_amount
+        description: "Room rate amount per night."
+
+      - name: lodging_total_room_tax
+        description: "Total room tax charged for the stay."
+
+      - name: lodging_source_file
+        description: "Source file for the lodging data."
+
+      - name: lodging_maintenance_code
+        description: "Maintenance code for the lodging record."
+
+      - name: lodging_folio_num
+        description: "Folio number for the lodging stay."
+
+      - name: lodging_arrival_date
+        description: "Date of arrival at the lodging property."
+
+      - name: lodging_departure_date
+        description: "Date of departure from the lodging property."
+
+      - name: lodging_approval_date
+        description: "Date when the lodging charge was approved."
+
+      - name: lodging_es_update_timestamp
+        description: "Timestamp when the lodging record was last updated in ES system."

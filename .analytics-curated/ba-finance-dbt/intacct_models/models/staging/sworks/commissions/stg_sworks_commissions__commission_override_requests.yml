@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_sworks_commissions__commission_override_requests
+    description: Commission override requests submitted by TAMs
+    config:
+      tags:
+        - source
+        - commissions
+    columns:
+      - name: commission_override_request_id
+        description: Unique identifier for the commission override request

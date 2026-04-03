@@ -1,0 +1,100 @@
+---
+version: 2
+models:
+  - name: alteryx_credit_card_receipt_audit
+    description: >
+      Audits credit card receipts and tracks when a valid receipt is missing or invalid
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - purchase_id
+              - ocr_data_raw
+              - image_url
+    columns:
+      - name: purchase_id
+        description: identifier for each purchase transaction, used to track and reference individual credit card receipts.
+
+      - name: ocr_data_raw
+        description: Contains the raw OCR (Optical Character Recognition) data extracted from credit card receipt images for auditing purposes. This data is used to validate and reconcile receipt information with accounting records.
+
+      - name: image_url
+        description: the URL of the image associated with the credit card receipt, used for audit and verification purposes.
+
+      - name: cardholder_employee_id
+        description: identifier for the employee who is the cardholder associated with the credit card receipt.s
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: transaction_id
+        description: identifier for each transaction, used to track and reference individual credit card receipt records.
+
+      - name: direct_manager_employee_id
+        description: identifier of the direct manager for the employee associated with this record.
+
+      - name: cardholder_full_name
+        description: full name of the credit card holder associated with the receipt.
+
+      - name: cardholder_email
+        description: email address associated with the cardholder who made the credit card transaction.
+
+      - name: base_path
+        description: cost center path for each branch that a cardholder is related to. to analyze by region, district, branch, etc and can tie thag all the way up to the top level of company activity
+
+      - name: cardholder_employment_status
+        description: Indicates the current employment status of the cardholder (e.g., active, terminated, on leave).
+
+      - name: transaction_merchant_name
+        description: name of the merchant associated with the credit card transaction.
+
+      - name: notes
+        description: additional notes or comments related to the credit card receipt audit.
+
+      - name: image_evaluation
+        description: ChatGPT notes for OCR image evaluation
+
+      - name: evaluation_reasoning
+        description: ChatGPT reasoning of how it reached the conclusion
+
+      - name: direct_manager_name
+        description: name of the direct manager associated with the credit card receipt.
+
+      - name: direct_manager_work_email
+        description: The work email address of the direct manager
+
+      - name: transaction_mcc_code
+        description: The merchant category code (MCC) associated with the transaction
+
+      - name: transaction_mcc
+        description: the merchant category associated with the transaction
+
+      - name: grand_total
+        description: the total dollar for the receipt
+
+      - name: handwritten_confidence
+        description: the confidence score (0 to 100) assigned to the handwritten recognition process for this receipt
+
+      - name: receipt_confidence
+        description: the confidence score (0 to 100) assigned to the receipt recognition process
+
+      - name: image_quality
+        description: ChatGPT image quality score (0 to 100)
+
+      - name: receipt_flag
+        description: indicates whether ChatGPT believes it is a valid itemized receipt or not
+
+      - name: ocr_upload_timestamp
+        description: Timestamp indicating when the OCR (Optical Character Recognition) upload occurred
+
+      - name: expense_line
+        description: approved expense line names associated with the transaction
+
+      - name: purchased_at
+        description: The date and time when the purchase was made
+
+      - name: submitted_at
+        description: Timestamp indicating when the record was submitted.
+
+      - name: modified_at
+        description: The timestamp indicating when the record was last modified.

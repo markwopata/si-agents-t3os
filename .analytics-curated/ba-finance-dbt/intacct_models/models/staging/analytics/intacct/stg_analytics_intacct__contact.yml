@@ -1,0 +1,84 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__contact
+    description: ""
+    columns:
+      - name: pk_contact_id
+        description: ""
+        constraints:
+          - type: primary_key
+      - name: contact_name
+        description: "Unique contact name"
+      - name: contact_company_name
+        description: ""
+      - name: prefix
+        description: ""
+      - name: firstname
+        description: ""
+      - name: lastname
+        description: ""
+      - name: initial
+        description: ""
+      - name: printas
+        description: "How the contact name appears on invoices, checks, etc."
+      - name: taxable
+        description: ""
+      - name: discount
+        description: ""
+      - name: phone1
+        description: "Primary phone number"
+      - name: phone2
+        description: "Secondary phone number"
+      - name: cellphone
+        description: ""
+      - name: pager
+        description: ""
+      - name: fax
+        description: ""
+      - name: email1
+        description: "Primary email address"
+      - name: email2
+        description: "Secondary email address"
+      - name: url1
+        description: ""
+      - name: url2
+        description: ""
+      - name: visible
+        description: ""
+      - name: tax_id
+        description: ""
+      - name: mailaddress_address1
+        description: ""
+      - name: mailaddress_address2
+        description: ""
+      - name: mailaddress_city
+        description: ""
+      - name: mailaddress_state
+        description: ""
+      - name: mailaddress_zip
+        description: ""
+      - name: mailaddress_country
+        description: ""
+      - name: mailaddress_countrycode
+        description: ""
+      - name: contact_status
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: megaentitykey
+        description: ""
+      - name: megaentityid
+        description: ""
+      - name: megaentityname
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

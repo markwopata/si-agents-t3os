@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vehicle_solutions__turo_earnings
+    description: >
+      Cleaned up version of the turo_earnings table. This is currently an adhoc csv pull of what reservations/
+      transactions are covered by each payout from Turo. We need this to reconcile the bank statement.
+    columns:
+      - name: host_account_id
+        description: "Unique id for the turo host account."
+      - name: host_account_name
+        description: "Name on the turo account. Looks like Resla KC"
+      - name: turo_account_code
+        description: "Code extracted from the host account name."
+      - name: earning_date
+        description: ""
+      - name: stripe_payout_id
+        description: "Unique identifier for each payout. This is what is tied to each unique batch_amount"
+      - name: batch_amount
+        description: "Total dollar value for the batch - this is what shows up in the bank deposit data."
+      - name: vehicle_id
+        description: "Unique identifier for the vehicle. This is turo's internal vehicle id."
+      - name: make
+        description: "Make of the vehicle - e.g. Tesla"
+      - name: model
+        description: "Model of the vehicle - e.g. Model Y"
+      - name: model_year
+        description: "Year of the vehicle - e.g. 2025"
+      - name: reservation_id
+        description: "Unique identifier for each reservation. Foreign key to reservation_id in turo_rentals table."
+      - name: amount
+        description: "Line amount"
+      - name: reason
+        description: "Reason code for the line - e.g. REFUND_SALE_OTHER, PARTIAL_PAYMENT, TRIP_COMPLETED"
+      - name: credit_date
+        description: "Date this transaction was issued by Turo. Note this 1-2 days before the funds hit the bank."
+      - name: bank_deposit_date
+        description: >
+          Date the payment is supposed to hit ES bank account. This date is 1-2 days before the date on the bank
+          statement.
+      - name: bank_deposit_month
+        description: month the payment hits ES' bank account (Capital One)
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

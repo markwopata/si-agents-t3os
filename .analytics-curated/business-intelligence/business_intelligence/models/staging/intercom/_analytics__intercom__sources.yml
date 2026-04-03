@@ -1,0 +1,2548 @@
+version: 2
+
+sources:
+  - name: intercom
+    description: "This is the Fivetran connection to Intercom APIs. 
+      It is currently configured to sync every 12 hours.
+      API docs are in https://developers.intercom.com/docs/references/2.7/rest-api/api.intercom.io/.
+      "
+    database: analytics
+    schema: intercom
+    config:
+      freshness:
+        warn_after: {count: 14, period: hour}
+        error_after: {count: 24, period: hour}
+      loaded_at_field: _fivetran_synced
+
+    tables:
+      - name: admin
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: email
+            data_type: varchar
+            description: ""
+          - name: job_title
+            data_type: varchar
+            description: ""
+          - name: has_inbox_seat
+            data_type: boolean
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: away_mode_reassigned
+            data_type: boolean
+            description: ""
+          - name: away_mode_enabled
+            data_type: boolean
+            description: ""
+
+      - name: article_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: collection_id
+            data_type: varchar
+            description: ""
+          - name: section_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: title
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: body
+            data_type: varchar
+            description: ""
+          - name: author_id
+            data_type: varchar
+            description: ""
+          - name: state
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: parent_type
+            data_type: varchar
+            description: ""
+          - name: default_locale
+            data_type: varchar
+            description: ""
+          - name: statistics_type
+            data_type: varchar
+            description: ""
+          - name: statistics_views
+            data_type: number
+            description: ""
+          - name: statistics_conversations
+            data_type: number
+            description: ""
+          - name: statistics_reactions
+            data_type: number
+            description: ""
+          - name: statistics_happy_reaction_percentage
+            data_type: number
+            description: ""
+          - name: statistics_neutral_reaction_percentage
+            data_type: number
+            description: ""
+          - name: statistics_sad_reaction_percentage
+            data_type: number
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: collection_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: icon
+            data_type: varchar
+            description: ""
+          - name: default_locale
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: order
+            data_type: number
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+          - name: parent_id
+            data_type: varchar
+            description: ""
+          - name: help_center_id
+            data_type: varchar
+            description: ""
+
+      - name: company_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: app_id
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: remote_created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_request_at
+            data_type: timestamp_tz
+            description: ""
+          - name: company_id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: session_count
+            data_type: number
+            description: ""
+          - name: monthly_spend
+            data_type: number
+            description: ""
+          - name: user_count
+            data_type: number
+            description: ""
+          - name: size
+            data_type: number
+            description: ""
+          - name: website
+            data_type: varchar
+            description: ""
+          - name: industry
+            data_type: varchar
+            description: ""
+          - name: plan_id
+            data_type: varchar
+            description: ""
+          - name: plan_name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: custom_office_locations
+            data_type: number
+            description: ""
+          - name: custom_creation_source
+            data_type: varchar
+            description: ""
+          - name: custom_asset_count_vehicle
+            data_type: number
+            description: ""
+          - name: custom_asset_count
+            data_type: number
+            description: ""
+          - name: custom_company_has_fleet
+            data_type: boolean
+            description: ""
+          - name: custom_company_has_elogs
+            data_type: boolean
+            description: ""
+          - name: custom_asset_count_attachment
+            data_type: number
+            description: ""
+          - name: custom_jobsite_locations
+            data_type: number
+            description: ""
+          - name: custom_asset_count_trailer
+            data_type: number
+            description: ""
+          - name: custom_asset_count_equipment
+            data_type: number
+            description: ""
+          - name: custom_company_has_rentals
+            data_type: boolean
+            description: ""
+          - name: custom_asset_count_small_tool
+            data_type: number
+            description: ""
+          - name: custom_asset_count_bucket
+            data_type: number
+            description: ""
+          - name: custom_company_domain
+            data_type: varchar
+            description: ""
+          - name: custom_t_3_customer
+            data_type: varchar
+            description: ""
+          - name: custom_has_company_ever_been_onboarded
+            data_type: varchar
+            description: ""
+          - name: custom_service_customer
+            data_type: varchar
+            description: ""
+          - name: custom_t_3_camera_customer
+            data_type: varchar
+            description: ""
+          - name: custom_e_logs_customer
+            data_type: varchar
+            description: ""
+          - name: custom_time_cards_customer
+            data_type: varchar
+            description: ""
+          - name: custom_has_fleet
+            data_type: boolean
+            description: ""
+          - name: custom_has_elogs
+            data_type: boolean
+            description: ""
+          - name: custom_has_rentals
+            data_type: boolean
+            description: ""
+          - name: custom_company_survicate_last_response_date
+            data_type: number
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+          - name: custom_t_3_company_pilot_status
+            data_type: varchar
+            description: ""
+
+      - name: company_tag_history
+        description: ""
+        columns:
+          - name: company_id
+            data_type: varchar
+            description: ""
+          - name: company_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: tag_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: contact_company_history
+        description: ""
+        columns:
+          - name: company_id
+            data_type: varchar
+            description: ""
+          - name: contact_id
+            data_type: varchar
+            description: ""
+          - name: contact_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: contact_data_event
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: intercom_user_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: event_name
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: user_id
+            data_type: varchar
+            description: ""
+          - name: email
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: metadata_secure_connection_start
+            data_type: float
+            description: ""
+          - name: metadata_redirect_start
+            data_type: float
+            description: ""
+          - name: metadata_domain_lookup_start
+            data_type: float
+            description: ""
+          - name: metadata_duration
+            data_type: float
+            description: ""
+          - name: metadata_connect_end
+            data_type: float
+            description: ""
+          - name: metadata_worker_start
+            data_type: number
+            description: ""
+          - name: metadata_redirect_count
+            data_type: number
+            description: ""
+          - name: metadata_dom_complete
+            data_type: float
+            description: ""
+          - name: metadata_screen_dimensions
+            data_type: varchar
+            description: ""
+          - name: metadata_dom_interactive
+            data_type: float
+            description: ""
+          - name: metadata_dom_content_loaded_event_end
+            data_type: float
+            description: ""
+          - name: metadata_next_hop_protocol
+            data_type: varchar
+            description: ""
+          - name: metadata_name
+            data_type: varchar
+            description: ""
+          - name: metadata_connect_start
+            data_type: float
+            description: ""
+          - name: metadata_domain_lookup_end
+            data_type: float
+            description: ""
+          - name: metadata_fetch_start
+            data_type: float
+            description: ""
+          - name: metadata_response_end
+            data_type: float
+            description: ""
+          - name: metadata_unload_event_end
+            data_type: float
+            description: ""
+          - name: metadata_response_start
+            data_type: float
+            description: ""
+          - name: metadata_redirect_end
+            data_type: float
+            description: ""
+          - name: metadata_load_event_start
+            data_type: float
+            description: ""
+          - name: metadata_start_time
+            data_type: number
+            description: ""
+          - name: metadata_entry_type
+            data_type: varchar
+            description: ""
+          - name: metadata_unload_event_start
+            data_type: float
+            description: ""
+          - name: metadata_dom_content_loaded_event_start
+            data_type: float
+            description: ""
+          - name: metadata_type
+            data_type: varchar
+            description: ""
+          - name: metadata_initiator_type
+            data_type: varchar
+            description: ""
+          - name: metadata_request_start
+            data_type: float
+            description: ""
+          - name: metadata_load_event_end
+            data_type: float
+            description: ""
+          - name: metadata_decoded_body_size
+            data_type: number
+            description: ""
+          - name: metadata_encoded_body_size
+            data_type: number
+            description: ""
+          - name: metadata_transfer_size
+            data_type: number
+            description: ""
+          - name: metadata_response_status
+            data_type: number
+            description: ""
+          - name: metadata_render_blocking_status
+            data_type: varchar
+            description: ""
+          - name: metadata_activation_start
+            data_type: float
+            description: ""
+          - name: metadata_ldff_dashboard_jobsite_usage_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_management_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_telematics_health_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_allow_production_environment
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_mechanic_work_order_response_time_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_aggressive_driving_incidents
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_speeding_report
+            data_type: boolean
+            description: ""
+          - name: metadata_dashboard_namespace
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_telematics_health_report_2
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_on_rent_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_people_management_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_mileage_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_service_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_invoice_lookup
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_historical_rentals_by_date_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_po_budget_spend_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_state_mileage_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_run_time_battery_fuel
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_utilization_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_alert_activity_report
+            data_type: boolean
+            description: ""
+          - name: metadata_analytics_app_version
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_asset_geofence_details_summary_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_workorder_export_dashboard_no_parts
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_elogs_driver_summary_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_transports_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_costcapture_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_off_rent_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_equipmentshare_asset_service_history
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_driver_scorecard_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_workorder_export_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_home
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_health_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_impact_location_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_downtime_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_work_order_response_completion_time
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_ifta_mileage_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_trip_log_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_proximity_report
+            data_type: boolean
+            description: ""
+          - name: metadata_dashboard_name
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_keypad_utilization_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_rental_search
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_po_budget_spend_overview
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_inventory_information
+            data_type: boolean
+            description: ""
+          - name: metadata_dashboard_id
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_asset_service_history
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_group_assignment_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rental_management_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_service_warranty_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_work_order_cost_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_camera_events_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fuel_consumption_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_asset_idle_events_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_vehicle_summary
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_work_order_priority_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_asset_utilization
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_allow_staging_environment
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_time_tracking_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fuel_pump_report
+            data_type: boolean
+            description: ""
+          - name: metadata_app_name
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_asset_geofence_run_time
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_elogs_assigned_unassigned_drive_time_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_work_orders_by_branch_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_maintenance_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rental_management_dashboard_2
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_mileage_reporting
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_parts_inventory_transactions
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fuel_consumption_report_2
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_trip_detail_log_reports
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_speeding_threshold_map
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_utilization_dashboard_2
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_rental_pricing
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_customer_analysis
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_reefer_temperature_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_equipt_rentops_rental_billing_audit
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_equipt_rentops_transports
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_worst_rates_achievement
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_salesperson_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_billing_line_items
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_utilization_dashboard_beta_2
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_inventory_availability
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_branch_inventory
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_fleet_utilization_dashboard_beta_1
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_equipt_rentops_market_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_financial_purchase
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_monthly_asset_billing
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_rentops_market_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_es_asset_details_boa
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_es_asset_details_maquarie
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_trips_and_fuel_purchases_dashboard
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_battery_state_of_charge_report
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_dashboard_es_asset_details_wf
+            data_type: boolean
+            description: ""
+          - name: metadata_article
+            data_type: variant
+            description: ""
+          - name: metadata_first_interim_response_start
+            data_type: float
+            description: ""
+          - name: metadata_ldff_mileage_reporting
+            data_type: boolean
+            description: ""
+          - name: metadata_content_type
+            data_type: varchar
+            description: ""
+          - name: metadata_critical_ch_restart
+            data_type: number
+            description: ""
+          - name: metadata_navigation_id
+            data_type: varchar
+            description: ""
+          - name: metadata_system_entropy
+            data_type: varchar
+            description: ""
+          - name: metadata_delivery_type
+            data_type: varchar
+            description: ""
+          - name: metadata_nps_comment
+            data_type: varchar
+            description: ""
+          - name: metadata_nps_score
+            data_type: number
+            description: ""
+          - name: metadata_ldff_dashboard_work_order_summary
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_enable_billing_aaa_audit_billing_invoice_approval
+            data_type: boolean
+            description: ""
+          - name: metadata_not_restored_reasons
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_filters_phase_name_job_name
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_allow_csv_scheduling
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_allow_scheduled_reports_non_t_3_users
+            data_type: boolean
+            description: ""
+          - name: metadata_ldff_enable_saasy_maintenance_groups
+            data_type: boolean
+            description: ""
+          - name: metadata_equipment
+            data_type: varchar
+            description: ""
+          - name: metadata_ldff_dashboard_tracking_incidents
+            data_type: boolean
+            description: ""
+          - name: metadata_final_response_headers_start
+            data_type: float
+            description: ""
+
+      - name: contact_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: role
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: external_id
+            data_type: varchar
+            description: ""
+          - name: email
+            data_type: varchar
+            description: ""
+          - name: phone
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: avatar
+            data_type: varchar
+            description: ""
+          - name: has_hard_bounced
+            data_type: boolean
+            description: ""
+          - name: marked_email_as_spam
+            data_type: boolean
+            description: ""
+          - name: unsubscribed_from_emails
+            data_type: boolean
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: signed_up_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_seen_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_contacted_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_replied_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_email_opened_at
+            data_type: timestamp_tz
+            description: ""
+          - name: last_email_clicked_at
+            data_type: timestamp_tz
+            description: ""
+          - name: language_override
+            data_type: varchar
+            description: ""
+          - name: browser
+            data_type: varchar
+            description: ""
+          - name: browser_version
+            data_type: varchar
+            description: ""
+          - name: browser_language
+            data_type: varchar
+            description: ""
+          - name: os
+            data_type: varchar
+            description: ""
+          - name: android_app_name
+            data_type: varchar
+            description: ""
+          - name: android_app_version
+            data_type: varchar
+            description: ""
+          - name: android_device
+            data_type: varchar
+            description: ""
+          - name: android_os_version
+            data_type: varchar
+            description: ""
+          - name: android_sdk_version
+            data_type: varchar
+            description: ""
+          - name: android_last_seen_at
+            data_type: timestamp_tz
+            description: ""
+          - name: ios_app_name
+            data_type: varchar
+            description: ""
+          - name: ios_app_version
+            data_type: varchar
+            description: ""
+          - name: ios_device
+            data_type: varchar
+            description: ""
+          - name: ios_os_version
+            data_type: varchar
+            description: ""
+          - name: ios_sdk_version
+            data_type: varchar
+            description: ""
+          - name: ios_last_seen_at
+            data_type: timestamp_tz
+            description: ""
+          - name: formatted_phone
+            data_type: varchar
+            description: ""
+          - name: location_country
+            data_type: varchar
+            description: ""
+          - name: location_region
+            data_type: varchar
+            description: ""
+          - name: location_city
+            data_type: varchar
+            description: ""
+          - name: admin_id
+            data_type: number
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: custom_phone
+            data_type: varchar
+            description: ""
+          - name: custom_name
+            data_type: varchar
+            description: ""
+          - name: custom_id
+            data_type: varchar
+            description: ""
+          - name: custom_last_name
+            data_type: varchar
+            description: ""
+          - name: custom_first_name
+            data_type: varchar
+            description: ""
+          - name: custom_email
+            data_type: varchar
+            description: ""
+          - name: custom_trait_2
+            data_type: varchar
+            description: ""
+          - name: custom_trait_3
+            data_type: boolean
+            description: ""
+          - name: custom_trait_1
+            data_type: number
+            description: ""
+          - name: custom_username
+            data_type: varchar
+            description: ""
+          - name: custom_job_title
+            data_type: varchar
+            description: ""
+          - name: custom_article_id
+            data_type: number
+            description: ""
+          - name: custom_company_id
+            data_type: number
+            description: ""
+          - name: custom_app_version
+            data_type: varchar
+            description: ""
+          - name: custom_device_model
+            data_type: varchar
+            description: ""
+          - name: custom_device_manufacturer
+            data_type: varchar
+            description: ""
+          - name: custom_os_name
+            data_type: varchar
+            description: ""
+          - name: custom_app_name
+            data_type: varchar
+            description: ""
+          - name: custom_os_version
+            data_type: varchar
+            description: ""
+          - name: custom_hubspot_tracking_cookie
+            data_type: varchar
+            description: ""
+          - name: custom_user_name
+            data_type: varchar
+            description: ""
+          - name: custom_company_name
+            data_type: varchar
+            description: ""
+          - name: custom_anonymous_id
+            data_type: varchar
+            description: ""
+          - name: custom_user_id
+            data_type: number
+            description: ""
+          - name: custom_device_type
+            data_type: varchar
+            description: ""
+          - name: custom_site
+            data_type: varchar
+            description: ""
+          - name: custom_last_wootric_nps_response_at
+            data_type: number
+            description: ""
+          - name: custom_last_wootric_nps_score
+            data_type: number
+            description: ""
+          - name: custom_last_wootric_nps_comment
+            data_type: varchar
+            description: ""
+          - name: custom_is_intersection_booted
+            data_type: boolean
+            description: ""
+          - name: custom_link_mobile_app
+            data_type: boolean
+            description: ""
+          - name: custom_wo_beta_group_participant
+            data_type: varchar
+            description: ""
+          - name: custom_wo_score_rating
+            data_type: number
+            description: ""
+          - name: custom_wo_job_title
+            data_type: varchar
+            description: ""
+          - name: custom_has_contact_been_onboarded_by_t_3
+            data_type: varchar
+            description: ""
+          - name: custom_t_3_products_onboarded
+            data_type: varchar
+            description: ""
+          - name: custom_rent_app_user
+            data_type: boolean
+            description: ""
+          - name: custom_elogs_mobile_app_user
+            data_type: boolean
+            description: ""
+          - name: custom_link_role_type
+            data_type: varchar
+            description: ""
+          - name: custom_user_is_company_primary_billing_contact
+            data_type: boolean
+            description: ""
+          - name: custom_t_3_web_job_title
+            data_type: varchar
+            description: ""
+          - name: custom_online_bill_pay_participant
+            data_type: varchar
+            description: ""
+          - name: custom_cost_capture_app_user
+            data_type: boolean
+            description: ""
+          - name: custom_rentapp_role_type
+            data_type: varchar
+            description: ""
+          - name: custom_z_index
+            data_type: number
+            description: ""
+          - name: custom_analytics_job_title
+            data_type: varchar
+            description: ""
+          - name: custom_robotics_opt_in
+            data_type: varchar
+            description: ""
+          - name: custom_survicate_last_response_date
+            data_type: number
+            description: ""
+          - name: custom_customer_asset_type
+            data_type: varchar
+            description: ""
+          - name: custom_fleet_size
+            data_type: varchar
+            description: ""
+          - name: custom_fleet_research_opt_in
+            data_type: varchar
+            description: ""
+          - name: custom_fleet_role_descrip
+            data_type: varchar
+            description: ""
+          - name: custom_website_rental_request_ease_of_use
+            data_type: number
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+          - name: custom_installation_type
+            data_type: varchar
+            description: ""
+          - name: custom_t_3_customer_pilot_status
+            data_type: varchar
+            description: ""
+
+      - name: contact_segment_history
+        description: ""
+        columns:
+          - name: contact_id
+            data_type: varchar
+            description: ""
+          - name: contact_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: segment_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: contact_tag_history
+        description: ""
+        columns:
+          - name: contact_id
+            data_type: varchar
+            description: ""
+          - name: contact_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: tag_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_admin_history
+        description: ""
+        columns:
+          - name: admin_id
+            data_type: varchar
+            description: ""
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: conversation_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_ai_agent_content_source
+        description: ""
+        columns:
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: index
+            data_type: number
+            description: ""
+          - name: content_type
+            data_type: varchar
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: title
+            data_type: varchar
+            description: ""
+          - name: locale
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: conversation_contact_history
+        description: ""
+        columns:
+          - name: contact_id
+            data_type: varchar
+            description: ""
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: conversation_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_history
+        description: "Conversations are how you can communicate with users in Intercom.
+          They are created when a contact replies to an outbound message, 
+          or when one admin directly sends a message to a single contact."
+        columns:
+          - name: id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_id') }}"
+          - name: updated_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_updated_at') }}"
+          - name: created_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_created_at') }}"
+          - name: open
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_open') }}"
+          - name: state
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_state') }}"
+          - name: read
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_read') }}"
+          - name: waiting_since
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_waiting_since') }}"
+          - name: snoozed_until
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_snoozed_until') }}"
+          - name: priority
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_priority') }}"
+          - name: title
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_title') }}"
+          - name: source_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_type') }}"
+          - name: source_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_id') }}"
+          - name: source_delivered_as
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_delivered_as') }}"
+          - name: source_subject
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_subject') }}"
+          - name: source_body
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_body') }}"
+          - name: source_url
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_url') }}"
+          - name: source_author_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_author_type') }}"
+          - name: source_author_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_source_author_id') }}"
+          - name: team_assignee_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_team_assignee_id') }}"
+          - name: first_contact_reply_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_first_contact_reply_type') }}"
+
+          - name: first_contact_reply_url
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_first_contact_reply_url') }}"
+
+          - name: first_contact_reply_created_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_first_contact_reply_created_at') }}"
+
+          - name: sla_name
+            data_type: varchar
+            description: "Service Level Agreements do not seem to be a feature that we currently
+              leverage. {{ doc('is_null') }}"
+
+          - name: sla_status
+            data_type: varchar
+            description: "Service Level Agreements do not seem to be a feature that we currently
+              leverage. {{ doc('is_null') }}"
+              
+          - name: conversation_rating_remark
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_rating_remark') }}"
+            
+          - name: conversation_rating_created_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_rating_created_at') }}"
+            
+          - name: conversation_rating_teammate_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_rating_teammate_id') }}"
+            
+          - name: conversation_rating_value
+            data_type: number
+            description: "{{ doc('intercom__conversation_rating_value') }}"
+            
+          - name: statistics_time_to_assignment
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_time_to_assignment') }}"
+            
+          - name: statistics_time_to_admin_reply
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_time_to_admin_reply') }}"
+            
+          - name: statistics_time_to_first_close
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_time_to_first_close') }}"
+
+          - name: statistics_time_to_last_close
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_time_to_last_close') }}"
+            
+          - name: statistics_median_time_to_reply
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_median_time_to_reply') }}"
+          - name: statistics_first_contact_reply_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_first_contact_reply_at') }}"
+
+          - name: statistics_first_assignment_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_first_assignment_at') }}"
+            
+          - name: statistics_first_admin_reply_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_first_admin_reply_at') }}"
+
+          - name: statistics_first_close_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_first_close_at') }}"
+            
+          - name: statistics_last_assignment_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_last_assignment_at') }}"
+
+          - name: statistics_last_assignment_admin_reply_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_last_assignment_admin_reply_at') }}"
+
+          - name: statistics_last_contact_reply_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_last_contact_reply_at') }}"
+            
+          - name: statistics_last_admin_reply_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_last_admin_reply_at') }}"
+            
+          - name: statistics_last_close_at
+            data_type: timestamp_tz
+            description: "{{ doc('intercom__conversation_statistics_last_close_at') }}"
+            
+          - name: statistics_last_closed_by_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_statistics_last_closed_by_id') }}"
+
+          - name: statistics_count_reopens
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_count_reopens') }}"
+
+          - name: statistics_count_assignments
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_count_assignments') }}"
+
+          - name: statistics_count_conversation_parts
+            data_type: number
+            description: "{{ doc('intercom__conversation_statistics_count_conversation_parts') }}"
+
+          - name: assignee_id
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_admin_assignee_id') }}"
+
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "{{ doc('_fivetran_synced') }}"
+
+          - name: custom_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_type') }}"
+
+          - name: custom_language
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_language') }}"
+
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: "{{ doc('_fivetran_start') }}"
+
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: "{{ doc('_fivetran_end') }}"
+
+          - name: _fivetran_active
+            data_type: boolean
+            description: "{{ doc('_fivetran_active') }}"
+
+          - name: custom_workflow_preview
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_custom_workflow_preview') }}"
+            
+          - name: custom_created_by
+            data_type: number
+            description: "{{ doc('intercom__conversation_custom_created_by') }}"
+            
+          - name: custom_default_description_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_default_description_') }}"
+            
+          - name: custom_ticket_category
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_ticket_category') }}"
+
+          - name: custom_screenshots
+            data_type: variant
+            description: "{{ doc('intercom__conversation_custom_screenshots') }}"
+            
+          - name: custom_default_title_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_default_title_') }}"
+            
+          - name: custom_description_of_problem_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_description_of_problem_') }}"
+
+          - name: custom_team
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_team') }}"
+            
+          - name: custom_severity
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_severity') }}"
+            
+          - name: custom_tracker_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_tracker_type') }}"
+          - name: custom_asset_information_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_asset_information_') }}"
+            
+          - name: custom_camera_serial_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_camera_serial_') }}"
+            
+          - name: custom_tracker_serial_
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_tracker_serial_') }}"
+            
+          - name: custom_tracker_camera_serial
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_tracker_camera_serial') }}" 
+            
+          - name: custom_t_3_application
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_t_3_application') }}"
+            
+          - name: custom_copilot_used
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_custom_copilot_used') }}"
+            
+          - name: custom_screenshot
+            data_type: variant
+            description: "{{ doc('intercom__conversation_custom_screenshot') }}"
+            
+          - name: ai_agent_rating
+            data_type: number
+            description: "{{ doc('intercom__conversation_ai_agent_rating') }}"
+            
+          - name: ai_agent_participated
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_ai_agent_participated') }}"
+            
+          - name: ai_agent_source_title
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_ai_agent_source_title') }}"
+            
+          - name: ai_agent_last_answer_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_ai_agent_last_answer_type') }}"
+            
+          - name: ai_agent_rating_remark
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_ai_agent_rating_remark') }}"
+            
+          - name: ai_agent_source_type
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_ai_agent_source_type') }}"
+
+          - name: ai_agent_resolution_state
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_ai_agent_resolution_state') }}"
+            
+          - name: custom_ai_answer_length
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_ai_answer_length') }}"
+            
+          - name: custom_ai_tone_of_voice
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_ai_tone_of_voice') }}"
+            
+          - name: custom_fin_ai_agent_preview
+            data_type: boolean
+            description: "{{ doc('intercom__conversation_custom_fin_ai_agent_preview') }}"
+            
+          - name: custom_ai_pronoun_formality
+            data_type: varchar
+            description: "{{ doc('intercom__conversation_custom_ai_pronoun_formality') }}"
+
+      - name: conversation_part_attachment_history
+        description: ""
+        columns:
+          - name: conversation_part_id
+            data_type: varchar
+            description: ""
+          - name: conversation_part_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_part_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: conversation_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: part_type
+            data_type: varchar
+            description: ""
+          - name: body
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: notified_at
+            data_type: timestamp_tz
+            description: ""
+          - name: assigned_to_type
+            data_type: varchar
+            description: ""
+          - name: assigned_to_id
+            data_type: varchar
+            description: ""
+          - name: author_type
+            data_type: varchar
+            description: ""
+          - name: author_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_tag_history
+        description: ""
+        columns:
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: conversation_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: tag_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: conversation_topic_history
+        description: ""
+        columns:
+          - name: conversation_id
+            data_type: varchar
+            description: ""
+          - name: conversation_updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: data_attribute
+        description: ""
+        columns:
+          - name: model
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: admin_id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: full_name
+            data_type: varchar
+            description: ""
+          - name: label
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: data_type
+            data_type: varchar
+            description: ""
+          - name: api_writable
+            data_type: boolean
+            description: ""
+          - name: ui_writable
+            data_type: boolean
+            description: ""
+          - name: custom
+            data_type: boolean
+            description: ""
+          - name: archived
+            data_type: boolean
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: data_attribute_option
+        description: ""
+        columns:
+          - name: data_attribute_model
+            data_type: varchar
+            description: ""
+          - name: data_attribute_name
+            data_type: varchar
+            description: ""
+          - name: value
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: help_center_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: identifier
+            data_type: varchar
+            description: ""
+          - name: website_turned_on
+            data_type: boolean
+            description: ""
+          - name: display_name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: news_item_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: title
+            data_type: varchar
+            description: ""
+          - name: body
+            data_type: varchar
+            description: ""
+          - name: sender_id
+            data_type: varchar
+            description: ""
+          - name: state
+            data_type: varchar
+            description: ""
+          - name: cover_image_url
+            data_type: varchar
+            description: ""
+          - name: deliver_silently
+            data_type: boolean
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: news_item_label_history
+        description: ""
+        columns:
+          - name: news_item_id
+            data_type: varchar
+            description: ""
+          - name: value
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: news_item_reaction_history
+        description: ""
+        columns:
+          - name: news_item_id
+            data_type: varchar
+            description: ""
+          - name: value
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: newsfeed_assignment
+        description: ""
+        columns:
+          - name: news_item_id
+            data_type: varchar
+            description: ""
+          - name: newsfeed_id
+            data_type: varchar
+            description: ""
+          - name: published_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: newsfeed_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: section_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: parent_id
+            data_type: number
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: icon
+            data_type: varchar
+            description: ""
+          - name: default_locale
+            data_type: varchar
+            description: ""
+          - name: order
+            data_type: number
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: segment
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: person_type
+            data_type: varchar
+            description: ""
+          - name: count
+            data_type: number
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: subscription_type
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: state
+            data_type: varchar
+            description: ""
+          - name: default_translation_name
+            data_type: varchar
+            description: ""
+          - name: default_translation_description
+            data_type: varchar
+            description: ""
+          - name: default_translation_locale
+            data_type: varchar
+            description: ""
+          - name: consent_type
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: subscription_type_content_type
+        description: ""
+        columns:
+          - name: subscription_type_id
+            data_type: varchar
+            description: ""
+          - name: value
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: subscription_type_translation
+        description: ""
+        columns:
+          - name: subscription_type_id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: locale
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: tag
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: team
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: team_admin
+        description: ""
+        columns:
+          - name: admin_id
+            data_type: varchar
+            description: ""
+          - name: team_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: team_admin_priority_level
+        description: ""
+        columns:
+          - name: admin_id
+            data_type: varchar
+            description: ""
+          - name: team_id
+            data_type: varchar
+            description: ""
+          - name: priority
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+
+      - name: ticket_contact_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: ticket_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: external_id
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: ticket_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: ticket_id
+            data_type: varchar
+            description: ""
+          - name: category
+            data_type: varchar
+            description: ""
+          - name: ticket_state
+            data_type: varchar
+            description: ""
+          - name: ticket_type_id
+            data_type: varchar
+            description: ""
+          - name: admin_assignee_id
+            data_type: varchar
+            description: ""
+          - name: team_assignee_id
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: snoozed_until
+            data_type: timestamp_tz
+            description: ""
+          - name: linked_objects_total_count
+            data_type: number
+            description: ""
+          - name: linked_objects_has_more
+            data_type: boolean
+            description: ""
+          - name: ticket_parts_total_count
+            data_type: number
+            description: ""
+          - name: is_shared
+            data_type: boolean
+            description: ""
+          - name: open
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: ticket_attribute_screenshots
+            data_type: variant
+            description: ""
+          - name: ticket_attribute_default_title_
+            data_type: varchar
+            description: ""
+          - name: ticket_attribute_default_description_
+            data_type: varchar
+            description: ""
+          - name: ticket_attribute_asset_information_
+            data_type: number
+            description: ""
+          - name: ticket_attribute_description_of_problem_
+            data_type: varchar
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+          - name: ticket_attribute_upload_screenshots
+            data_type: variant
+            description: ""
+          - name: ticket_attribute_team
+            data_type: varchar
+            description: ""
+          - name: ticket_attribute_severity
+            data_type: varchar
+            description: ""
+          - name: ticket_attribute_tracker_serial_
+            data_type: number
+            description: ""
+
+      - name: ticket_link_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: ticket_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: category
+            data_type: varchar
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: ticket_part_attachment_history
+        description: ""
+        columns:
+          - name: index
+            data_type: number
+            description: ""
+          - name: ticket_id
+            data_type: varchar
+            description: ""
+          - name: ticket_part_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: url
+            data_type: varchar
+            description: ""
+          - name: content_type
+            data_type: varchar
+            description: ""
+          - name: filesize
+            data_type: number
+            description: ""
+          - name: width
+            data_type: number
+            description: ""
+          - name: height
+            data_type: number
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: ticket_part_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: ticket_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: part_type
+            data_type: varchar
+            description: ""
+          - name: body
+            data_type: varchar
+            description: ""
+          - name: previous_ticket_state
+            data_type: varchar
+            description: ""
+          - name: ticket_state
+            data_type: varchar
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: assigned_to_type
+            data_type: varchar
+            description: ""
+          - name: assigned_to_id
+            data_type: varchar
+            description: ""
+          - name: author_type
+            data_type: varchar
+            description: ""
+          - name: author_id
+            data_type: varchar
+            description: ""
+          - name: author_name
+            data_type: varchar
+            description: ""
+          - name: author_email
+            data_type: varchar
+            description: ""
+          - name: external_id
+            data_type: varchar
+            description: ""
+          - name: redacted
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: ticket_type_attribute_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: ticket_type_id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: data_type
+            data_type: varchar
+            description: ""
+          - name: input_options
+            data_type: variant
+            description: ""
+          - name: required_to_create
+            data_type: boolean
+            description: ""
+          - name: required_to_create_for_contacts
+            data_type: boolean
+            description: ""
+          - name: visible_on_create
+            data_type: boolean
+            description: ""
+          - name: visible_to_contacts
+            data_type: boolean
+            description: ""
+          - name: archived
+            data_type: boolean
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: order
+            data_type: number
+            description: ""
+          - name: default
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""
+
+      - name: ticket_type_history
+        description: ""
+        columns:
+          - name: id
+            data_type: varchar
+            description: ""
+          - name: type
+            data_type: varchar
+            description: ""
+          - name: category
+            data_type: varchar
+            description: ""
+          - name: name
+            data_type: varchar
+            description: ""
+          - name: description
+            data_type: varchar
+            description: ""
+          - name: icon
+            data_type: varchar
+            description: ""
+          - name: workspace_id
+            data_type: varchar
+            description: ""
+          - name: archived
+            data_type: boolean
+            description: ""
+          - name: created_at
+            data_type: timestamp_tz
+            description: ""
+          - name: updated_at
+            data_type: timestamp_tz
+            description: ""
+          - name: is_internal
+            data_type: boolean
+            description: ""
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_start
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_end
+            data_type: timestamp_tz
+            description: ""
+          - name: _fivetran_active
+            data_type: boolean
+            description: ""

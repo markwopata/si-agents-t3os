@@ -1,0 +1,13 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__domains
+    description: Model for es_warehouse.public.domains
+    columns:
+      - name: domain_id
+        description: Autoincrementing pk of table
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: Name of domain

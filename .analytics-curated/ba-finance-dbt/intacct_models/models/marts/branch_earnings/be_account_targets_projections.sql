@@ -1,0 +1,21 @@
+select
+    region_id,
+    region,
+    district,
+    market_id,
+    market_name,
+    market_type,
+    gl_month,
+    month_status,
+    account_no,
+    account_name,
+    rev_exp,
+    account_category,
+    cost_type,
+    actual_amount,
+    comp_metric,
+    comp_metric_amount,
+    month_end_projected_amount,
+    month_end_projected_comp_metric_amount,
+    account_target_pct
+from {{ ref('int_account_targets_actuals_and_targets') }}

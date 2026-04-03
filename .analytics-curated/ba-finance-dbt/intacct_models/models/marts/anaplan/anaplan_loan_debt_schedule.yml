@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: anaplan_loan_debt_schedule
+    description: >
+      Loan amortization schedule events for Anaplan consumption.
+      Includes non-GAAP, non-pending loans with future-dated maturities.
+      This table is used to calculate the loan balance at a given date.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - payment_schedule_id
+              - date
+    columns:
+      - name: pk_loan_debt_schedule_id
+        description: "Surrogate primary key for the loan debt schedule row."
+        data_tests:
+          - not_null
+          - unique
+      - name: payment_schedule_id
+        description: "Identifier of the loan payment schedule."
+      - name: date
+        description: "Event date."
+      - name: positive_cash_flow_amount
+        description: "Cash inflow amount for the date."
+      - name: negative_cash_flow_amount
+        description: "Cash outflow amount for the date."
+      - name: net_cash_flow_amount
+        description: "Net cash flow for the date (inflows minus outflows)."
+      - name: interest_amount
+        description: "Interest portion aggregated for the date."
+      - name: principal_amount
+        description: "Principal portion aggregated for the date."
+      - name: balance
+        description: "Cumulative net cash flow by date within the schedule."
+      - name: maturity_date
+        description: "Final payment date for the loan schedule."

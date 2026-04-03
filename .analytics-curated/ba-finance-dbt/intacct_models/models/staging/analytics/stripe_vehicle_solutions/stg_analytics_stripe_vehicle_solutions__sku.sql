@@ -1,0 +1,21 @@
+select
+    s.id,
+    s.active,
+    s.created,
+    s.currency,
+    s.image,
+    s.inventory_quantity,
+    s.inventory_type,
+    s.inventory_value,
+    s.livemode,
+    s.metadata,
+    s.package_dimensions_height,
+    s.package_dimensions_length,
+    s.package_dimensions_weight,
+    s.package_dimensions_width,
+    s.price,
+    s.updated,
+    s.is_deleted,
+    s.product_id,
+    s._fivetran_synced
+from {{ source('analytics_stripe_vehicle_solutions', 'sku') }} as s

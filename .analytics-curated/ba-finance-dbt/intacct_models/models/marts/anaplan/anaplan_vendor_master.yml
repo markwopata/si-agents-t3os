@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: anaplan_vendor_master
+    description: "Vendor master table for use in anaplan."
+    columns:
+      - name: vendor_id
+        description: "{{ doc('vendor_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: vendor_name
+        description: "{{ doc('vendor_name') }}"
+      - name: vendor_type
+        description: ""
+      - name: terms
+        description: ""
+      - name: status
+        description: ""
+      - name: vendor_category
+        description: ""

@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: stg_heap__intercom_events_rate_conversation
+    description: "{{ doc('heap__intercom_events_rate_conversation') }}"
+    columns:
+      - name: heap_user_id
+        data_type: number
+        description: "{{ doc('heap__user_id') }}"
+        data_tests:
+          - not_null
+
+      - name: event_id
+        data_type: number
+        description: "{{ doc('heap__event_id') }}"
+
+      - name: session_id
+        data_type: number
+        description: "{{ doc('heap__intercom_session_id') }}"
+
+      - name: intercom_rate_conversation_time
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__timestamp') }}"
+
+      - name: type
+        data_type: varchar
+        description: "{{ doc('heap__intercom_event_type') }}"
+
+      - name: library
+        data_type: varchar
+        description: "{{ doc('heap__library') }}"
+
+      - name: platform
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: device_type
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: country
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: region
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: city
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: ip
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: referrer
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: landing_page_query
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: landing_page_hash
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: target_text
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: heap_device_id
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: heap_previous_page
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: app_id
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: conversation_id
+        data_type: varchar
+        description: "{{ doc('heap__intercom_conversation_id') }}"
+
+      - name: conversation_rating
+        data_type: varchar
+        description: "{{ doc('heap__intercom_conversation_rating') }}"
+
+      - name: platform_type_os_
+        data_type: varchar
+        description: "{{ doc('is_null') }}"
+
+      - name: _dbt_updated_timestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_dbt_updated_timestamp') }}"

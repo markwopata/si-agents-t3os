@@ -1,0 +1,98 @@
+---
+version: 2
+
+sources:
+  - name: analytics_credit_card
+    tags: ["sources"]
+    database: analytics
+    schema: credit_card
+    description: >
+      this schema tables for credit card (mainly Citi) transactions
+    tables:
+      - name: transaction_verification
+        description: credit card transactions
+        meta:
+          generated_from: Gitlab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/credit_card/LOAD_UNVERIFIED_TRANSACTIONS.sql#L646
+          point_of_contact: Justin Traub
+
+      - name: citi_daily_transactions
+        description: Citi credit card transactions. one row is one transaction
+        columns:
+          - name: transaction_id
+            data_tests:
+              - unique
+
+      - name: citi_card_holder
+        description: Employees with Citi cards containing credit and transaction limits
+
+      - name: corporate_card_accounts
+        description: Associated Account Numbers and Account Names of our Corporate Credit Cards. One row is one account
+
+      - name: receipt_ocr_itemization_analysis
+        description: >
+          An output table indicating whether receipts are itemized, powered by ChatGPT. Users may upload multiple receipts per purchase
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - purchase_id
+                - ocr_data_raw
+                - image_url
+        meta:
+          generated_from: GitLab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/cc-receipt-review/-/blob/main/Itemized_Receipts_OCR_Analysis.py?ref_type=heads
+          point_of_contact: Jacob Tancher
+          owner: "@jacob.tancher"
+
+      - name: receipt_ocr_itemization_fraud
+        description: >
+          A line-level receipt categorization table powered by ChatGPT for spending analysis.
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - purchase_id
+                - line_idx
+                - image_url
+        meta:
+          generated_from: GitLab
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/cc-receipt-review/-/blob/main/Itemized_Receipts_OCR_Analysis_Fraud.py?ref_type=heads
+          point_of_contact: Jacob Tancher
+          owner: "@jacob.tancher"
+
+      - name: citi_lodging_detail
+        description: >
+          Detailed information about lodging expenses from Citi credit card transactions.
+        meta:
+          generated_from: Citi ETL Job
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-citi-sftp-etl
+          point_of_contact: Loren Severs
+          owner: "@loren.severs"
+
+      - name: citi_vehicle_rental_detail
+        description: >
+          Detailed information about vehicle rental expenses from Citi credit card transactions.
+        meta:
+          generated_from: Citi ETL Job
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-citi-sftp-etl
+          point_of_contact: Loren Severs
+          owner: "@loren.severs"
+
+      - name: citi_airline_ticket_detail
+        description: >
+          Detailed information about airline ticket expenses from Citi credit card transactions.
+        meta:
+          generated_from: Citi ETL Job
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-citi-sftp-etl
+          point_of_contact: Loren Severs
+          owner: "@loren.severs"
+
+      - name: citi_airline_trip_leg_detail
+        description: >
+          Detailed information about airline trip leg expenses from Citi credit card transactions.
+        meta:
+          generated_from: Citi ETL Job
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-citi-sftp-etl
+          point_of_contact: Loren Severs
+          owner: "@loren.severs"

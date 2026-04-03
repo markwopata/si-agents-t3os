@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: int_t3__line_items_base
+    description: "Base model for invoice line items with all dimension joins. Replaces the inline fact_line_items CTE pattern used across T3 staging tables. Matches legacy V_LINE_ITEMS pattern for reusability. Includes ROW_NUMBER() for deduplication (one row per invoice_id × rental_id × asset_id combination)."
+
+    columns:
+      - name: invoice_id
+        data_type: number
+        description: "Invoice ID"
+
+      - name: invoice_no
+        data_type: varchar
+        description: "Invoice number"
+
+      - name: invoice_billing_approved
+        data_type: boolean
+        description: "Whether the invoice has been approved for billing"
+
+      - name: invoice_date
+        data_type: timestamp_tz
+        description: "Invoice date"
+
+      - name: billing_approved_date
+        data_type: timestamp_tz
+        description: "Date when invoice was approved for billing"
+
+      - name: ordered_by_user_id
+        data_type: number
+        description: "User ID who ordered the invoice"
+
+      - name: rental_id
+        data_type: number
+        description: "Rental ID associated with the invoice line item"
+
+      - name: rental_status_id
+        data_type: number
+        description: "Rental status ID"
+
+      - name: rental_start_date
+        data_type: timestamp_tz
+        description: "Rental start date"
+
+      - name: rental_end_date
+        data_type: timestamp_tz
+        description: "Rental end date"
+
+      - name: asset_id
+        data_type: number
+        description: "Asset ID associated with the invoice line item (NULL if not an asset line item)"
+
+      - name: asset_custom_name
+        data_type: varchar
+        description: "Custom name of the asset"
+
+      - name: asset_equipment_class_name
+        data_type: varchar
+        description: "Equipment class name of the asset"
+
+      - name: order_id
+        data_type: number
+        description: "Order ID associated with the invoice"
+
+      - name: purchase_order_id
+        data_type: number
+        description: "Purchase order ID from invoices table"
+
+      - name: order_user_id
+        data_type: number
+        description: "User ID associated with the order"
+
+      - name: market_id
+        data_type: number
+        description: "Market ID from the order"
+
+      - name: purchase_order_name
+        data_type: varchar
+        description: "Purchase order name"
+
+      - name: purchase_order_start_date
+        data_type: date
+        description: "Purchase order start date"
+
+      - name: purchase_order_company_id
+        data_type: number
+        description: "Company ID associated with the purchase order"
+
+      - name: ordered_by
+        data_type: varchar
+        description: "Full name of the user who ordered"
+
+      - name: vendor
+        data_type: varchar
+        description: "Vendor company name (from market company)"
+
+      - name: amount
+        data_type: number
+        description: "Invoice line item amount (before tax)"
+
+      - name: tax_amount
+        data_type: number
+        description: "Invoice line item tax amount"
+
+      - name: line_item_type_id
+        data_type: number
+        description: "Line item type ID"
+
+      - name: rn
+        data_type: number
+        description: "Row number for deduplication. Always 1 for unique invoice_id × rental_id × asset_id combinations. Used to prevent fan-out when joining to this table."
+

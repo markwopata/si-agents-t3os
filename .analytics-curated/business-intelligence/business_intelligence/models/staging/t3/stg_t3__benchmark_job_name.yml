@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_t3__benchmark_job_name
+    description: "Rental Utilization by Job Name for EquipmentShare assets over various relative time periods."
+    columns:
+      - name: job_name
+        data_type: varchar
+        description: "Job Name"
+
+      - name: distinct_asset_count
+        data_type: number
+        description: "Distinct Asset Count"
+      
+      - name: on_time_hours
+        data_type: number
+        description: "On Time Hours"
+
+      - name: rental_date_count
+        data_type: number
+        description: "Rental Date Count"
+
+      - name: utilization_30_day_job_name_benchmark
+        data_type: number
+        description: "30 Day Rental Utilization"
+
+
+  

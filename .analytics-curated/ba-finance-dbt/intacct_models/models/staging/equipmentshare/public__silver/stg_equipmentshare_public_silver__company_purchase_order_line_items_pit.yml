@@ -1,0 +1,124 @@
+---
+version: 2
+models:
+  - name: stg_equipmentshare_public_silver__company_purchase_order_line_items_pit
+    description: Model for equipmentshare.public__silver.company_purchase_order_line_items_pit
+    columns:
+      - name: _company_purchase_order_line_items_last_instance_indicator
+        description: ''
+      - name: _company_purchase_order_line_items_effective_start_utc_datetime
+        description: ''
+      - name: _company_purchase_order_line_items_effective_end_utc_datetime
+        description: ''
+      - name: _company_purchase_order_line_items_effective_delete_utc_datetime
+        description: ''
+      - name: company_purchase_order_line_item_id
+        description: ''
+      - name: aftermarket_oec
+        description: ''
+      - name: asset_id
+        description: ''
+      - name: attachments
+        description: ''
+      - name: company_purchase_order_id
+        description: ''
+      - name: company_purchase_order_line_item_number
+        description: ''
+      - name: current_promise_date
+        description: ''
+      - name: deleted_at
+        description: ''
+      - name: deleted_by_user_id
+        description: ''
+      - name: dot_unit_number
+        description: ''
+      - name: due_date
+        description: ''
+      - name: equipment_class_id
+        description: ''
+      - name: equipment_model_id
+        description: ''
+      - name: factory_build_specifications
+        description: ''
+      - name: fhwt
+        description: ''
+      - name: finance_status
+        description: ''
+      - name: financial_schedule_id
+        description: ''
+      - name: freight_cost
+        description: ''
+      - name: fuel_card
+        description: ''
+      - name: gvwr
+        description: ''
+      - name: invoice_date
+        description: ''
+      - name: invoice_due_date
+        description: ''
+      - name: invoice_number
+        description: ''
+      - name: license_expiration
+        description: ''
+      - name: license_plate
+        description: ''
+      - name: license_state_id
+        description: ''
+      - name: lienholder_on_title
+        description: ''
+      - name: market_id
+        description: ''
+      - name: net_price
+        description: ''
+      - name: note
+        description: ''
+      - name: odometer
+        description: ''
+      - name: order_status
+        description: ''
+      - name: original_promise_date
+        description: ''
+      - name: paid_date
+        description: ''
+      - name: payment_type
+        description: ''
+      - name: pending_schedule
+        description: ''
+      - name: quantity
+        description: ''
+      - name: rebate
+        description: ''
+      - name: reconciliation_status
+        description: ''
+      - name: reconciliation_status_date
+        description: ''
+      - name: registration_cost
+        description: ''
+      - name: release_date
+        description: ''
+      - name: sage_record_id
+        description: ''
+      - name: sales_tax
+        description: ''
+      - name: serial
+        description: ''
+      - name: tax
+        description: ''
+      - name: tire_rim_size
+        description: ''
+      - name: tire_size
+        description: ''
+      - name: titled_owner
+        description: ''
+      - name: title_processed
+        description: ''
+      - name: title_status
+        description: ''
+      - name: toll_transponder
+        description: ''
+      - name: vin
+        description: ''
+      - name: week_to_be_paid
+        description: ''
+      - name: year
+        description: ''

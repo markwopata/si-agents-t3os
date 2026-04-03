@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__record_url
+    description: Cleaned table for direct URLs to Sage Intacct objects. BA has an AWS Batch job that pulls these in.
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    columns:
+      - name: pk_record_url_id
+        description: Primary key for this table
+        data_tests:
+          - not_null
+          - unique
+      - name: intacct_recordno
+        description: Key linking to source data. PO header's pk would be an example.
+        data_tests:
+          - not_null
+      - name: record_url
+        description: URL to Sage front end
+      - name: intacct_object
+        description: Name of intacct object
+        data_tests:
+          - not_null

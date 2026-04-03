@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__kcg_trip_detail2
+    description: Model for es_warehouse.public.kcg_trip_detail2
+    columns:
+      - name: asset_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: date_time
+        description: ""
+      - name: name
+        description: ""
+      - name: location_lon
+        description: ""
+      - name: location_lat
+        description: ""
+      - name: duration
+        description: ""
+      - name: street
+        description: ""
+      - name: city
+        description: ""
+      - name: state
+        description: ""
+      - name: speed
+        description: ""
+      - name: trip_odo_miles
+        description: ""
+      - name: end_odometer
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: groups
+        description: ""
+      - name: odo_diff
+        description: ""

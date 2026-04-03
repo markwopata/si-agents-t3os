@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_t3__alert_rental_info
+    description: "Staging model for Alert Rental Info"
+    columns:
+      - name: notification_delivery_log_id
+        description: "Notification delivery log ID"
+
+      - name: asset_id
+        description: "Asset ID"
+
+      - name: report_timestamp
+        description: "Timestamp when the incident was reported"
+
+      - name: current_status
+        description: "Current status of the incident (ACTIVE or CLEARED)"
+
+      - name: asset_ownership
+        description: "Asset ownership type (OWNED or RENTED)"
+
+      - name: rental_id
+        description: "Rental ID"
+
+      - name: ordered_by
+        description: "User who ordered the rental"
+
+      - name: JOBSITE
+        description: "Jobsite nickname/location name"
+
+      - name: JOBSITE_ADDRESS
+        description: "Full jobsite address (street, city, state, zip code)"

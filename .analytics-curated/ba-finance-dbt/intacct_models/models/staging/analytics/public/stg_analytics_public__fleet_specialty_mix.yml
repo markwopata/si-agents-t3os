@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__fleet_specialty_mix
+    description: This is a view, not gitlab committed. Manual list of category_id used for external reporting. 
+    columns:
+      - name: equipment_class_id
+        description: ''
+        data_tests:
+          - not_null
+          - unique
+      - name: class
+        description: ''
+      - name: category_id
+        description: ''
+      - name: category
+        description: ''
+      - name: mix_group
+        description: ''
+        data_tests:
+           - not_null
+

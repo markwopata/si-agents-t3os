@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vehicle_solutions__bank_deposits
+    description: Cleaned up version of the bank_deposits table. This a manual upload of the bank statement excel files.
+    columns:
+      - name: rn
+        description: >
+          Row number used to uniquely identify records. Some of the bank deposits have the same date, memo, and amount
+      - name: pk_bank_deposit_id
+        description: "Derived primary key for the bank deposit."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_turo_payment_deposit_mapping')
+                field: pk_bank_deposit_id
+                where: platform = 'turo' and transaction_type = 'rental revenue'
+      - name: deposit_date
+        description: "Date the deposit or withdrawal was made."
+      - name: memo
+        description: "Free text memo from the bank statement."
+      - name: amount
+        description: "Deposit or withdrawal amount."
+      - name: transaction_type_accounting
+        description: "Accounting determined free text transaction type"
+      - name: bank
+        description: "Name of bank Capital One or Central Bank"
+      - name: file_name
+        description: "File name"
+      - name: cash_flow_type
+        description: "Type of cash flow - deposit or withdrawal"
+      - name: deposit_month
+        description: "Month the deposit or withdrawal was made."
+      - name: account_number
+        description: "For capital one, accounting is identifying what account number the charges should relate to."
+      - name: department_id
+        description: "Department id they will tie the deposit/withdrawal to"
+      - name: claim_number
+        description: "Claim number and vehicle information if applicable."
+      - name: is_posted_to_sage
+        description: "Flag indicating if the deposit or withdrawal was posted to Sage."
+      - name: transaction_type
+        description: "Derived transaction type based on memo matching."
+      - name: platform
+        description: "Derived platform based on memo matching."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

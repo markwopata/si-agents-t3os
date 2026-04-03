@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__plexi_bucket_mapping
+    description: Model for analytics.gs.plexi_bucket_mapping
+    columns:
+      - name: _row
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: display_name
+        description: ""
+      - name: sort_group
+        description: ""
+      - name: group
+        description: ""
+      - name: gaap_account
+        description: ""
+      - name: sage_name
+        description: ""
+      - name: sage_gl
+        description: ""
+      - name: _fivetran_synced
+        description: ""
+      - name: exclude_flag
+        description: ""

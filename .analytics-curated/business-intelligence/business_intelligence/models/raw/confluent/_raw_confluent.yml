@@ -1,0 +1,106 @@
+version: 2
+
+models:
+  - name: raw_confluent__operator_assignments
+    description: "{{ doc('raw_confluent__operator_assignments') }}"
+    columns:
+      # Kafka envelope
+      - name: record_metadata__partition
+        description: "{{ doc('confluent__kafka_partition') }}"
+      - name: record_metadata__offset
+        description: "{{ doc('confluent__kafka_offset') }}"
+      - name: record_metadata__createtime
+        description: "{{ doc('confluent__kafka_create_time_epoch') }}"
+      - name: record_metadata__topic
+        description: "{{ doc('confluent__kafka_topic') }}"
+      - name: record_metadata__key
+        description: "{{ doc('confluent__kafka_key') }}"
+      - name: record_metadata__headers_raw
+        description: "{{ doc('confluent__record_metadata__headers_raw') }}"
+
+      # CloudEvents envelope
+      - name: record_content__id
+        description: "{{ doc('confluent__event_id') }}"
+      - name: record_content__source
+        description: "{{ doc('confluent__event_source') }}"
+      - name: record_content__type
+        description: "{{ doc('confluent__event_type') }}"
+      - name: record_content__specversion
+        description: "{{ doc('confluent__event_spec_version') }}"
+      - name: record_content__time
+        description: "{{ doc('confluent__event_timestamp') }}"
+
+      # Event payload
+      - name: record_content__data_raw
+        description: "{{ doc('confluent__record_content__data_raw') }}"
+
+      # Metadata
+      - name: _created_recordtimestamp
+        description: "{{ doc('_created_recordtimestamp') }}"
+      - name: _updated_recordtimestamp
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: raw_confluent__operator_assignments_parsed
+    description: "{{ doc('raw_confluent__operator_assignments_parsed') }}"
+    columns:
+      # Kafka envelope
+      - name: record_metadata__partition
+        description: "{{ doc('confluent__kafka_partition') }}"
+      - name: record_metadata__offset
+        description: "{{ doc('confluent__kafka_offset') }}"
+      - name: record_metadata__createtime
+        description: "{{ doc('confluent__kafka_create_time_epoch') }}"
+      - name: record_metadata__topic
+        description: "{{ doc('confluent__kafka_topic') }}"
+      - name: record_metadata__key
+        description: "{{ doc('confluent__kafka_key') }}"
+
+      # Datadog tracing headers
+      - name: record_metadata__headers__traceparent
+        description: "{{ doc('confluent__datadog_traceparent') }}"
+      - name: record_metadata__headers__tracestate
+        description: "{{ doc('confluent__datadog_tracestate') }}"
+      - name: record_metadata__headers__x_datadog_trace_id
+        description: "{{ doc('confluent__datadog_trace_id') }}"
+      - name: record_metadata__headers__x_datadog_parent_id
+        description: "{{ doc('confluent__datadog_parent_id') }}"
+      - name: record_metadata__headers__x_datadog_sampling_priority
+        description: "{{ doc('confluent__datadog_sampling_priority') }}"
+      - name: record_metadata__headers__x_datadog_tags
+        description: "{{ doc('confluent__datadog_tags') }}"
+
+      # CloudEvents envelope
+      - name: record_content__id
+        description: "{{ doc('confluent__event_id') }}"
+      - name: record_content__source
+        description: "{{ doc('confluent__event_source') }}"
+      - name: record_content__type
+        description: "{{ doc('confluent__event_type') }}"
+      - name: record_content__specversion
+        description: "{{ doc('confluent__event_spec_version') }}"
+      - name: record_content__time
+        description: "{{ doc('confluent__event_timestamp') }}"
+
+      # Event payload
+      - name: record_content__data__t3_asset_id
+        description: "{{ doc('confluent__t3_asset_id') }}"
+
+      # Operator assignment
+      - name: record_content__data__operator_assignment__operator_id
+        description: "{{ doc('confluent__operator_id') }}"
+      - name: record_content__data__operator_assignment__operator_name
+        description: "{{ doc('confluent__operator_name') }}"
+      - name: record_content__data__operator_assignment__source
+        description: "{{ doc('confluent__operator_assignment_source') }}"
+      - name: record_content__data__operator_assignment__t3_company_id
+        description: "{{ doc('confluent__t3_company_id') }}"
+      - name: record_content__data__operator_assignment__t3_user_id
+        description: "{{ doc('confluent__t3_user_id') }}"
+      - name: record_content__data__operator_assignment__attempted_overwrites_raw
+        description: "{{ doc('confluent__attempted_overwrites_raw') }}"
+
+      # Metadata
+      - name: _created_recordtimestamp
+        description: "{{ doc('_created_recordtimestamp') }}"
+      - name: _updated_recordtimestamp
+        description: "{{ doc('_updated_recordtimestamp') }}"

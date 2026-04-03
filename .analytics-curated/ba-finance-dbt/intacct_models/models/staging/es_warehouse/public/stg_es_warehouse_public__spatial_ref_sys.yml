@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__spatial_ref_sys
+    description: Model for es_warehouse.public.spatial_ref_sys
+    columns:
+      - name: srid
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: auth_name
+        description: ""
+      - name: auth_srid
+        description: ""
+      - name: srtext
+        description: ""
+      - name: proj4text
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

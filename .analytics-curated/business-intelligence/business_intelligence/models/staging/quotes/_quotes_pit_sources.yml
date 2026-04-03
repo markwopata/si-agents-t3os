@@ -1,0 +1,72 @@
+
+version: 2
+
+sources:
+  - name: quotes
+    description: "Point-in-time source tables for Quotes domain."
+    database: quotes
+    schema: quotes__silver
+    tables:
+      - name: customer_pit
+        description: "{{ doc('quotes__customer_pit') }}"
+        columns:
+
+          - name: _customer_last_instance_indicator
+            data_type: number
+            description: "{{ doc('_last_instance_indicator') }}"
+
+          - name: _customer_effective_start_utc_datetime
+            data_type: timestamp_ltz
+            description: "{{ doc('_effective_start_utc_datetime') }}"
+
+          - name: _customer_effective_end_utc_datetime
+            data_type: timestamp_ltz
+            description: "{{ doc('_effective_end_utc_datetime') }}"
+
+          - name: _customer_effective_delete_utc_datetime
+            data_type: timestamp_ltz
+            description: "{{ doc('_effective_delete_utc_datetime') }}"
+            
+          - name: customer_id
+            data_type: varchar
+            description: "{{ doc('quotes__customer_id') }}"
+
+          - name: esdb_billing_location_id
+            data_type: number
+            description: "{{ doc('quotes__customer_company_billing_location_id') }}"
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_created_at') }}"
+
+          - name: archived_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_archived_at') }}"
+
+          - name: updated_at
+            data_type: timestamp_ntz
+            description: "{{ doc('quotes__customer_updated_at') }}"
+
+          - name: created_by
+            data_type: number
+            description: "{{ doc('quotes__customer_created_by') }}"
+
+          - name: esdb_company_id
+            data_type: number
+            description: "{{ doc('quotes__customer_esdb_company_id') }}"
+
+          - name: net_terms_id
+            data_type: number
+            description: "{{ doc('quotes__customer_company_net_terms_id') }}"
+
+          - name: name
+            data_type: varchar
+            description: "{{ doc('quotes__customer_company_name') }}"
+
+          - name: updated_by
+            data_type: number
+            description: "{{ doc('quotes__customer_updated_by') }}"
+
+          - name: do_not_rent
+            data_type: boolean
+            description: "{{ doc('quotes__customer_company_do_not_rent') }}"

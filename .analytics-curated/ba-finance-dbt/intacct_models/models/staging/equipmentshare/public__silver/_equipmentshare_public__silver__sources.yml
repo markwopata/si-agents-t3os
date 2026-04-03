@@ -1,0 +1,12 @@
+---
+version: 2
+sources:
+  - name: equipmentshare_public__silver
+    tags:
+      - sources
+    database: equipmentshare
+    schema: public__silver
+    description: Data in equipmentshare.public__silver used for <todo>
+    tables:
+      - name: assets_pit
+        description: ''

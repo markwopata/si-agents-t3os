@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: stg_t3__daily_state_mileage
+    description: Daily mileage snapshots for fleet assets with geofence encounter data, split by report day to enable flexible date range queries for IFTA compliance reporting
+    columns:
+      - name: asset_id
+        data_type: number
+        description: "Unique identifier for the fleet asset"
+        
+      - name: company_id
+        data_type: number
+        description: "Unique identifier for the company that owns the asset"
+        
+      - name: ifta_reporting
+        data_type: boolean
+        description: "Flag indicating whether this asset is subject to IFTA (International Fuel Tax Agreement) reporting requirements"
+        
+      - name: custom_name
+        data_type: varchar
+        description: "Custom name/identifier assigned to the asset"
+        
+      - name: make
+        data_type: varchar
+        description: "Manufacturer/make of the vehicle asset"
+        
+      - name: model
+        data_type: varchar
+        description: "Model of the vehicle asset"
+        
+      - name: vin
+        data_type: varchar
+        description: "Vehicle Identification Number (VIN) for the asset"
+        
+      - name: name
+        data_type: varchar
+        description: "Name of the geofence/state where the encounter occurred"
+        
+      - name: report_day
+        data_type: date
+        description: "Date of the tracking activity for daily aggregation and flexible date range queries"
+        
+      - name: state_entry_raw
+        data_type: timestamp_tz
+        description: "Raw timestamp when the asset entered the geofence/state on this report day (exact source DB timestamp)"
+        
+      - name: state_exit_raw
+        data_type: timestamp_tz
+        description: "Raw timestamp when the asset exited the geofence/state on this report day (exact source DB timestamp)"
+        
+      - name: state_entry
+        data_type: varchar
+        description: "Formatted timestamp of geofence entry converted to America/Chicago timezone for display"
+        
+      - name: state_exit
+        data_type: varchar
+        description: "Formatted timestamp of geofence exit converted to America/Chicago timezone for display"
+        
+      - name: start_odometer
+        data_type: varchar
+        description: "Formatted starting odometer reading for this encounter on this report day"
+        
+      - name: end_odometer
+        data_type: varchar
+        description: "Formatted ending odometer reading for this encounter on this report day"
+        
+      - name: miles_driven
+        data_type: number
+        description: "Total miles driven within the geofence/state on this specific report day"
+        
+      - name: start_lat
+        data_type: float
+        description: "Latitude coordinate of the first tracking event for this encounter on this report day"
+        
+      - name: start_lon
+        data_type: float
+        description: "Longitude coordinate of the first tracking event for this encounter on this report day"
+        
+      - name: end_lat
+        data_type: float
+        description: "Latitude coordinate of the last tracking event for this encounter on this report day"
+        
+      - name: end_lon
+        data_type: float
+        description: "Longitude coordinate of the last tracking event for this encounter on this report day"

@@ -1,0 +1,72 @@
+---
+version: 2
+models:
+  - name: costcapture_to_sage_receipts
+    description:
+      "View that the sync of receipts between CostCapture and Sage uses."
+    columns:
+      - name: po_line_rec_item_id
+        description: "Unique ID of the line on the receipt in CostCapture. Maps to t3_line_item_id."
+        data_tests:
+          - unique
+          - not_null
+      - name: date_adj
+        description: "Adjusted posting date for the receipt. Takes into account if AP is closed for the month or not."
+        data_tests:
+          - not_null
+      - name: datecreated_year
+        description: "Year of adjusted date"
+      - name: datecreated_month
+        description: "Month of adjusted date"
+      - name: datecreated_day
+        description: "Day of adjusted date"
+      - name: vendorid
+        description: "Vendor ID"
+        data_tests:
+          - not_null
+      - name: documentno
+        description: "Purchase Order Number"
+        data_tests:
+          - not_null
+      - name: referenceno
+        description: ""
+      - name: termname
+        description: "Vendor's terms"
+      - name: returnto_contactname
+        description: ""
+      - name: payto_contactname
+        description: ""
+      - name: t3_po_created_by
+        description: "ID and name of the user who created the purchase order."
+      - name: t3_pr_created_by
+        description: "ID and name of the user who created the receipt."
+      - name: received_to_store
+        description: "Store ID on the purchase order in CostCapture. Used to map to the branch for inventory items."
+      - name: itemid
+        description: "Item ID that maps to Sage Intacct and corresponds to the GL Account the line will hit."
+        data_tests:
+          - not_null
+      - name: quantity
+        description: "Number of units accepted on the receipt. Previously included damaged items, but this was removed April 2025."
+        data_tests:
+          - not_null
+      - name: unit
+        description: "Each"
+      - name: price
+        description: "Price per unit of the item."
+        data_tests:
+          - not_null
+      - name: locationid
+        description: "Company that the receipt will post to. Currently hardcoded to E1."
+        data_tests:
+          - not_null
+      - name: department_id
+        description: "Department that the receipt will post to"
+        data_tests:
+          - not_null
+      - name: memo
+        description: ""
+      - name: part_info
+        description: "part number, part name and manufacturer"
+      - name: part_id
+        description: "ID of the part in inventory."

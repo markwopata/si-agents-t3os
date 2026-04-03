@@ -1,0 +1,72 @@
+---
+version: 2
+models:
+  - name: int_cip_actuals
+    description: >
+      Construction in Progress gl details with project and division classification. Only includes GL detail
+      from markets with a budget entered. Also excludes entries classified as Reimbursement (once reimbursed,
+      they are removed from the CIP account.)
+    config:
+        materialized: view
+        tags: ['construction', 'cip']
+    columns:
+      - name: pk_gl_detail_id
+        description: "Primary key for GL detail. Can use this to join to gl_detail"
+        data_tests:
+          - unique
+      - name: market_id
+        description: "Market identifier."
+      - name: division_code
+        description: "Division code, or 'ZZ-9999' if not classified."
+      - name: division_name
+        description: "Division name, or 'UNCLASSIFIED' if not classified."
+      - name: project_id
+        description: "Project identifier, or -1 if not classified."
+      - name: project_code
+        description: "Project code, or 'NO PROJECT' if not classified."
+      - name: actual_amount
+        description: "Actual GL amount, rounded to 2 decimals."
+      - name: entry_date
+        description: "GL entry date."
+      - name: journal_type
+        description: "Type of journal entry."
+      - name: journal_transaction_number
+        description: "Journal transaction number."
+      - name: journal_title
+        description: "Journal title."
+      - name: entry_description
+        description: "Entry description."
+      - name: created_by_username
+        description: "Username who created the entry."
+      - name: vendor_id
+        description: "Vendor identifier."
+      - name: vendor_name
+        description: "Vendor name."
+      - name: document_type
+        description: "Document type."
+      - name: document_number
+        description: "Document number."
+      - name: line_description
+        description: "Line description."
+      - name: url_journal
+        description: "URL to journal in Sage."
+      - name: url_concur
+        description: "URL to invoice pdf in concur."
+      - name: url_invoice_sage
+        description: "URL to invoice in Sage."
+      - name: url_po_sage
+        description: "URL to PO in Sage."
+      - name: url_po_t3
+        description: "URL to PO in T3."
+      - name: date_created
+        description: "Date the expense classification was created."
+      - name: created_by
+        description: "User who created the expense classification."
+      - name: date_updated
+        description: "Date the expense classification was updated."
+      - name: updated_by
+        description: "User who updated the expense classification."
+      - name: account_number
+        description: "{{ doc('account_number') }}."
+      - name: account_name
+        description: "{{ doc('account_name') }}."

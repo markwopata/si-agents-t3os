@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__odometer_update_audit
+    description: Model for es_warehouse.public.odometer_update_audit
+    columns:
+      - name: odometer_update_audit_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique:
+              tags:
+                - daily
+      - name: asset_id
+        description: ""
+      - name: trip_distance_accumulator
+        description: ""
+      - name: created
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: application_name
+        description: ""
+      - name: new_odometer
+        description: ""
+      - name: odometer_accumulator
+        description: ""
+      - name: old_odometer
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

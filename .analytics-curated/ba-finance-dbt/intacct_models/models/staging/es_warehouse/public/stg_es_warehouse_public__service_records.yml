@@ -1,0 +1,55 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__service_records
+    description: Model for es_warehouse.public.service_records
+    columns:
+      - name: service_record_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: date_completed
+        description: ""
+      - name: created_by
+        description: ""
+      - name: user_created
+        description: ""
+      - name: filename
+        description: ""
+      - name: service_interval_id
+        description: ""
+      - name: service_provider
+        description: ""
+      - name: miles
+        description: ""
+      - name: hours
+        description: ""
+      - name: cost_parts
+        description: ""
+      - name: cost_labor
+        description: ""
+      - name: description
+        description: ""
+      - name: name
+        description: ""
+      - name: date_scheduled
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: requesting_service_contact_email
+        description: ""
+      - name: requesting_service_contact_number
+        description: ""
+      - name: maintenance_group_interval_id
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: iteration
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

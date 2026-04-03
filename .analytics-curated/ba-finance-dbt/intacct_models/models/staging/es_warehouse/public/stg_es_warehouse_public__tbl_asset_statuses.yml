@@ -1,0 +1,370 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tbl_asset_statuses
+    description: Model for es_warehouse.public.tbl_asset_statuses
+    columns:
+      - name: asset_id
+        description: ""
+      - name: outrigger_status
+        description: ""
+      - name: out_of_lock
+        description: ""
+      - name: last_trip_type
+        description: ""
+      - name: diesel_exhaust_fluid_level
+        description: ""
+      - name: generator_phase_b_reactive_power
+        description: ""
+      - name: fuel_consumption_rate_gph
+        description: ""
+      - name: generator_phase_ca_line_line_ac_rms_voltage
+        description: ""
+      - name: generator_control_not_in_automatic_start_state
+        description: ""
+      - name: utility_phase_c_line_neutral_ac_rms_voltage
+        description: ""
+      - name: utility_phase_b_line_neutral_ac_rms_voltage
+        description: ""
+      - name: generator_frequency_selection
+        description: ""
+      - name: unlock_timestamp
+        description: ""
+      - name: utility_phase_c_ac_frequency
+        description: ""
+      - name: uts_roll
+        description: ""
+      - name: asset_health_status
+        description: ""
+      - name: current_trip_id
+        description: ""
+      - name: last_location_timestamp
+        description: ""
+      - name: rssi
+        description: ""
+      - name: total_fuel_used_liters
+        description: ""
+      - name: fuel_level
+        description: ""
+      - name: latest_stop_driving_incident_id
+        description: ""
+      - name: generator_total_kvar_hours_export
+        description: ""
+      - name: generator_phase_c_ac_rms_current
+        description: ""
+      - name: utility_phase_b_ac_frequency
+        description: ""
+      - name: generator_phase_a_apparent_power
+        description: ""
+      - name: generator_phase_b_ac_frequency
+        description: ""
+      - name: generator_total_kw_hours_import
+        description: ""
+      - name: generator_total_kw_hours_export
+        description: ""
+      - name: generator_phase_b_real_power
+        description: ""
+      - name: charger_plugged_in
+        description: ""
+      - name: generator_average_ac_rms_current
+        description: ""
+      - name: generator_phase_a_reactive_power
+        description: ""
+      - name: recent_driver_name
+        description: ""
+      - name: is_being_hauled
+        description: ""
+      - name: last_address_update_timestamp
+        description: ""
+      - name: asset_inventory_status
+        description: ""
+      - name: coolant_temperature
+        description: ""
+      - name: location
+        description: ""
+      - name: battery_potential_power_input
+        description: ""
+      - name: generator_total_apparent_power
+        description: ""
+      - name: last_engine_on_timestamp
+        description: ""
+      - name: hdop
+        description: ""
+      - name: last_tracker_wake_timestamp
+        description: ""
+      - name: recent_driver_timestamp
+        description: ""
+      - name: generator_phase_c_apparent_power
+        description: ""
+      - name: generator_phase_bc_line_line_ac_rms_voltage
+        description: ""
+      - name: utility_average_ac_frequency
+        description: ""
+      - name: utility_phase_bc_line_line_ac_rms_voltage
+        description: ""
+      - name: generator_phase_c_power_factor
+        description: ""
+      - name: stop_lamp_power_status
+        description: ""
+      - name: utility_average_line_line_ac_rms_voltage
+        description: ""
+      - name: generator_governing_speed_command
+        description: ""
+      - name: generator_excitation_field_current
+        description: ""
+      - name: generator_alternator_efficiency
+        description: ""
+      - name: tpms_high_pressure_status
+        description: ""
+      - name: last_valid_tpms_timestamp
+        description: ""
+      - name: battery_state_of_charge
+        description: ""
+      - name: hours
+        description: ""
+      - name: average_fuel_economy
+        description: ""
+      - name: coolant_level_percent
+        description: ""
+      - name: state_id
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: asset_rental_status
+        description: ""
+      - name: last_engine_off_timestamp
+        description: ""
+      - name: last_trip_end_timestamp
+        description: ""
+      - name: generator_phase_a_ac_frequency
+        description: ""
+      - name: generator_phase_a_ac_rms_current
+        description: ""
+      - name: start_idle_timestamp
+        description: ""
+      - name: last_keypad_message_timestamp
+        description: ""
+      - name: driver_match_timestamp
+        description: ""
+      - name: fuel_economy_lifetime_mpg
+        description: ""
+      - name: generator_phase_c_ac_frequency
+        description: ""
+      - name: generator_phase_b_power_factor
+        description: ""
+      - name: generator_overall_power_factor
+        description: ""
+      - name: utility_average_line_neutral_ac_rms_voltage
+        description: ""
+      - name: generator_phase_b_apparent_power
+        description: ""
+      - name: lock_timestamp
+        description: ""
+      - name: uts_pitch
+        description: ""
+      - name: generator_phase_a_real_power
+        description: ""
+      - name: generator_phase_c_reactive_power
+        description: ""
+      - name: platform_stowed
+        description: ""
+      - name: city
+        description: ""
+      - name: engine_oil_temperature
+        description: ""
+      - name: is_ble_node
+        description: ""
+      - name: total_idle_seconds
+        description: ""
+      - name: county
+        description: ""
+      - name: driver_user_id
+        description: ""
+      - name: speed
+        description: ""
+      - name: generator_phase_b_ac_rms_current
+        description: ""
+      - name: generator_overall_power_factor_lagging
+        description: ""
+      - name: generator_phase_ab_line_line_ac_rms_voltage
+        description: ""
+      - name: generator_total_real_power
+        description: ""
+      - name: ble_low_battery
+        description: ""
+      - name: generator_circuit_breaker_status
+        description: ""
+      - name: latest_start_driving_incident_id
+        description: ""
+      - name: generator_phase_a_power_factor
+        description: ""
+      - name: generator_total_reactive_power
+        description: ""
+      - name: generator_phase_b_line_neutral_ac_rms_voltage
+        description: ""
+      - name: is_locked
+        description: ""
+      - name: service_brakes_status
+        description: ""
+      - name: overload
+        description: ""
+      - name: start_stale_gps_fix_timestamp
+        description: ""
+      - name: engine_oil_pressure
+        description: ""
+      - name: last_checkin_timestamp
+        description: ""
+      - name: generator_average_line_line_ac_rms_voltage
+        description: ""
+      - name: engine_active
+        description: ""
+      - name: unplugged
+        description: ""
+      - name: fuel_economy_instantaneous_mpg
+        description: ""
+      - name: generator_total_percent_kw
+        description: ""
+      - name: utility_phase_a_ac_frequency
+        description: ""
+      - name: rcl_hydraulic_high_temp
+        description: ""
+      - name: emergency_air_status
+        description: ""
+      - name: street
+        description: ""
+      - name: engine_rpm
+        description: ""
+      - name: last_trip_id
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: recent_driver_user_id
+        description: ""
+      - name: last_tracker_sleep_timestamp
+        description: ""
+      - name: is_tracker_awake
+        description: ""
+      - name: key_switch_battery_potential
+        description: ""
+      - name: utility_phase_ca_line_line_ac_rms_voltage
+        description: ""
+      - name: utility_phase_ab_line_line_ac_rms_voltage
+        description: ""
+      - name: generator_phase_c_real_power
+        description: ""
+      - name: generator_average_ac_frequency
+        description: ""
+      - name: utility_circuit_breaker_status
+        description: ""
+      - name: generator_average_line_neutral_ac_rms_voltage
+        description: ""
+      - name: engine_speed_governor_droop
+        description: ""
+      - name: tpms_low_pressure_status
+        description: ""
+      - name: is_pending_keypad_code_update
+        description: ""
+      - name: tpms_high_temperature_status
+        description: ""
+      - name: direction
+        description: ""
+      - name: driver_name
+        description: ""
+      - name: odometer
+        description: ""
+      - name: diesel_particles_filter_regen_status
+        description: ""
+      - name: total_idle_fuel_used_liters
+        description: ""
+      - name: generator_phase_a_line_neutral_ac_rms_voltage
+        description: ""
+      - name: utility_phase_a_line_neutral_ac_rms_voltage
+        description: ""
+      - name: generator_phase_c_line_neutral_ac_rms_voltage
+        description: ""
+      - name: requested_engine_control_mode
+        description: ""
+      - name: machine_off_level
+        description: ""
+      - name: generator_not_ready_to_automatically_parallel_state
+        description: ""
+      - name: rcl_hydraulic_fluid_low
+        description: ""
+      - name: engine_speed_governor_gain_adjust
+        description: ""
+      - name: key_switch_state
+        description: ""
+      - name: foot_switch
+        description: ""
+      - name: rcl_bridge_on_tracks
+        description: ""
+      - name: asset_status_id
+        description: ""
+      - name: rssi_timestamp
+        description: ""
+      - name: unplugged_timestamp
+        description: ""
+      - name: battery_voltage_timestamp
+        description: ""
+      - name: fuel_level_timestamp
+        description: ""
+      - name: average_fuel_economy_timestamp
+        description: ""
+      - name: asset_rental_status_timestamp
+        description: ""
+      - name: asset_health_status_timestamp
+        description: ""
+      - name: coolant_temperature_timestamp
+        description: ""
+      - name: engine_oil_pressure_timestamp
+        description: ""
+      - name: engine_oil_temperature_timestamp
+        description: ""
+      - name: engine_rpm_timestamp
+        description: ""
+      - name: is_being_hauled_timestamp
+        description: ""
+      - name: is_pending_keypad_code_update_timestamp
+        description: ""
+      - name: uts_roll_timestamp
+        description: ""
+      - name: charger_plugged_in_timestamp
+        description: ""
+      - name: platform_stowed_timestamp
+        description: ""
+      - name: overload_timestamp
+        description: ""
+      - name: key_switch_state_timestamp
+        description: ""
+      - name: machine_off_level_timestamp
+        description: ""
+      - name: battery_state_of_charge_timestamp
+        description: ""
+      - name: uts_pitch_timestamp
+        description: ""
+      - name: outrigger_status_timestamp
+        description: ""
+      - name: foot_switch_timestamp
+        description: ""
+      - name: hdop_timestamp
+        description: ""
+      - name: coolant_level_percent_timestamp
+        description: ""
+      - name: diesel_exhaust_fluid_level_timestamp
+        description: ""
+      - name: diesel_particles_filter_regen_status_timestamp
+        description: ""
+      - name: fuel_consumption_rate_gph_timestamp
+        description: ""
+      - name: fuel_economy_lifetime_mpg_timestamp
+        description: ""
+      - name: fuel_economy_instantaneous_mpg_timestamp
+        description: ""
+      - name: asset_inventory_status_timestamp
+        description: ""
+      - name: ble_low_battery_timestamp
+        description: ""
+      - name: out_of_lock_timestamp
+        description: ""
+      - name: total_fuel_used_liters_timestamp
+        description: ""

@@ -1,0 +1,108 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__fact_purchasing
+    description: Model for fleet_optimization.gold.fact_purchasing
+    columns:
+      - name: po_line_key
+        description: Hashed composite key composed of po_line_id and po_line_source
+        data_tests:
+          - unique
+      - name: purchase_order_key
+        description: Hashed key comprised of composite primary key purchase_order_id and purchase_order_source
+      - name: asset_key
+        description: Unique identifier for each asset in the dim_assets table. Will either be in the form of asset_id or
+          asset_key, both numeric values that should work as a join key to dim_assets_fleet_opt.
+      - name: market_key
+        description: Unique identifier for each branch in the dim_markets table. Market_id and market_key are both 
+          unique identifiers at this time. For utilization, refers to the rental service providing branch.
+      - name: equipment_class_key
+        description: "Categorical name of the equipment class, as derived from dim_equipment_classes_fleet_opt or the fleet
+          plan. \nWhen associated with PO Line, data entered via FleetTrack, possibly before asset is created. \nIf derived
+          from fleet plan, the field is not derived from dim_equipment_classes_fleet_opt based on ID, so use with caution."
+      - name: purchase_order_approved_at_date_key
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: purchase_order_submitted_date_key
+        description: Actual date or foreign key to dim_dates_fleet_opt that corresponds to a calendar date. If -1 or 
+          1/1/1, the value is considered NULL.
+      - name: po_line_due_date_key
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_invoice_date_key
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: purchase_order_approved_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: purchase_order_created_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: purchase_order_submitted_by_user_key
+        description: Foreign key to dim_users_fleet_opt that corresponds to a specific T3 user/EquipmentShare employee. 
+          If -1, the value is considered NULL.
+      - name: fleet_plan_key
+        description: Hashed primary key composed of class_id and fiscal_year
+      - name: vendor_key
+        description: ''
+      - name: original_promise_date_key
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: current_promise_date_key
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: po_line_quantity
+        description: "The number of items purchased meeting the line's specifications. \nQuantity * net cost = total cost\
+          \ \nDefault quantity is 0"
+      - name: po_line_aftermarket_oec
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_freight_cost
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_registration_cost
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_sales_tax
+        description: "Any tax associated with the line item.\nSales tax occurs primarily on rental equipment and only applies
+          to assets that incur sales tax (not every state assesses sales tax for heavy equipment purchase).\nTax occurs primarily
+          on the vehicle side and is in addition ot the titling fee/registration cost; it represents the first tax when a
+          vehicle is registered.\nThe two tax fields should not be coalesced or substituted for each other, and are almost
+          always exclusive (i.e. sales tax but no vehicle tax assessed). \nDefault value is 0"
+      - name: po_line_tax
+        description: "Any tax associated with the line item.\nSales tax occurs primarily on rental equipment and only applies
+          to assets that incur sales tax (not every state assesses sales tax for heavy equipment purchase).\nTax occurs primarily
+          on the vehicle side and is in addition ot the titling fee/registration cost; it represents the first tax when a
+          vehicle is registered.\nThe two tax fields should not be coalesced or substituted for each other, and are almost
+          always exclusive (i.e. sales tax but no vehicle tax assessed). \nDefault value is 0"
+      - name: po_line_net_price
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_total_cost
+        description: Net price * quantity for each line item. Default value is 0
+      - name: po_line_calculated_oec
+        description: Total cost (net price * quantity) + freight for each line item. Default value is 0

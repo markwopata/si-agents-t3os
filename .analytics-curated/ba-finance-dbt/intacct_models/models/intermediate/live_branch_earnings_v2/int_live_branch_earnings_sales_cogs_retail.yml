@@ -1,0 +1,59 @@
+---
+version: 2
+models:
+  - name: int_live_branch_earnings_sales_cogs_retail
+    description: "Line-item cost detail for retail sales. Sourced from the retail sales app data."
+    columns:
+      - name: transaction_number
+        data_type: varchar
+        description: ""
+        data_tests:
+          - unique
+      - name: market_id
+        data_type: varchar
+        description: ""
+      - name: account_number
+        data_type: varchar
+        description: ""
+      - name: transaction_number_format
+        data_type: varchar
+        description: ""
+      - name: description
+        data_type: varchar
+        description: ""
+      - name: gl_date
+        data_type: date
+        description: ""
+      - name: document_type
+        data_type: varchar
+        description: ""
+      - name: document_number
+        data_type: varchar
+        description: ""
+      - name: url_sage
+        data_type: varchar
+        description: ""
+      - name: url_concur
+        data_type: varchar
+        description: ""
+      - name: url_admin
+        data_type: varchar
+        description: ""
+      - name: url_t3
+        data_type: varchar
+        description: ""
+      - name: amount
+        data_type: number
+        description: ""
+      - name: additional_data
+        data_type: object
+        description: ""
+      - name: source
+        data_type: varchar
+        description: ""
+      - name: load_section
+        data_type: varchar
+        description: ""
+      - name: source_model
+        data_type: varchar
+        description: ""

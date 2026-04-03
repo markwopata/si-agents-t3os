@@ -1,0 +1,65 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__third_party_rentals
+    description: Model for es_warehouse.public.third_party_rentals
+    columns:
+      - name: third_party_rental_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: third_party_asset_id
+        description: ""
+      - name: location_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: rental_status_id
+        description: ""
+      - name: purchase_order_id
+        description: ""
+      - name: ordered_by_user_id
+        description: ""
+      - name: vendor_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: price_per_hour
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: tax_rate
+        description: ""
+      - name: off_rent_confirmation_no
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: rental_agreement_metadata
+        description: ""
+      - name: outside_rental_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: rental_agreement_metadata__date_updated
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:date_updated)
+      - name: rental_agreement_metadata__download_filename
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:download_filename)
+      - name: rental_agreement_metadata__mime_type
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:mime_type)
+      - name: rental_agreement_metadata__url
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:url)
+      - name: rental_agreement_metadata__original_filename
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:original_filename)
+      - name: rental_agreement_metadata__size_bytes
+        description: Extracted from json in column rental_agreement_metadata (roughly rental_agreement_metadata:size_bytes)

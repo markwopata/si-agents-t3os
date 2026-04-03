@@ -1,0 +1,52 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__locations
+    description: Model for es_warehouse.public.locations
+    columns:
+      - name: location_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+          - dbt_utils.at_least_one
+      - name: user_id
+        description: ""
+      - name: nickname
+        description: ""
+      - name: street_1
+        description: ""
+      - name: street_2
+        description: ""
+      - name: city
+        description: ""
+      - name: state_id
+        description: ""
+      - name: latitude
+        description: ""
+      - name: longitude
+        description: ""
+      - name: needs_review
+        description: ""
+      - name: jobsite
+        description: ""
+      - name: location_type_id
+        description: ""
+      - name: description
+        description: ""
+      - name: company_id
+        description: ""
+      - name: location_geo
+        description: ""
+      - name: universal_entity_id
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: zip_code_extended
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

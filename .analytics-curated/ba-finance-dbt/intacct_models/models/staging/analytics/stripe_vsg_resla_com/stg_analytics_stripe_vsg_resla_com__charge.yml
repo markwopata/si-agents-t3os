@@ -1,0 +1,160 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__charge
+    description: >
+      The Charge object represents a single attempt to move money into your Stripe account. PaymentIntent confirmation 
+      is the most common way to create Charges, but Account Debits may also create Charges. Some legacy payment flows 
+      create Charges directly, which is not recommended for new integrations.
+    meta:
+      documentation_url: https://docs.stripe.com/api/charges
+    columns:
+      - name: id
+        description: "Primary key for the charge."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with this charge."
+      - name: amount_in_cents
+        description: "Amount of the charge in cents."
+      - name: amount
+        description: "Amount of the charge (cents / 100.0)."
+      - name: amount_refunded_in_cents
+        description: "Amount of the charge that has been refunded in cents."
+      - name: amount_refunded
+        description: "Amount of the charge that has been refunded (cents / 100.0)."
+      - name: application
+        description: "ID of the Connect application that created the charge."
+      - name: billing_detail_address_city
+        description: ""
+      - name: billing_detail_address_country
+        description: ""
+      - name: billing_detail_address_line_1
+        description: ""
+      - name: billing_detail_address_line_2
+        description: ""
+      - name: billing_detail_address_postal_code
+        description: ""
+      - name: billing_detail_address_state
+        description: ""
+      - name: billing_detail_email
+        description: ""
+      - name: billing_detail_name
+        description: ""
+      - name: billing_detail_phone
+        description: ""
+      - name: application_fee_amount_in_cents
+        description: "Amount of the application fee in cents."
+      - name: application_fee_amount
+        description: "Amount of the application fee (cents / 100.0)."
+      - name: calculated_statement_descriptor
+        description: "Full statement descriptor sent to networks and shown on customer statements."
+      - name: captured
+        description: "Whether the charge has been captured."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the charge, useful for display."
+      - name: destination
+        description: "ID of the Stripe account that received the charge (for destination charges)."
+      - name: failure_code
+        description: "Error code explaining reason for charge failure, if available."
+      - name: failure_message
+        description: "Human-readable message explaining the failure, if available."
+      - name: fraud_details_user_report
+        description: ""
+      - name: fraud_details_stripe_report
+        description: ""
+      - name: is_live_mode
+        description: "Has the value true if the object exists in live mode or the value false if the object exists in test mode."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: on_behalf_of
+        description: "The account on whose behalf the charge was made."
+      - name: outcome_network_status
+        description: "Network status for the payment outcome."
+      - name: outcome_reason
+        description: "Reason for the outcome, if applicable."
+      - name: outcome_risk_level
+        description: "Risk level assessed by Stripe."
+      - name: outcome_risk_score
+        description: "Risk score assessed by Stripe."
+      - name: outcome_seller_message
+        description: "Message intended to be shared with the merchant."
+      - name: outcome_type
+        description: "Type of outcome for the charge."
+      - name: is_paid
+        description: "true if the charge succeeded, or was successfully authorized for later capture."
+      - name: receipt_email
+        description: "Email address the receipt was sent to."
+      - name: receipt_number
+        description: "Receipt number that appears on customer emails."
+      - name: receipt_url
+        description: "Link to the stripe receipt for the charge."
+      - name: is_refunded
+        description: "Whether the charge has been fully refunded. If the charge is only partially refunded, this attribute will still be false."
+      - name: shipping_address_city
+        description: "City, district, suburb, town, or village."
+      - name: shipping_address_country
+        description: "Two-letter country code (ISO 3166-1 alpha-2)."
+      - name: shipping_address_line_1
+        description: "Address line 1 (street, PO Box, or company name)."
+      - name: shipping_address_line_2
+        description: "Address line 2 (apartment, suite, unit, or building)."
+      - name: shipping_address_postal_code
+        description: "ZIP or postal code."
+      - name: shipping_address_state
+        description: "State, county, province, or region."
+      - name: shipping_carrier
+        description: "Delivery service that shipped the product (FedEx, UPS, USPS, etc.)."
+      - name: shipping_name
+        description: "Recipient name."
+      - name: shipping_phone
+        description: "Recipient phone (including extension)."
+      - name: shipping_tracking_number
+        description: "Tracking number for the physical shipment."
+      - name: card_id
+        description: ""
+      - name: bank_account_id
+        description: ""
+      - name: source_id
+        description: "ID of the payment source used (e.g., Card or Source)."
+      - name: source_transfer
+        description: "Transfer ID that created this charge (for charges from other Stripe accounts)."
+      - name: statement_descriptor
+        description: "Static statement descriptor."
+      - name: status
+        description: "Status of the payment (succeeded, pending, or failed)."
+      - name: transfer_data_destination
+        description: ""
+      - name: transfer_group
+        description: ""
+      - name: balance_transaction_id
+        description: >
+          ID of the balance transaction that describes the impact of this charge on your account balance (not 
+          including refunds or disputes). Foreign key to balance_transaction.id
+      - name: customer_id
+        description: "Foreign key to customer.id"
+      - name: invoice_id
+        description: "ID of the invoice associated with this charge, if any."
+      - name: payment_intent_id
+        description: "ID of the PaymentIntent associated with this charge, if one exists. Foreign key to payment_intent.id"
+      - name: payment_method_id
+        description: "Unique identifier for the payment method used in this charge."
+      - name: transfer_id
+        description: "Transfer ID associated with this charge."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: rule_rule
+        description: ""
+      - name: reservation_id
+        description: "resla.com reservation id. Pulled in from metadata field"
+      - name: platform_id
+        description: "resla.com platform id. Pulled in from metadata field"
+      - name: user_full_name
+        description: "Full name of the user associated with the charge. Pulled in from metadata field"
+      - name: user_id
+        description: "resla.com user id. Pulled in from metadata field"

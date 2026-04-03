@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: stg_analytics_market_data__market_types
+    description: ""
+    columns:
+      - name: market_type_id
+        description: ""
+        data_tests:
+          - dbt_utils.at_least_one
+      - name: name
+        description: ""

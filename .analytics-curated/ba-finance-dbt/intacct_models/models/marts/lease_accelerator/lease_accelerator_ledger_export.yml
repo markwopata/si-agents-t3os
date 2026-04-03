@@ -1,0 +1,103 @@
+---
+version: 2
+
+models:
+  - name: lease_accelerator_ledger_export
+    description: >
+      This model is a mart of the LAS ledger export report
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_number
+              - account_description
+    columns:
+      - name: ledger_entry_id
+        description: ""
+
+      - name: ledger_entry_sub_id
+        description: ""
+
+      - name: asset_number
+        description: ""
+
+      - name: admin_asset_id
+        description: ""
+
+      - name: asset_reference_number
+        description: ""
+
+      - name: las_asset_id
+        description: ""
+
+      - name: account_description
+        description: ""
+
+      - name: comments
+        description: ""
+
+      - name: journal_entry_description
+        description: ""
+
+      - name: fx_rate_type
+        description: ""
+
+      - name: schedule
+        description: ""
+
+      - name: make
+        description: ""
+
+      - name: model
+        description: ""
+
+      - name: class
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: debit_amount
+        description: ""
+
+      - name: credit_amount
+        description: ""
+
+      - name: es_segment
+        description: ""
+
+      - name: gl_account_number
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: serial_number
+        description: ""
+
+      - name: first_rental_date
+        description: "{{ doc('first_rental_date') }}"
+
+      - name: ledger_date
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""
+
+exposures:
+  - name: lease_accelerator_ledger_export_report
+    type: dashboard
+    maturity: medium
+    url: https://equipmentshare.looker.com/dashboards/1434?Schedule=
+    description: >
+      List of reports downloaded via LAS API python script (https://gitlab.internal.equipmentshare.com/business-intelligence/ba-leaseaccelerator-etl/-/blob/main/ba_leaseaccelerator_etl/run.py?ref_type=heads).
+      Source data is landed into Snowflake and transformed in dbt
+
+    depends_on:
+      - ref('lease_accelerator_leasing_summary')
+      - ref('lease_accelerator_ledger_export')
+      - ref('lease_accelerator_bu_asset')
+
+    owner:
+      name: "@erik.chu"
+      email: erik.chu@equipmentshare.com

@@ -1,0 +1,135 @@
+version: 2
+
+models:
+  - name: part_inventory_transactions_unique_store_fails_history
+    description: >
+        table containing unique grain failures for part inventory transactions. since it is a fleeting test (it fails and corrects itself) + store failures dooesn't support history, we create this table to capture the failures over time.
+    columns:
+      - name: failure_logged_at
+        description: the date the failure was captured
+      - name: pk_part_inventory_transactions_id
+        data_tests:
+          - not_null
+        description: "Primary key for this table"
+      - name: store_id
+        description: "Unique ID of the store (branch) where the part transaction occurred. Each store represents a physical EquipmentShare location that manages its own parts inventory."
+
+      - name: store_name
+        description: "Human-readable name of the EquipmentShare store associated with the transaction."
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+
+      - name: transaction_type_id
+        description: "System ID representing the type of movement (e.g., Work Order Issue, Return, Transfer In, Transfer Out, Receive from Vendor)."
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: "Business-friendly name of the transaction type, describing how the part moved within the EquipmentShare ecosystem."
+
+      - name: transaction_status
+        description: "Status of the transaction (e.g., completed, pending, cancelled). Cancelled transactions do not affect inventory but remain in the audit log."
+
+      - name: quantity
+        description: "Quantity of parts moved in the transaction. Positive values increase store inventory (receipts, returns); negative values decrease inventory (issues, transfers out)."
+
+      - name: cost
+        description: "Unit cost of the item at the time of movement. For inbound vendor receipts, this reflects purchase cost; for internal transactions, it typically aligns with the weighted average cost."
+
+      - name: amount
+        description: "Total transaction amount calculated as quantity × cost."
+
+      - name: weighted_average_cost
+        description: "Weighted average cost (WAC) of the part at the time of the transaction, based on store-level inventory valuation used across EquipmentShare for accurate costing."
+
+      - name: wac_extended_amount
+        description: "The total valuation impact to inventory (weighted_average_cost × quantity). Used in cost-of-goods calculations and financial reporting."
+
+      - name: store_part_id
+        description: "Identifier linking a part to a specific store's stocking record. Each store maintains its own inventory record for each part."
+
+      - name: part_id
+        description: "System-generated ID for the part across the enterprise. Represents the unique part definition in T3."
+
+      - name: part_number
+        description: "Manufacturer or internal part number used operationally at stores and in work orders."
+
+      - name: description
+        description: "General description of the part."
+
+      - name: root_part_id
+        description: "The root part ID used when multiple variants or superseded parts map to a common parent part."
+
+      - name: root_part_number
+        description: "Part number of the canonical or parent part in the hierarchy."
+
+      - name: root_part_description
+        description: "Description of the canonical parent part."
+
+      - name: from_id
+        description: "The origin of the movement. This may be a store, technician, vendor receipt, or another internal location depending on the transaction type."
+
+      - name: to_id
+        description: "The destination of the movement. Used for transfers, work order issues, and inter-store reassignments."
+
+      - name: cost_per_item
+        description: "Effective cost per item specific to this line item. Used when a transaction applies a cost override or non-WAC pricing."
+
+      - name: user_id
+        description: "Identifier of the T3 user (store employee, technician, or automated process) who created the transaction."
+
+      - name: created_by_username
+        description: "{{ doc('created_by_username') }}"
+
+      - name: transaction_id
+        description: "Identifier for the broader transaction record, which may include multiple line items for the same movement event (e.g., issuing several parts on a work order)."
+        data_tests:
+          - not_null
+
+      - name: transaction_item_id
+        description: "Unique line-item ID inside the transaction. One transaction may contain multiple items, each with its own line ID."
+        data_tests:
+          - not_null
+
+      - name: wac_snapshot_id
+        description: "Reference to the snapshot of weighted average cost at the exact time of movement. Used for financial reconstruction, auditing, and cost accounting."
+
+      - name: memo
+        description: "Freeform memo entered by a user describing details relevant to the transaction."
+
+      - name: custom_id
+        description: "Auxiliary identifier used for integrations, legacy mappings, or special internal workflows."
+
+      - name: from_uuid_id
+        description: "UUID version of the originating entity (store, user, warehouse movement, or work order component). Supports systems that require UUID keys."
+
+      - name: to_uuid_id
+        description: "UUID version of the destination entity for the transaction."
+
+      - name: split_from
+        description: "Indicates the original transaction item when a part movement is split into multiple lines (common in corrections or adjustments)."
+
+      - name: transaction_group_id
+        description: "Groups related transactions, such as all parts issued to a single work order or grouped transfer events within a store."
+
+      - name: date_completed
+        description: "Timestamp when the transaction was finalized and written to inventory."
+
+      - name: date_cancelled
+        description: "Timestamp when the transaction was cancelled. Cancelled transactions negate or supersede prior inventory activity."
+
+      - name: month_
+        description: "Month bucket used for reporting, based on the completion date of the transaction."
+
+      - name: url_t3
+        description: "{{ doc('url_t3_general') }}"
+
+      - name: src
+        description: "Source system from which the transaction data originated (e.g., T3 transactional tables, vendor feeds, integrations)."
+        data_tests:
+          - not_null
+

@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_incident_threshold_durations
+    description: Model for es_warehouse.public.asset_incident_threshold_durations
+    columns:
+      - name: asset_incident_threshold_duration_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: asset_incident_threshold_id
+        description: ""
+      - name: start_timestamp
+        description: ""
+      - name: end_timestamp
+        description: ""
+      - name: duration_seconds
+        description: ""
+      - name: start_incident_id
+        description: ""
+      - name: end_incident_id
+        description: ""
+      - name: cleared_threshold_value
+        description: ""
+      - name: exceeded_threshold_value
+        description: ""
+      - name: extreme_threshold_value
+        description: ""
+      - name: baseline_threshold_value
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

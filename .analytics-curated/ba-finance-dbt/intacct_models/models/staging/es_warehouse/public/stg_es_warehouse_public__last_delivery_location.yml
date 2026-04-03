@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__last_delivery_location
+    description: Model for es_warehouse.public.last_delivery_location
+    columns:
+      - name: asset_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: delivery_id
+        description: ""
+      - name: drop_off_or_return
+        description: ""
+      - name: address
+        description: ""
+      - name: last_delivery
+        description: ""

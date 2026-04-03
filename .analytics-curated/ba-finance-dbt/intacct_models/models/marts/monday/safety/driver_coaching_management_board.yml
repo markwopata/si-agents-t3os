@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: driver_coaching_management_board
+    description: Driver Coaching Management Board exposed as a table. This board is a log of pending and completed coaching for ES drivers.
+    meta:
+      point_of_contact: Bryan Walsh
+      owner: "@nick.logan"
+      monday_board_url: https://equipmentshare.monday.com/boards/7278220129/views/157430361 # ask Nick Logan for Monday board access
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - created_at
+              - employee_email
+    columns:
+      - name: created_at
+        description: ""
+
+      - name: employee_email
+        description: ""
+
+      - name: region
+        description: driver region
+
+      - name: coaching_status
+        description: includes needs further review, sent to gm/coach, coaching complete, new, and inactive
+
+      - name: coaching_severity
+        description: includes coaching, written warning, suspension, termination, email warning, and undefined
+
+      - name: primary_violation_type
+        description: ""
+
+      - name: secondary_violation_type
+        description: violation with second highest point total
+
+      - name: asset_id
+        description: ES asset id
+
+      - name: vehicle_type
+        description: type of vehicle; including haul truck, telematics van, pickup truck, service truck, and undefined
+
+      - name: completed_form_attachments
+        description: file attachment(s) of completed coaching form
+
+      - name: probation_start_date
+        description: ""
+
+      - name: probation_end_date
+        description: ""
+
+      - name: probation_days
+        description: ""
+
+      - name: coaching_due_date
+        description: ""
+
+      - name: coaching_completed_date
+        description: ""
+
+      - name: coach_name
+        description: ""
+
+      - name: manager_email
+        description: ""
+
+      - name: notes
+        description: ""
+
+      - name: total_weekly_points
+        description: total points across all categories
+
+      - name: previous_coaching_count
+        description: ""
+
+      - name: video_attachments
+        description: video file(s) of event

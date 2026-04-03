@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_analytics_asset4000_dbo__gl_asset
+    description: staging model of base_analytics_asset4000_dbo__gl_asset that that includes only records that have not been marked as deleted
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+        data_tests:
+          - unique
+
+      - name: asset_title
+        description: ""
+
+      - name: asset_purchase_date
+        description: ""
+
+      - name: asset_capitalized_date
+        description: ""

@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: base_es_warehouse_public__equipment_assignments
+    description: >
+      Model for es_warehouse.public.equipment_assignments. Table records when an
+      asset was assigned to a rental. Note there are overlaps in the date_start/date_end.
+      Use stg_es_warehouse_public__equipment_assignments to correct for this.
+    columns:
+      - name: equipment_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: drop_off_delivery_id
+        description: ""
+      - name: return_delivery_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

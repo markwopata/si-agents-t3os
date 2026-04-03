@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: int_commissions_rc
+    description: |
+      Stream of Rental Coordinator commission transactions by invoice cycle.
+      Applies tiered rates: 4% for cycle 1, 2% for cycle 2, 1% for cycle 3, and 0% for any cycle ≥ 4.
+    columns:
+      - name: commission_id
+        description: >
+          Unique identifier for each commission entry, generated via `generate_commission_id`.
+        tests:
+          - unique
+          - not_null
+
+      - name: line_item_id
+        description: >
+          Identifier of the underlying line item from the RC line item details.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('int_commissions_line_item_details')
+              field: line_item_id
+
+      - name: salesperson_user_id
+        description: >
+          User ID of the Rental Coordinator earning the commission.
+        tests:
+          - not_null
+
+      - name: credit_note_line_item_id
+        description: >
+          Credit note line item ID for commission adjustments, if any.
+
+      - name: manual_adjustment_id
+        description: >
+          Manual adjustment identifier for ad-hoc commission changes, if any.
+
+      - name: transaction_type
+        description: >
+          Transaction type (1 = commission).
+        tests:
+          - accepted_values:
+              values: [1]
+
+      - name: commission_type
+        description: >
+          Commission stream type (3 = Rental Coordinator).
+        tests:
+          - accepted_values:
+              values: [3]
+
+      - name: transaction_date
+        description: >
+          Timestamp of the commission transaction (invoice cycle date).
+        tests:
+          - not_null
+
+      - name: commission_rate
+        description: >
+          Commission rate applied based on invoice cycle rank (4%, 2%, 1%, or 0%).
+        tests:
+          - not_null
+
+      - name: split
+        description: >
+          Split of the commission amount, always 1 for Rental Coordinators.
+        tests:
+          - not_null
+
+      - name: reimbursement_factor
+        description: >
+          Reimbursement factor applied for reimbursements, if any.
+
+      - name: override_rate
+        description: >
+          Override commission rate from manual or system overrides, if any.
+
+      - name: exception
+        description: >
+          Flag indicating whether this commission is marked as an exception.
+
+      - name: amount
+        description: >
+          Calculated commission amount: `amount` of the line item multiplied by `commission_rate`, rounded to two decimals.
+        tests:
+          - not_null

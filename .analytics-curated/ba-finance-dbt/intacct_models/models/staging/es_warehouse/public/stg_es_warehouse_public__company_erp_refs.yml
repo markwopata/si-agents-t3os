@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_erp_refs
+    description: Model for es_warehouse.public.company_erp_refs
+    columns:
+      - name: company_erp_ref_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: erp_instance_id
+        description: ""
+      - name: intacct_customer_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

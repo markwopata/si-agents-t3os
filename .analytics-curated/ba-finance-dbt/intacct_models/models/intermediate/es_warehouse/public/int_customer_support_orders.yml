@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_customer_support_orders
+    description: "All ES_WAREHOUSE orders that originated from a customer-support call (creator’s title contains ‘Customer Support’)."
+    config:
+      tags:
+        - intermediate
+        - commissions
+    columns:
+      - name: order_id
+        description: "Order identifier that was generated via a support-call quote."
+      - name: support_created_date
+        description: "Timestamp when the supporting quote was created by a Customer Support user."

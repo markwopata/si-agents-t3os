@@ -1,0 +1,162 @@
+version: 2
+
+seeds:
+
+  - name: seed_companies__duplicate
+    description: "{{ doc('seed_companies__duplicate') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__employees
+    description: "{{ doc('seed_companies__employees') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__es_internal
+    description: "{{ doc('seed_companies__es_internal') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__manual_merge_mapping
+    description: "{{ doc('seed_companies__manual_merge_mapping') }}"
+    columns:
+      - name: from_company_id
+        data_type: number
+        description: "{{ doc('seed__from_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: from_company_name
+        data_type: varchar
+        description: "{{ doc('seed__from_company_name') }}"
+
+      - name: to_company_id
+        data_type: number
+        description: "{{ doc('seed__to_company_id') }}"
+
+      - name: to_company_name
+        data_type: varchar
+        description: "{{ doc('seed__to_company_name') }}"
+
+  - name: seed_companies__misc
+    description: "{{ doc('seed_companies__misc') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__prospect
+    description: "{{ doc('seed_companies__prospect') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__spam
+    description: "{{ doc('seed_companies__spam') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__test
+    description: "{{ doc('seed_companies__test') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__use_account_merge_mapping
+    description: "{{ doc('seed_companies__use_account_merge_mapping') }}"
+    columns:
+      - name: from_company_id
+        data_type: number
+        description: "{{ doc('seed__from_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: from_company_name
+        data_type: varchar
+        description: "{{ doc('seed__from_company_name') }}"
+
+      - name: to_company_id
+        data_type: number
+        description: "{{ doc('seed__to_company_id') }}"
+
+      - name: to_company_name
+        data_type: varchar
+        description: "{{ doc('seed__to_company_name') }}"
+
+  - name: seed_companies__use_counter_account
+    description: "{{ doc('seed_companies__use_counter_account') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('es_company_name') }}"
+
+  - name: seed_companies__vip
+    description: "{{ doc('seed_companies__vip') }}"
+    columns:
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+        data_tests:
+          - unique
+
+      - name: is_current_vip
+        data_type: boolean
+        description: "{{ doc('seed__company_is_current_vip') }}"

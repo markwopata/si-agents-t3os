@@ -1,0 +1,380 @@
+---
+version: 2
+
+sources:
+  - name: analytics_intacct
+    tags: ["sources"]
+    database: analytics
+    schema: intacct
+    description:
+      Snowflake data artifacts ETL'd in from Sage Intacct (Accounting software) into Snowflake via Jenkins
+      https://bi-jenkins.internal.equipmentshare.com/job/BA%20Monitored%20-%20Intacct%20ETL%20-%20Batch%201/search/?q=intacct&Jenkins-Crumb=a997470d375c2bc9580544384014892ebc3b65157fc5ce5de04ec52c46524782
+    tables:
+      - name: gl_entry
+        identifier: glentry
+        description: >
+          historical line detail for GL journal entries. entries/transactions are grouped into batches. A journal entry is
+          is used to record a business transaction in the accounting records of a business
+          and are the building blocks in creating accurate financial statements. Requires one to make both a debit and credit
+          entry, and which eventually leads to the creation of a complete set of financial statements.
+          One row is one record/entry
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: gl_resolve
+        identifier: glresolve
+        description: Subledger table that links gl_entry to the underlying intacct object tables
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: gl_account
+        identifier: glaccount
+        description: are account numbers used to categorize types of financial transactions. one row is one account number
+        columns:
+          - name: accountno
+            data_tests:
+              - unique
+
+      - name: gl_journal_type
+        identifier: gljournal
+        description: list of journal types that record specific types of transactions. one row is one journal type
+        columns:
+          - name: symbol
+            data_tests:
+              - unique
+
+      - name: gl_journal
+        identifier: glbatch
+        description: historical list of batch numbers. one row is one batch and its journal type
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - batchno
+                - batch_title
+                - journal
+
+      - name: record_url
+        description: Direct URLs for Sage Intacct objects. one row is one url
+        columns:
+          - name: record_url
+            data_tests:
+              - unique
+
+      - name: department
+        description: Department table. one row is one department
+        columns:
+          - name: departmentid
+            data_tests:
+              - unique
+
+      - name: entity
+        identifier: location
+        description:
+          Entity (separate and distinct business units for accounting purposes) list table. AKA location in some
+          spots. one row is one location
+        columns:
+          - name: locationid
+            data_tests:
+              - unique
+
+      - name: user
+        identifier: userinfo
+        description: list of Intacct users. one row is one user
+        columns:
+          - name: loginid
+            data_tests:
+              - unique
+
+      - name: vendor
+        identifier: vendor
+        description: Sage vendor (entity that sells) table. one row is one vendor
+        columns:
+          - name: vendorid
+            data_tests:
+              - unique
+
+      - name: customer
+        identifier: customer
+        description: Sage customer (entity that receives) table. one row is one customer
+        columns:
+          - name: customerid
+            data_tests:
+              - unique
+
+      - name: expense_type
+        identifier: expense_line
+        description: Expense type mapping table. Also currently known expense line. one row is one expense type name
+        columns:
+          - name: name
+            data_tests:
+              - unique
+
+      - name: ap_header
+        identifier: aprecord
+        description: Header data for accounts payable invoices (and related objects like payments)
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: ap_line
+        identifier: apdetail
+        description: Line level detail for accounts payable invoices (and related objects like payments)
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: ar_header
+        identifier: arrecord
+        description: Header data for accounts receivable invoices (and related objects like payments)
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: ar_line
+        identifier: ardetail
+        description: Line level detail for accounts receivable invoices (and related objects like payments)
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: po_header
+        identifier: podocument
+        description: Header data for purchasing objects
+        columns:
+          - name: docid
+            data_tests:
+              - unique
+
+      - name: po_line
+        identifier: podocumententry
+        description: Line detail for purchasing objects
+        columns:
+          - name: recordno
+            data_tests:
+              - unique
+
+      - name: aprecord
+        description: "Detailed records of accounts payable transactions in the Intacct schema."
+        columns:
+          - name: recordno
+            description: "Primary key for the APRECORD table, uniquely identifying each record."
+            data_tests:
+              - unique
+              - not_null
+          - name: whenposted
+            description: "The date on which the transaction was posted."
+          - name: description
+            description: "Description of the transaction."
+          - name: docnumber
+            description: "Document number associated with the transaction."
+          - name: whendue
+            description: "Due date of the transaction."
+          - name: totaldue
+            description: "Total amount due for the transaction."
+          - name: totalpaid
+            description: "Total amount paid for the transaction."
+          - name: onhold
+            description: "Boolean indicating whether the transaction is on hold."
+          - name: whenpaid
+            description: "Date when the transaction was paid."
+          - name: whendiscount
+            description: "Date when the discount was applied, if any."
+          - name: modulekey
+            description: "Module key associated with the transaction."
+          - name: schopkey
+            description: "Key for the scheduled operation."
+          - name: prbatchkey
+            description: "Key for the processing batch."
+          - name: recordtype
+            description: "Type of record."
+          - name: totalselected
+            description: "Total amount selected for payment."
+          - name: termkey
+            description: "Key for the payment terms."
+          - name: systemgenerated
+            description: "Indicates whether the record was generated by the system."
+          - name: trx_totalselected
+            description: "Transaction total selected for payment."
+          - name: entity
+            description: "Entity involved in the transaction."
+          - name: rawstate
+            description: "Raw state of the transaction."
+          - name: termvalue
+            description: "Value of the terms."
+          - name: supdocid
+            description: "Supporting document ID."
+          - name: vendorid
+            description: "Vendor ID."
+          - name: vendorname
+            description: "Name of the vendor."
+          - name: form1099type
+            description: "Type of 1099 form applicable."
+          - name: termname
+            description: "Name of the payment term."
+          - name: vendtype1099type
+            description: "1099 type associated with the vendor type."
+          - name: prbatch
+            description: "Processing batch name."
+          - name: recpaymentdate
+            description: "Date of received payment."
+          - name: paymentpriority
+            description: "Priority of the payment."
+          - name: description2
+            description: "Additional description for the transaction."
+          - name: recordid
+            description: "Unique identifier for the record."
+          - name: whencreated
+            description: "Date when the record was created."
+          - name: totalentered
+            description: "Total amount entered for the transaction."
+          - name: trx_totalentered
+            description: "Transaction total amount entered."
+          - name: trx_totalpaid
+            description: "Transaction total amount paid."
+          - name: trx_totaldue
+            description: "Transaction total amount due."
+          - name: billtopaytocontactname
+            description: "Contact name for billing and payment."
+          - name: shiptoreturntocontactname
+            description: "Contact name for shipping and returns."
+          - name: billtopaytokey
+            description: "Key for the bill-to or pay-to contact."
+          - name: shiptoreturntokey
+            description: "Key for the ship-to or return-to contact."
+          - name: basecurr
+            description: "Base currency for the transaction."
+          - name: currency
+            description: "Currency used for the transaction."
+          - name: state
+            description: "State of the transaction."
+          - name: trx_entitydue
+            description: "Transaction entity due amount."
+          - name: exch_rate_date
+            description: "Date of the exchange rate used."
+          - name: exch_rate_type_id
+            description: "Type ID of the exchange rate used."
+          - name: exchange_rate
+            description: "Exchange rate used for the transaction."
+          - name: financialentity
+            description: "Financial entity involved in the transaction."
+          - name: form1099box
+            description: "1099 box applicable for the transaction."
+          - name: inclusivetax
+            description: "Indicates if tax is included."
+          - name: retainagepercentage
+            description: "Percentage of retainage held."
+          - name: trx_totalretained
+            description: "Transaction total amount retained."
+          - name: trx_totalreleased
+            description: "Transaction total amount released."
+          - name: totalretained
+            description: "Total amount retained."
+          - name: taxsolutionid
+            description: "Tax solution ID used."
+          - name: billbacktemplate
+            description: "Template used for bill-back."
+          - name: bbtemplate_useiet
+            description: "Indicates if the bill-back template uses IET."
+          - name: payto_taxgroup_recordno
+            description: "Record number for the pay-to tax group."
+          - name: whenmodified
+            description: "Timestamp of when the record was last modified."
+          - name: createdby
+            description: "User ID of the creator of the record."
+          - name: modifiedby
+            description: "User ID of the person who last modified the record."
+          - name: megaentitykey
+            description: "Key of the mega entity associated with the transaction."
+          - name: megaentityid
+            description: "ID of the mega entity."
+          - name: auwhencreated
+            description: "AU timestamp when the record was created."
+          - name: megaentityname
+            description: "Name of the mega entity."
+          - name: due_in_days
+            description: "Days until the transaction is due."
+          - name: yooz_url
+            description: "URL to Yooz associated with the record."
+          - name: yooz_docid
+            description: "Yooz document ID."
+          - name: prbatch_open
+            description: "Indicates if the PR batch is open."
+          - name: prbatch_nogl
+            description: "Indicates if the PR batch affects GL."
+          - name: providerpaymentmethod_paymentprovider_name
+            description: "Name of the payment provider used."
+          - name: recon_date
+            description: "Date of reconciliation."
+          - name: userkey
+            description: "Key of the user involved in the transaction."
+          - name: cleared
+            description: "Status of whether the transaction is cleared."
+          - name: clrdate
+            description: "Date when the transaction was cleared."
+          - name: deliverymethod
+            description: "Method of delivery used."
+          - name: locationkey
+            description: "Key of the location associated with the transaction."
+          - name: nr_totalentered
+            description: "Non-recurring total amount entered."
+          - name: nr_trx_totalentered
+            description: "Non-recurring transaction total amount entered."
+          - name: paymentdate
+            description: "Date of payment."
+          - name: paymenttype
+            description: "Type of payment used."
+          - name: receiptdate
+            description: "Date of receipt."
+          - name: paymentamount
+            description: "Amount paid."
+          - name: documentnumber
+            description: "Number of the document associated with the payment."
+          - name: memo
+            description: "Memo or note associated with the transaction."
+          - name: financialaccount
+            description: "Financial account associated with the transaction."
+          - name: status
+            description: "Current status of the transaction."
+          - name: _es_update_timestamp
+            description: "Timestamp of the last update in the Elastic Search."
+          - name: ddsreadtime
+            description: "Timestamp of when the DDS read the record."
+          - name: concur_image_id
+            description: "Image ID from Concur associated with the transaction."
+
+      - name: ar_invoice_payment
+        identifier: arinvoicepayment
+        description: detailed information on payments made towards invoices
+        columns:
+          - name: recordno
+            description: primary key for the AR Invoice Payment table, uniquely identifying each record
+            data_tests:
+              - unique
+
+      - name: ap_bill_payment
+        identifier: apbillpayment
+        description: ""
+
+      - name: ud_loan
+        description: ""
+
+      - name: contact
+        description: >
+          Contact is a centralized list of all contact information used across Sage Intacct. This table will contain contact information for customers, vendors, employees, users, etc.
+          Note, there are usually multiple relationships to the contact table for different contact relationships. For example, the customer object has a primary, a billing, and a shipping relationship with the contact table.
+          Also note that while Sage Intacct keeps versions of contact information, DDS always uses the most recent version of a contact
+        columns:
+          - name: recordno
+            desceription: "internal key"
+            data_tests:
+              - unique
+              - not_null

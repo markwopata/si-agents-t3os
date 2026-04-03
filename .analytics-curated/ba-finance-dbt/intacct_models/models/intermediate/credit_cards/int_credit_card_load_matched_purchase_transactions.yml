@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: int_credit_card_load_matched_purchase_transactions
+    description: "This model aims to load the credit card transactions that have been matched through the cost capture app"
+    columns:
+      - name: pk_transaction
+        description: "primary key for the credit card transactions"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: pk_upload
+        description: "primary key for the credit card receipt uploads"
+
+      - name: transaction_id
+        description: "unique identifier for the credit card transaction"
+
+      - name: transaction_date
+        description: "credit card transaction date"
+
+      - name: transaction_amount
+        description: "total dollar amount of the transaction"
+        data_tests:
+          - not_null
+
+      - name: transaction_merchant_name
+        description: "name of the merchant where the transaction took place"
+
+      - name: transaction_mcc_code
+        description: "Merchant Category Code (MCC) associated with the transaction"
+
+      - name: transaction_mcc
+        description: "Name of the Merchant"
+
+      - name: transaction_card_type
+        description: "type of credit card used for the transaction, for example Citi, fuel, amex, etc."
+
+      - name: upload_id
+        description: "unique identifier for the credit card receipt upload"
+
+      - name: upload_date
+        description: "the date on the credit card receipt that is uploaded"
+        data_tests:
+          - not_null
+
+      - name: upload_amount
+        description: "total dollar amount on the credit card receipt that is uploaded"
+
+      - name: employee_id
+        description: "Unique identifier for the employee maps to workday."
+
+      - name: full_name
+        description: "Employee full name"
+
+      - name: work_email
+        description: "Equipmentshare Employee work email address "
+
+      - name: transaction_default_cost_centers_full_path
+        description: "Default cost center full path assigned to the employee"
+
+      - name: transaction_card_holder_name
+        description: "Full name associated to the credit card used for the transaction"
+
+      - name: upload_market_id
+        description: "Market ID of the credit card receipt upload"
+
+      - name: upload_market_verified
+        description: "Flag to indicate whether it's a corporate, verified or unknown market id"
+
+      - name: sub_department_id
+        description: "unique identifier for the sub-department associated with the credit card transaction"
+
+      - name: expense_line_id
+        description: "unique identifier for the expense line associated with the credit card transaction"
+
+      - name: department_id
+        description: "unique identifier for the department associated with the credit card transaction"
+
+      - name: verified_status
+        description: "Flag to indiciate if the transaction has been verified against the receipt upload"
+
+      - name: verified_status_desc
+        description: "Flag to indicate if the transaction has been verified against the receipt upload"
+
+      - name: upload_notes
+        description: "Additional notes on the receipt upload provided by the employee"
+
+      - name: upload_url
+        description: "URL link to the receipt image uploaded by the employee"
+
+      - name: upload_submitted_at_date
+        description: "date in which the receipt was uploaded by the employee"
+
+      - name: upload_modified_at_date
+        description: "latest date in which the receipt upload was modified"
+
+      - name: load_section
+        description: "Section within the script to indicate how the transaction was matched"
+
+      - name: corporate_account_number
+        description: "Number of the corporate credit card account associated with the transaction"
+
+      - name: corporate_account_name
+        description: "Name of the corporate credit card account associated with the transaction"
+
+      - name: is_personal_expense
+        description: "flag to indicate if the credit card transaction is a personal expense or not"
+
+      - name: is_return
+        description: "flag to indicate if the credit card transaction represents a credit issued by the vendor"
+
+      - name: record_timestamp
+        description: "Timestamp indicating when the record was last updated in the table"

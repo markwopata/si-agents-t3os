@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_analytics_branch_earnings__profit_sharing_assignment_overrides
+    description: "table for overriding employee assignments for profit sharing"
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: employee_title_classification
+        description: "classification to normalize employee titles to match profit sharing plan titles"
+
+      - name: region_name
+        description: "region name of employee"
+
+      - name: district
+        description: "district of employee, if applicable"
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: override_percent_allocation
+        description: "percent of employee's profit sharing calculation override"
+
+      - name: memo
+        description: "short description of why the override is taking place"
+
+      - name: profit_sharing_period
+        description: "profit sharing period of override and calculation"

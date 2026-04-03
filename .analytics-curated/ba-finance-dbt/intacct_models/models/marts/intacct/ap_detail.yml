@@ -1,0 +1,118 @@
+---
+version: 2
+models:
+  - name: ap_detail
+    description: >
+      Combine ap line and ap header into one table, pulling in some other relevant invoice detail. One big table style.
+    config:
+      tags: ["hourly", "intacct"]
+      snowflake_warehouse: 'PROD_ANALYTICS_LARGE_PROCESSESING_WH'
+    columns:
+      - name: pk_ap_detail_id
+        description: "Primary key for the table"
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_ap_line_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: fk_ap_header_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: ap_line_type
+        description: ""
+        data_tests:
+          - not_null
+      - name: ap_header_type
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: gl_date
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: due_date
+        description: ""
+      - name: document_number
+        description: ""
+      - name: description
+        description: ""
+      - name: description2
+        description: ""
+      - name: source_document_name
+        description: ""
+      - name: invoice_memo
+        description: ""
+      - name: line_description
+        description: ""
+      - name: debit_credit_sign
+        description: "{{ doc('debit_credit_sign') }}"
+      - name: line_number
+        description: ""
+      - name: amount
+        description: ""
+      - name: account_number
+        description: ""
+      - name: account_name
+        description: ""
+      - name: financial_entity
+        description: ""
+      - name: bank_account
+        description: ""
+      - name: payment_type
+        description: ""
+      - name: offset_account_number
+        description: ""
+      - name: offset_account_name
+        description: ""
+      - name: vendor_id
+        description: '{{ doc("vendor_id") }}'
+      - name: vendor_name
+        description: '{{ doc("vendor_name") }}'
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: customer_name
+        description: '{{ doc("customer_name") }}'
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: department_name
+        description: "{{ doc('department_name') }}"
+      - name: fk_expense_type_id
+        description: "{{ doc('fk_expense_type_id') }}"
+      - name: expense_type
+        description: "{{ doc('expense_type') }}"
+      - name: item_id
+        description: ""
+      - name: expense_account_number
+        description: >
+          Account number based on item id. In the new world, matched invoices post to 2014 instead of the original
+            expense account number
+      - name: fk_parent_ap_line_id
+        description: ""
+      - name: secondary_line_number
+        description: ""
+      - name: invoice_state
+        description: ""
+      - name: url_invoice
+        description: "Sage Intacct url for the invoice."
+      - name: url_concur
+        description: "{{ doc('url_concur') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: created_by_username
+        description: "{{ doc('created_by_username') }}"
+      - name: created_by_name
+        description: "{{ doc('created_by_name') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: updated_by_username
+        description: "{{ doc('updated_by_username') }}"
+      - name: updated_by_name
+        description: "{{ doc('updated_by_name') }}"

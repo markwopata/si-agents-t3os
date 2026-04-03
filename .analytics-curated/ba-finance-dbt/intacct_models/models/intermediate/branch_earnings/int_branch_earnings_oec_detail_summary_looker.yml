@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: int_branch_earnings_oec_detail_summary_looker
+    description: Aggregate OEC sums by market and month. For use in Looker.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - gl_date
+              - market_id
+    columns:
+      - name: gl_date
+        description: Month of the OEC snapshot.
+        data_tests:
+          - not_null
+      - name: market_id
+        description: '{{ doc("market_id") }}'
+        data_tests:
+          - not_null
+      - name: amount
+        description: Total OEC amount for the market and month.
+      - name: previous_month_amount
+        description: Prior month OEC amount for the same market.
+      - name: amount_difference
+        description: Difference between current and prior month amount.
+      - name: equipment_charge
+        description: Total equipment charge for the market and month. Does not account for first month forgiveness.
+      - name: previous_month_equipment_charge
+        description: Prior month equipment charge for the same market. Does not account for first month forgiveness.
+      - name: equipment_charge_difference
+        description: >
+          Difference between current and prior month equipment charge. Does not account for first month forgiveness.
+      - name: asset_count
+        description: Count of assets in the market for the month.
+      - name: previous_month_asset_count
+        description: Prior month asset count for the same market.
+      - name: asset_count_difference
+        description: Difference between current and prior month asset count.

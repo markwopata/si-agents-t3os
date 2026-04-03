@@ -1,0 +1,32 @@
+---
+version: 2
+
+sources:
+  - name: analytics_shopify_swag
+    tags: ["sources"]
+    database: analytics
+    schema: shopify_swag
+    description: >
+      Data in analytics.shopify_swag (analytics database / shopify_swag schema) used for shopify swag information.
+    tables:
+      - name: tender_transaction
+        description: >
+          The analytics.shopify_swag.tender_transaction table tracks the tender transactions for the ES shopify swag store. 
+        columns:
+          - name: id
+            data_tests:
+              - not_null
+              - unique
+
+      - name: orders
+        identifier: ORDER # the table name is in all caps + a SQL keyword, so we need to quote it
+        quoting:
+          identifier: true
+        description: >
+          The analytics.shopify_swag."ORDER" table tracks the various payment methods (tender transactions) used to fulfill orders from the ES shopify swag store.
+        columns:
+          - name: id
+            data_tests:
+              - not_null
+              - unique
+

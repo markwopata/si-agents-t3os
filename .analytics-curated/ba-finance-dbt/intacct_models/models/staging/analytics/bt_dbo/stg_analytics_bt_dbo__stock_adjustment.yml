@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__stock_adjustment
+    description: Table for stock adjustments, capturing changes in stock quantities and values.
+    tags: [bisTrack]
+    columns:
+      - name: stock_adjustment_id
+        description: "Unique identifier for the stock adjustment record."
+      - name: stock_id
+        description: "Identifier for the stock item being adjusted."
+      - name: product_id
+        description: "Identifier for the product associated with the stock adjustment."
+      - name: adjustment_amount
+        description: "Amount by which the stock was adjusted."
+      - name: reference
+        description: "Reference information for the stock adjustment."
+      - name: notes
+        description: "Additional notes or comments for the stock adjustment."
+      - name: created_by_id
+        description: "Identifier for the user who created the stock adjustment."
+      - name: datetime_created
+        description: "Timestamp when the stock adjustment was created."
+      - name: datetime_last_modified
+        description: "Timestamp when the stock adjustment was last modified."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the stock adjustment."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

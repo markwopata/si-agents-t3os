@@ -1,0 +1,68 @@
+---
+version: 2
+models:
+  - name: market
+    description: |
+      Combined market table for branch earnings. Pre-joins in parent market if the market has a parent.
+      Market_id and market_name are intended to be used as the output (parent market if there is one, else just the market).
+      Use child_market_id to join to this table.
+    config:
+      tags: ["branch_earnings", "hourly"]
+    columns:
+      - name: child_market_id
+        description: "Original/base market id - join on this"
+        data_tests:
+          - not_null
+          - unique
+      - name: child_market_name
+        description: "Original/base market name"
+      - name: market_id
+        description: "Market id of parent market if exists, else child. Output this for dashboards/combined reporting."
+      - name: market_name
+        description: "Market name of parent market if exists, else child. Output this for dashboards/combined reporting."
+      - name: state
+        description: "State of parent market if exists, else child"
+      - name: abbreviation
+        description: "Abbreviation of parent market if exists, else child"
+      - name: region
+        description: "Region number of parent market if exists, else child"
+      - name: region_name
+        description: "Region name of parent market if exists, else child"
+      - name: area_code
+        description: "Area code of parent market if exists, else child"
+      - name: district
+        description: "District of parent market if exists, else child"
+      - name: region_district
+        description: "Region_district of parent market if exists, else child"
+      - name: _id_dist
+        description: "_id_dist of parent market if exists, else child"
+      - name: market_type_id
+        description: "market_type_id of parent market if exists, else child"
+      - name: market_type
+        description: "Market type of parent market if exists, else child"
+      - name: is_dealership
+        description: "Bool for whether this is a dealership market or not. Parent market's value if exists, else child"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: branch_earnings_start_month
+        description: "branch_earnings_start_month of parent market if exists, else child"
+      - name: market_start_month
+        description: "market_start_month of parent market if exists, else child"
+      - name: market_end_month
+        description: "Month the market ended operation (of parent market if exists, else child)"
+      - name: general_manager_employee_id
+        description: ""
+      - name: general_manager_name
+        description: ""
+      - name: general_manager_title
+        description: ""
+      - name: general_manager_url_greenhouse
+        description: "Greenhouse link for general manager"
+      - name: general_manager_disc_code
+        description: ""
+      - name: general_manager_environment_style
+        description: "Numbers representing D I S C (format # # # #)"
+      - name: general_manager_url_disc
+        description: "Link to disc report"
+      - name: general_manager_position_effective_date
+        description: "The effective date of the general manager's current position"

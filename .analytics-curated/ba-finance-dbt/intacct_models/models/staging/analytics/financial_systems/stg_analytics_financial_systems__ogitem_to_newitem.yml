@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_analytics_financial_systems__ogitem_to_newitem
+    description:
+      "Financial systems table that maintains the original item ids and what their new counterparts are. We swapped\n\
+      \  from a numbered system to a system that has A<account number> style item ids.\n"
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: original_item_id
+        description: Primary key for table. Original item id
+        data_tests:
+          - not_null
+          - unique
+      - name: item_id
+        description: Item that we should map to (A<account number> format)
+        data_tests:
+          - not_null

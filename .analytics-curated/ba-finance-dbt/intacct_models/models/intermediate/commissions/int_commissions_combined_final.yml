@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: int_commissions_combined_final
+    description: Base output commission table
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: exception
+        data_tests:
+          - not_null
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: credit_note_line_item_id
+        description: ""
+      - name: manual_adjustment_id
+        description: ""
+      - name: transaction_type
+        description: ""
+      - name: commission_type
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: commission_rate
+        description: ""
+      - name: split
+        description: ""
+      - name: reimbursement_factor
+        description: ""
+      - name: override_rate
+        description: ""
+      - name: amount
+        description: ""

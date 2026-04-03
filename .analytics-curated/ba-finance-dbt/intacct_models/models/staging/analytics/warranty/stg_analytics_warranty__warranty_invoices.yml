@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_analytics_warranty__warranty_invoices
+    description: cleaned and renamed model of analytics.warranties.warranty_invoices
+    columns:
+      - name: invoice_id
+        description: ""
+
+      - name: invoice_no
+        description: ""
+
+      - name: asset_id
+        description: ""
+
+      - name: branch_id
+        description: ""
+
+      - name: work_order_id
+        description: ""
+
+      - name: public_note
+        description: ""
+
+      - name: claim_numbers
+        description: ""
+
+      - name: total_amt
+        description: ""
+
+      - name: days_to_claim
+        description: ""
+
+      - name: paid_amt
+        description: ""
+
+      - name: pending_amt
+        description: ""
+
+      - name: total_denied_amt
+        description: ""
+
+      - name: credit_amt
+        description: ""
+
+      - name: claim_closure_days
+        description: ""
+
+      - name: warranty_parts_requested
+        description: ""
+
+      - name: warranty_labor_requested
+        description: ""
+
+      - name: is_paid
+        description: ""
+
+      - name: is_full_denial
+        description: ""
+
+      - name: is_warranty_team_created
+        description: ""
+
+      - name: date_created
+        description: ""
+
+      - name: billing_approved_date
+        description: ""

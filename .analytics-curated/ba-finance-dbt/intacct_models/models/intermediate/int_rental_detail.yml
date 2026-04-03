@@ -1,0 +1,284 @@
+---
+version: 2
+
+models:
+  - name: int_rental_detail
+    description: >-
+      Admin rental detail model, combining rentals, orders, deliveries, and
+      invoice data into a single model.
+    config:
+      tags: ["hourly", "intermediate"]
+    columns:
+      - name: rental_id
+        description: Unique identifier for the rental.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: asset_id
+        description: "{{ doc('admin_asset_id') }}"
+
+      - name: order_id
+        description: "{{ doc('admin_order_id') }}"
+        data_tests:
+          - not_null
+
+      - name: date_created
+        description: Timestamp when the rental record was created.
+        data_tests:
+          - not_null
+
+      - name: start_date
+        description: Date the rental period begins.
+        data_tests:
+          - not_null
+
+      - name: end_date
+        description: Date the rental period ends.
+        data_tests:
+          - not_null
+
+      - name: job_description
+        description: Description of the job associated with the rental.
+
+      - name: equipment_class_id
+        description: "{{ doc('equipment_class_id') }}"
+
+      - name: drop_off_delivery_id
+        description: "{{ doc('drop_off_delivery_id') }}"
+
+      - name: return_delivery_id
+        description: "{{ doc('return_delivery_id') }}"
+
+      - name: rental_protection_plan_id
+        description: Identifier for the rental protection plan.
+
+      - name: taxable
+        description: Flag indicating if the rental is taxable.
+
+      - name: rental_status_id
+        description: Identifier for the rental status.
+
+      - name: rental_status
+        description: Name of the rental status. (e.g., "On Rent", "Billed").
+
+      - name: rental_is_deleted
+        description: Flag indicating if the rental record has been marked deleted.
+
+      - name: rental_type_id
+        description: Identifier for the rental type.
+
+      - name: rental_type
+        description: Name of the rental type. (e.g., "Standard", "Mobile Tool Trailer Rental").
+
+      - name: rental_purchase_option_id
+        description: Identifier for the rental purchase option.
+
+      - name: rental_protection_plan
+        description: Name of the rental protection plan. (e.g., "Standard RPP", "Forestry/Demolition").
+
+      - name: part_type_id
+        description: Identifier for the part type.
+
+      - name: has_re_rent
+        description: Flag indicating if the rental has been re rented from another rental company.
+
+      - name: is_below_floor_rate
+        description: Flag indicating if the rate is below the floor rate.
+
+      - name: rate_type_id
+        description: Identifier for the rate type.
+
+      - name: rate_type
+        description: Name of the rate type. (e.g., "Floor", "Benchmark").
+
+      - name: price_per_hour
+        description: Rental price per hour.
+
+      - name: price_per_day
+        description: Rental price per day.
+
+      - name: price_per_week
+        description: Rental price per week.
+
+      - name: price_per_month
+        description: Rental price per month.
+
+      - name: is_flat_monthly_rate
+        description: Flag indicating if a flat monthly rate applies.
+
+      - name: is_flexible_rate
+        description: Flag indicating if a flexible rate applies.
+
+      - name: inventory_product_id
+        description: Identifier for the inventory product record.
+
+      - name: inventory_product_name
+        description: Name of the inventory product.
+
+      - name: rental_pricing_structure_id
+        description: Identifier for the pricing structure used.
+
+      - name: shift_type_id
+        description: Identifier for the shift type (e.g., day, night).
+
+      - name: off_rent_date_requested
+        description: Date on which off rent was requested.
+
+      - name: url_admin
+        description: Admin URL for detailed rental view.
+
+      - name: order_status_id
+        description: Identifier for the order status.
+
+      - name: order_status
+        description: Name of the order status.
+
+      - name: order_user_id
+        description: User ID of who requested the order.
+
+      - name: order_user_name
+        description: Full name of the user who requested the order.
+
+      - name: order_company_id
+        description: Company ID associated with the order.
+
+      - name: order_company_name
+        description: Name of the company associated with the order.
+
+      - name: order_is_deleted
+        description: Flag indicating if the order record is deleted.
+
+      - name: first_invoice_id
+        description: Invoice ID of the first invoice tied to this rental.
+
+      - name: last_invoice_id
+        description: Invoice ID of the most recent invoice tied to this rental.
+
+      - name: total_invoiced_amount
+        description: Net invoiced amount for this rental (credits deducted).
+
+      - name: drop_off_delivery_status
+        description: Status of the drop off delivery. (e.g., "Completed", "Requested", "Cancelled").
+
+      - name: drop_off_delivery_driver_name
+        description: Name of the driver handling the drop off.
+
+      - name: drop_off_delivery_facilitator_type
+        description: Facilitator type for the drop off delivery.
+
+      - name: drop_off_delivery_contact_name
+        description: Contact name for drop off coordination.
+
+      - name: drop_off_delivery_contact_phone_number
+        description: Contact phone number for drop off coordination.
+
+      - name: drop_off_delivery_location_id
+        description: Location ID for the drop off.
+
+      - name: drop_off_delivery_location_nickname
+        description: Nickname for the drop off location.
+
+      - name: drop_off_delivery_street_1
+        description: Street address line 1 for the drop off location.
+
+      - name: drop_off_delivery_street_2
+        description: Street address line 2 for the drop off location.
+
+      - name: drop_off_delivery_city
+        description: City of the drop off location.
+
+      - name: drop_off_delivery_state_name
+        description: State name of the drop off location.
+
+      - name: drop_off_delivery_state_abbreviation
+        description: State abbreviation of the drop off location.
+
+      - name: drop_off_delivery_zip_code
+        description: Zip code of the drop off location.
+
+      - name: drop_off_delivery_latitude
+        description: Latitude coordinate for the drop off location.
+
+      - name: drop_off_delivery_longitude
+        description: Longitude coordinate for the drop off location.
+
+      - name: drop_off_delivery_is_jobsite
+        description: Flag indicating if the drop off is at a jobsite.
+
+      - name: drop_off_delivery_location_description
+        description: Free form description of the drop off location.
+
+      - name: drop_off_delivery_charge
+        description: Charge applied for the drop off delivery.
+
+      - name: drop_off_delivery_scheduled_date
+        description: Scheduled date for the drop off delivery.
+
+      - name: drop_off_delivery_completed_date
+        description: Actual completion date of the drop off delivery.
+
+      - name: return_delivery_status
+        description: Status of the return delivery. (e.g., "Completed", "Requested", "Cancelled")
+
+      - name: return_delivery_driver_name
+        description: Name of the driver handling the return.
+
+      - name: return_delivery_facilitator_type
+        description: Facilitator type for the return delivery.
+
+      - name: return_delivery_contact_name
+        description: Contact name for return coordination.
+
+      - name: return_delivery_contact_phone_number
+        description: Contact phone number for return coordination.
+
+      - name: return_delivery_location_id
+        description: Location ID for the return.
+
+      - name: return_delivery_location_nickname
+        description: Nickname for the return location.
+
+      - name: return_delivery_street_1
+        description: Street address line 1 for the return location.
+
+      - name: return_delivery_street_2
+        description: Street address line 2 for the return location.
+
+      - name: return_delivery_city
+        description: City of the return location.
+
+      - name: return_delivery_state_name
+        description: State name of the return location.
+
+      - name: return_delivery_state_abbreviation
+        description: State abbreviation of the return location.
+
+      - name: return_delivery_zip_code
+        description: Zip code of the return location.
+
+      - name: return_delivery_latitude
+        description: Latitude coordinate for the return location.
+
+      - name: return_delivery_longitude
+        description: Longitude coordinate for the return location.
+
+      - name: return_delivery_is_jobsite
+        description: Flag indicating if the return is at a jobsite.
+
+      - name: return_delivery_location_description
+        description: Free form description of the return location.
+
+      - name: return_delivery_charge
+        description: Charge applied for the return delivery.
+
+      - name: return_delivery_scheduled_date
+        description: Scheduled date for the return delivery.
+
+      - name: return_delivery_completed_date
+        description: Actual completion date of the return delivery.
+
+      - name: _es_update_timestamp
+        description: Timestamp when this record was last updated in the model.
+        data_tests:
+          - not_null

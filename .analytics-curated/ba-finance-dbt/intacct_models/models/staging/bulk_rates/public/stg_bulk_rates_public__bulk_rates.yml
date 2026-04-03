@@ -1,0 +1,4 @@
+---
+version: 2
+models:
+  - name: stg_bulk_rates_public__bulk_rates

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_live_branch_earnings_asset4000_nbv
+    description: "This intermediate table pulls NBV by asset on a monthly basis from the Asset4000 model."
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - join_date
+
+    columns:
+      - name: asset_id
+        description: "AssetID for which the NBV is provided."
+      - name: join_date
+        description: "Month for which the NBV is calculated."
+      - name: nbv
+        description: "Net Book Value coming from Asset4000 model. NBV will decrease with each additional month."

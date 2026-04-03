@@ -1,0 +1,64 @@
+---
+version: 2
+models:
+  - name: int_asset_bad_transfers
+    description: >
+      Identifies and tracks potentially problematic asset transfers between markets. Specifically, this model captures
+      cases where equipment is moved directly from a mature market (>12 months old) to a newer market (≤12 months old),
+      excluding transfers to "hard down" markets. For valid bad transfers, it generates equipment charge records until
+      either the asset is rented/sold or the destination market reaches maturity. AKA fleet dumping analysis.
+    tags:
+      - daily
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - equipment_charge_date
+              # description: An asset_id can only have a single row for a given equipment_charge_date (month)
+    columns:
+      - name: asset_id
+        description: Unique identifier for the equipment asset being transferred, ties to assets table
+      - name: oec
+        description: Original Equipment Cost - the initial cost basis of the transferred asset
+      - name: first_month_in_fleet_date
+        description: The month start date the asset first entered the rental fleet
+      - name: from_market_id
+        description: Identifier for the source market where the asset was transferred from
+      - name: from_market_name
+        description: Name of the source market where the asset was transferred from
+      - name: from_date_end
+        description: The date when the asset left the source market
+      - name: from_age_at_transfer
+        description: Age in months of from_market at time of transfer.
+      - name: to_market_id
+        description: Identifier for the destination market where the asset was transferred to
+      - name: to_market_name
+        description: Name of the destination market where the asset was transferred to
+      - name: to_age_at_transfer
+        description: Age in months of to_market at time of transfer.
+      - name: when_market_is_12_months
+        description: >
+          The date when the destination market reaches 12 months of age, calculated as
+          branch_earnings_start_month + 12 months
+      - name: end_cost_date
+        description: >
+          The earliest date that ends the equipment charge period, determined by either:
+          1. First valid rental start date
+          2. First sale date (billing_approved_date)
+          3. Date when destination market reaches 12 months
+          4. End date of the asset's stay in the destination market
+      - name: equipment_charge_date
+        description: >
+          The specific month for which this equipment charge applies. Multiple rows will be generated
+          for each month between the transfer date and end_cost_date
+      - name: equipment_charge
+        description: Monthly equipment charge we should charge for this bad transfer/fleet dumping
+      - name: is_first_dump_charge
+        description: >
+          Boolean flag indicating if this is the first equipment charge record for a given asset transfer.
+          True only for the first month's charge, false for subsequent monthly charges
+      - name: is_first_month_forgiven
+        description: >
+          Boolean flag indicating if the first month's charge should be forgiven.
+          True if this is the first month the asset was in the rental fleet.

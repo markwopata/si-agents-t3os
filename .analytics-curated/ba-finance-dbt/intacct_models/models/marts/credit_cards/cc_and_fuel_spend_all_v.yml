@@ -1,0 +1,45 @@
+---
+version: 2
+
+models:
+  - name: cc_and_fuel_spend_all_v
+    description: "View mirror of cc_and_fuel_spend_all in the credit_card schema."
+    columns:
+      - name: transaction_id
+        description: "Unique identifier for each credit card transaction."
+      - name: employee_number
+        description: "Unique employee number for the cardholder (alias for employee_id)."
+      - name: employee_id
+        description: "Employee ID of the cardholder."
+      - name: first_name
+        description: "First name of the employee."
+      - name: last_name
+        description: "Last name of the employee."
+      - name: full_name
+        description: "Full name of the employee."
+      - name: mcc
+        description: "Merchant category code (MCC) description for the transaction."
+      - name: card_type
+        description: "Type of credit card used (e.g., central, citi, amex, fuel_card)."
+      - name: status
+        description: "Status of the card"
+      - name: merchant_name
+        description: "Name of the merchant where the transaction occurred."
+      - name: mcc_code
+        description: "Merchant category code (numeric)."
+      - name: employee_title
+        description: "Job title of the employee."
+      - name: corporate_account_number
+        description: "Corporate account number associated with the card."
+      - name: corporate_account_name
+        description: "Corporate account name associated with the card."
+      - name: transaction_amount
+        description: "Amount of the credit card transaction."
+      - name: is_bypass_verification
+        description: "Indicates if the transaction was bypassed for verification (boolean)."
+      - name: transaction_date
+        description: "Date the transaction occurred."
+      - name: most_recent_status
+        description: "Most recent status for the employee/card_type, based on latest transaction."
+      - name: row_number
+        description: "Row number assigned to the transaction for ordering purposes. Required for looker. Do not remove."

@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_line_items
+    description: Model for procurement.public.purchase_line_items
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: purchase_line_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: total_rejected
+        description: ""
+      - name: total_accepted
+        description: ""
+      - name: quantity
+        description: ""
+      - name: allocation_snapshot_id
+        description: ""
+      - name: item_snapshot_id
+        description: ""
+      - name: allocation_id
+        description: ""
+      - name: memo
+        description: ""
+      - name: description
+        description: ""
+      - name: price_per_unit
+        description: ""
+      - name: item_id
+        description: ""
+      - name: allocation_type
+        description: ""
+      - name: purchase_id
+        description: ""
+      - name: date_archived
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

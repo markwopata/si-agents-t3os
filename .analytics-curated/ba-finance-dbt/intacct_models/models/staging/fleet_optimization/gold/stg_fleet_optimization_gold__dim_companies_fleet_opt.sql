@@ -1,0 +1,20 @@
+SELECT
+    dcfo.company_key,
+    dcfo.company_source,
+    dcfo.company_id,
+    dcfo.company_name,
+    dcfo.company_has_fleet,
+    dcfo.company_has_fleet_cam,
+    dcfo.company_timezone,
+    dcfo.company_credit_limit,
+    dcfo.company_do_not_rent,
+    dcfo.company_has_msa,
+    dcfo.company_has_rentals,
+    dcfo.company_net_terms,
+    dcfo.company_is_eligible_for_payouts,
+    dcfo.company_is_rsp_partner,
+    dcfo.company_is_telematics_service_provider,
+    dcfo.company_is_ies_company,
+    dcfo.company_is_equipmentshare_company,
+    dcfo.company_recordtimestamp
+FROM {{ source('fleet_optimization_gold', 'dim_companies_fleet_opt') }} as dcfo

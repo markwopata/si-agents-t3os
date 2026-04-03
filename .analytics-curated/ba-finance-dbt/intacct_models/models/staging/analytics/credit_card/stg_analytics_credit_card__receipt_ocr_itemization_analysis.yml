@@ -1,0 +1,45 @@
+models:
+  - name: stg_analytics_credit_card__receipt_ocr_itemization_analysis
+    description: cleaned and renamed model of analytics_credit_card.receipt_ocr_itemization_analysis
+    columns:
+      - name: purchase_id
+        description: identifier for each purchase transaction, used to track and reference individual credit card receipts.
+
+      - name: image_url
+        description: the URL of the image associated with the credit card receipt, used for audit and verification purposes.
+
+      - name: market_id
+        description:  "{{ doc('market_id') }}"
+
+      - name: ocr_data_raw
+        description: Contains the raw OCR (Optical Character Recognition) data extracted from credit card receipt images for auditing purposes. This data is used to validate and reconcile receipt information with accounting records.
+
+      - name: evaluation_reasoning
+        description: ChatGPT reasoning of how it reached the conclusion
+
+      - name: transaction_merchant_name
+        description: name of the merchant associated with the credit card transaction.
+
+      - name: image_evaluation
+        description: ChatGPT notes for OCR image evaluation
+
+      - name: receipt_confidence
+        description: the confidence score (0 to 100) assigned to the receipt recognition process
+
+      - name: handwritten_confidence
+        description: the confidence score (0 to 100) assigned to the handwritten recognition process for this receipt
+
+      - name: image_quality
+        description: ChatGPT image quality score (0 to 100)
+
+      - name: receipt_flag
+        description: indicates whether ChatGPT believes it is a valid itemized receipt or not
+
+      - name: handwritten_flag
+        description: indicates whether ChatGPT believes it is handwritten or not
+
+      - name: submitted_at
+        description: Timestamp indicating when the record was submitted.
+
+      - name: upload_date
+        description: The timestamp indicating when the record was last modified.

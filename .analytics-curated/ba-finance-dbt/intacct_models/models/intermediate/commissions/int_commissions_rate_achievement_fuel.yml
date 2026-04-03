@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: int_commissions_rate_achievement_fuel
+    description: Assigns rate achievement tiers to fuel commission type
+    columns:
+      - name: rate_tier_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+                description:
+                  "This test checks if it only line item type id 0 (no rate achievement), 31, 32, 33 (fuel disel
+                  above, between and floor rate), 34, 35, 36 (fuel dyed disel above, between and floor rate), 37, 38, 39 (fuel
+                  gasoline above, between and floor rate) is passed through this rate achievement check"
+        description: ""
+      - name: line_item_id
+        data_tests:
+          - unique
+        description: ""
+      - name: grace_period_flag
+        description: ""
+      - name: deal_floor_flag
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: deal_floor
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: source_model
+        description: ""

@@ -1,0 +1,59 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_airline_trip_leg_detail
+    description: >-
+      This model contains detailed information about airline ticket expenses from Citi credit card transactions.
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction
+        data_tests:
+          - not_null
+      - name: sequence_number
+        description: Sequence number for the trip leg
+        data_tests:
+          - not_null
+      - name: coupon_number
+        description: Sequence number for the coupon
+      - name: flight_number
+        description: Flight number as an integer
+      - name: source_file
+        description: Source file name from the ETL process
+      - name: ticket_number
+        description: Ticket number identifier
+        data_tests:
+          - not_null
+      - name: maintenance_code
+        description: Maintenance code for the flight
+        data_tests:
+          - not_null
+      - name: trip_leg_number
+        description: Sequence number for the trip leg
+        data_tests:
+          - not_null
+      - name: city_of_origin
+        description: Departure city for the flight leg
+        data_tests:
+          - not_null
+      - name: city_of_destination
+        description: Arrival city for the flight leg
+      - name: carrier_code
+        description: Airline carrier code
+      - name: service_class
+        description: Service class of the flight (e.g., economy, business, first)
+      - name: stop_over_indicator
+        description: Indicator for whether this leg includes a stopover
+      - name: fare_base_code
+        description: Fare basis code for the ticket
+      - name: conjunction_ticket
+        description: Conjunction ticket information
+      - name: travel_date
+        description: Date of travel for this leg
+      - name: departure_time
+        description: Scheduled departure time
+      - name: arrival_time
+        description: Scheduled arrival time
+      - name: _es_update_timestamp
+        description: Timestamp when the record was last updated in the EquipmentShare system
+        data_tests:
+          - not_null

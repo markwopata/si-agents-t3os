@@ -1,0 +1,16 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_billable_entity
+    description: Model for analytics.navan.booking_billable_entity
+    columns:
+      - name: booking_uuid
+        description: Unique identifier for the booking record.
+      - name: index
+        description: Index value for the billable entity entry.
+      - name: _fivetran_deleted
+        description: Indicates if the record was deleted by Fivetran.
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran.
+      - name: billable_entity
+        description: The billable entity associated with the booking.

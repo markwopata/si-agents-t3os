@@ -1,0 +1,109 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__trips
+    description: Model for es_warehouse.public.trips
+    columns:
+      - name: end_timestamp
+        description: ""
+      - name: end_hours
+        description: ""
+      - name: trip_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: end_city
+        description: ""
+      - name: trip_time_seconds
+        description: ""
+      - name: driver_user_id
+        description: ""
+      - name: start_odometer
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: end_street
+        description: ""
+      - name: start_city
+        description: ""
+      - name: end_odometer
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: hauling_trip_id
+        description: ""
+      - name: start_hours
+        description: ""
+      - name: start_street
+        description: ""
+      - name: start_timestamp
+        description: ""
+      - name: hauling_asset_id
+        description: ""
+      - name: trip_type_id
+        description: ""
+      - name: trip_distance_miles
+        description: ""
+      - name: start_state_id
+        description: ""
+      - name: end_state_id
+        description: ""
+      - name: start_trip_time_id
+        description: ""
+      - name: end_trip_time_id
+        description: ""
+      - name: start_total_fuel_used_liters
+        description: ""
+      - name: end_total_fuel_used_liters
+        description: ""
+      - name: start_total_idle_fuel_used_liters
+        description: ""
+      - name: end_total_idle_fuel_used_liters
+        description: ""
+      - name: start_total_idle_seconds
+        description: ""
+      - name: end_total_idle_seconds
+        description: ""
+      - name: asset_keypad_entry_id
+        description: ""
+      - name: start_county
+        description: ""
+      - name: end_county
+        description: ""
+      - name: start_state_abb
+        description: ""
+      - name: end_state_abb
+        description: ""
+      - name: speeding_incidents
+        description: ""
+      - name: impact_incidents
+        description: ""
+      - name: idle_incidents
+        description: ""
+      - name: aggressive_incidents
+        description: ""
+      - name: idle_duration
+        description: ""
+      - name: speeding_duration
+        description: ""
+      - name: start_geofence_id
+        description: ""
+      - name: end_geofence_id
+        description: ""
+      - name: end_lon
+        description: ""
+      - name: start_lon
+        description: ""
+      - name: start_lat
+        description: ""
+      - name: end_lat
+        description: ""
+      - name: end_zip_code
+        description: ""
+      - name: start_zip_code
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

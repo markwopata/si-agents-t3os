@@ -1,0 +1,21 @@
+---
+version: 2
+
+sources:
+  - name: analytics_employee_data
+    tags: ["sources"]
+    database: analytics
+    schema: employee_data
+    description: >
+      this schema replaces the analytics.greenhouse schema. Greenhouse is the hiring platform that ES uses (from sourcing to onboarding)
+    tables:
+      - name: employee_disc_greenhouse
+        description: >
+          company_directory, employee, and disc data from the Workday HCM (Human Capital Management) system is linked to Greenhouse data via the application_id field.
+          Former workers who were not migrated from UKG to Workday are excluded from the Workday dataset, resulting in a historical data cutoff. Only individuals terminated on or after October 1, 2023, are included in Workday.
+        meta:
+          generated_from: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/EMPLOYEE_DATA/view/EMPLOYEE_DISC_GREENHOUSE
+        columns:
+          - name: employee_id
+            data_tests:
+              - unique

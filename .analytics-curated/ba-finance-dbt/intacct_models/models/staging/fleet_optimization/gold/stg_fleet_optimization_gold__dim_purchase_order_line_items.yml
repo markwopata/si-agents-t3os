@@ -1,0 +1,321 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_purchase_order_line_items
+    description: Model for fleet_optimization.gold.dim_purchase_order_line_items
+    columns:
+      - name: po_line_key
+        description: Hashed composite key composed of po_line_id and po_line_source
+        data_tests:
+          - unique
+      - name: po_line_source
+        description: Silver-layer source of PO Data. At this time, the source will always evaluate to ESDB.
+      - name: po_line_id
+        description: Unique identifier for purchase order + line. Corresponds to a numerically hashed combination of 
+          purchase order number and line item number, but is NOT a concatenated iteration of the two fields.
+      - name: po_line_purchase_order_id
+        description: Unique identifier for purchase orders, corresponds to purchase order number (without type prefix, 
+          e.g. SPO) in FleetTrack.
+      - name: po_line_purchase_order_line_item_number
+        description: Line number within the purchase order - 1,2,3, etc.
+      - name: po_line_asset_key
+        description: Unique identifier for each asset in the dim_assets table. Will either be in the form of asset_id or
+          asset_key, both numeric values that should work as a join key to dim_assets_fleet_opt.
+      - name: po_line_equipment_class_key
+        description: Unique identifier for each equipment class in the dim_equipment_classes_fleet_opt table. Can be 
+          numeric (equipment_class_id) or string (equipment_class_key)
+      - name: po_line_equipment_model_id
+        description: Numeric ID or categorical name of the equipment model. As entered via FleetTrack, possibly before 
+          asset is created.
+      - name: po_line_equipment_make_id
+        description: "The make, or original equipment manufacturer, of the asset. \nIn the fleet plan, each class will have
+          a rank (1,2,3, etc. priority) and percentage of the target OEC for the class divided between certain makes. \nThis
+          field is rendered to UPPER CASE for easier grouping."
+      - name: po_line_market_key
+        description: Unique identifier for each branch in the dim_markets table. Market_id and market_key are both 
+          unique identifiers at this time. For utilization, refers to the rental service providing branch.
+      - name: po_line_sage_record_id
+        description: Unique identifier for record within Sage accounting system, if needed.
+      - name: po_line_invoice_number
+        description: Inputted invoice number from FleetTrack. Will not join to dim_invoices_fleet_opt, since those 
+          invoices represent revenue and these invoices are payments remitted to vendors.
+      - name: po_line_finance_status
+        description: "Categorical field representing the most recent finance status recorded for the purchase order line.\
+          \ \nPossible values include paid in cash, net terms purchase, dealership floor plan, financed, etc. \nDefault value
+          is No Finance Status, indicating the field is NULL at the source.\nAs this field can change over time, certain statuses
+          indicating Dealership finance plans can be erased. \nUse po_line_purchase_purpose to track historical statuses related
+          to Dealership or Rental purpose rather than finance_status."
+      - name: po_line_order_status
+        description: "Categorical field representing the most recent order status associated with the line item.\nIf NULL
+          in FleetTrack, default value is \"No Order Status\"."
+      - name: po_line_payment_status
+        description: "Categorical field representing the most recent payment status associated with the line item.\nIndicates
+          whether a particular line item is fully or partially paid, or if no payment has been made.\nIf NULL in FleetTrack,
+          default value is \"No Payment Made\".\nRaw payment type field in upstream models is used to create this status downstream."
+      - name: po_line_reconciliation_status
+        description: Status of reconciliation process in FleetTrack. If no status is available, default value is 'No 
+          Reconciliation Status'
+      - name: po_line_current_promise_date
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: po_line_original_promise_date
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: current_promise_date_key
+        description: ''
+      - name: original_promise_date_key
+        description: ''
+      - name: po_line_promise_year
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: po_line_due_date_key
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_invoice_date_key
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_paid_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_reconciliation_status_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_license_expiration_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_release_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_title_processed_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_estimated_pay_date
+        description: "dim_purchase_order_line_items contains a variety of dates associated with stages of the purchasing process.\n\
+          Dates are represented as keys to dim_dates_fleet_opt\nMost are self-explanatory; for questions, consult with the
+          Fleet Purchasing team member who submitted the PO.\nFor invoice date: Date of 01/01/1999 means invoice was received
+          but is missing."
+      - name: po_line_purchase_purpose
+        description: "Categorical boolean field indicating if the purchase order line was intended as a Dealership item or
+          Rental item.\nLogic is a purchase has a Dealership purpose if the finance status has ever indicated dealership financing
+          or if the company_id associated with the asset has ever been one of EquipmentShare's IES company ids.\nHistorical
+          (point-in-time) tables used to source these flags rather than current-state tables."
+      - name: po_line_equipment_class
+        description: "Categorical name of the equipment class, as derived from dim_equipment_classes_fleet_opt or the fleet
+          plan. \nWhen associated with PO Line, data entered via FleetTrack, possibly before asset is created. \nIf derived
+          from fleet plan, the field is not derived from dim_equipment_classes_fleet_opt based on ID, so use with caution."
+      - name: po_line_equipment_make
+        description: "The make, or original equipment manufacturer, of the asset. \nIn the fleet plan, each class will have
+          a rank (1,2,3, etc. priority) and percentage of the target OEC for the class divided between certain makes. \nThis
+          field is rendered to UPPER CASE for easier grouping."
+      - name: po_line_equipment_model
+        description: Numeric ID or categorical name of the equipment model. As entered via FleetTrack, possibly before 
+          asset is created.
+      - name: po_line_attachment_details
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_dot_unit_number
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_factory_build_specifications
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_fhwt
+        description: Form 220 Heavy Vehicle Use Tax paid to IRS. If blank in FleetTrack, will default to 0.
+      - name: po_line_gvwr
+        description: Gross weight of item. If blank in FleetTrack, will default to 0.
+      - name: po_line_fuel_card
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_license_plate
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_license_plate_state_abbreviation
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_lienholder_on_title
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_note
+        description: "Lightly-cleansed free-text notes pertaining to the specific purchase order line. \nIf field is blank
+          in FleetTrack, will indicate 'No Note'. \nIf field has text containing \"void\" or \"delete\", po_line_note_indicates_void_or_delete
+          will be True.\nNote that POs and PO lines that have been deleted are filtered from model."
+      - name: po_line_odometer
+        description: "Cast to string value. Default value is 'Unknown Odometer Value'. \nIf odometer value is 0, that is understood
+          to be a true reading and not a default value."
+      - name: po_line_pending_schedule
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_serial
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_tire_size
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_titled_owner
+        description: "Free-text field with some grouping. \nCurrent logic groups:\n--any value containing ES as EquipmentShare\n\
+          --any value containing Daimler as Daimler Trust\n--any value containing PNC as PNC Equipment finance\n--any value
+          containing Paccar as Paccar \n--default value is No Titled Owner \n--some cleanup also for Not Applicable or other
+          common text phrases. For more details, see seed_po_text_cleansing"
+      - name: po_line_title_status
+        description: Details about in-process title. Default is No Title Status.
+      - name: po_line_toll_transponder
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_vin
+        description: "Free-text field describing the attribute. \nWhen not available (when blank in Fleet Track), default
+          value of 'No <field>' provided.\nSome light text cleaning may be performed on field - for example, cleaning up Not
+          Applicable variations into \"Not Applicable\". For more details, see seed_po_text_cleansing.\nNo additional logic
+          applied."
+      - name: po_line_asset_year
+        description: "Year asset (vehicle or otherwise) was produced by OEM.\nField has undergone cleaning to correct common
+          typos in year. Raw field is also returned to dashboard for use in reactive data cleaning.\nSee seed_year_cleansing
+          for mapping of typos to returned values."
+      - name: po_line_quantity
+        description: "The number of items purchased meeting the line's specifications. \nQuantity * net cost = total cost\
+          \ \nDefault quantity is 0"
+      - name: po_line_aftermarket_oec
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_freight_cost
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_registration_cost
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_sales_tax
+        description: "Any tax associated with the line item.\nSales tax occurs primarily on rental equipment and only applies
+          to assets that incur sales tax (not every state assesses sales tax for heavy equipment purchase).\nTax occurs primarily
+          on the vehicle side and is in addition ot the titling fee/registration cost; it represents the first tax when a
+          vehicle is registered.\nThe two tax fields should not be coalesced or substituted for each other, and are almost
+          always exclusive (i.e. sales tax but no vehicle tax assessed). \nDefault value is 0"
+      - name: po_line_tax
+        description: "Any tax associated with the line item.\nSales tax occurs primarily on rental equipment and only applies
+          to assets that incur sales tax (not every state assesses sales tax for heavy equipment purchase).\nTax occurs primarily
+          on the vehicle side and is in addition ot the titling fee/registration cost; it represents the first tax when a
+          vehicle is registered.\nThe two tax fields should not be coalesced or substituted for each other, and are almost
+          always exclusive (i.e. sales tax but no vehicle tax assessed). \nDefault value is 0"
+      - name: po_line_net_price
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_rebate
+        description: "Cost associated with the particular line item. \nMiscellaneous costs include: \n--aftermarket OEC (original
+          equipment cost of aftermarket add-ons) \n--freight costs\n--net cost, the individual price for each item represented
+          by the purchase order line item\n--rebate\n--registration costs for vehicle rental asset (this cost can now be capitalized
+          and will be tracked as of January 2025) \nDefault value of cost is 0."
+      - name: po_line_total_cost
+        description: Net price * quantity for each line item. Default value is 0
+      - name: po_line_calculated_oec
+        description: Total cost (net price * quantity) + freight for each line item. Default value is 0
+      - name: po_line_has_aftermarket_oec
+        description: Flag indicating that any non-0 value for aftermarket OEC is recorded on this line item
+      - name: po_line_has_attachments
+        description: Flag indicating that the line item's asset has a non-default value in the Attachments column.
+      - name: po_line_has_fuel_card
+        description: Flag indicating that the line item's asset has a non-default value in the Fuel Card column
+      - name: po_line_has_lienholder
+        description: Flag indicating that the line item's asset has a non-default value in the Lienholder column
+      - name: po_line_has_toll_transponder
+        description: Flag indicating that the line item's asset has a non-default value in the Toll Transponder column
+      - name: po_line_has_odometer_reading
+        description: Flag indicating that the line item's asset has a non-default value in the Odometer column
+      - name: po_line_has_no_assigned_market
+        description: Flag indicating that the purchased rental asset has not yet been assigned to a rental market
+      - name: po_line_has_zero_quantity_or_cost
+        description: Flag indicating if quanitty = 0 or total_cost = 0 when net_cost does not equal 0.
+      - name: po_line_open_order_flag
+        description: "Flag indicating that the purchase has not been invoiced and has a status associated with an open order.\
+          \ \nFor mappings, see seed_po_order_statuses."
+      - name: po_line_is_promised_this_year
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: po_line_is_likely_to_be_cancelled
+        description: "Actual date or foreign key to dim_dates_fleet_opt. \nPromise date represents the approximate date the
+          rental asset is expected to be delivered to EquipmentShare's possession.\nIf promise date is last day of year (12/31
+          of current year) or has a year of 2099, the asset is expected some time in the current year but no month/day estimation
+          is possible. See field po_line_is_promised_this_year to filter on this condition.\nIf the promise date is in the
+          year 2100, the order has no promise date and is likely to be cancelled. See field po_line_is_likely_to_be_cancelled
+          to filter on this condition.\nIf promise date is 01/01/0001 or the key is -1, no promise date is available.\nField
+          has undergone cleaning to correct common typos in year. Raw field is also returned to dashboard for use in reactive
+          data cleaning."
+      - name: po_line_note_indicates_void_or_delete
+        description: "Lightly-cleansed free-text notes pertaining to the specific purchase order line. \nIf field is blank
+          in FleetTrack, will indicate 'No Note'. \nIf field has text containing \"void\" or \"delete\", po_line_note_indicates_void_or_delete
+          will be True.\nNote that POs and PO lines that have been deleted are filtered from model."
+      - name: po_line_invoice_year_from_fleettrack
+        description: "Included in dimension to aid fleet team in correcting data entry errors in FleetTrack. \nThis is the
+          original entry from FleetTrack that has been corrected in the final dimension.\nIt is possible for this field to
+          be NULL as this field is intended to be a true representation of FleetTrack."
+      - name: po_line_asset_year_from_fleettrack
+        description: "Included in dimension to aid fleet team in correcting data entry errors in FleetTrack. \nThis is the
+          original entry from FleetTrack that has been corrected in the final dimension.\nIt is possible for this field to
+          be NULL as this field is intended to be a true representation of FleetTrack."
+      - name: po_line_recordtimestamp
+        description: Timestamp of last run of purchase order line items dimension

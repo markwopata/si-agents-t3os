@@ -1,0 +1,15 @@
+---
+version: 2
+
+sources:
+  - name: analytics_commission
+    description: Commission tables owned by the people analytics team
+    database: analytics
+    schema: commission
+    config:
+      tags: ["sources", "commissions"]
+      meta:
+        owner: "@loren.severs"
+    tables:
+      - name: nam_company_assignments
+        description: "Used to assign NAMs (National Account Managers) to companies"

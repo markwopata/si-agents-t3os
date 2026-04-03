@@ -1,0 +1,110 @@
+---
+version: 2
+models:
+  - name: alteryx_credit_card_line_item_audit
+    description: >
+      Audits credit card receipts at the line item level
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - purchase_id
+              - line_idx
+              - image_url
+
+    columns:
+      - name: line_idx
+        description: line item index
+
+      - name: ocr_upload_timestamp
+        description: The timestamp indicating when the record was last modified.
+
+      - name: account_type
+        description: credit card account type
+
+      - name: cardholder_employee_id
+        description: identifier for the employee who is the cardholder associated with the credit card receipt.s
+
+      - name: cardholder_full_name
+        description: full name of the credit card holder associated with the receipt.
+
+      - name: cardholder_email
+        description: email address associated with the cardholder who made the credit card transaction.
+
+      - name: default_cost_centers_full_path
+        description: cost center path for each branch that a cardholder is related to. to analyze by region, district, branch, etc and can tie thag all the way up to the top level of company activity
+
+      - name: cardholder_employment_status
+        description: Indicates the current employment status of the cardholder (e.g., active, terminated, on leave).
+
+      - name: purchase_id
+        description: identifier for each purchase transaction, used to track and reference individual credit card receipts.
+
+      - name: line_item_amount
+        description: line item amount from the receipt
+
+      - name: transaction_total
+        description: total amount of the credit card transaction
+
+      - name: transaction_merchant_name
+        description: name of the merchant associated with the credit card transaction.
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: notes
+        description: additional notes or comments related to the credit card receipt audit.
+
+      - name: item_text
+        description: line item description from the receipt
+
+      - name: category
+        description: ChatGPT category for the line item, used to classify the type of expense.
+
+      - name: fraud_flag
+        description: ChatGPT flag indicating whether the line item is considered fraudulent or not.
+
+      - name: fraud_confidence
+        description: ChatGPT confidence score (0 to 100) for the fraud classification of the line item, indicating the likelihood that the item is fraudulent.
+
+      - name: fraud_reasoning
+        description: ChatGPT reasoning for the fraud classification of the line item, providing insights into why it was flagged as potentially fraudulent.
+
+      - name: need_further_review
+        description: ChatGPT flag indicating whether the line item requires further review or not
+
+      - name: line_notes
+        description: ChatGPT explanation for the line item
+
+      - name: direct_manager_employee_id
+        description: identifier of the direct manager for the employee associated with this record.
+
+      - name: direct_manager_name
+        description: name of the direct manager associated with the credit card receipt.
+
+      - name: direct_manager_work_email
+        description: The work email address of the direct manager
+
+      - name: purchased_at
+        description: The date and time when the purchase was made
+
+      - name: submitted_at
+        description: Timestamp indicating when the record was submitted.
+
+      - name: modified_at
+        description: The timestamp indicating when the record was last modified.
+
+      - name: expense_line
+        description: approved expense line names associated with the transaction
+
+      - name: image_url
+        description: the URL of the image associated with the credit card receipt, used for audit and verification purposes.
+
+      - name: transaction_mcc_code
+        description: The merchant category code (MCC) associated with the transaction
+
+      - name: transaction_mcc
+        description: the merchant category associated with the transaction
+
+      - name: transaction_id
+        description: identifier for each transaction, used to track and reference individual credit card receipt records.

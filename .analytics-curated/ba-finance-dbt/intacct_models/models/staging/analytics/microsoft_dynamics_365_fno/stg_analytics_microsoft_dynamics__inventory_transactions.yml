@@ -1,0 +1,229 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__inventory_transactions
+    description: ""
+    columns:
+      - name: recid
+        description: ""
+        data_tests:
+          - unique
+
+      - name: id
+        description: ""
+
+      - name: inventdimid
+        description: ""
+
+      - name: inventtransorigin
+        description: ""
+
+      - name: invoiceid
+        description: ""
+
+      - name: itemid
+        description: ""
+
+      - name: packingslipid
+        description: ""
+
+      - name: pickingrouteid
+        description: ""
+
+      - name: projcategoryid
+        description: ""
+
+      - name: loadid
+        description: ""
+
+      - name: itmcosttransrecid
+        description: ""
+
+      - name: transchildrefid
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: currencycode
+        description: ""
+
+      - name: transchildtype
+        description: ""
+
+      - name: voucher
+        description: ""
+
+      - name: voucherphysical
+        description: ""
+
+      - name: statusissue
+        description: ""
+
+      - name: costamountposted
+        description: ""
+
+      - name: markingrefinventtransorigin
+        description: ""
+
+      - name: returninventtransorigin
+        description: ""
+
+      - name: groupreftype_ru
+        description: ""
+
+      - name: inventtransorigindelivery_ru
+        description: ""
+
+      - name: inventtransoriginsales_ru
+        description: ""
+
+      - name: inventtransorigintransit_ru
+        description: ""
+
+      - name: valueopen
+        description: ""
+
+      - name: valueopenseccur_ru
+        description: ""
+
+      - name: costamountadjustment
+        description: ""
+
+      - name: costamountoperations
+        description: ""
+
+      - name: costamountphysical
+        description: ""
+
+      - name: costamountposted_2
+        description: ""
+
+      - name: costamountseccuradjustment_ru
+        description: ""
+
+      - name: costamountseccurphysical_ru
+        description: ""
+
+      - name: costamountseccurposted_ru
+        description: ""
+
+      - name: costamountsettled
+        description: ""
+
+      - name: costamountsettledseccur_ru
+        description: ""
+
+      - name: costamountstd
+        description: ""
+
+      - name: costamountstdseccur_ru
+        description: ""
+
+      - name: revenueamountphysical
+        description: ""
+
+      - name: taxamountphysical
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: pdscwqty
+        description: ""
+
+      - name: pdscwsettled
+        description: ""
+
+      - name: qty
+        description: ""
+
+      - name: qtysettled
+        description: ""
+
+      - name: qtysettledseccur_ru
+        description: ""
+
+      - name: invoicereturned
+        description: ""
+
+      - name: packingslipreturned
+        description: ""
+
+      - name: storno_ru
+        description: ""
+
+      - name: stornophysical_ru
+        description: ""
+
+      - name: itmskipvarianceupdate
+        description: ""
+
+      - name: itmmustskipadjustment
+        description: ""
+
+      - name: nonfinancialtransferinventclosing
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: dateclosed
+        description: ""
+
+      - name: dateclosedseccur_ru
+        description: ""
+
+      - name: dateexpected
+        description: ""
+
+      - name: datefinancial
+        description: ""
+
+      - name: dateinvent
+        description: ""
+
+      - name: datephysical
+        description: ""
+
+      - name: datestatus
+        description: ""
+
+      - name: shippingdateconfirmed
+        description: ""
+
+      - name: shippingdaterequested
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: statusreceipt
+        description: ""

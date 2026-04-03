@@ -1,0 +1,81 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__amex_cc_transactions
+    description: base_analytics_public__amex_cc_transactions enhanced with full list of employees from company_directory
+    columns:
+      - name: transaction_id
+        description: "Adjusted transaction ID - concat with transaction_reference_id to make sure it's unique."
+        data_tests:
+          - unique
+          - not_null
+      - name: raw_transaction_id
+        description: "This is not unique. It may be unique combined with card_account_no"
+      - name: transaction_reference_id
+        description: "Appears to always be unique"
+      - name: corporate_account_number
+        description: "Corporate account number"
+      - name: corporate_account_name
+        description: "Corporate account name"
+      - name: cardmember_account_number
+        description: "Cardmember account number"
+      - name: employee_id
+        description: "Employee unique id in workday."
+      - name: full_name
+        description: "Concat first name, last name of the cardmember"
+      - name: first_name
+        description: "First name of the cardmember"
+      - name: last_name
+        description: "Last name of the cardmember"
+      - name: employee_title
+        description: "Employee title from company directory"
+      - name: transaction_description
+        description: "Description of the transaction"
+      - name: transaction_type
+        description: "Type of credit card transaction"
+      - name: supplier_number
+        description: "Supplier number"
+      - name: merchant_name
+        description: "Name of the merchant"
+      - name: sic_number
+        description: "SIC number - standard industrial classification"
+      - name: sic
+        description: "SIC description - standard industrial classification"
+      - name: sic_division
+        description: "SIC division - standard industrial classification"
+      - name: mcc_code
+        description: "Merchant category code"
+      - name: mcc
+        description: "Merchant category code description"
+      - name: mcc_group
+        description: "Merchant category grouping"
+      - name: transaction_date
+        description: "Date of the transaction"
+      - name: postal_code
+        description: "Postal code"
+      - name: supplier_postal_code
+        description: "Supplier postal code"
+      - name: email
+        description: "Email of the cardmember"
+      - name: cardmember_status
+        description: "Status of the card"
+      - name: card_status_description
+        description: "boolean indicating if the amex card is Open or Closed"        
+      - name: status
+        description: "Status of the card (duplicate)"
+      - name: account_status
+        description: "Account status"
+      - name: transaction_amount
+        description: "Net billed amount of the transaction"
+      - name: charge_amount
+        description: "Charge amount"
+      - name: credit_amount
+        description: "Credit amount"
+      - name: is_credit
+        description: "Indicates if the transaction is a credit"
+      - name: card_type
+        description: "Type of the card. amex for all lines."
+      - name: is_bypass_verification
+        description: "Indicates if the transaction should bypass receipt verification. Always false, so this column doesn't make sense here."
+      - name: account_open_or_closed_date
+        description: "date in which account opened or closed depending on card status"

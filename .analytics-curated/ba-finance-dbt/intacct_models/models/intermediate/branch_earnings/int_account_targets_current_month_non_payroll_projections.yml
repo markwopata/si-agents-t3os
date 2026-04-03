@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: int_account_targets_current_month_non_payroll_projections
+    description: >
+      Projects month-end amounts by account for live/trending periods by blending seasonal-adjusted
+      trailing 3-month averages and historical MTD-to-full-month factors, weighted by percent of the
+      month completed. Also projects the month-end comp-metric denominators (revenue metrics / OEC).
+    columns:
+      - name: market_id
+        description: Market identifier (child market id from live actuals input).
+        tests:
+          - not_null
+
+      - name: gl_month
+        description: Month (date_trunc month) for the actuals/projection period.
+        tests:
+          - not_null
+
+      - name: account_no
+        description: Source GL account number.
+        tests:
+          - not_null
+
+      - name: account_name
+        description: Source GL account name.
+        tests:
+          - not_null
+
+      - name: rev_exp
+        description: Revenue/Expense category (REV/EXP) from upstream live actuals.
+        tests:
+          - not_null
+
+      - name: account_category
+        description: Department/bucket label for the account from upstream mapping.
+        tests:
+          - not_null
+
+      - name: cost_type
+        description: Cost type classification, either controllable or fixed
+
+      - name: actual_amount
+        description: Month-to-date actual amount for the account for the month.
+        tests:
+          - not_null
+
+      - name: comp_metric
+        description: Metric flag determining which denominator is used for comp_metric_amount.
+
+      - name: comp_metric_amount
+        description: Current MTD denominator amount (OEC or revenue metric) for the month.
+        tests:
+          - not_null
+
+      - name: account_override_flag
+        description: >
+          Flag indicating whether the account has an override for current month projection:
+          0 = no override (blend seasonal-adjusted T3M avg and historical MTD %);
+          1 = use seasonal-adjusted T3M avg;
+          2 = use current trending actual_amount outright.
+
+      - name: trailing_3_month_avg
+        description: Trailing 3-month average amount for the market/account.
+
+      - name: seasonal_factor
+        description: Seasonal adjustment factor based on historical month-over-month changes.
+
+      - name: hist_account_mtd_pct
+        description: Historical month-to-date percentage for the account.
+
+      - name: current_month_completed_pct
+        description: Percent of the current month that has been completed to date.
+
+      - name: month_end_projected_amount
+        description: >
+          Projected month-end account amount. For completed (but unpublished) months uses trending
+          actual_amount; for current live month blends seasonal-adjusted trailing 3-month average with
+          historical MTD scaling based on month completion and account overrides. Will be null for payroll accounts,
+          which are projected in a separate script.
+
+      - name: month_end_projected_comp_metric_amount
+        description: >
+          Projected month-end comp-metric denominator. For OEC-based metrics uses current MTD OEC;
+          for revenue-based metrics blends seasonal-adjusted trailing 3-month average with historical
+          MTD scaling based on month completion.
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - market_id
+            - gl_month
+            - account_no
+            - account_name

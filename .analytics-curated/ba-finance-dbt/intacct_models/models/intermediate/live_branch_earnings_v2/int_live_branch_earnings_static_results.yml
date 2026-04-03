@@ -1,0 +1,139 @@
+version: 2
+
+models:
+  - name: int_live_branch_earnings_static_results
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - account_number
+              - gl_date
+          enabled: false # Disable this test. This should be the grain but contains duplicates
+    columns:
+      - name: market_id
+        description: ""
+
+      - name: account_number
+        description: ""
+
+      - name: gl_date
+        description: ""
+
+      - name: gl_month
+        description: ""
+
+      - name: amount
+        description: ""
+
+      - name: pk_account_mapping_id
+        description: ""
+
+      - name: account_name
+        description: ""
+
+      - name: fk_account_category_id
+        description: ""
+
+      - name: account_category
+        description: ""
+
+      - name: category_sort_order
+        description: ""
+
+      - name: fk_segment_id
+        description: ""
+
+      - name: segment
+        description: ""
+
+      - name: revenue_expense
+        description: ""
+
+      - name: is_branch_earnings_account
+        description: ""
+
+      - name: is_overtime_wage
+        description: ""
+
+      - name: is_payroll_expense
+        description: ""
+
+      - name: is_paid_delivery_revenue
+        description: ""
+
+      - name: is_delivery_expense_account
+        description: ""
+
+      - name: market_name
+        description: ""
+
+      - name: state
+        description: ""
+
+      - name: abbreviation
+        description: ""
+
+      - name: region
+        description: ""
+
+      - name: region_name
+        description: ""
+
+      - name: area_code
+        description: ""
+
+      - name: district
+        description: ""
+
+      - name: region_district
+        description: ""
+
+      - name: _id_dist
+        description: ""
+
+      - name: market_type_id
+        description: ""
+
+      - name: market_type
+        description: ""
+
+      - name: is_dealership
+        description: ""
+
+      - name: date_updated
+        description: ""
+
+      - name: branch_earnings_start_month
+        description: ""
+
+      - name: market_start_month
+        description: ""
+
+      - name: general_manager_employee_id
+        description: ""
+
+      - name: general_manager_name
+        description: ""
+
+      - name: general_manager_title
+        description: ""
+
+      - name: general_manager_url_greenhouse
+        description: ""
+
+      - name: general_manager_disc_code
+        description: ""
+
+      - name: general_manager_environment_style
+        description: ""
+
+      - name: general_manager_url_disc
+        description: ""
+
+      - name: general_manager_email
+        description: ""
+
+      - name: market_age_in_months
+        description: ""

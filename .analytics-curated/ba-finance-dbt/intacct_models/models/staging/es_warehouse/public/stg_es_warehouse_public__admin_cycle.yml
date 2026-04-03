@@ -1,0 +1,54 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__admin_cycle
+    description: Model for es_warehouse.public.admin_cycle
+    columns:
+      - name: asset_id
+        description: ""
+      - name: make
+        description: ""
+      - name: model
+        description: ""
+      - name: total_days_on_rent
+        description: ""
+      - name: current_cycle
+        description: ""
+      - name: days_left
+        description: ""
+      - name: net_terms_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: end_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: market_id
+        description: ""
+      - name: net_select
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: current_rental_days
+        description: ""
+      - name: next_cycle_inv_date
+        description: ""
+      - name: last_cycle_inv_date
+        description: ""
+      - name: start_this_rental_cycle
+        description: ""
+      - name: end_this_rental_cycle
+        description: ""
+      - name: cycles_next_seven_days
+        description: ""

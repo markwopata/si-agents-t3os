@@ -1,0 +1,105 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ap_line
+    description: Model for AP Line Items from Intacct, capturing details of accounts payable invoice lines.
+    columns:
+      - name: pk_ap_line_id
+        description: "Primary key for this table. Maps to recordno in source."
+        data_tests:
+          - unique
+          - not_null
+      - name: fk_ap_header_id
+        description: "Foreign key to ap header table. Should never be null"
+        data_tests:
+          - not_null
+      - name: fk_parent_ap_line_id
+        description: ""
+      - name: fk_account_id
+        description: ""
+      - name: fk_ud_loan_id
+        description: ""
+      - name: gl_dim_asset_id
+        description: >
+          This appears to always be numeric. Foreign key to es_warehouse assets, but this is user entered, so there is
+          a chance of incorrect values.
+      - name: gl_dim_transaction_identifier
+        description: ""
+      - name: exch_rate_type_id
+        description: ""
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
+      - name: department_id
+        description: "{{ doc('department_id') }}"
+      - name: customer_id
+        description: ""
+      - name: fk_customer_id
+        description: ""
+      - name: vendor_id
+        description: ""
+      - name: fk_vendor_id
+        description: ""
+      - name: item_id
+        description: ""
+      - name: fk_item_id
+        description: ""
+      - name: class_id
+        description: ""
+      - name: fk_class_id
+        description: ""
+      - name: fk_created_by_user_id
+        description: "User id who created this record. Foreign key to users table."
+      - name: fk_updated_by_user_id
+        description: "User id who last updated this record. Foreign key to users table."
+      - name: asset_id
+        description: "Foreign key to es_warehouse assets"
+      - name: fk_entity_id
+        description: ""
+      - name: fk_department_id
+        description: ""
+      - name: fk_expense_type_id
+        description: ""
+      - name: line_description
+        description: ""
+      - name: account_name
+        description: ""
+      - name: entity_name
+        description: ""
+      - name: department_name
+        description: ""
+      - name: currency_code
+        description: ""
+      - name: ap_line_type
+        description: ""
+      - name: base_currency_code
+        description: ""
+      - name: ud_admin_invoice_number
+        description: ""
+      - name: ud_t3_work_order_number
+        description: ""
+      - name: invoice_line_state
+        description: ""
+      - name: debit_credit_sign
+        description: ""
+      - name: offset_account_number
+        description: ""
+      - name: offset_account_name
+        description: ""
+      - name: amount
+        description: "Line level amount"
+      - name: line_number
+        description: "Line number on the invoice."
+      - name: secondary_line_number
+        description: ""
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: gl_date
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

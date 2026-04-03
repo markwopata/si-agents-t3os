@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__entity
+    description: Cleaned entity table. AKA Location in some spots
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    columns:
+      - name: pk_entity_id
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: entity_id
+        description: "{{ doc('entity_id') }}. Should be unique."
+        data_tests:
+          - not_null
+          - unique
+      - name: entity_name
+        description: "{{ doc('entity_name') }}"
+        data_tests:
+          - not_null
+      - name: extended_entity_name
+        description: "{{ doc('extended_entity_name') }}"
+      - name: fk_parent_entity_id
+        description: Foreign key to parent entity within table (join to pk_entity_id)
+      - name: entity_status
+        description: active/inactive status
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

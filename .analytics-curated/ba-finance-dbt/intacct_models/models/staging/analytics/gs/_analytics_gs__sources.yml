@@ -1,0 +1,83 @@
+---
+version: 2
+
+sources:
+  - name: analytics_gs
+    tags: ["sources"]
+    database: analytics
+    schema: gs
+    description: >
+      are all BA owned google sheets that are ETL's from Fivetran into Snowflake (analytics.gs).  The reason they are not
+      dbt seeds yet is because Financial Analytics does not maintain them or other teams' still reference them
+    tables:
+      - name: market_rollout
+        identifier: revmodel_market_rollout_conservative
+        description: list of markets and when FA starts a market for profit sharing purposes and for external purposes (revenue)
+        meta:
+          generated_from: Fivetran
+          url:
+            https://fivetran.com/dashboard/connectors/attribution_pancreas/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1+Day
+          point_of_contact: Vishesh Mathur
+          google_drive_link: https://docs.google.com/spreadsheets/d/1DRnJI9G4Bk2h_J0nRJHQuTMvMzYwTf80FO-2JLeTFBg/edit#gid=1373782263
+        columns:
+          - name: _row
+            description: ""
+          - name: market_id
+            description: "{{ doc('market_id') }}"
+            data_tests:
+              - not_null
+              - unique
+          - name: market_name
+            description: ""
+          - name: market_level
+            description: ""
+          - name: xero_market_name
+            description: ""
+          - name: market_start_month
+            description: Start month, 1st of month, for external reporting purposes
+          - name: branch_earnings_start_month
+            description: Start month for branch earnings. (1st of month)
+          - name: model_name
+            description: ""
+          - name: sales_model
+            description: ""
+          - name: market_factor
+            description: ""
+          - name: outside_service_model
+            description: ""
+          - name: _fivetran_synced
+            description: ""
+          - name: sale_leaseback
+            description: ""
+
+      - name: cc_spend_receipt_upload
+        description: Uploaded receipts for ES employees' credit and fuel card purchases (can view actual receipts via Google
+          Drive link). one row is one receipt
+        meta:
+          generated_from: Fivetran
+          url:
+            https://fivetran.com/dashboard/connectors/secondly_fabrication/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1Q4hA4pP5VCtJRFUJg7eimTZsk9QW1KmSoviU31KCFYk/edit?resourcekey#gid=125471798
+        columns:
+          - name: _row
+            description: identifier of grain
+      - name: plexi_periods
+        description: ""
+      - name: plexi_bucket_mapping
+        description: ""
+      - name: mcc
+        description: ''
+      - name: materials_branch
+        description: Uploaded table connecting bisTrack branchid to branch (can view actual table via Google
+          Drive link).
+        meta:
+          generated_from: Fivetran
+          url:
+            https://fivetran.com/dashboard/connections/linking_coolly/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1yvtaaQ-osMfhhZEC6VySXkWO0eJ9ASTVGMJedhPpwos/edit?gid=0#gid=0
+      - name: materials_pre_acquisition_revenue
+        description: Revenue for materials before we acquire the location, the market had been running. This is monthly revenue before the acquisition date (need to calculate run rates)
+        meta:
+          generated_from: Fivetran
+          url: https://fivetran.com/dashboard/connections/entangled_depiction/status?groupId=revisable_roamed&service=google_sheets&syncChartPeriod=1%20Day
+          google_drive_link: https://docs.google.com/spreadsheets/d/1yvtaaQ-osMfhhZEC6VySXkWO0eJ9ASTVGMJedhPpwos/edit?gid=0#gid=0

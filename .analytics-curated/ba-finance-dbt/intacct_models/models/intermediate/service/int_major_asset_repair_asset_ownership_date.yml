@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_asset_ownership_date
+    description: >
+      Derives the sale month for assets that appear in the major asset repair capitalization schedule.
+      Identifies the most recent day an asset is no longer owned by EquipmentShare (asset_company_id not in ('1854'))
+      using int_asset_historical_ownership, then truncates to the month.
+    columns:
+      - name: asset_id
+        description: "Asset identifier from T3."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sale_month
+        description: "Month the asset first became not-owned by EquipmentShare (month-truncated last_not_owned_date). Assets can be sold and repurchased"
+      - name: last_es_owned_day
+        description: "Last day the asset was owned by EquipmentShare (date). This is the day before the asset becomes non-ES-owned and is used to derive `sale_month`."

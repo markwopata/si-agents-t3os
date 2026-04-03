@@ -1,0 +1,42 @@
+---
+version: 2
+models:
+  - name: stg_analytics_rate_achievement__discount_rates
+    description: Rate Achievement Commissions
+    data_tests:
+      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
+          # a payout program's end date should always be after its start date
+          column_A: date_voided
+          column_B: date_created
+    config:
+      tags:
+        - commissions
+    columns:
+      - name: discount_rate_id
+        description: the discount rate id
+        data_tests:
+          - unique
+
+      - name: equipment_class_id
+        description: "{{ doc('equipment_class_id') }}"
+
+      - name: district
+        description: District of the market
+
+      - name: created_by
+        description: User who created the discount rate
+
+      - name: voided_by
+        description: User who voided the discount rate
+
+      - name: price_per_month
+        description: Price of the discount rate per month
+
+      - name: active
+        description: Indicates if the discount rate is active
+
+      - name: date_created
+        description: Timestamp when the discount rate was created
+
+      - name: date_voided
+        description: Timestamp when the discount rate was voided

@@ -1,0 +1,134 @@
+---
+version: 2
+
+models:
+  - name: int_retail_sales_asset_detail
+    description: >
+        This model is used for asset level details for retail sales.
+        It includes the current version of the quote
+    config:
+      tags: ["retail_sales"]
+    columns:
+      - name: pk_id
+        description: >
+          The primary key for the record.
+        data_tests:
+          - not_null
+          - unique
+      - name: quote_created_at
+        description: >
+          The timestamp when the quote was created.
+        data_tests:
+          - not_null
+      - name: quote_completed_at
+        description: >
+          The timestamp when the quote was completed.
+      - name: quote_pk_id
+        description: >
+          The primary key for the quote.
+        data_tests:
+          - not_null
+      - name: quote_id
+        description: >
+          The unique identifier for the quote.
+        data_tests:
+          - not_null
+      - name: invoice_id
+        description: >
+          The invoice ID if the quote has been converted to an invoice.
+      - name: billing_provider
+        description: >
+          The billing provider associated with the quote (e.g., cpe_florida, equipmentshare).
+      - name: company_id
+        description: >
+          The unique identifier for the company associated with the quote.
+      - name: company_name
+        description: >
+          The name of the company associated with the quote.
+      - name: market_id
+        description: >
+          The unique identifier for the market associated with the quote.
+      - name: type_of_sale
+        description: >
+          The type of sale for the quote (e.g., new, used, RPO).
+      - name: status
+        description: >
+          The status of the quote.
+        data_tests:
+          - not_null
+      - name: asset_pk_id
+        description: >
+          The primary key for the asset.
+        data_tests:
+          - not_null
+      - name: asset_type
+        description: >
+          The type of the asset (e.g., asset, attachment).
+      - name: asset_id
+        description: >
+          The unique identifier for the asset.
+      - name: serial_number
+        description: >
+          The serial number of the asset.
+      - name: make
+        description: >
+          The manufacturer/make of the asset.
+      - name: model
+        description: >
+          The model of the asset.
+      - name: description
+        description: >
+          The asset description combining make, model, and serial number.
+      - name: rebate_oec
+        description: >
+          The OEC provided by the manufacturer used for rebate calculations.
+      - name: sale_price
+        description: >
+          The sale price of the asset.
+        data_tests:
+          - not_null
+      - name: oec
+        description: >
+          The original equipment cost of the asset.
+        data_tests:
+          - not_null
+      - name: line_description
+        description: >
+          Array of additional cost line items with type, price, cost, and description.
+      - name: additional_items_price
+        description: >
+          Total price of additional items added to the quote.
+      - name: additional_items_cost
+        description: >
+          Total cost of additional items added to the quote.
+      - name: rebate_description
+        description: >
+          Array of rebate items with type, dollar amount, percent, and description.
+      - name: total_trade_in_value
+        description: >
+          Total value of trade-in items for this asset.
+      - name: total_trade_in_over_allowance
+        description: >
+          Total over-allowance amount for trade-in items.
+          This is when we give the customer more than the agreed trade-in value.
+      - name: total_asset_price
+        description: >
+          Total price including the asset sale price and additional items.
+        data_tests:
+          - not_null
+      - name: total_asset_cost
+        description: >
+          Total cost including OEC, additional item costs, and trade-in over-allowance.
+        data_tests:
+          - not_null
+      - name: total_rebate
+        description: >
+          Total rebate amount calculated from percentage and dollar rebates.
+      - name: total_margin
+        description: >
+          Total margin calculated as total price minus total cost plus rebates.
+      - name: is_current
+        description: >
+          Boolean flag indicating if this is from the current/latest version of the quote.
+        data_tests:
+          - not_null

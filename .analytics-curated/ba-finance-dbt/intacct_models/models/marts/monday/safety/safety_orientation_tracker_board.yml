@@ -1,0 +1,77 @@
+version: 2
+models:
+- name: safety_orientation_tracker_board
+  description: Safety Orientation Tracker Board exposed as a table. This board tracks
+    safety orientation-related information.
+  meta:
+    point_of_contact: Danielle Baldwin
+    owner: '@nick.logan'
+    monday_board_url: 'https://equipmentshare.monday.com/boards/8608020390 # ask Danielle for Monday board access'
+  columns:
+  - name: item_id
+    description: Monday-generated pk
+    tests:
+      - unique
+  - name: three_month_status
+    description: 'Column from Monday board representing ''3 Month Status'' (Monday
+      column ID: color_mkt9kp0z).'
+  - name: position_wd
+    description: 'Column from Monday board representing ''Position (WD)'' (Monday
+      column ID: position_mkkvt152).'
+  - name: duration_attended
+    description: 'Column from Monday board representing ''Duration Attended'' (Monday
+      column ID: text_mkkt85sn).'
+  - name: post_orientation_email
+    description: 'Column from Monday board representing ''Post Orientation Email''
+      (Monday column ID: color_mkta9fxx).'
+  - name: region_wd
+    description: 'Column from Monday board representing ''Region (WD)'' (Monday column
+      ID: region__mkkthwxr).'
+  - name: orientation_status
+    description: 'Column from Monday board representing ''Orientation Status'' (Monday
+      column ID: status_mkkt92rw).'
+  - name: status
+    description: 'Column from Monday board representing ''Status'' (Monday column
+      ID: status_mkmktkz1).'
+  - name: worker_s_manager_wd
+    description: 'Column from Monday board representing ''Worker''s Manager (WD)''
+      (Monday column ID: worker_s_manager_mkktb1y6).'
+  - name: report_effective_date_wd
+    description: 'Column from Monday board representing ''Report Effective Date (WD)''
+      (Monday column ID: report_effective_date_mkkt9wac).'
+  - name: first_name_wd
+    description: 'Column from Monday board representing ''First Name (WD)'' (Monday
+      column ID: legal_first_name_mkkt3c15).'
+  - name: date_attended
+    description: 'Column from Monday board representing ''Date attended'' (Monday
+      column ID: date_mkkte9f).'
+  - name: name
+    description: 'Column from Monday board representing ''Name'' (Monday column ID:
+      name).'
+  - name: last_name_wd
+    description: 'Column from Monday board representing ''Last Name (WD)'' (Monday
+      column ID: legal_last_name_mkkt8sn9).'
+  - name: manager_email_wd
+    description: 'Column from Monday board representing ''Manager Email (WD)'' (Monday
+      column ID: text_mkn1q63m).'
+  - name: original_hire_date_wd
+    description: 'Column from Monday board representing ''Original Hire Date (WD)''
+      (Monday column ID: original_hire_date_mkktcs2b).'
+  - name: hire_date_wd
+    description: 'Column from Monday board representing ''Hire Date (WD)'' (Monday
+      column ID: hire_date_mkkt8bkc).'
+  - name: orientation_type
+    description: 'Column from Monday board representing ''Orientation Type'' (Monday
+      column ID: status_mkm0r25a).'
+  - name: location_wd
+    description: 'Column from Monday board representing ''Location (WD)'' (Monday
+      column ID: location_mkktnkza).'
+  - name: esu_days_remaining
+    description: 'Column from Monday board representing ''ESU Days Remaining'' (Monday
+      column ID: formula_mkm7b40j).'
+  - name: subitems
+    description: 'Column from Monday board representing ''Subitems'' (Monday column
+      ID: subtasks_mknp9n09).'
+  - name: post_email_sent
+    description: 'Column from Monday board representing ''Post Email Sent'' (Monday
+      column ID: status_1_mkmm13pg).'

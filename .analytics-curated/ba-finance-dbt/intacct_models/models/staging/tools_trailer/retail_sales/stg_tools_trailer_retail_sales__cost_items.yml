@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_tools_trailer_retail_sales__cost_items
+    description: Retail Sales cost items.
+    config:
+      tags: ["retail_sales"]
+    columns:
+        - name: pk_id
+          description: "Primary key for each cost item record."
+          data_tests:
+            - unique
+            - not_null
+        - name: quote_pk_id
+          description: "Primary key for the quote associated with this cost item. Foreign key to the quotes table."
+          data_tests:
+            - not_null
+        - name: quote_id
+          description: "Identifier for the quote. This is how the business identifies the quote."
+          data_tests:
+            - not_null
+        - name: cost_pk_id
+          description: "Primary key for each cost item record."
+          data_tests:
+            - not_null
+        - name: asset_pk_id
+          description: "Primary key for the asset associated with this cost item."
+          data_tests:
+            - not_null
+        - name: cost
+          description: "Cost associated with the item."
+        - name: price
+          description: "Price associated with the item."
+        - name: description
+          description: "Description of the cost item."
+        - name: purchase_order_id
+          description: "Purchase order ID associated with the cost item."
+        - name: line_type
+          description: "Type of cost item (e.g., t3 install, outbound freight)."

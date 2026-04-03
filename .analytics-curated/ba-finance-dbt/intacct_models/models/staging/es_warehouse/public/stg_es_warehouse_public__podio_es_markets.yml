@@ -1,0 +1,12 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__podio_es_markets
+    description: Model for es_warehouse.public.podio_es_markets
+    columns:
+      - name: company_id
+        description: ""
+      - name: market_id
+        description: ""
+      - name: market_name
+        description: ""

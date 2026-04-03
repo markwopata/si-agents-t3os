@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_procurement_public__matched_purchase_transactions
+    description: "Model for procurement.public.matched_purchase_transactions. This contains the credit card transactions matched to the purchase receipts in the Expenses app."
+    columns:
+      - name: matched_purchase_transaction_id
+        description: "Unique identifier for the combination of matched purchase receipt with its transaction record"
+        
+      - name: purchase_id
+        description: "Unique identifier for the purchase receipt."
+
+      - name: purchase_transaction_id
+        description: "Unique identifier for the purchase transaction."
+
+      - name: matched_by_user_id
+        description: "Indicate which user matched the purchase transaction to the purchase receipt."
+
+      - name: was_auto_matched
+        description: "flag to indicate if the match was done automatically by the system."
+
+      - name: _es_update_timestamp
+        description: "timestamp of the latests update in the record for a given transaction match"
+
+      - name: _es_load_timestamp
+        description: "timestamp when the record was loaded into snowflake."
+
+      - name: date_matched
+        description: "date in which the purchase transaction was matched to the purchase receipt."
+
+      - name: date_updated
+        description: "date in which the record was last updated."
+
+      - name: date_created
+        description: "date in which the record was created."

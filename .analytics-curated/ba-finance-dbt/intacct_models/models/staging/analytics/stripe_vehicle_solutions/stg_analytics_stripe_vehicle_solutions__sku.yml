@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__sku
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the SKU."
+        data_tests:
+          - not_null
+          - unique
+      - name: active
+        description: "Whether the SKU is active."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: image
+        description: "Image URL for the SKU."
+      - name: inventory_quantity
+        description: "Quantity available."
+      - name: inventory_type
+        description: "Inventory tracking type."
+      - name: inventory_value
+        description: "Inventory value for the SKU."
+      - name: livemode
+        description: "Indicates if this is a test SKU."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: package_dimensions_height
+        description: "Package height."
+      - name: package_dimensions_length
+        description: "Package length."
+      - name: package_dimensions_weight
+        description: "Package weight."
+      - name: package_dimensions_width
+        description: "Package width."
+      - name: price
+        description: "Unit price, in cents."
+      - name: updated
+        description: "Time the SKU was last updated."
+      - name: is_deleted
+        description: "Whether the SKU has been deleted."
+      - name: product_id
+        description: "ID of the product this SKU belongs to."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

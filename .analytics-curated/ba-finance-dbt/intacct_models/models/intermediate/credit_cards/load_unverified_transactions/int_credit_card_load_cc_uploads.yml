@@ -1,0 +1,52 @@
+---
+version: 2
+models:
+  - name: int_credit_card_load_cc_uploads
+    description: >
+      Table that contains all the receipts uploaded by ES employees to verify the purchases they
+      have made. There is an upload link that takes you that receipt. Used in transaction verification process.
+      Excludes amounts less than $1. Disables fuel card transactions prior to 2023-08-21. Also resets all transactions
+      starting 2025-07-01.
+    columns:
+      - name: pk_upload
+        description: >
+          pk created to identify unique receipt uploads based on the user, purchase_id, amount, and
+          date of purchase. if the amounts are not the same, these have an additional row_number rank
+          by the same parameters based on their upload rank
+        data_tests:
+          - unique
+      - name: upload_market_id
+        description: "Uploader's market_id"
+      - name: upload_id
+        description: "Foreign key to procurement.public.purchases table (purchase_id)."
+      - name: upload_user_id
+        description: >
+          User whose transaction was uploaded. We check purchase_accounts for a user_id first. This one is the user who
+          owns the card. User_id on purchases is the _submitter_, not the cardholder. Supports authorized submitter
+          workflow.
+      - name: upload_amount
+        description: "Receipt amount uploaded by user."
+      - name: upload_date
+        description: "Date of the transaction entered by user."
+      - name: upload_card_type
+        description: "Lower left 4 of typical card type"
+      - name: business_sub_department_snapshot_id
+        description: ""
+      - name: business_department_snapshot_id
+        description: ""
+      - name: business_expense_line_snapshot_id
+        description: ""
+      - name: upload_rank
+        description: "Row number within user/date/amount partition used for pk_upload. We'll use this to match same amounts."
+      - name: upload_matched
+        description: "Flag (0/1) indicating if the upload has matched to a cc transaction. Always 0, used in next model."
+      - name: upload_notes
+        description: "User-provided notes on the receipt."
+      - name: upload_url
+        description: "URL of the uploaded receipt image."
+      - name: upload_submitted_at_date
+        description: "Timestamp when the receipt was submitted."
+      - name: is_personal_expense
+        description: "toggle added to the Expenses app to indicate if the credit card transaction is a personal expense or not"
+      - name: is_return
+        description: "toggle added to the Expenses app to indicate if the credit card transaction represents a credit issued by the vendor"

@@ -1,0 +1,18 @@
+---
+version: 2
+sources:
+  - name: analytics_treasury
+    tags: ["sources"]
+    database: analytics
+    schema: treasury
+    description: data in analytics.payroll (analytics database / treasury schema) used for treasury purposes (BA ETL scripts)
+    tables:
+      - name: dispute_summary
+        description: summary table of disputes
+        meta:
+          generated_from: Snowflake procedure
+          snowflake_procedure: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/TREASURY/view/DISPUTE_SUMMARY
+        columns:
+          - name: dispute_id
+            data_tests:
+              - unique

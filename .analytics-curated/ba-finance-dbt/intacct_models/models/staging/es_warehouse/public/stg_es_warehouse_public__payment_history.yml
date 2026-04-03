@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__payment_history
+    description: Model for es_warehouse.public.payment_history
+    columns:
+      - name: payment_history_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: payment_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: date
+        description: ""
+      - name: type
+        description: ""
+      - name: amount
+        description: ""
+      - name: description
+        description: ""
+      - name: payment_application_reversal_reason_id
+        description: ""
+      - name: payment_portal_id
+        description: ""
+      - name: field_changes
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

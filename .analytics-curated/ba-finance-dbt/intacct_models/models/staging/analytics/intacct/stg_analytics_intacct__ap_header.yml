@@ -1,0 +1,135 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__ap_header
+    description: "AP invoice header table from Sage Intacct. These invoices are for payments we owe to vendors."
+    columns:
+      - name: pk_ap_header_id
+        description: "{{ doc('pk_generic') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: vendor_id
+        description: "{{ doc('vendor_id') }}"
+      - name: fk_entity_id
+        description: "{{ doc('fk_entity_id') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: invoice_number
+        description: AKA bill number, can be null. Vendor's invoice number.
+      - name: fk_concur_image
+        description: Foreign key to the Request ID in Concur Cognos.
+      - name: module_key
+        description: Internal system key denoting the module (e.g., 3.AP, 9.PO).
+      - name: prbatch_key
+        description: Key for the processing batch.
+      - name: term_key
+        description: Key for the payment terms used on this invoice.
+      - name: supdocid
+        description: Label for supporting documentation.
+      - name: bill_to_pay_to_key
+        description: Key for the bill-to or pay-to contact.
+      - name: ship_to_return_to_key
+        description: Key for the ship-to or return-to contact.
+      - name: user_key
+        description: Key for the associated user/employee. Unsure of linking table.
+      - name: invoice_memo
+        description: Memo on invoice header.
+      - name: document_number
+        description: This should be the referenced document number. AKA reference in front end.
+      - name: description
+        description: Invoice description.
+      - name: description2
+        description: Secondary description - typically the source document number.
+      - name: source_document_name
+        description: Alias for description2. Document name this invoice was created from (e.g. Vendor Invoice-123456).
+      - name: ap_header_type
+        description: Indicates if the ap header object is an invoice, payment, discount, or adjustment.
+      - name: invoice_state
+        description: State of invoice (paid, reversed, etc).
+      - name: vendor_name
+        description: "{{ doc('vendor_name') }}"
+      - name: terms_name
+        description: "Name of terms with the vendor. E.g. Net 45."
+      - name: payment_type
+        description: "Method of payment (e.g. Cash, ACH, Manual Check)."
+      - name: financial_entity
+        description: >
+          Null or FifthThird Epay - this is filled for the monthly charge payoff from 5/3, transferring liability to AP.
+      - name: bank_account
+        description: "Bank account used for payment. Filled for appayment records."
+      - name: currency_code
+        description: "{{ doc('currency_code') }}"
+      - name: base_currency_code
+        description: "{{ doc('base_currency_code') }}"
+      - name: exchange_rate
+        description: "{{ doc('exchange_rate') }}"
+      - name: url_concur
+        description: "{{ doc('url_concur') }}"
+      - name: form_1099_type
+        description: >
+          IRS Form 1099 type. Either null, 'NEC' (Nonemployee Compesation), or 'MISC' (Miscellaneous Information).
+      - name: vendor_1099_type
+        description: Vendor type for 1099 classification. 100% null.
+      - name: pr_batch
+        description: Name/ID of the Payment Request Batch.
+      - name: payment_priority
+        description: Priority level for payment. (E.g., urgent, normal, high).
+      - name: bill_to_pay_to_contact_name
+        description: Contact name for bill-to party.
+      - name: ship_to_return_to_contact_name
+        description: Contact name for ship-to/return-to party.
+      - name: form_1099_box
+        description: IRS Form 1099 box number.
+      - name: cleared
+        description: Flag for cleared status. (E.g., M, F, T).
+      - name: status
+        description: Record status. (null or active)
+      - name: invoice_amount
+        description: Total invoice amount.
+      - name: due_amount
+        description: Total amount due for payment on invoice.
+      - name: paid_amount
+        description: Total paid amount.
+      - name: total_selected_amount
+        description: Total amount selected assumed for payment/processing.
+      - name: trx_total_selected_amount
+        description: Total selected amount.
+      - name: trx_entity_due_amount
+        description: Entity due amount.
+      - name: payment_amount
+        description: Amount paid.
+      - name: is_on_hold
+        description: Invoice hold status.
+      - name: is_system_generated
+        description: Boolean if the record was system-generated (T, F, null).
+      - name: is_inclusive_tax
+        description: Flag for inclusive tax. (null or FALSE).
+      - name: invoice_date
+        description: Date on the invoice.
+      - name: gl_date
+        description: Date invoice was posted to the GL.
+      - name: due_date
+        description: Date this invoice is due for payment.
+      - name: discount_date
+        description: Date discount is available until.
+      - name: rec_payment_date
+        description: Assuming date of the recurring payment.
+      - name: recon_date
+        description: Reconciliation date.
+      - name: cleared_date
+        description: Date the record was cleared.
+      - name: payment_date
+        description: Date of payment.
+      - name: receipt_date
+        description: Date of receipt.
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

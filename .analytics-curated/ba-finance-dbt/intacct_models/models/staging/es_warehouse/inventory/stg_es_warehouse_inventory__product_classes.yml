@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__product_classes
+    description: Model for es_warehouse.inventory.product_classes
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: product_class_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: classification
+        description: ""
+      - name: category_name
+        description: ""
+      - name: cat_class
+        description: ""
+      - name: company_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

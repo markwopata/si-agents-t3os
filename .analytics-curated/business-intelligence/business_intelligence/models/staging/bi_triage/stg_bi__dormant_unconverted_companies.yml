@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: stg_bi__dormant_unconverted_companies
+    description: "triage table for former analytics.bi_ops.dormant_unconverted_companies view"

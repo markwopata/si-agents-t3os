@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__gl_account
+    description: >
+      This table lists general ledger accounts in Sage Intacct. Cleaned and renamed version of
+      analytics.intacct.glaccount.
+    columns:
+      - name: pk_account_id
+        description: "Unique identifier/primary key for the GL account."
+        data_tests:
+          - unique
+          - not_null
+      - name: fk_created_by_user_id
+        description: "User id of user who created the GL account. Foreign key to intacct users table."
+      - name: fk_updated_by_user_id
+        description: "User id of user who last updated the GL account. Foreign key to intacct users table."
+      - name: account_number
+        description: "{{ doc('account_number') }}"
+      - name: account_name
+        description: "{{ doc('account_name') }}"
+      - name: account_type
+        description: "{{ doc('account_type') }}"
+      - name: account_normal_balance
+        description: "{{ doc('account_normal_balance') }}"
+      - name: closing_type
+        description: >
+          This is an indicator of how the account should be closed, e.g. non-closing account, closing account, closed 
+          to account
+      - name: account_category
+        description: >
+          Higher level category for account set in Sage Intacct by accounting. For the most part, we don't use this and
+          prefer a different source to categorize accounts.
+      - name: status
+        description: "Status of the account - active/inactive. Accounts will never be deleted, only set to inactive."
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__gl_journal
+    description: Sourced from intacct.glbatch. Contains top level journal details.
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - journal_transaction_number
+            - journal_type
+    columns:
+      - name: pk_journal_id
+        description: Primary key for this table
+        data_tests:
+          - unique
+          - not_null
+      - name: journal_transaction_number
+        description: "{{ doc('journal_transaction_number') }}"
+        data_tests:
+          - not_null
+      - name: journal_title
+        description: "{{ doc('journal_title') }}"
+      - name: journal_type
+        description: "{{ doc('journal_type') }}"
+        data_tests:
+          - not_null
+      - name: journal_date
+        description: Date for journal
+      - name: intacct_module
+        description: "{{ doc('intacct_module') }}"
+      - name: journal_state
+        description: "{{ doc('journal_state') }}"
+      - name: date_reversed
+        description: "{{ doc('date_reversed') }}"
+      - name: fk_reversed_from_journal_id
+        description: "{{ doc('fk_reversed_from_journal_id') }}"
+      - name: fk_created_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_last_updated_by_user_id
+        description: User_id for last user to modify this batch before approval. {{ doc('fk_intacct_user_id') }}
+      - name: fk_updated_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }}"
+      - name: fk_approved_by_user_id
+        description: "{{ doc('fk_intacct_user_id') }} This appears to be the approver on Posted entries. Alias for fk_updated_by_id\n"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"

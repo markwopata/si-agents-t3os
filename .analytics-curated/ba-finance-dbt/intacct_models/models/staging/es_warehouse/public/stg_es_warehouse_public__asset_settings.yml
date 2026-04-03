@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_settings
+    description: Model for es_warehouse.public.asset_settings
+    columns:
+      - name: asset_settings_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: idling
+        description: ""
+      - name: ifta_reporting
+        description:
+          Flag that indicates if this asset should be included when running IFTA (International Fuel Tax Agreement)
+          reports
+      - name: alert_enter_geofence
+        description: ""
+      - name: alert_exit_geofence
+        description: ""
+      - name: alert_time_fence
+        description: ""
+      - name: entering_geofence
+        description: ""
+      - name: leaving_geofence
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,203 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking
+    description: Staging model for Navan bookings, containing comprehensive travel booking details from the Navan (formerly TripActions) travel management platform
+    columns:
+      - name: uuid
+        description: 'Unique identifier for the booking record'
+        data_tests:
+          - not_null
+          - unique
+      - name: eticket
+        description: 'Electronic ticket number associated with the booking'
+      - name: cnr_cnr_codes
+        description: 'Compare and Return codes for price comparison'
+      - name: cnr_cnr_sources
+        description: 'Sources used for Compare and Return price comparison'
+      - name: cnr_cnr_provider
+        description: 'Provider used for Compare and Return price comparison'
+      - name: _fivetran_deleted
+        description: 'Indicates if the record was deleted by Fivetran'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran'
+      - name: carbon_offset_cost
+        description: 'Cost associated with carbon offset for the booking'
+      - name: trip_bucks_earned
+        description: 'Reward points earned from the booking'
+      - name: reason
+        description: 'Reason provided for the booking'
+      - name: out_of_policy_description
+        description: 'Description of why the booking was out of policy'
+      - name: extras_fee
+        description: 'Additional fees for extra services'
+      - name: cabin_purchased
+        description: 'Type of cabin purchased for flight bookings'
+      - name: hotel_chain
+        description: 'Hotel chain associated with the booking'
+      - name: payment_credit_card_type_name
+        description: 'Type of credit card used for payment'
+      - name: optimal_price
+        description: 'Optimal price identified for the booking'
+      - name: usd_grand_total
+        description: 'Total booking cost converted to USD'
+      - name: last_modified
+        description: 'Timestamp when the booking was last modified'
+      - name: policy_level
+        description: 'Policy compliance level of the booking'
+      - name: trip_name
+        description: 'Name assigned to the trip'
+      - name: vat
+        description: 'Value Added Tax amount'
+      - name: trip_length
+        description: 'Duration of the trip in days'
+      - name: approver_email
+        description: 'Email address of the person who approved the booking'
+      - name: company_office
+        description: 'Office location associated with the booking'
+      - name: fare_class
+        description: 'Fare class for flight bookings'
+      - name: flight_mile
+        description: 'Miles flown for flight bookings'
+      - name: booking_status
+        description: 'Current status of the booking (e.g., confirmed, cancelled)'
+      - name: travel_agent_request_fee
+        description: 'Fee charged for travel agent assistance'
+      - name: cancellation_reason
+        description: 'Reason provided for booking cancellation'
+      - name: booking_method
+        description: 'Method used to make the booking'
+      - name: saving
+        description: 'Amount saved compared to standard pricing'
+      - name: end_date
+        description: 'End date of the booking period'
+      - name: flight
+        description: 'Flight information for air travel bookings'
+      - name: cabin
+        description: 'Cabin class for the flight'
+      - name: cnr_published_price
+        description: 'Published price found through Compare and Return'
+      - name: net_charge
+        description: 'Net amount charged for the booking'
+      - name: max_price_policy
+        description: 'Maximum price allowed by company policy'
+      - name: train_mile
+        description: 'Miles traveled by train'
+      - name: vendor
+        description: 'Vendor providing the travel service'
+      - name: exchange_fee
+        description: 'Fee charged for exchanging a booking'
+      - name: currency
+        description: 'Currency used for the booking transaction'
+      - name: grand_total
+        description: 'Total cost of the booking in the original currency'
+      - name: resort_fee
+        description: 'Additional fee charged by resorts'
+      - name: start_date
+        description: 'Start date of the booking period'
+      - name: unitary_price
+        description: 'Price per unit (e.g., per night for hotels)'
+      - name: approver_reason
+        description: 'Reason provided by the approver for their decision'
+      - name: airline_credit_card_surcharge
+        description: 'Surcharge applied when using credit card for airline bookings'
+      - name: max_cancellation_loss
+        description: 'Maximum potential loss in case of cancellation'
+      - name: booking_type
+        description: 'Type of booking (e.g., flight, hotel, car rental)'
+      - name: name_on_credit_card
+        description: 'Name as it appears on the credit card used for payment'
+      - name: trip_fee
+        description: 'Fee associated with the trip'
+      - name: number_of_passenger
+        description: 'Number of passengers included in the booking'
+      - name: cancelled_at
+        description: 'Timestamp when the booking was cancelled'
+      - name: booking_duration
+        description: 'Duration of the booking period'
+      - name: booking_fee
+        description: 'Fee charged for making the booking'
+      - name: lead_time_in_days
+        description: 'Number of days between booking and travel dates'
+      - name: hotel_code
+        description: 'Code identifying the specific hotel'
+      - name: car_type
+        description: 'Type of car for rental bookings'
+      - name: domestic
+        description: 'Flag indicating if the travel is domestic'
+      - name: seats_fee
+        description: 'Fee charged for seat selection'
+      - name: payment_method
+        description: 'Method used for payment'
+      - name: saving_missed
+        description: 'Potential savings that were missed'
+      - name: created
+        description: 'Timestamp when the booking was created'
+      - name: approval_status
+        description: 'Current approval status of the booking'
+      - name: out_of_policy_violation
+        description: 'Flag indicating if the booking violates company policy'
+      - name: preferred_vendor
+        description: 'Flag indicating if a preferred vendor was used'
+      - name: expensed
+        description: 'Flag indicating if the booking has been expensed'
+      - name: tax
+        description: 'Tax amount for the booking'
+      - name: travel_spend
+        description: 'Amount spent on travel'
+      - name: payment_schedule
+        description: 'Schedule for payment installments'
+      - name: payment_method_used
+        description: 'Payment method that was actually used'
+      - name: currency_exhange_rate_from_usd
+        description: 'Exchange rate from USD to the booking currency'
+      - name: purpose
+        description: 'Purpose of the travel'
+      - name: vip_fee
+        description: 'Fee for VIP services'
+      - name: inventory
+        description: 'Inventory source information'
+      - name: out_of_policy
+        description: 'Flag indicating if the booking is out of policy'
+      - name: booking_id
+        description: 'ID assigned to the booking'
+      - name: pcc
+        description: 'Pseudo City Code for the booking'
+      - name: trip_description
+        description: 'Description of the trip purpose'
+      - name: base_price
+        description: 'Base price before fees and taxes'
+      - name: inventory_source
+        description: 'Source of the inventory'
+      - name: navan_pro
+        description: 'Flag indicating if Navan Pro features were used'
+      - name: carbon_emission
+        description: 'Carbon emissions associated with the travel'
+      - name: exchange_amount
+        description: 'Amount for exchange transactions'
+      - name: pdf
+        description: 'Flag or link indicating if PDF documentation is available'
+      - name: ppb_points_burned
+        description: 'Points burned from the Price-to-Beat program'
+      - name: corporate_discount_used
+        description: 'Flag indicating if corporate discounts were applied'
+      - name: invoice
+        description: 'Invoice information for the booking'
+      - name: company_payment_method
+        description: 'Company payment method used'
+      - name: event_name
+        description: 'Name of the event associated with the booking'
+      - name: approval_changed_at
+        description: 'Timestamp when the approval status was last changed'
+      - name: qst
+        description: 'Quebec Sales Tax amount'
+      - name: hst
+        description: 'Harmonized Sales Tax amount'
+      - name: gst
+        description: 'Goods and Services Tax amount'
+      - name: trip_bucks_earned_usd
+        description: 'Trip Bucks earned converted to USD'
+      - name: statement_description
+        description: 'Description that appears on the statement'
+      - name: project
+        description: 'Project associated with the booking'

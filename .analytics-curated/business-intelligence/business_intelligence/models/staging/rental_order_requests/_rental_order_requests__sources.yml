@@ -1,0 +1,264 @@
+                                   
+version: 2
+
+sources:
+  - name: rental_order_request
+    description: "Source for quotes that are created from the Rental site (customer-facing) instead of ESMAX (internal)."
+    database: rental_order_request
+    schema: public
+    tables:
+      - name: rental_requests
+        description: "{{ doc('rental_order_requests__rental_requests') }}"
+        columns:
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+          - name: id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__request_id') }}"
+            data_tests:
+              - unique
+              - not_null
+
+          - name: shift_plan_name
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__shift_plan_name') }}"
+
+          - name: dropoff_fee
+            data_type: float
+            description: "{{ doc('rental_order_requests__dropoff_fee') }}"
+
+          - name: delivery_instructions
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__delivery_instructions') }}"
+
+          - name: shift_plan_description
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__shift_plan_description') }}"
+
+          - name: status
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__request_status') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['IN_PROGRESS']
+                  config:
+                    severity: warn
+
+          - name: longitude
+            data_type: varchar
+
+          - name: type
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__request_type') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['ORDER']
+                  config:
+                    severity: warn
+
+          - name: deleted_at
+            data_type: timestamp_ntz
+            description: "{{ doc('is_null') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [null]
+                  config:
+                    severity: warn
+
+          - name: receiver_contact_phone
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__receiver_contact_phone') }}"
+
+          - name: receiver_option
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__receiver_option') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['OTHERS', 'SELF']
+                  config:
+                    severity: warn
+
+          - name: equipment_charges
+            data_type: float
+            description: "{{ doc('rental_order_requests__equipment_charges') }}"
+
+          - name: branch_id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__branch_id') }}"
+
+          - name: user_id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__user_id') }}"
+
+          - name: state
+            data_type: varchar
+
+          - name: rental_subtotal
+            data_type: float
+            description: "{{ doc('rental_order_requests__rental_subtotal') }}"
+
+          - name: guest_user_request
+            data_type: boolean
+            description: "{{ doc('rental_order_requests__guest_user_request') }}"
+
+          - name: state_name
+            data_type: varchar
+
+          - name: delivery_fee
+            data_type: float
+            description: "{{ doc('rental_order_requests__delivery_fee') }}"
+
+          - name: jobsite_address_id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__jobsite_address_id') }}"
+            data_tests:
+              - not_null
+
+          - name: rpp_cost
+            data_type: float
+            description: "{{ doc('rental_order_requests__rpp_cost') }}"
+
+          - name: get_directions_link
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__get_directions_link') }}"
+
+          - name: shift_id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__shift_id') }}"
+
+          - name: rental_protection_plan
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__rental_protection_plan') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['STANDARD', 'SELF']
+                  config:
+                    severity: warn
+
+          - name: dropoff_option
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__dropoff_option') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['PAID', 'SELF']
+                  config:
+                    severity: warn
+
+          - name: timezone
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__timezone') }}"
+
+          - name: city
+            data_type: varchar
+
+          - name: taxes
+            data_type: float
+            description: "{{ doc('rental_order_requests__taxes') }}"
+
+          - name: shift_plan_multiplier
+            data_type: float
+            description: "{{ doc('rental_order_requests__shift_plan_multiplier') }}"
+
+          - name: latitude
+            data_type: varchar
+
+          - name: order_total
+            data_type: float
+            description: "{{ doc('rental_order_requests__order_total') }}"
+
+          - name: receiver_contact_name
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__receiver_contact_name') }}"
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('rental_order_requests__created_date') }}"
+
+          - name: delivery_option
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__delivery_option') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['PAID', 'SELF']
+                  config:
+                    severity: warn
+
+          - name: updated_at
+            data_type: timestamp_ntz
+            description: "{{ doc('is_null') }}"
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [null]
+                  config:
+                    severity: warn
+
+          - name: company_id
+            data_type: number
+            description: "{{ doc('rental_order_requests__company_id') }}"
+
+          - name: user_uuid
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__user_uuid') }}"
+            data_tests:
+              - not_null
+
+          - name: rpp_percentage
+            data_type: float
+            description: "{{ doc('rental_order_requests__rpp_percentage') }}"
+
+          - name: po_number
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__po_name') }}"
+
+          - name: quote_id
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__quote_id') }}"
+            data_tests:
+              - unique:
+                  arguments:
+                    where: "created_at >= '2024-12-07'"
+              - not_null:
+                  arguments:
+                    where: "created_at >= '2024-12-07'"
+              - relationships:
+                  arguments:
+                    to: source('quotes', 'quote')
+                    field: id
+                    where: "created_at >= '2024-12-07' AND created_at < DATEADD('day', -1, CURRENT_DATE)"     
+
+      - name: self_signup_accounts
+        description: "{{ doc('rental_order_requests__self_signup_accounts') }}"
+        columns:
+          - name: _es_update_timestamp
+            data_type: timestamp_tz
+            description: "{{ doc('_es_update_timestamp') }}"
+
+          - name: account_id
+            data_type: number
+            description: "{{ doc('rental_order_requests__account_id') }}"
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('rental_order_requests__user_created_at') }}"
+
+          - name: user_id
+            data_type: number
+            description: "{{ doc('es_user_id') }}"
+
+          - name: registration_type
+            data_type: varchar
+            description: "{{ doc('rental_order_requests__user_registration_type') }}"
+
+          - name: company_id
+            data_type: number
+            description: "{{ doc('es_company_id') }}"

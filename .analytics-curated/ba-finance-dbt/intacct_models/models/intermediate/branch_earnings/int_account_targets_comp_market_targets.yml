@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: int_account_targets_comp_market_targets
+    description: >
+      Computes comp-market account-level targets by aggregating monthly Branch Earnings actuals
+      and dividing by a comp-metric denominator (e.g., Annualized % of OEC, % of Rental Revenue, etc.)
+      over a trailing 12-month published period window.
+
+    columns:
+      - name: comp_markets_id
+        description: Identifier for the comp market group.
+        tests:
+          - not_null
+
+      - name: account_no
+        description: Source GL account number used for the target calculation.
+        tests:
+          - not_null
+
+      - name: account_name
+        description: Human-readable name of the GL account.
+        tests:
+          - not_null
+
+      - name: rev_exp
+        description: Revenue/Expense category (from plexi bucket mapping when available, otherwise source).
+        tests:
+          - not_null
+
+      - name: account_category
+        description: Display bucket/type (from plexi bucket mapping display_name when available, otherwise source type).
+        tests:
+          - not_null
+
+      - name: comp_metric
+        description: Metric flag determining the denominator used for target calculation.
+        tests:
+          - not_null
+
+      - name: account_target
+        description: >
+          Account-level target value computed as:
+          sum(adjusted comp_amount) / sum(comp_metric_amount).
+          For 'Annualized % of OEC', amounts are annualized (monthly * 12).
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - comp_markets_id
+            - account_no
+            - account_name

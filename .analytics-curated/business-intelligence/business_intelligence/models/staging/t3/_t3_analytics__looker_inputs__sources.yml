@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: analytics__looker_inputs
+    database: analytics
+    schema: looker_inputs
+    tables:
+      - name: telematics_regions
+        columns:
+          - name: _row
+            data_type: number
+          - name: telematics_region_name
+            data_type: varchar
+          - name: market_name
+            data_type: varchar
+          - name: market_id
+            data_type: number
+          - name: telematics_region
+            data_type: number
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+      - name: tracker_type_required
+        columns:
+          - name: asset_class
+            data_type: varchar
+          - name: make
+            data_type: varchar
+          - name: model
+            data_type: varchar
+          - name: tracker_req_type
+            data_type: varchar
+          - name: secondary_tracker
+            data_type: varchar
+          - name: keypad_req
+            data_type: varchar
+          - name: camera_req
+            data_type: varchar
+          - name: notes
+            data_type: varchar
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+          - name: _row
+            data_type: number
+          - name: has_can
+            data_type: varchar
+          - name: keypad_req_type
+            data_type: varchar

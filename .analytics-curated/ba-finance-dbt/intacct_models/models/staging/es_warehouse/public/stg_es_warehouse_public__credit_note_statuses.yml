@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_note_statuses
+    description: >
+      Credit notes can have statuses starting in May 2025. New statuses include pending, canceled, denied, and approved.
+      Credit notes from prior to the implementation were all marked approved.
+    columns:
+      - name: credit_note_status_id
+        description: "Primary key for a credit note status."
+        data_tests:
+          - not_null
+          - unique
+      - name: credit_note_status_name
+        description: "Name of the credit note status. E.g. pending, canceled, denied, approved."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: _es_load_timestamp
+        description: ""

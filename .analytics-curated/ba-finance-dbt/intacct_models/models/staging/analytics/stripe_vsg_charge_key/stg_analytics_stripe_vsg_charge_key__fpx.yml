@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__fpx
+    description: Unused as of 2025-10-16
+    columns:
+      - name: payment_method_id
+        description: "ID of the payment method associated with this FPX payment."
+        data_tests:
+          - not_null
+          - unique
+      - name: bank
+        description: "Bank used for the FPX payment."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

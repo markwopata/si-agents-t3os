@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_monthly_capitalization_static
+    description: "Monthly capitalization entries for major asset repairs (from INT_MAJOR_ASSET_REPAIR_CAPITALIZATION_SCHEDULE)."    
+    columns:
+      - name: pk
+        description: "Synthetic primary key (concat major_asset_repair_request_id - work_order_id - asset_id)."
+        data_tests:
+          - unique
+          - not_null
+      - name: mkt_id
+        description: "Branch / market identifier (branch_id from source)."
+      - name: mkt_name
+        description: "Market name from the market dimension."
+      - name: type
+        description: "Display name from plexi bucket mapping (pbm.display_name)."
+      - name: code
+        description: "Static code value ('GROUP')."
+      - name: revexp
+        description: "Revenue/expense indicator from plexi bucket mapping."
+      - name: dept
+        description: "Derived department value (right('GROUP', ...))."
+      - name: pr_type
+        description: "Purchase/request type (currently null placeholder in model)."
+      - name: gl_acct
+        description: "Sage GL account name from mapping (pbm.sage_name)."
+      - name: acctno
+        description: "Account number assigned in this model (constant 'IBABB')."
+      - name: descr
+        description: "Constructed description with payment number, asset, work order, POs, and WO description."
+      - name: gl_date
+        description: "General ledger date for the capitalization entry (scheduled_capitalization_date_adjusted from the capitalization schedule)."
+      - name: doc_no
+        description: "Document number (work order id)."
+      - name: ar_type
+        description: "Accounts receivable type (placeholder null in this model)."
+      - name: url_sage
+        description: "Link to Sage (placeholder null)."
+      - name: url_yooz
+        description: "Link to Yooz (placeholder null)."
+      - name: url_admin
+        description: "Admin/work-order URL to eStrack/T3 updates page for the work order."
+      - name: url_track
+        description: "Tracking URL (placeholder null)."
+      - name: amount
+        description: "Rounded monthly capitalization amount (sum of monthly_total_cap_amount); output as negative in the final select to reflect capitalization treatment."
+      - name: type2
+        description: "Additional type field (null placeholder)."
+      - name: metadata
+        description: "JSON/object metadata containing keys: asset_id, work_order_id, major_asset_repair_request_id (constructed via object_construct)."
+    tags:
+      - finance
+      - intacct
+      - capitalizations
+      - branch_earnings

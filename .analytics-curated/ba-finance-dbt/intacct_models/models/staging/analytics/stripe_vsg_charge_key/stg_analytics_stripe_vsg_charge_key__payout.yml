@@ -1,0 +1,59 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__payout
+    description: >
+      A Payout represents funds moving from a Stripe balance to an external bank account or card. Payouts can be
+      automatic or manual and follow country- and industry-specific schedules.
+    columns:
+      - name: id
+        description: "Unique identifier for the payout."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with the payout."
+      - name: amount_in_cents
+        description: "Amount of the payout in cents."
+      - name: amount
+        description: "Amount of the payout (cents / 100.0)."
+      - name: arrival_date
+        description: "Date the payout is expected to arrive in the bank."
+      - name: automatic
+        description: "True if created by an automated payout schedule; false if requested manually."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the payout, useful for display."
+      - name: failure_code
+        description: "Code explaining the reason for payout failure, if any."
+      - name: failure_message
+        description: "Message describing the payout failure, if any."
+      - name: livemode
+        description: "Indicates if this is a test payout."
+      - name: metadata
+        description: "Custom metadata in JSON string format."
+      - name: method
+        description: "Method used to send the payout (standard or instant)."
+      - name: reconciliation_status
+        description: "Internal reconciliation status for this payout."
+      - name: source_type
+        description: "Source balance the payout came from (card, fpx, or bank_account)."
+      - name: statement_descriptor
+        description: "Descriptor appearing on the recipient’s statement."
+      - name: status
+        description: "Current status of the payout (paid, pending, in_transit, canceled, or failed)."
+      - name: type
+        description: "Destination type (bank_account or card)."
+      - name: destination_bank_account_id
+        description: "ID of the bank account the payout was sent to."
+      - name: destination_card_id
+        description: "ID of the card the payout was sent to."
+      - name: balance_transaction_id
+        description: "ID of the balance transaction that describes the impact of this payout on your account balance (not including refunds or disputes). Foreign key to balance_transaction.id"
+      - name: failure_balance_transaction_id
+        description: "Balance transaction ID associated with a payout failure, if applicable."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,14 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_finalized_data
+    description: Finalized commission data. Union of details final and manual adjustments.
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - test_unique_after:
+              date_column: transaction_date
+              date_cutoff: "'2025-04-01'"
+              
+

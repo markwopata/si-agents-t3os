@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__pgn_category
+    description: Model for es_warehouse.public.pgn_category
+    columns:
+      - name: pgn_category_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: pgn_category_name
+        description: ""
+      - name: pgn_category_desc
+        description: ""

@@ -1,0 +1,97 @@
+---
+version: 2
+models:
+  - name: stg_analytics_claims__closed_auto_insurance_claims
+    description: "historical list of closed auto insurance claims filed by the ES branches to our captive insurance provider (Concor)" 
+    meta:
+      point_of_contact: Peter Mooney
+      google_drive_link: https://docs.google.com/spreadsheets/d/17Z0EKGQEfdGLluMSDTOPlZcr6ojf9aHalnpQ1l8FHjw/edit?gid=1972976689#gid=1972976689 
+
+    columns:
+      - name: asset_id
+        description: "{{ doc('admin_asset_id') }}"
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: total_due_from_third_party
+        description: "total amount that the third party in the accident owes to ES (Concor) in USD$"
+
+      - name: amount_collected_from_third_party
+        description: "total amount that has been collected so far from the third party in the accident in USD$"
+
+      - name: total_due_from_es
+        description: "Total amount that Concor owes to settle the claim in USD$"
+
+      - name: amount_paid_by_es
+        description: "Total amount that Concor has paid so far to settle the claim in USD$"
+
+      - name: asset_year
+        description: "the asset's year of manufacture"
+
+      - name: asset_model
+        description: "the asset's model"
+
+      - name: asset_make
+        description: "the asset's manufacturer brand"
+
+      - name: serial
+        description: "asset's serial number"
+
+      - name: license_plate
+        description: "the vehicle's license plate number"
+
+      - name: general_manager
+        description: ""
+
+      - name: file_notes
+        description: ""
+
+      - name: repair_invoice
+        description: ""
+
+      - name: market_name
+        description: ""
+
+      - name: driver_full_name
+        description: ""
+
+      - name: driver_type
+        description: "whether the driver is an employee, customer, contractor, or other"
+
+      - name: at_fault_payer
+        description: "who is responsible for the accident costs, e.g., third party, ES, or customer"
+
+      - name: last_action_taken
+        description: ""
+
+      - name: es_vehicle_damage
+        description: "is there damage to the ES vehicle? (yes/no)"
+
+      - name: is_material_loss
+        description: "does the claim involve material loss? (yes/no)"
+
+      - name: status
+        description: ""
+
+      - name: status_comments
+        description: ""
+
+      - name: google_drive_link
+        description: ""
+
+      - name: date_of_loss
+        description: "the date in which the accident occurred"
+
+      - name: last_action_taken_date
+        description: "date on when the latest action on the claim has taken place"
+
+      - name: repair_date
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+                

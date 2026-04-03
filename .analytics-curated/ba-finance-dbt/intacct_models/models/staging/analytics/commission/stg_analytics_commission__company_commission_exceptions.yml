@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__company_commission_exceptions
+    description: Model for analytics.commission.company_commission_exceptions
+    columns:
+      - name: company_exception_id
+        data_tests:
+          - not_null
+          - unique
+        description: ""
+      - name: company_id
+        data_tests:
+          - not_null
+        description: ""
+      - name: start_date
+        data_tests:
+          - not_null
+        description: ""
+      - name: end_date
+        data_tests:
+          - not_null
+        description: ""
+      - name: exception_type_id
+        data_tests:
+          - not_null
+        description: ""
+      - name: override_rate
+        description: ""
+      - name: line_item_type_id
+        description: ""

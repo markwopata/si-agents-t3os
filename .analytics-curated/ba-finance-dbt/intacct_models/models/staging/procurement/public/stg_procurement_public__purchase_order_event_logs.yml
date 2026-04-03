@@ -1,0 +1,79 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_order_event_logs
+    description: Model for procurement.public.purchase_order_event_logs
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: event_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: purchase_order_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: changes
+        description: ""
+      - name: event_type
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: changes__receiver_id
+        description: Extracted from json in column changes (roughly changes:receiver_id)
+      - name: changes__fieldschanged__vendorsnapshotid
+        description: Extracted from json in column changes (roughly changes:fieldschanged:vendorsnapshotid)
+      - name: changes__fieldschanged__vendorsnapshotid__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:vendorsnapshotid:after)
+      - name: changes__fieldschanged__promisedate
+        description: Extracted from json in column changes (roughly changes:fieldschanged:promisedate)
+      - name: changes__fieldschanged__costcentersnapshotid__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:costcentersnapshotid:after)
+      - name: changes__amountapproved
+        description: Extracted from json in column changes (roughly changes:amountapproved)
+      - name: changes__editedlineitems
+        description: Extracted from json in column changes (roughly changes:editedlineitems)
+      - name: changes__fieldschanged__promisedate__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:promisedate:before)
+      - name: changes__fieldschanged__costcentersnapshotid
+        description: Extracted from json in column changes (roughly changes:fieldschanged:costcentersnapshotid)
+      - name: changes__fieldschanged__costcentersnapshotid__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:costcentersnapshotid:before)
+      - name: changes__fieldschanged__promisedate__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:promisedate:after)
+      - name: changes__fieldschanged__delivertosnapshotid__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:delivertosnapshotid:after)
+      - name: changes__fieldschanged__delivertosnapshotid__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:delivertosnapshotid:before)
+      - name: changes__fieldschanged__reference__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:reference:after)
+      - name: changes__fieldschanged__storeid
+        description: Extracted from json in column changes (roughly changes:fieldschanged:storeid)
+      - name: changes__adjustments
+        description: Extracted from json in column changes (roughly changes:adjustments)
+      - name: changes__addedlineitems
+        description: Extracted from json in column changes (roughly changes:addedlineitems)
+      - name: changes__fieldschanged__vendorsnapshotid__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:vendorsnapshotid:before)
+      - name: changes__removedlineitems
+        description: Extracted from json in column changes (roughly changes:removedlineitems)
+      - name: changes__fieldschanged__reference__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:reference:before)
+      - name: changes__fieldschanged__storeid__after
+        description: Extracted from json in column changes (roughly changes:fieldschanged:storeid:after)
+      - name: changes__amountapproved__currencycode
+        description: Extracted from json in column changes (roughly changes:amountapproved:currencycode)
+      - name: changes__fieldschanged
+        description: Extracted from json in column changes (roughly changes:fieldschanged)
+      - name: changes__fieldschanged__delivertosnapshotid
+        description: Extracted from json in column changes (roughly changes:fieldschanged:delivertosnapshotid)
+      - name: changes__amountapproved__amount
+        description: Extracted from json in column changes (roughly changes:amountapproved:amount)
+      - name: changes__fieldschanged__reference
+        description: Extracted from json in column changes (roughly changes:fieldschanged:reference)
+      - name: changes__fieldschanged__storeid__before
+        description: Extracted from json in column changes (roughly changes:fieldschanged:storeid:before)

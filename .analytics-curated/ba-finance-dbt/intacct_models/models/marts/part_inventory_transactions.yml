@@ -1,0 +1,168 @@
+---
+version: 2
+models:
+  - name: part_inventory_transactions
+    description: >
+      Consolidated store-level part inventory movements, built from T3 inventory `transactions` +
+      `transaction_items`, enriched with store/market context, part hierarchy (root part), and costing.
+
+      Each row represents a single transaction line item (`transaction_item_id`) from the perspective of the store
+      whose inventory is affected:
+      - "Store to *" movements are represented as negative quantities/amounts (inventory leaves the store).
+      - "* to Store" movements are represented as positive quantities/amounts (inventory enters the store).
+      - Store-to-Store transfers therefore produce two rows (one negative for the origin store and one positive for the
+        destination store).
+    config:
+      tags: ["hourly", "inventory"]
+    columns:
+      - name: store_id
+        description: >
+          Store (inventory location) whose on-hand inventory is impacted by the transaction.
+          For "Store to *" rows this is the origin store; for "* to Store" rows this is the destination store.
+      - name: store_name
+        description: "Human-readable store name for `store_id` from inventory locations."
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+      - name: transaction_type_id
+        description: "Numeric transaction type identifier from inventory transaction types."
+        data_tests:
+          - not_null
+      - name: transaction_type
+        description: >
+          Transaction type name (e.g., Store to Work Order, Purchase Order to Store). Used to determine the sign
+          of `quantity` and which IDs/URLs are populated.
+      - name: manual_adjustment_reason_id
+        description: >
+          Store to Adjustment transactions have a manual adjustment reason. The manual adjustment reasons table stores 
+          the reasons for the adjustment. Foreign key to manual adjustment reasons table.
+      - name: manual_adjustment_reason
+        description: "Reason text for manual adjustments. This is the reason text from the manual adjustment reasons table."
+      - name: transaction_status
+        description: "Transaction status name from inventory transaction statuses. e.g. Completed, Cancelled"
+      - name: quantity
+        description: >
+          Signed quantity moved for this line item. Negative values reduce store inventory ("Store to *");
+          positive values increase store inventory ("* to Store").
+      - name: cost
+        description: >
+          Unit cost from `stg_store_part_costs` for the store+root-part at the time of transaction creation
+          (time-bounded by `date_created`).
+      - name: amount
+        description: "Total transaction amount calculated as quantity * cost."
+      - name: weighted_average_cost
+        description: >
+          Weighted average cost (WAC) for the store + root part. This is the WAC at the time of the transaction.
+      - name: wac_extended_amount
+        description: >
+          Signed total amount calculated as quantity * weighted_average_cost.
+      - name: store_part_id
+        description: >
+          Store-part identifier from `stg_es_warehouse_inventory__store_parts`, joining the store to the
+          canonical (root) part.
+      - name: store_part_cost_id
+        description: "Store-part cost identifier from `stg_store_part_costs` used to provide `cost`."
+      - name: part_id
+        description: "Part identifier from `stg_parts` as recorded on the transaction item."
+      - name: part_number
+        description: "Part number describing the part e.g. AX123456"
+      - name: description
+        description: "Part description"
+      - name: root_part_id
+        description: >
+          Root (canonical) part identifier. Used for cost/WAC joins so that variant parts roll up to a single
+          inventory costing identity.
+      - name: root_part_number
+        description: "Root (canonical) part number."
+      - name: root_part_description
+        description: "Root (canonical) part description."
+      - name: from_id
+        description: >
+          Origin entity ID from the transaction record (meaning depends on `transaction_type`; can be a store,
+          work order, invoice, rental, etc.).
+      - name: to_id
+        description: >
+          Destination entity ID from the transaction record (meaning depends on `transaction_type`; can be a store,
+          work order, invoice, rental, etc.).
+      - name: cost_per_item
+        description: >
+          Per-item cost recorded on the transaction item. This model primarily uses `cost` and `weighted_average_cost`
+          for reporting/valuation rather than relying on this field. Choosing not to trust this field at this time.
+      - name: created_by_user_id
+        description: "User ID of the creator of the transaction item from `stg_es_warehouse_public__users`."
+      - name: created_by_username
+        description: "{{ doc('created_by_username') }}"
+      - name: updated_by_user_id
+        description: "User ID of the last modifier of the transaction item from `stg_es_warehouse_public__users`."
+      - name: updated_by_user_name
+        description: "Username of the last modifier of the transaction item."
+      - name: transaction_id
+        description: >
+          Transaction header identifier from `stg_es_warehouse_inventory__transactions`. A single transaction can
+          contain multiple line items.
+        data_tests:
+          - not_null
+      - name: transaction_item_id
+        description: "Transaction line-item identifier from `stg_es_warehouse_inventory__transaction_items`."
+        data_tests:
+          - not_null
+      - name: wac_snapshot_id
+        description: "Identifier of the WAC snapshot associated to the transaction item (when provided upstream)."
+      - name: memo
+        description: "Freeform memo from the transaction header."
+      - name: custom_id
+        description: ""
+      - name: from_uuid_id
+        description: "UUID version of `from_id` when the origin entity uses UUID identifiers. (purchase orders)"
+      - name: to_uuid_id
+        description: "UUID version of `to_id` when the destination entity uses UUID identifiers. (purchase orders)"
+      - name: split_from
+        description: "Identifier indicating this transaction item was split from another item (when applicable)."
+      - name: transaction_group_id
+        description: "Grouping identifier for related transaction headers. May be null. (work orders)"
+      - name: date_completed
+        description: "Datetime the transaction was completed"
+      - name: date_cancelled
+        description: "Datetime the transaction was cancelled"
+      - name: quantity_ordered
+        description: "Quantity ordered on the transaction item (when applicable), separate from `quantity_received`."
+      - name: date_created
+        description: >
+          Creation timestamp of the transaction item. Used to select the effective store-part cost record (`cost`)
+          for the transaction.
+      - name: month_
+        description: "Start date of the month this transaction was completed."
+      - name: work_order_id
+        description: >
+          Work order identifier when the transaction is a Work Order ↔ Store movement; null otherwise.
+      - name: purchase_order_id
+        description: >
+          Purchase order UUID when the transaction is a Purchase Order ↔ Store movement; null otherwise.
+      - name: invoice_id
+        description: >
+          Invoice identifier when the transaction is a Retail Sale ↔ Store movement; null otherwise.
+      - name: rental_id
+        description: >
+          Rental identifier when the transaction is a Rental ↔ Store movement; null otherwise.
+      - name: url_t3
+        description: "{{ doc('url_t3_general') }}"
+      - name: url_admin
+        description: >
+          Admin URL to the related entity (invoice/rental) when applicable, based on `transaction_type_id`;
+          null otherwise.
+      - name: src
+        description: >
+          Indicates which side of the union produced the row:
+          `negatives` for "Store to *" (reductions) and `positives` for "* to Store" (increases).
+        data_tests:
+          - not_null
+      - name: pk_part_inventory_transactions_id
+        data_tests:
+          - not_null
+          - unique
+        description: >
+          Surrogate primary key for this model, formed as `transaction_item_id` plus a source suffix
+          (`negatives` / `positives`) to keep Store-to-Store transfers unique across both sides of the movement.
+      - name: manual_adjustment_id
+        description: "Manual adjustment identifier when the transaction item is linked to a manual adjustment; null otherwise."

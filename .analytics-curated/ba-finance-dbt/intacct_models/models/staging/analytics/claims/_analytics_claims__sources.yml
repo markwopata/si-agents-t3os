@@ -1,0 +1,103 @@
+---
+version: 2
+
+sources:
+  - name: analytics_claims
+    tags: ["sources"]
+    database: analytics
+    schema: claims
+    description: >
+      data in analytics.claims (analytics database / claims schema) used for claims purposes (via BA ETL scripts).
+      claims are obligations to pay money that arises
+    tables:
+      - name: worker_comp_claims
+        identifier: wc_loss_run
+        description: >
+          List of Workers Compensation claims filed by the ES branches to our claims provider (Hartford).  This is a historical detail that provides the claim number
+          along with its, acccident date, the type of claim, and amounts paid and outstanding. This table is synced through Fivetran from a Google Sheet.
+        meta:
+          generated_from: Google Sheets
+          url: https://docs.google.com/spreadsheets/d/1gkHdG9DS5ghcy9_gE3tDATWOHy4-XMIX8DLyLbFnLqA/edit?gid=0#gid=0
+        columns:
+          - name: claim_number
+            data_tests:
+              - unique
+
+      - name: employee_worker_comp_claims_detail
+        identifier: wc_injuries_internal
+        description: >
+          historical worker's compensation injury tracker list based on the WC Loss Runs from Hartford. It includes more detail and information such as the market id and employee id.
+          In addition, there's employee specific information such their title and work location at the time of the injury.
+        meta:
+          generated_from: Google Sheets
+          url: https://docs.google.com/spreadsheets/d/1idfKsSF3FPnIvVR0Qo3uUXRAJM0-nDgd-cyDllODaEA/edit?gid=0#gid=0
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - claim_number
+                - employee_
+              severity: warn
+              where: "claim_number is not null and employee_ is not null"
+
+      - name: open_auto_insurance_claims
+        identifier: es_fleet_on_road
+        description: >
+          tracks the EquipmentShare vehicle accidents on the road that are still open and have not yet been closed and finalized. These are claims that can still incur charges.
+          It includes the claim number, accident date, and who is at fault (ES or OVD). These claims are used to build the auto insurance premium recovery.
+          One asset number can be in multiple claims and thus have multiple file_notes
+        meta:
+          generated_from: Google Sheets
+          url: https://docs.google.com/spreadsheets/d/17Z0EKGQEfdGLluMSDTOPlZcr6ojf9aHalnpQ1l8FHjw/edit?gid=336842118#gid=336842118
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_number
+                - file_notes                                        
+
+      - name: closed_auto_insurance_claims
+        identifier: es_fleet_on_road_closed
+        description: >
+          tracks the EquipmentShare fleet accidents on the road that and are closed. Unless the claim is reopened, this represents the final state of the claim and paid amounts
+          It includes the claim number, accident date, and who is at fault (ES or OVD). These claims are used to build the auto insurance premium recovery.
+          One asset number can be in multiple claims and thus have multiple file_notes
+        meta:
+          generated_from: Google Sheets
+          url: https://docs.google.com/spreadsheets/d/17Z0EKGQEfdGLluMSDTOPlZcr6ojf9aHalnpQ1l8FHjw/edit?gid=1972976689#gid=1972976689
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - asset_number
+                - file_notes
+
+      - name: worker_comp_insurance_rates_per_employee
+        identifier: per_employee_rates
+        description: >
+          Calculates the annual premium rates that will be charges to each branch based on claims rate and employee count. The bounds represent the accident rate the market falls
+          falls into. The per employee rate is the annualized premium per employee charged to the branch.
+        meta:
+          generated_from: work_comp_premium_recovery.py
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/insurance/work_comp_premium_recovery.py
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - lower_bound
+                - _es_update_timestamp                    
+
+      - name: auto_insurance_rates_per_vehicle
+        identifier: per_vehicle_rates
+        description: >
+          Calculates the annual premium rates that will be charges to each branch based on claims rate and vehicle (fleet) count. The bounds represent the accident rate the market falls
+          falls into which are represented as material losses and ES being at fault. The per vehicle rate is the annualized premium per vehicle charged to the branch.
+        meta:
+          generated_from: auto_premium_recovery.py
+          url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-finance/-/blob/main/internal_reporting/insurance/auto_premium_recovery.py
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - lower_bound
+                - _es_update_timestamp          

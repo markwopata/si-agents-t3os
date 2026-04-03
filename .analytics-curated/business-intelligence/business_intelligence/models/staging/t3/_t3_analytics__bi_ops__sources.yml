@@ -1,0 +1,61 @@
+version: 2
+
+sources:
+  - name: analytics__bi_ops
+    database: analytics
+    schema: bi_ops
+    tables:
+      - name: asset_ownership
+        columns:
+            - name: asset_id
+              data_type: number
+            - name: asset_company_id
+              data_type: number               
+            - name: asset_company_owner
+              data_type: varchar
+            - name: market_id
+              data_type: number
+            - name: market_name
+              data_type: varchar
+            - name: rentable
+              data_type: boolean
+            - name: market_company_id
+              data_type: number
+            - name: market_company_name
+              data_type: varchar
+            - name: ownership
+              data_type: varchar
+      
+      - name: parent_company_relationships
+        columns:
+          - name: record_created_timestamp
+            data_type: timestamp_ntz(9)
+          - name: company_id
+            data_type: number
+          - name: parent_company_id
+            data_type: number
+          - name: created_by_email
+            data_type: varchar
+
+      - name: national_account_info
+        columns:
+          - name: na_info_id
+            data_type: number
+          - name: record_creation_date
+            data_type: timestamp_ntz(9)
+          - name: created_by_email
+            data_type: varchar
+          - name: company_id
+            data_type: number
+          - name: region
+            data_type: number
+          - name: coordinator_user_id
+            data_type: number
+          - name: account_folder_url
+            data_type: varchar
+          - name: notes
+            data_type: varchar
+          - name: nac_2_user_id
+            data_type: number
+          - name: nac_3_user_id
+            data_type: number

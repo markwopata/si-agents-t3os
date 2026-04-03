@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_analytics_revmodel__account_mapping3
+    description: Model for analytics.revmodel.account_mapping3
+    columns:
+      - name: accountno
+        description: "Intacct GL account number"
+        data_tests:
+          - not_null
+      - name: title
+        description: "Intacct GL account name"
+      - name: accounttype
+        description: "Type of account (incomestatement, balancesheet)"
+      - name: category
+        description: "Account category from glaccount table."
+      - name: internal_is_grouping
+        description: "Mapping value (Equipment Rentals, Equipment Sales, etc.)"
+      - name: cost_revenue
+        description: "Indicates if the account is a cost or revenue account."
+      - name: statement_group
+        description: "Which grouping the account falls under (COGS, Revenues, Income Tax, etc.)"
+      - name: amortization_flag
+        description: "Boolean indicating if the account is used for amortization"
+      - name: capitalization_cost_flag
+        description: "Boolean indicating if the account is used for capitalization costs"
+      - name: new_market_startup_eligible_flag
+        description: "Indicates if the account is eligible for new market startup"
+      - name: rent_expense_flag
+        description: "Boolean indicating if the account is used for rent expenses"
+      - name: comment
+        description: "Comments or notes about the account"
+      - name: last_comment
+        description: "Last comment or note about the account"
+      - name: non_recurring_flag
+        description: "Indicates if the account is non-recurring"
+      - name: normalbalance
+        description: "Normal balance of the account (debit or credit)"

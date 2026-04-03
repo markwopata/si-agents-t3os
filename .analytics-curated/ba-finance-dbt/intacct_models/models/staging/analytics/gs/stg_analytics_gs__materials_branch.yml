@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__materials_branch
+    description: Table for mapping bisTrack branches to Sage GL codes.
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: bt_branch_code
+        description: "Code representing the branch in bisTrack, Maps to Sage GL."
+        data_tests:
+          - not_null
+          - unique
+      - name: market_id
+        description: "Market id for ES connects to bistrack branch code"
+      - name: market_name
+        description: "Market name for ES"
+      - name: bt_start_date
+        description: "Start date for the branch in bisTrack."
+      - name: square_footage
+        description: "Square footage for the sellable area of the branch (should not include office space)."
+  

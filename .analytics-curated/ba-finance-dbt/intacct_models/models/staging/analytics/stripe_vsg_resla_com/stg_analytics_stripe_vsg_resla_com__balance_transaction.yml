@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__balance_transaction
+    description: >
+      Balance transactions represent funds moving through your Stripe account. They're created for every type of
+      transaction that comes into or flows out of your Stripe account balance.
+    meta:
+      documentation_url: https://docs.stripe.com/api/balance_transactions
+    columns:
+      - name: id
+        description: "Unique identifier for the balance transaction."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the account connected to the transaction."
+      - name: amount_in_cents
+        description: "Amount of the balance transaction in cents."
+      - name: amount
+        description: "Amount of the balance transaction (cents / 100.0)."
+      - name: available_on
+        description: "Date the transaction’s net funds become available in the Stripe balance."
+      - name: date_created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: description
+        description: "Arbitrary string attached to the object, useful for display."
+      - name: exchange_rate
+        description: "Exchange rate used, if the transaction involved currency conversion."
+      - name: fee_amount_in_cents
+        description: "Amount of the fee in cents."
+      - name: fee_amount
+        description: "Amount of the fee (cents / 100.0)."
+      - name: net_amount_in_cents
+        description: "Amount of the net in cents."
+      - name: net_amount
+        description: "Amount of the net (cents / 100.0)."
+      - name: source
+        description: "Stripe object to which this transaction relates (for example a charge or payout)."
+      - name: status
+        description: "Whether the transaction’s net funds are available in the Stripe balance (available or pending)."
+      - name: type
+        description: "Type of transaction (e.g., charge, payout, refund, stripe_fee)."
+      - name: reporting_category
+        description: "Grouping field for finance and reporting purposes."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: payout_id
+        description: "Foreign key to payout.id"

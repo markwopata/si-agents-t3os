@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__suspect_parameter_numbers
+    description: Model for es_warehouse.public.suspect_parameter_numbers
+    columns:
+      - name: suspect_parameter_number_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__sepa_debit
+    description: Unused as of 2025-10-16
+    columns:
+      - name: payment_method_id
+        description: "ID of the payment method associated with this SEPA debit."
+        data_tests:
+          - not_null
+          - unique
+      - name: bank_code
+        description: "SEPA bank code."
+      - name: branch_code
+        description: "SEPA branch code."
+      - name: country
+        description: "Two-letter country code."
+      - name: fingerprint
+        description: "Uniquely identifies this bank account across SEPA debits."
+      - name: last_4
+        description: "Last four digits of the bank account."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

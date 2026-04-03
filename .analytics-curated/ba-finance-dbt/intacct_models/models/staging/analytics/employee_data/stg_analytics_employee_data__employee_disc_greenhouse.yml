@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_analytics_employee_data__employee_disc_greenhouse
+    description: ""
+    columns:
+      - name: employee_id
+        description: ""
+        data_tests:
+            - unique
+
+      - name: application_id
+        description: ""
+
+      - name: candidate_id
+        description: ""
+
+      - name: disc_code
+        description: ""
+
+      - name: employee_status
+        description: ""
+
+      - name: work_email
+        description: ""
+
+      - name: first_name
+        description: ""
+
+      - name: last_name
+        description: ""
+
+      - name: candidate_full_name
+        description: ""
+
+      - name: employee_title
+        description: ""
+
+      - name: disc_link
+        description: ""
+
+      - name: greenhouse_link
+        description: ""
+
+      - name: date_hired
+        description: ""
+
+      - name: date_terminated
+        description: ""

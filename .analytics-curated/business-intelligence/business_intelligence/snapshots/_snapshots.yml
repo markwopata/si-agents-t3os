@@ -1,0 +1,11 @@
+version: 2
+
+snapshots:
+  - name: snapshot_company_activity_status
+    description: "{{ doc('snapshot_company_activity_status') }}"
+
+  - name: stg_t3__telematics_health_snapshot_daily
+    description: "{{ doc('stg_t3__telematics_health_snapshot_daily') }}"
+
+  - name: stg_t3__telematics_health_snapshot_hourly
+    description: "{{ doc('stg_t3__telematics_health_snapshot_hourly') }}"

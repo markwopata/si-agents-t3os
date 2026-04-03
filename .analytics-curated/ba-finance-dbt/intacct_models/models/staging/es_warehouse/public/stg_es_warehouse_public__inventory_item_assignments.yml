@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__inventory_item_assignments
+    description: Model for es_warehouse.public.inventory_item_assignments
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: inventory_item_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: return_delivery_id
+        description: ""
+      - name: inventory_item_name
+        description: ""
+      - name: inventory_item_quantity
+        description: ""
+      - name: inventory_item_quantity_returned
+        description: ""
+      - name: inventory_item_quantity_purchased
+        description: ""
+      - name: inventory_location_id
+        description: ""
+      - name: inventory_item_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: end_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: drop_off_delivery_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

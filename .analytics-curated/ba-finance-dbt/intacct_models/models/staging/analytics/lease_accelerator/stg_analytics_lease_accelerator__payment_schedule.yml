@@ -1,0 +1,101 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_lease_accelerator__payment_schedule
+    description: the most recent downloaded report of LAS' Payment Schedule Report
+    data_tests:
+        - dbt_expectations.expect_compound_columns_to_be_unique:
+            column_list:
+            - schedule_number
+            - payment_date
+    columns:
+      - name: schedule_number
+        description: ""
+
+      - name: payment_date
+        description: ""
+
+      - name: _es_update_timestamp
+        description: ""
+
+      - name: ledger_code
+        description: ""
+
+      - name: ledger_category
+        description: ""
+
+      - name: funder
+        description: ""
+
+      - name: bu
+        description: ""
+
+      - name: pr_number
+        description: ""
+
+      - name: po_number
+        description: ""
+
+      - name: accounting_classification
+        description: ""
+
+      - name: coa_signed
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: lease_type
+        description: ""
+
+      - name: lease_genre
+        description: ""
+
+      - name: term
+        description: ""
+
+      - name: payment_frequency
+        description: ""
+
+      - name: transactional_currency
+        description: ""
+
+      - name: last_renewal
+        description: ""
+
+      - name: renewal_term
+        description: ""
+
+      - name: mos_left
+        description: ""
+
+      - name: payment_amount
+        description: ""
+
+      - name: current_lease_payment_reporting_currency_
+        description: ""
+
+      - name: current_lease_payment_transactional_currency_
+        description: ""
+
+      - name: amount_financed_reporting_currency_
+        description: ""
+
+      - name: amount_financed_transactional_currency_
+        description: ""
+
+      - name: period_start_date
+        description: ""
+
+      - name: original_end_date
+        description: ""
+
+      - name: booking_ledger_date
+        description: ""
+
+      - name: lease_start_date
+        description: ""
+
+      - name: effective_end_date
+        description: ""

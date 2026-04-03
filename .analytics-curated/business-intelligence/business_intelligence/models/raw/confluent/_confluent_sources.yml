@@ -1,0 +1,19 @@
+
+version: 2
+
+sources:
+  - name: confluent
+    description: "Kafka streams from Confluent"
+    database: confluent
+    schema: public
+    tables:
+      - name: operator_assignments
+        description: "{{ doc('confluent__operator_assignments') }}"
+        columns:
+          - name: record_metadata
+            data_type: variant
+            description: "{{ doc('confluent__record_metadata') }}"
+
+          - name: record_content
+            data_type: variant
+            description: "{{ doc('confluent__record_content') }}"

@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_analytics_service__major_asset_repair_requests
+    description: "Renamed/standardized fields from analytics_service.major_asset_repair_requests."
+    columns:
+      - name: major_asset_repair_request_id
+        description: "Primary identifier for the major asset repair request (renamed from major_asset_repair_requests_id)."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: work_order_id
+        description: "Work order identifier. One WO per major asset repair request."
+
+      - name: is_current
+        description: "Flag indicating whether the record is the current version/most recent submission."
+
+      - name: depreciation_flag
+        description: "Flag indicating whether request passed capitalization criteria."
+
+      - name: is_dispute_review
+        description: "Flag indicating whether the request is created by the dispute process approval."
+
+      - name: disputed
+        description: "If depreciation_flag is false; Flag indicating whether the request/work order is disputed by user."
+
+      - name: work_order_date_billed
+        description: "Timestamp/date when the work order was billed."
+
+      - name: created_date
+        description: "Timestamp/date when the record was created in the source Retool app."
+
+      - name: effective_date
+        description: "Timestamp/date when the record became effective in the source system."
+
+      - name: branch_id
+        description: "Branch foreign key."
+
+      - name: asset_id
+        description: "asset being capitalized.{{ doc('admin_asset_id') }}"
+
+      - name: user_id
+        description: "User foreign key (creator/requestor)"
+
+      - name: created_by
+        description: "Identifier for the user who created the record (source field created_by)."
+
+      - name: depreciation_period
+        description: "Number of Depreciation period (units per source system)."
+
+      - name: t3_labor_cost
+        description: "Labor cost component."
+
+      - name: t3_part_cost
+        description: "Parts cost component."
+
+      - name: outside_service_cost
+        description: "Outside service cost component."
+
+      - name: combined_work_order_cost
+        description: "Total combined cost of the work order."
+
+      - name: purchase_orders
+        description: "Purchase order references (free-form)."
+
+      - name: failed_conditions
+        description: "Failed condition notes / descriptions (free-form)."
+
+      - name: disputed_note
+        description: "Notes/details explaining the dispute (free-form)."
+
+      - name: dispute_note
+        description: "Additional dispute notes (free-form)."

@@ -1,0 +1,1094 @@
+version: 2
+
+models:
+
+  - name: dim_assets_bi
+    description: "{{ doc('dim_assets_bi') }}"
+    columns:
+      - name: asset_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_key') }}"
+        data_tests:
+          - unique
+
+      - name: asset_source
+        data_type: varchar
+        description: "{{ doc('platform__asset_source') }}"
+
+      - name: asset_id
+        data_type: number
+        description: "{{ doc('platform__asset_id') }}"
+
+      - name: asset_active
+        data_type: boolean
+        description: "{{ doc('platform__asset_active') }}"
+
+      - name: asset_year
+        data_type: number
+        description: "{{ doc('platform__asset_year') }}"
+
+      - name: asset_description
+        data_type: varchar
+        description: "{{ doc('platform__asset_description') }}"
+
+      - name: asset_vin
+        data_type: varchar
+        description: "{{ doc('platform__asset_vin') }}"
+
+      - name: asset_serial_number
+        data_type: varchar
+        description: "{{ doc('platform__asset_serial_number') }}"
+
+      - name: asset_inventory_market_id
+        data_type: varchar
+        description: "{{ doc('platform__asset_inventory_market_id') }}"
+
+      - name: asset_inventory_market_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_inventory_market_key') }}"
+
+      - name: asset_rental_market_id
+        data_type: varchar
+        description: "{{ doc('platform__asset_rental_market_id') }}"
+
+      - name: asset_rental_market_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_rental_market_key') }}"
+
+      - name: asset_service_market_id
+        data_type: varchar
+        description: "{{ doc('platform__asset_service_market_id') }}"
+
+      - name: asset_service_market_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_service_market_key') }}"
+
+      - name: asset_market_id
+        data_type: varchar
+        description: "{{ doc('platform__asset_market_id') }}"
+
+      - name: asset_market_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_market_key') }}"
+
+      - name: asset_company_id
+        data_type: varchar
+        description: "{{ doc('platform__asset_company_id') }}"
+
+      - name: asset_company_key
+        data_type: varchar
+        description: "{{ doc('platform__asset_company_key') }}"
+
+      - name: asset_tracker_id
+        data_type: number
+        description: "{{ doc('platform__asset_tracker_id') }}"
+
+      - name: asset_equipment_make
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_make') }}"
+
+      - name: asset_equipment_type
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_type') }}"
+
+      - name: asset_equipment_model_name
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_model_name') }}"
+
+      - name: asset_equipment_class_name
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_class_name') }}"
+
+      - name: asset_equipment_subcategory_name
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_subcategory_name') }}"
+
+      - name: asset_equipment_category_name
+        data_type: varchar
+        description: "{{ doc('platform__asset_equipment_category_name') }}"
+
+      - name: asset_equipment_contractor_owned
+        data_type: boolean
+        description: "{{ doc('platform__asset_equipment_contractor_owned') }}"
+
+      - name: asset_payout_program
+        data_type: varchar
+        description: "{{ doc('platform__asset_payout_program') }}"
+
+      - name: asset_payout_program_type
+        data_type: varchar
+        description: "{{ doc('platform__asset_payout_program_type') }}"
+
+      - name: asset_payout_program_billing_type
+        data_type: varchar
+        description: "{{ doc('platform__asset_payout_program_billing_type') }}"
+
+      - name: asset_payout_program_percentage
+        data_type: number
+        description: "{{ doc('platform__asset_payout_program_percentage') }}"
+
+      - name: asset_oem_delivery_date
+        data_type: date
+        description: "{{ doc('platform__asset_oem_delivery_date') }}"
+
+      - name: asset_purchase_date
+        data_type: date
+        description: "{{ doc('platform__asset_purchase_date') }}"
+
+      - name: asset_date_created
+        data_type: date
+        description: "{{ doc('platform__asset_date_created') }}"
+
+      - name: asset_date_updated
+        data_type: date
+        description: "{{ doc('platform__asset_date_updated') }}"
+
+      - name: asset_current_oec
+        data_type: number
+        description: "{{ doc('platform__asset_current_oec') }}"
+
+      - name: asset_rentable
+        data_type: boolean
+        description: "{{ doc('platform__asset_rentable') }}"
+
+      - name: asset_first_rental_start_date
+        data_type: date
+        description: "{{ doc('platform__asset_first_rental_start_date') }}"
+
+      - name: asset_most_recent_on_rent_date
+        data_type: date
+        description: "{{ doc('platform__asset_most_recent_on_rent_date') }}"
+
+      - name: asset_inventory_status
+        data_type: varchar
+        description: "{{ doc('platform__asset_inventory_status') }}"
+
+      - name: asset_inventory_status_date
+        data_type: date
+        description: "{{ doc('platform__asset_inventory_status_date') }}"
+
+      - name: asset_hours
+        data_type: number
+        description: "{{ doc('platform__asset_hours') }}"
+
+      - name: asset_odometer
+        data_type: number
+        description: "{{ doc('platform__asset_odometer') }}"
+
+      - name: asset_underperforming_flag
+        data_type: boolean
+        description: "{{ doc('platform__asset_underperforming_flag') }}"
+
+      - name: asset_never_rented
+        data_type: boolean
+        description: "{{ doc('platform__asset_never_rented') }}"
+
+      - name: asset_net_book_value
+        data_type: number
+        description: "{{ doc('platform__asset_net_book_value') }}"
+
+      - name: asset_ifta_reporting
+        data_type: boolean
+        description: "{{ doc('platform__asset_ifta_reporting') }}"
+
+      - name: asset_alert_enter_geofence
+        data_type: boolean
+        description: "{{ doc('platform__asset_alert_enter_geofence') }}"
+
+      - name: asset_alert_exit_geofence
+        data_type: boolean
+        description: "{{ doc('platform__asset_alert_exit_geofence') }}"
+
+      - name: asset_last_location
+        data_type: varchar
+        description: "{{ doc('platform__asset_last_location') }}"
+
+      - name: asset_ownership
+        data_type: varchar
+        description: "{{ doc('asset_ownership') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_dates_bi
+    description: "{{ doc('dim_dates_bi') }}"
+    columns:
+      - name: dt_key
+        data_type: varchar
+        description: "{{ doc('platform__dt_key') }}"
+
+      - name: dt_date
+        data_type: date
+        description: "{{ doc('platform__dt_date') }}"
+
+      - name: dt_year
+        data_type: number
+        description: "{{ doc('platform__dt_year') }}"
+
+      - name: dt_month
+        data_type: number
+        description: "{{ doc('platform__dt_month') }}"
+
+      - name: dt_month_name
+        data_type: varchar
+        description: "{{ doc('platform__dt_month_name') }}"
+
+      - name: dt_period
+        data_type: varchar
+        description: "{{ doc('platform__dt_period') }}"
+
+      - name: dt_prior_period
+        data_type: varchar
+        description: "{{ doc('platform__dt_prior_period') }}"
+
+      - name: dt_next_period
+        data_type: varchar
+        description: "{{ doc('platform__dt_next_period') }}"
+
+      - name: dt_year_month
+        data_type: varchar
+        description: "{{ doc('platform__dt_year_month') }}"
+
+      - name: dt_day
+        data_type: number
+        description: "{{ doc('platform__dt_day') }}"
+
+      - name: dt_day_of_week
+        data_type: number
+        description: "{{ doc('platform__dt_day_of_week') }}"
+
+      - name: dt_week_of_year
+        data_type: number
+        description: "{{ doc('platform__dt_week_of_year') }}"
+
+      - name: dt_day_of_year
+        data_type: number
+        description: "{{ doc('platform__dt_day_of_year') }}"
+
+      - name: dt_weekday
+        data_type: boolean
+        description: "{{ doc('platform__dt_weekday') }}"
+
+      - name: dt_last_30_days
+        data_type: boolean
+        description: "{{ doc('platform__dt_last_30_days') }}"
+
+      - name: dt_last_60_days
+        data_type: boolean
+        description: "{{ doc('platform__dt_last_60_days') }}"
+
+      - name: dt_last_90_days
+        data_type: boolean
+        description: "{{ doc('platform__dt_last_90_days') }}"
+
+      - name: dt_last_120_days
+        data_type: boolean
+        description: "{{ doc('platform__dt_last_120_days') }}"
+
+      - name: dt_last_180_days
+        data_type: boolean
+        description: "{{ doc('platform__dt_last_180_days') }}"
+
+      - name: dt_year_to_date
+        data_type: boolean
+        description: "{{ doc('platform__dt_year_to_date') }}"
+
+      - name: dt_quarter_to_date
+        data_type: boolean
+        description: "{{ doc('platform__dt_quarter_to_date') }}"
+
+      - name: dt_month_to_date
+        data_type: boolean
+        description: "{{ doc('platform__dt_month_to_date') }}"
+
+      - name: dt_prior_year_to_date
+        data_type: boolean
+        description: "{{ doc('platform__dt_prior_year_to_date') }}"
+
+      - name: dt_prior_month_to_date
+        data_type: boolean
+        description: "{{ doc('platform__dt_prior_month_to_date') }}"
+
+      - name: dt_prior_month
+        data_type: boolean
+        description: "{{ doc('platform__dt_prior_month') }}"
+
+      - name: dt_current_month
+        data_type: boolean
+        description: "{{ doc('platform__dt_current_month') }}"
+
+      - name: dt_prior_quarter
+        data_type: boolean
+        description: "{{ doc('platform__dt_prior_quarter') }}"
+
+      - name: dt_first_day_of_month
+        data_type: boolean
+        description: "{{ doc('dt_first_day_of_month') }}"
+
+      - name: dt_last_day_of_month
+        data_type: boolean
+        description: "{{ doc('dt_last_day_of_month') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_companies_bi
+    description: "{{ doc('dim_companies_bi') }}"
+    columns:
+      - name: company_key
+        data_type: varchar
+        description: "{{ doc('platform__company_key') }}"
+
+      - name: company_source
+        data_type: varchar
+        description: "{{ doc('platform__company_source') }}"
+
+      - name: company_id
+        data_type: number
+        description: "{{ doc('platform__company_id') }}"
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('platform__company_name') }}"
+
+      - name: company_has_fleet
+        data_type: boolean
+        description: "{{ doc('platform__company_has_fleet') }}"
+
+      - name: company_has_fleet_cam
+        data_type: boolean
+        description: "{{ doc('platform__company_has_fleet_cam') }}"
+
+      - name: company_timezone
+        data_type: varchar
+        description: "{{ doc('platform__company_timezone') }}"
+
+      - name: company_credit_limit
+        data_type: number
+        description: "{{ doc('platform__company_credit_limit') }}"
+      
+      - name: company_credit_status
+        data_type: number
+        description: "{{ doc('company_credit_status') }}"
+
+      - name: company_do_not_rent
+        data_type: boolean
+        description: "{{ doc('platform__company_do_not_rent') }}"
+
+      - name: company_has_msa
+        data_type: boolean
+        description: "{{ doc('platform__company_has_msa') }}"
+
+      - name: company_has_rentals
+        data_type: boolean
+        description: "{{ doc('platform__company_has_rentals') }}"
+
+      - name: company_net_terms
+        data_type: varchar
+        description: "{{ doc('platform__company_net_terms') }}"
+
+      - name: company_is_eligible_for_payouts
+        data_type: boolean
+        description: "{{ doc('platform__company_is_eligible_for_payouts') }}"
+
+      - name: company_is_rsp_partner
+        data_type: boolean
+        description: "{{ doc('platform__company_is_rsp_partner') }}"
+
+      - name: company_is_telematics_service_provider
+        data_type: boolean
+        description: "{{ doc('platform__company_is_telematics_service_provider') }}"
+      
+      - name: company_is_new_account
+        data_type: boolean
+        description: "{{ doc('company_is_new_account') }}"
+      
+      - name: company_has_orders
+        data_type: boolean
+        description: "{{ doc('company_has_orders') }}"
+      
+      - name: company_conversion_status
+        data_type: varchar
+        description: "{{ doc('company_conversion_status') }}"
+
+      - name: company_is_vip
+        data_type: boolean
+        description: "{{ doc('company_is_vip') }}"
+
+      - name: company_is_current_vip
+        data_type: boolean
+        description: "{{ doc('company_is_current_vip') }}"
+
+      - name: company_is_soft_deleted
+        data_type: boolean
+        description: "{{ doc('company_is_soft_deleted') }}"
+
+      - name: company_is_do_not_use
+        data_type: boolean
+        description: "{{ doc('company_is_do_not_use') }}"
+
+      - name: company_is_duplicate
+        data_type: boolean
+        description: "{{ doc('company_is_duplicate') }}"
+
+      - name: company_is_employee
+        data_type: boolean
+        description: "{{ doc('company_is_employee') }}"
+
+      - name: company_is_es_internal
+        data_type: boolean
+        description: "{{ doc('company_is_es_internal') }}"
+
+      - name: company_is_misc
+        data_type: boolean
+        description: "{{ doc('company_is_misc') }}"
+
+      - name: company_is_prospect
+        data_type: boolean
+        description: "{{ doc('company_is_prospect') }}"
+
+      - name: company_is_spam
+        data_type: boolean
+        description: "{{ doc('company_is_spam') }}"
+
+      - name: company_is_test
+        data_type: boolean
+        description: "{{ doc('company_is_test') }}"
+
+      - name: company_merged_to_company_id
+        data_type: number
+        description: "{{ doc('company_merged_to_company_id') }}"
+
+      - name: company_activity_status
+        data_type: number
+        description: "{{ doc('company_activity_status') }}"
+
+      - name: company_lifetime_rental_status
+        data_type: varchar
+        description: "{{ doc('company_lifetime_rental_status') }}"
+
+      - name: company_is_sub_renter_only
+        data_type: number
+        description: "{{ doc('company_is_sub_renter_only') }}"
+
+      - name: company_fleet_mimic_link
+        data_type: number
+        description: "{{ doc('company_fleet_mimic_link') }}"
+
+      - name: company_analytics_mimic_link
+        data_type: number
+        description: "{{ doc('company_analytics_mimic_link') }}"
+        
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_equipment_classes
+    description: "{{ doc('dim_equipment_classes') }}"
+    columns:
+      - name: equipment_class_key
+        data_type: varchar
+        description: "{{ doc('equipment_class_key') }}"
+
+      - name: equipment_class_id
+        data_type: number
+        description: "{{ doc('equipment_class_id') }}"
+
+      - name: equipment_class_name
+        data_type: varchar
+        description: "{{ doc('equipment_class_name') }}"
+
+      - name: equipment_class_description
+        data_type: varchar
+        description: "{{ doc('equipment_class_description') }}"
+
+      - name: is_rentable
+        data_type: boolean
+        description: "{{ doc('equipment_class_is_rentable') }}"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "{{ doc('equipment_class_is_deleted') }}"
+
+      - name: category_id
+        data_type: number
+        description: "{{ doc('equipment_class_category_id') }}"
+
+      - name: category_name
+        data_type: varchar
+        description: "{{ doc('equipment_class_category_name') }}"
+
+      - name: parent_category_name
+        data_type: varchar
+        description: "{{ doc('equipment_class_parent_category_name') }}"
+
+      - name: grandparent_category_name
+        data_type: varchar
+        description: "{{ doc('equipment_class_grandparent_category_name') }}"
+
+      - name: category_is_active
+        data_type: boolean
+        description: "{{ doc('equipment_category_is_active') }}"
+
+      - name: category_description
+        data_type: varchar
+        description: "{{ doc('equipment_class_category_description') }}"
+
+      - name: company_id
+        data_type: number
+        description: "{{ doc('es_company_id') }}"
+
+      - name: company_division_id
+        data_type: number
+        description: "{{ doc('company_division_id') }}"
+
+      - name: company_division_name
+        data_type: varchar
+        description: "{{ doc('company_division_name') }}"
+
+      - name: business_segment_name
+        data_type: varchar
+        description: "{{ doc('equipment_class_business_segment_name') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_quote_customers
+    description: "{{ doc('dim_quote_customers') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_customer_key
+        data_type: varchar
+        description: "{{ doc('quote_customer_key') }}"
+
+      - name: quote_customer_id
+        data_type: varchar
+        description: "{{ doc('quotes__customer_id') }}"
+
+      - name: quote_customer_is_archived
+        data_type: boolean
+        description: "{{ doc('quote_customer_is_archived') }}"
+
+      - name: quote_company_key
+        data_type: varchar
+        description: "{{ doc('quote_company_key') }}"
+
+      - name: quote_company_id
+        data_type: number
+        description: "{{ doc('quote_company_id') }}"
+
+      - name: quote_company_name
+        data_type: varchar
+        description: "{{ doc('quote_company_name') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_quotes
+    description: "{{ doc('dim_quotes') }}"
+    config:
+      tags: ['quotes']
+    columns:
+      - name: quote_key
+        data_type: varchar
+        description: "{{ doc('quote_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: quote_id
+        data_type: varchar
+        description: "{{ doc('quotes__quote_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      
+      - name: quote_number
+        data_type: number
+        description: "{{ doc('quotes__quote_number') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: quote_status
+        data_type: varchar
+        description: "{{ doc('quote_status') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Open', 'Expired', 'Order Created', 'Missed Quote', 'Escalated', 'Unknown']
+              config:
+                severity: warn
+      
+      - name: missed_quote_reason
+        data_type: varchar
+        description: "{{ doc('quotes__missed_quote_reason') }}"
+
+      - name: missed_quote_reason_other
+        data_type: varchar
+        description: "{{ doc('quotes__missed_quote_reason_other') }}"
+
+      - name: po_id
+        data_type: number
+        description: "{{ doc('purchase_order_id') }}"
+
+      - name: po_name
+        data_type: varchar
+        description: "{{ doc('purchase_order_name') }}"
+
+      - name: project_type
+        data_type: varchar
+        description: "{{ doc('quotes__project_type') }}"
+
+      - name: delivery_type
+        data_type: varchar
+        description: "{{ doc('quotes__delivery_type') }}"
+
+      - name: has_pdf
+        data_type: boolean
+        description: "{{ doc('quotes__has_pdf') }}"
+
+      - name: is_tax_exempt
+        data_type: boolean
+        description: "{{ doc('quotes__quote_is_tax_exempt') }}"
+
+      - name: quote_source
+        data_type: varchar
+        description: "{{ doc('quotes__quote_source_name') }}"
+
+      - name: is_guest_request
+        data_type: boolean
+        description: "{{ doc('rental_order_requests__guest_user_request') }}"
+
+      - name: has_equipment_rentals
+        data_type: boolean
+        description: "{{ doc('quote_has_equipment_rentals') }}"
+
+      - name: has_accessories
+        data_type: boolean
+        description: "{{ doc('quote_has_accessories') }}"
+
+      - name: has_sale_items
+        data_type: boolean
+        description: "{{ doc('quote_has_sale_items') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_salesperson_enhanced
+    description: "{{ doc('dim_salesperson_enhanced') }}"
+    data_tests:
+      - no_overlapping_validity_periods:
+          arguments:
+            business_key: salesperson_key
+            unique_id: user_id
+      - only_one_current_row_per_key:
+          arguments:
+            group_by_column: user_id
+    columns:
+      - name: salesperson_key
+        data_type: varchar
+        description: "{{ doc('salesperson_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        data_type: number
+        description: "{{ doc('es_user_id') }}"
+
+      - name: user_is_deleted
+        data_type: boolean
+        description: "{{ doc('user_is_deleted') }}"
+
+      - name: employee_id
+        data_type: number
+        description: "{{ doc('employee_id') }}"
+
+      - name: employee_email_current
+        data_type: varchar
+        description: "{{ doc('employee_email_current') }}"
+
+      - name: name_current
+        data_type: varchar
+        description: "{{ doc('name_current') }}"
+
+      - name: has_salesperson_title
+        data_type: boolean
+        description: "{{ doc('has_salesperson_title') }}"
+
+      - name: salesperson_jurisdiction
+        data_type: varchar
+        description: "{{ doc('salesperson_jurisdiction') }}"
+
+      - name: worker_type_current
+        data_type: varchar
+        description: "{{ doc('worker_type') }}"
+
+      - name: date_hired_current
+        data_type: date
+        description: "{{ doc('date_hired') }}"
+
+      - name: date_rehired_current
+        data_type: date
+        description: "{{ doc('date_rehired') }}"
+
+      - name: date_terminated_current
+        data_type: date
+        description: "{{ doc('date_terminated') }}"
+
+      - name: market_division_name_hist
+        data_type: varchar
+        description: "{{ doc('market_data__market_division_name') }}"
+
+      - name: market_id_hist
+        data_type: number
+        description: "{{ doc('market_id') }}"
+
+      - name: market_name_hist
+        data_type: varchar
+        description: "{{ doc('platform__market_name') }}"
+
+      - name: market_region_hist
+        data_type: number
+        description: "{{ doc('platform__market_region') }}"
+
+      - name: market_region_name_hist
+        data_type: varchar
+        description: "{{ doc('platform__market_region_name') }}"
+
+      - name: market_district_hist
+        data_type: varchar
+        description: "{{ doc('platform__market_district') }}"
+
+      - name: employee_title_hist
+        data_type: varchar
+        description: "{{ doc('employee_title') }}"
+
+      - name: position_effective_date_hist
+        data_type: date
+        description: "{{ doc('position_effective_date') }}"
+
+      - name: employee_status_hist
+        data_type: varchar
+        description: "{{ doc('employee_status') }}"
+
+      - name: first_salesperson_date
+        data_type: date
+        description: "{{ doc('first_salesperson_date') }}"
+
+      - name: first_tam_date
+        data_type: date
+        description: "{{ doc('first_tam_date') }}"
+
+      - name: direct_manager_employee_id_current
+        data_type: number
+        description: "{{ doc('direct_manager_employee_id') }}"
+
+      - name: direct_manager_name_current
+        data_type: varchar
+        description: "{{ doc('direct_manager_name') }}"
+
+      - name: direct_manager_user_id_current
+        data_type: number
+        description: "{{ doc('direct_manager_user_id') }}"
+
+      - name: direct_manager_email_address_current
+        data_type: varchar
+        description: "{{ doc('direct_manager_email_address') }}"
+
+      - name: _valid_from
+        data_type: timestamp_ntz
+        description: "{{ doc('_valid_from') }}"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "< _valid_to"
+
+      - name: _valid_to
+        data_type: timestamp_ntz
+        description: "{{ doc('_valid_to') }}"
+        data_tests:
+          - not_null
+
+      - name: _is_current
+        data_type: boolean
+        description: "{{ doc('_is_current') }}"
+        data_tests:
+          - not_null
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_employees
+    description: "{{ doc('dim_employees') }}"
+    columns:
+      - name: employee_key
+        data_type: varchar
+        description: "{{ doc('employee_key') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: employee_id
+        data_type: number
+        description: "{{ doc('employee_id') }}"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        data_type: varchar
+        description: "{{ doc('employee_first_name') }}"
+
+      - name: nickname
+        data_type: varchar
+        description: "{{ doc('nickname') }}"
+
+      - name: last_name
+        data_type: varchar
+        description: "{{ doc('employee_last_name') }}"
+
+      - name: work_email
+        data_type: varchar
+        description: "{{ doc('work_email') }}"
+
+      - name: work_phone
+        data_type: varchar
+        description: "{{ doc('work_phone') }}"
+
+      - name: personal_email
+        data_type: varchar
+        description: "{{ doc('personal_email') }}"
+
+      - name: home_phone
+        data_type: varchar
+        description: "{{ doc('home_phone') }}"
+
+      - name: employee_type
+        data_type: varchar
+        description: "{{ doc('employee_type') }}"
+
+      - name: employee_status
+        data_type: varchar
+        description: "{{ doc('employee_status') }}"
+
+      - name: employee_title
+        data_type: varchar
+        description: "{{ doc('employee_title') }}"
+
+      - name: position_effective_date
+        data_type: date
+        description: "{{ doc('position_effective_date') }}"
+
+      - name: date_hired
+        data_type: date
+        description: "{{ doc('date_hired') }}"
+
+      - name: date_rehired
+        data_type: date
+        description: "{{ doc('date_rehired') }}"
+
+      - name: date_terminated
+        data_type: date
+        description: "{{ doc('date_terminated') }}"
+
+      - name: is_on_leave
+        data_type: boolean
+        description: "{{ doc('employee_is_on_leave') }}"
+
+      - name: location
+        data_type: varchar
+        description: "{{ doc('location') }}"
+
+      - name: default_cost_centers_full_path
+        data_type: varchar
+        description: "{{ doc('default_cost_centers_full_path') }}"
+
+      - name: manager_employee_key
+        data_type: varchar
+        description: "{{ doc('manager_employee_key') }}"
+
+      - name: greenhouse_application_id
+        data_type: number
+        description: "{{ doc('greenhouse_application_id') }}"
+
+      - name: market_id
+        data_type: number
+        description: "{{ doc('market_id') }}"
+
+      - name: account_id
+        data_type: varchar
+        description: "{{ doc('account_id') }}"
+
+      - name: pay_calc
+        data_type: varchar
+        description: "{{ doc('pay_calc') }}"
+
+      - name: ee_state
+        data_type: varchar
+        description: "{{ doc('ee_state') }}"
+
+      - name: doc_uname
+        data_type: varchar
+        description: "{{ doc('doc_uname') }}"
+
+      - name: tax_location
+        data_type: varchar
+        description: "{{ doc('tax_location') }}"
+
+      - name: labor_distribution_profile
+        data_type: varchar
+        description: "{{ doc('labor_distribution_profile') }}"
+
+      - name: worker_type
+        data_type: varchar
+        description: "{{ doc('worker_type') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"
+
+  - name: dim_users_bi
+    description: "{{ doc('dim_users_bi') }}"
+    columns:
+      - name: user_key
+        data_type: varchar
+        description: "{{ doc('platform__user_key') }}"
+
+      - name: user_source
+        data_type: varchar
+        description: "{{ doc('platform__user_source') }}"
+
+      - name: user_id
+        data_type: number
+        description: "{{ doc('platform__user_id') }}"
+
+      - name: user_username
+        data_type: varchar
+        description: "{{ doc('platform__user_username') }}"
+
+      - name: user_deleted
+        data_type: boolean
+        description: "{{ doc('platform__user_deleted') }}"
+
+      - name: user_employee_key
+        data_type: varchar
+        description: "{{ doc('user_employee_key') }}"
+
+      - name: user_is_employee
+        data_type: boolean
+        description: "{{ doc('user_is_employee') }}"
+
+      - name: user_company_key
+        data_type: varchar
+        description: "{{ doc('platform__user_company_key') }}"
+
+      - name: user_first_name
+        data_type: varchar
+        description: "{{ doc('platform__user_first_name') }}"
+
+      - name: user_last_name
+        data_type: varchar
+        description: "{{ doc('platform__user_last_name') }}"
+
+      - name: user_full_name
+        data_type: varchar
+        description: "{{ doc('platform__user_full_name') }}"
+
+      - name: user_timezone
+        data_type: varchar
+        description: "{{ doc('platform__user_timezone') }}"
+
+      - name: user_accepted_terms
+        data_type: boolean
+        description: "{{ doc('platform__user_accepted_terms') }}"
+
+      - name: user_approved_for_purchase_orders
+        data_type: boolean
+        description: "{{ doc('platform__user_approved_for_purchase_orders') }}"
+
+      - name: user_is_salesperson
+        data_type: boolean
+        description: "{{ doc('platform__user_is_salesperson') }}"
+
+      - name: user_can_access_camera
+        data_type: boolean
+        description: "{{ doc('platform__user_can_access_camera') }}"
+
+      - name: user_can_create_asset_financial_records
+        data_type: boolean
+        description: "{{ doc('platform__user_can_create_asset_financial_records') }}"
+
+      - name: user_can_grant_permissions
+        data_type: boolean
+        description: "{{ doc('platform__user_can_grant_permissions') }}"
+
+      - name: user_can_read_asset_financial_records
+        data_type: boolean
+        description: "{{ doc('platform__user_can_read_asset_financial_records') }}"
+
+      - name: user_can_rent
+        data_type: boolean
+        description: "{{ doc('platform__user_can_rent') }}"
+
+      - name: user_sms_opted_out
+        data_type: boolean
+        description: "{{ doc('platform__user_sms_opted_out') }}"
+
+      - name: user_read_only
+        data_type: boolean
+        description: "{{ doc('platform__user_read_only') }}"
+
+      - name: user_is_support_user
+        data_type: boolean
+        description: "{{ doc('user_is_support_user') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"

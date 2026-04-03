@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: int_leasing_summary_assets_pivoted_to_leases
+    description: >
+      Re-graining the leasing summary report to the lease level
+    columns:
+      - name: schedule_number
+        data_tests:
+          - unique
+        description: ""
+      - name: total_rent_local
+        description: ""
+      - name: funder
+        description: ""
+      - name: booking_ledger_date
+        description: ""
+      - name: rental_start
+        description: ""
+      - name: rental_end
+        description: ""
+      - name: term
+        description: ""
+      - name: ledger_code
+        description: ""
+      - name: status
+        description: ""

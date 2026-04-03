@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: int_vsg_turo_rentals_timeline_details
+    description: >
+      Detailed timeline of payments and revenue recognition for Turo rentals, broken down by rental date.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - rental_date
+    columns:
+      - name: reservation_id
+        description: "Reservation id from Turo rentals"
+
+      - name: rental_date
+        description: "Date for each day in the rental period"
+
+      - name: earliest_charge_date
+        description: "Earliest charge date for the rental."
+
+      - name: trip_start
+        description: "Start date of the rental trip."
+
+      - name: trip_end
+        description: "End date of the rental trip."
+
+      - name: event
+        description: the type of event for the rental timeline detail (pick up, return, payment date)
+
+      - name: payment_timing_type
+        description: the different types of scenario for payment timing (payment occurs before, during, or after trip)
+
+      - name: is_month_end
+        description: "Indicates if the rental period ends in the last day of the month."
+
+      - name: trip_earnings_amt
+        description: "Total earnings amount for the rental trip."
+
+      - name: cumulative_paid
+        description: "Cumulative paid amount for the rental trip."
+
+      - name: total_earnings
+        description: "Total earnings amount for the rental trip."
+
+      - name: daily_revenue
+        description: "Daily revenue generated from the rental trip."
+
+      - name: cumulative_revenue
+        description: "Cumulative revenue generated from the rental trip."
+
+      - name: delta_month_to_date
+        description: the difference between cumulative paid and cumulative revenue for the month to date
+
+      - name: deferred_revenue
+        description: "Deferred revenue for the rental. occurs when cash paid > cumulative revenue"
+
+      - name: unbilled_revenue
+        description: "Unbilled revenue for the rental. occurs when cash paid < cumulative revenue"

@@ -1,0 +1,40 @@
+version: 2
+sources:
+  - name: analytics_market_data
+    tags: ["sources"]
+    database: analytics
+    schema: market_data
+    description: >
+      schema that contains market data
+    tables:
+      - name: market_data
+        description: >
+          contains market data - market_type and whether it's an active market or not. one row is one market
+        columns:
+          - name: market_id
+            data_tests:
+              - unique
+
+      - name: division_types
+        description: >
+          market division type. one row is one division type
+        columns:
+          - name: division_id
+            data_tests:
+              - unique
+
+      - name: market_types
+        description: >
+          market type. one row is one market type
+        columns:
+          - name: market_type_id
+            data_tests:
+              - unique
+
+      - name: scd_market_region
+        description: >
+          scd table that tracks any changes in market_region_xwalk
+        columns:
+          - name: pkey
+            data_tests:
+              - unique

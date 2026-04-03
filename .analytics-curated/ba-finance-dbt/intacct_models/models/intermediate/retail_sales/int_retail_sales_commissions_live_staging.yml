@@ -1,0 +1,13 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_live_staging
+    description: All the Retail Commissions before the live datasets
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+      - name: line_item_id
+        data_tests:
+          - not_null

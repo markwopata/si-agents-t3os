@@ -1,0 +1,103 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__photos
+    description: Model for es_warehouse.public.photos
+    columns:
+      - name: photo_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          - unique
+      - name: uploading_user_id
+        description: ""
+      - name: filename
+        description: ""
+      - name: thumbnail
+        description: ""
+      - name: small
+        description: ""
+      - name: medium
+        description: ""
+      - name: large
+        description: ""
+      - name: file_problem
+        description: ""
+      - name: original_metadata
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: original_metadata__
+        description: Extracted from json in column original_metadata (roughly original_metadata:)
+      - name: original_metadata__gpslongitude
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpslongitude)
+      - name: original_metadata__whitebalance
+        description: Extracted from json in column original_metadata (roughly original_metadata:whitebalance)
+      - name: original_metadata__dpiwidth
+        description: Extracted from json in column original_metadata (roughly original_metadata:dpiwidth)
+      - name: original_metadata__orientation
+        description: Extracted from json in column original_metadata (roughly original_metadata:orientation)
+      - name: original_metadata__profilename
+        description: Extracted from json in column original_metadata (roughly original_metadata:profilename)
+      - name: original_metadata__gpslongituderef
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpslongituderef)
+      - name: original_metadata__gpsprocessingmethod
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpsprocessingmethod)
+      - name: original_metadata__dpiheight
+        description: Extracted from json in column original_metadata (roughly original_metadata:dpiheight)
+      - name: original_metadata__exposuretime
+        description: Extracted from json in column original_metadata (roughly original_metadata:exposuretime)
+      - name: original_metadata__kcgimagedestinationiccprofile
+        description: Extracted from json in column original_metadata (roughly original_metadata:kcgimagedestinationiccprofile)
+      - name: original_metadata__pixelheight
+        description: Extracted from json in column original_metadata (roughly original_metadata:pixelheight)
+      - name: original_metadata__datetime
+        description: Extracted from json in column original_metadata (roughly original_metadata:datetime)
+      - name: original_metadata__isospeedratings
+        description: Extracted from json in column original_metadata (roughly original_metadata:isospeedratings)
+      - name: original_metadata__colormodel
+        description: Extracted from json in column original_metadata (roughly original_metadata:colormodel)
+      - name: original_metadata__fnumber
+        description: Extracted from json in column original_metadata (roughly original_metadata:fnumber)
+      - name: original_metadata__focallength
+        description: Extracted from json in column original_metadata (roughly original_metadata:focallength)
+      - name: original_metadata__gpstimestamp
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpstimestamp)
+      - name: original_metadata__subsectimeoriginal
+        description: Extracted from json in column original_metadata (roughly original_metadata:subsectimeoriginal)
+      - name: original_metadata__primaryimage
+        description: Extracted from json in column original_metadata (roughly original_metadata:primaryimage)
+      - name: original_metadata__make
+        description: Extracted from json in column original_metadata (roughly original_metadata:make)
+      - name: original_metadata__model
+        description: Extracted from json in column original_metadata (roughly original_metadata:model)
+      - name: original_metadata__gpsaltitude
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpsaltitude)
+      - name: original_metadata__gpsaltituderef
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpsaltituderef)
+      - name: original_metadata__hasalpha
+        description: Extracted from json in column original_metadata (roughly original_metadata:hasalpha)
+      - name: original_metadata__subsectimedigitized
+        description: Extracted from json in column original_metadata (roughly original_metadata:subsectimedigitized)
+      - name: original_metadata__depth
+        description: Extracted from json in column original_metadata (roughly original_metadata:depth)
+      - name: original_metadata__imagelength
+        description: Extracted from json in column original_metadata (roughly original_metadata:imagelength)
+      - name: original_metadata__imagewidth
+        description: Extracted from json in column original_metadata (roughly original_metadata:imagewidth)
+      - name: original_metadata__gpslatitude
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpslatitude)
+      - name: original_metadata__gpslatituderef
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpslatituderef)
+      - name: original_metadata__gpsdatestamp
+        description: Extracted from json in column original_metadata (roughly original_metadata:gpsdatestamp)
+      - name: original_metadata__pixelwidth
+        description: Extracted from json in column original_metadata (roughly original_metadata:pixelwidth)
+      - name: original_metadata__flash
+        description: Extracted from json in column original_metadata (roughly original_metadata:flash)
+      - name: original_metadata__datetimedigitized
+        description: Extracted from json in column original_metadata (roughly original_metadata:datetimedigitized)
+      - name: original_metadata__subsectime
+        description: Extracted from json in column original_metadata (roughly original_metadata:subsectime)

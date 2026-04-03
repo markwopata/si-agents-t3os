@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__review
+    description: Reviews capture manual or automated assessments of potentially risky payments.
+    columns:
+      - name: id
+        description: "Unique identifier for the review."
+        data_tests:
+          - not_null
+          - unique
+      - name: billing_zip
+        description: "Billing ZIP or postal code."
+      - name: closed_reason
+        description: "Reason the review was closed."
+      - name: created
+        description: ""
+      - name: ip_address
+        description: "IP address associated with the session."
+      - name: ip_address_location_city
+        description: "City of the IP address location."
+      - name: ip_address_location_country
+        description: "Country of the IP address location."
+      - name: ip_address_location_latitude
+        description: "Latitude of the IP address location."
+      - name: ip_address_location_longitude
+        description: "Longitude of the IP address location."
+      - name: ip_address_location_region
+        description: "Region of the IP address location."
+      - name: livemode
+        description: "Indicates if this is a test review."
+      - name: open
+        description: "Whether the review is open."
+      - name: opened_reason
+        description: "Reason the review was opened."
+      - name: reason
+        description: "Primary reason for the review decision."
+      - name: session_browser
+        description: "Browser used during the session."
+      - name: session_device
+        description: "Device used during the session."
+      - name: session_platform
+        description: "Platform used during the session."
+      - name: session_version
+        description: "Version of the platform/browser."
+      - name: charge_id
+        description: "ID of the charge being reviewed."
+      - name: payment_intent_id
+        description: "ID of the PaymentIntent being reviewed."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,97 @@
+---
+version: 2
+
+sources:
+  - name: es_warehouse_inventory
+    tags: ["sources"]
+    database: es_warehouse
+    schema: inventory
+    description: es_warehouse schema for all es_warehouse (T3/Admin) inventory-related topics
+    tables:
+      - name: parts
+        description: ""
+      - name: part_types
+        description: ""
+      - name: inventory_locations
+        description: ""
+      - name: store_parts
+        description: ""
+      - name: store_part_costs
+        description: ""
+      - name: transactions
+        description: record of movement between two points, the to_id and from_id
+        columns:
+          - name: transaction_id
+            data_tests:
+              - unique
+
+      - name: transaction_items
+        description: list of inventory transactions/movements by item, quantity, and cost per item
+        columns:
+          - name: transaction_item_id
+            data_tests:
+              - unique
+
+      - name: transaction_types
+        description: ""
+      - name: transaction_statuses
+        description: ""
+      - name: manual_adjustments
+        description: ""
+      - name: manual_adjustment_reasons
+        description: ""
+      - name: weighted_average_cost_snapshots
+        description: ""
+      - name: providers
+        description: ""
+      - name: stores
+        description: >
+          list of store_ids and parent_store_ids. a store can be anything from an actual branch to service/telematics vehicles
+      - name: product_classes
+        description: ""
+      - name: bulk_import_sessions
+        description: ""
+      - name: item_statuses
+        description: ""
+      - name: resource_types
+        description: ""
+      - name: regions
+        description: ""
+      - name: roles
+        description: ""
+      - name: bulk_import_log_items
+        description: ""
+      - name: groups
+        description: ""
+      - name: part_categories
+        description: ""
+      - name: store_types
+        description: ""
+      - name: sync_statuses
+        description: ""
+      - name: bulk_import_object_types
+        description: ""
+      - name: command_audit
+        description: ""
+      - name: manual_adjustment_reason_cost_configs
+        description: ""
+      - name: permissions
+        description: ""
+      - name: provider_aliases
+        description: ""
+      - name: provider_part_numbers
+        description: ""
+      - name: user_groups
+        description: ""
+      - name: role_permissions
+        description: ""
+      - name: superusers
+        description: ""
+      - name: resource_policies
+        description: ""
+      - name: resources
+        description: ""
+      - name: store_providers
+        description: ""
+      - name: transaction_groups
+        description: ""

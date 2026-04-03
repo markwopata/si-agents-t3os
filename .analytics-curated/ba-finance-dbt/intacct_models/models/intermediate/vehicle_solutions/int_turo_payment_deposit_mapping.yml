@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: int_turo_payment_deposit_mapping
+    description: >
+      Maps Turo payout batches to bank deposits by matching amounts within a
+      small deposit date window.
+    columns:
+      - name: stripe_payout_id
+        description: Stripe payout identifier from Turo earnings.
+        data_tests:
+          - unique
+          - not_null
+      - name: batch_amount
+        description: Payout batch amount from Turo earnings.
+      - name: bank_deposit_date
+        description: Deposit date from Turo earnings.
+      - name: pk_bank_deposit_id
+        description: Bank deposit primary key identifier.
+        data_tests:
+          - relationships:
+              arguments: # available in v1.10.5 and higher. Older versions can set the <argument_name> as the top-level property.
+                to: ref('stg_analytics_vehicle_solutions__bank_deposits')
+                field: pk_bank_deposit_id
+      - name: deposit_date
+        description: Bank deposit date.
+        data_tests:
+          - not_null

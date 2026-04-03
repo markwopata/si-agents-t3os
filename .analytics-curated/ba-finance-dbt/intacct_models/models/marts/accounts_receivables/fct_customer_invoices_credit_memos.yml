@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: fct_customer_invoices_credit_memos
+    description: "This model contains numerical data on invoices (invoice_amount and total_credit_amount)\n"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - invoice_id
+              - customer_id
+              - invoice_number
+              - credit_note_id
+    columns:
+      - name: customer_id
+        description: ""
+      - name: customer_name
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: do_not_rent_flag
+        description: ""
+      - name: market_id
+        description: ""
+      - name: credit_note_invoice_number
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: credit_note_creation_date
+        description: ""
+      - name: url_credit_note_admin
+        description: ""
+      - name: credit_note_number
+        description: ""
+      - name: created_by
+        description: ""
+      - name: total_credit_amount
+        description: ""
+      - name: remaining_credit_amount
+        description: ""
+      - name: num_days_between_invoice_credit_date
+        description: ""

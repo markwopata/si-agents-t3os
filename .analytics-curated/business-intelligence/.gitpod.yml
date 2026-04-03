@@ -1,0 +1,29 @@
+---
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: prebuild
+    init: |
+      curl https://gitlab.internal.equipmentshare.com/infrastructure/equipmentshare-aliases/-/raw/main/.bash_aliases --output /workspace/.equipmentshare_aliases
+      source /workspace/.equipmentshare_aliases
+      get-gitpod-prebuild-aws-creds 696398453447
+      ecr-login us-west-2 696398453447
+      unset-all-creds
+  - name: start
+    command: |
+      aws sso login
+      code ~/.dbt/dbt_cloud.yml
+      cd business_intelligence
+
+ports:
+  - port: 5000
+    onOpen: open-browser
+
+vscode:
+  extensions:
+    - yzhang.markdown-all-in-one
+
+jetbrains:
+  pycharm:
+    vmoptions: "-Xmx4g"

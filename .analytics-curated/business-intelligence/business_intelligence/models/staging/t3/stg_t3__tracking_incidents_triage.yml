@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: stg_t3__tracking_incidents_triage
+    description: "stg_t3__tracking_incidents_triage table"
+    columns:
+    - name: distinct_id
+      data_type: varchar
+
+    - name: asset_id
+      data_type: number
+
+    - name: company_id
+      data_type: number
+
+    - name: asset_name
+      data_type: varchar
+
+    - name: driver_name_legacy
+      data_type: varchar
+
+    - name: driver_name_new
+      data_type: varchar
+
+    - name: trip_id
+      data_type: number
+
+    - name: date_time
+      data_type: timestamp_tz
+
+    - name: tracking_incident_name
+      data_type: varchar
+
+    - name: speed
+      data_type: number
+
+    - name: maxspeed
+      data_type: number
+
+    - name: posted_speed_limit
+      data_type: float
+
+    - name: duration
+      data_type: number
+
+    - name: tracking_incident_id
+      data_type: number
+
+    - name: tracking_event_id
+      data_type: number
+
+    - name: asset_incident_threshold_id
+      data_type: number
+
+    - name: start_address
+      data_type: varchar
+
+    - name: end_address
+      data_type: varchar
+
+    - name: total_trip_miles
+      data_type: float
+
+    - name: total_trip_seconds
+      data_type: number
+
+    - name: start_lat
+      data_type: float
+
+    - name: start_lon
+      data_type: float
+
+    - name: end_lat
+      data_type: float
+
+    - name: end_lon
+      data_type: float
+
+    - name: speed_location_lat
+      data_type: float
+
+    - name: speed_location_lon
+      data_type: float
+
+    - name: equipment_class
+      data_type: varchar
+
+    - name: date_refresh_timestamp
+      data_type: timestamp_ltz

@@ -1,0 +1,222 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__customer_packing_slip_journal
+    description: ""
+    columns:
+      - name: packingslipid
+        description: ""
+        data_tests:
+          - unique
+      - name: id
+        description: ""
+
+      - name: billofladingid
+        description: ""
+
+      - name: internalpackingslipid
+        description: ""
+
+      - name: inventlocationid
+        description: ""
+
+      - name: languageid
+        description: ""
+
+      - name: parmid
+        description: ""
+
+      - name: printmgmtsiteid
+        description: ""
+
+      - name: salesid
+        description: ""
+
+      - name: sourcedocumentheader
+        description: ""
+
+      - name: taxid
+        description: ""
+
+      - name: partytaxid
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: recid
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: bolfreightedby
+        description: ""
+
+      - name: freightsliptype
+        description: ""
+
+      - name: intercompanyposted
+        description: ""
+
+      - name: inventprofiletype_ru
+        description: ""
+
+      - name: listcode
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: printblankdate_lt
+        description: ""
+
+      - name: printed
+        description: ""
+
+      - name: refnum
+        description: ""
+
+      - name: salestype
+        description: ""
+
+      - name: shipcarrierblindshipment
+        description: ""
+
+      - name: postedstate
+        description: ""
+
+      - name: orderaccount
+        description: ""
+
+      - name: compiler
+        description: ""
+
+      - name: customerref
+        description: ""
+
+      - name: defaultdimension
+        description: ""
+
+      - name: deliveryname
+        description: ""
+
+      - name: deliverypostaladdress
+        description: ""
+
+      - name: dlvmode
+        description: ""
+
+      - name: dlvterm
+        description: ""
+
+      - name: invoiceaccount
+        description: ""
+
+      - name: invoicepostaladdress
+        description: ""
+
+      - name: invoicingname
+        description: ""
+
+      - name: ledgervoucher
+        description: ""
+
+      - name: purchaseorder
+        description: ""
+
+      - name: reasontableref_br
+        description: ""
+
+      - name: returnitemnum
+        description: ""
+
+      - name: transportationdeliverycontractor
+        description: ""
+
+      - name: transportationdeliveryloader
+        description: ""
+
+      - name: transportationdeliveryowner
+        description: ""
+
+      - name: transportationdocument
+        description: ""
+
+      - name: workersalestaker
+        description: ""
+
+      - name: banklcexportline
+        description: ""
+
+      - name: volume
+        description: ""
+
+      - name: weight
+        description: ""
+
+      - name: pdscwqty
+        description: ""
+
+      - name: qty
+        description: ""
+
+      - name: fintag
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: intercompanyposted_2
+        description: ""
+
+      - name: printed_2
+        description: ""
+
+      - name: shipcarrierblindshipment_2
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: deliverydate
+        description: ""
+
+      - name: documentdate
+        description: ""
+
+      - name: intrastatfulfillmentdate_hu
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

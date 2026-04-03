@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_analytics_asset4000_dbo__gl_asset_grps
+    description: staging model of base_analytics_asset4000_dbo__gl_asset_grps that that includes only records that have not been marked as deleted
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: market_id
+        description: '{{ doc("market_id") }}'
+
+      - name: asset_class
+        description: ""
+
+      - name: address
+        description: ""
+
+      - name: asset_account
+        description: '{{ doc("asset_account") }}'
+
+      - name: accumulated_depreciation_account
+        description: '{{ doc("accumulated_depreciation_account") }}'
+
+      - name: depreciation_expense_account
+        description: '{{ doc("depreciation_expense_account") }}'
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: gl_assignment_date
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

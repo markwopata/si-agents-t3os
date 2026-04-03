@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_analytics_retool__fuel_card_cc_driver_adjustments
+    description: >
+      latest driver_id correction for a transaction_id made by Transportation Administration Manager
+      (Rebecca Quint (Kempf)).
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+        description: ""
+      - name: driver_id
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: full_name
+        description: ""
+      - name: account_number
+        description: ""
+      - name: work_email
+        description: ""
+      - name: es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

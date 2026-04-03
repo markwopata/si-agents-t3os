@@ -1,0 +1,23 @@
+select
+    r.id,
+    r.billing_zip,
+    r.closed_reason,
+    r.created,
+    r.ip_address,
+    r.ip_address_location_city,
+    r.ip_address_location_country,
+    r.ip_address_location_latitude,
+    r.ip_address_location_longitude,
+    r.ip_address_location_region,
+    r.livemode,
+    r.open,
+    r.opened_reason,
+    r.reason,
+    r.session_browser,
+    r.session_device,
+    r.session_platform,
+    r.session_version,
+    r.charge_id,
+    r.payment_intent_id,
+    r._fivetran_synced
+from {{ source('analytics_stripe_vehicle_solutions', 'review') }} as r

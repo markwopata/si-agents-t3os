@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_analytics_shopify_swag__tender_transaction
+    description: "This table describes the various payment methods (tender) used to fulfill orders from the ES shopify swag store."
+    
+    columns:
+      - name: id
+        description: "Unique identifier for the tender transaction."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        description: "Unique identifier for the order."
+        data_tests:
+          - not_null
+
+      - name: user_id
+        description: "Unique identifier for the user."
+
+      - name: amount
+        description: "Amount of the tender transaction."
+
+      - name: currency
+        description: "Currency of the tender transaction."
+
+      - name: test
+        description: "Flag indicating if the tender transaction is a test."
+
+      - name: processed_at
+        description: "Timestamp when the tender transaction was processed."
+
+      - name: remote_reference
+        description: "Remote reference for the tender transaction."
+
+      - name: payment_details_credit_card_number
+        description: "last 4 digits of the credit card number used for the tender transaction."
+
+      - name: payment_details_credit_card_company
+        description: "credit card company used for the tender transaction (e.g. Visa, Mastercard, American Express, etc.)."
+
+      - name: payment_method
+        description: "Payment method used for the tender transaction (e.g. credit card, debit card, etc.)"
+
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+    

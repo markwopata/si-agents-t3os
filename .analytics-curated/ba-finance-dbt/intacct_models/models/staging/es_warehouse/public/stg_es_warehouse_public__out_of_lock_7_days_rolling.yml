@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__out_of_lock_7_days_rolling
+    description: Model for es_warehouse.public.out_of_lock_7_days_rolling
+    columns:
+      - name: asset_id
+        description: ""
+      - name: out_of_lock_timestamp
+        description: ""
+      - name: hours_out_of_lock
+        description: ""
+      - name: over_72_hours_flag
+        description: ""
+      - name: out_of_lock_reason
+        description: ""
+      - name: unplugged_flag
+        description: ""
+      - name: company_id
+        description: ""
+      - name: snapshot_date
+        description: ""

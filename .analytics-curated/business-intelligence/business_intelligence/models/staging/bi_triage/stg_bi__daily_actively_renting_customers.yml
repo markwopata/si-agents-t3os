@@ -1,0 +1,62 @@
+models:
+  - name: stg_bi__daily_actively_renting_customers
+    description: "
+        Note: From Cameron for active daily renting customers by date. 
+      "
+    columns:
+      
+      - name: date
+        data_type: timestamp
+        description: "Date"
+
+      - name: asset_id
+        data_type: number
+      
+      - name: oec
+        data_type: number
+         
+      - name: rental_id
+        data_type: number
+
+      - name: market_id
+        data_type: number
+
+      - name: date_start
+        data_type: timestamp
+
+      - name: date_end
+        data_type: timestamp
+
+      - name: company_id
+        data_type: number
+
+      - name: company_name
+        data_type: varchar
+
+      - name: is_last_30_days
+        data_type: categorical
+
+      - name: is_last_31_days
+        data_type: categorical
+
+      - name: is_last_60_days
+        data_type: categorical
+
+      - name: is_last_90_days
+        data_type: categorical
+
+      - name: is_prior_month_to_date
+        data_type: categorical
+
+      - name: companis_prior_monthy_id
+        data_type: categorical
+
+      - name: is_current_month
+        data_type: categorical
+
+      - name: is_first_day_of_month
+        data_type: categorical
+
+      - name: is_last_day_of_month
+        data_type: categorical
+ 

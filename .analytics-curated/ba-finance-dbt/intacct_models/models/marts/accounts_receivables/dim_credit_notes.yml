@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: dim_credit_notes
+    description:
+      "a collection of data that describe credit notes. A credit note are documents issued by ES to customers,
+      indicating that the customer  has been credited for a certain amount due to various reasons (customer disputes,  off
+      rent dates missed, etc)\n"
+    columns:
+      - name: credit_note_id
+        description: id of the credit note originating from ES Warehouse
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: originating_invoice_id
+        description: ""
+      - name: market_id
+        description: ""
+      - name: credit_note_type_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: credit_note_status_id
+        description: id of the credit note status
+      - name: credit_note_status_name
+        description: status of the credit note (canceled, approved, denied, pending)
+      - name: url_credit_note_admin
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: credit_note_number
+        description: ""
+      - name: created_by
+        description: ""
+      - name: date_created
+        description: ""

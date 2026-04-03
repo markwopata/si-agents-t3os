@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracking_diagnostic_codes
+    description: Model for es_warehouse.public.tracking_diagnostic_codes
+    columns:
+      - name: tracking_diagnostic_codes_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: report_timestamp
+        description: ""
+      - name: vendor_timestamp
+        description: ""
+      - name: code
+        description: ""
+      - name: last_seen
+        description: ""
+      - name: cleared
+        description: ""
+      - name: occurrences
+        description: ""
+      - name: level
+        description: ""
+      - name: failure_mode_identifier
+        description: This links to a table we need to add to Snowflake
+      - name: module_identifier
+        description: This links to a table we need to add to Snowflake
+      - name: suspect_parameter_number
+        description: The Suspect Parameter Number (SPN) is diagnostic fault code terminology
+      - name: tracking_event_id
+        description: ""
+      - name: tracking_obd_dtc_code_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: alteryx_payments_overview
+    description: >
+      This query is designed to analyze payment activities within a specified period defined by the end business user using Alteryx in-database tools.
+      It provides a clear view of payments, their status within the ERP system, and relevant refund details, allowing for easy tracking of payment reconciliation and financial movements during the month.
+      Payments with updated STATUS and ORDER_ID fields, ORDER_ID trims the payment description field from ES ADMIN to pull in more ORDER_IDs. Additional logic in place so ORDER_ID won't populate unless in Admin the Timeline Activity is 'Applied'.
+      Admin Payment Report data. The data is processed, validated, and integrated with related datasets to generate interim datasets for downstream workflows.
+
+    columns:
+      - name: payment_id
+        description: "Unique ID for the payment record in Admin"
+        data_tests:
+          - unique
+
+      - name: customer
+        description: "Customer name is used to affiliate payments and payment applications with the customer identified by name"
+
+      - name: customer_id
+        description: "Customer id is a unique identifier from ES Admin to locate other records associated with the customer"
+
+      - name: is_internal_customer
+        description: "Indicates whether the company associated with the invoice is an internal company"
+
+      - name: erp_synced
+        description: "Date that the payment was synced with the ERP system"
+
+      - name: has_refunds
+        description: "Indicates if the payment has refunds"
+
+      - name: status
+        description: "Status of the payment in Admin"
+
+      - name: date_created
+        description: "Date the payment was created"
+
+      - name: reference
+        description: "Reference number for the payment"
+
+      - name: deposit_to
+        description: "Bank account where the payment was deposited"
+
+      - name: payment_type
+        description: "Type of payment made by the customer"
+
+      - name: amount_received
+        description: "Total amount received from the customer"
+
+      - name: amount_remaining
+        description: "Unapplied amount of the payment"

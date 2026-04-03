@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__bank_account_erp_refs
+    description: Model for es_warehouse.public.bank_account_erp_refs
+    columns:
+      - name: bank_account_erp_refs_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: bank_account_id
+        description: ""
+      - name: erp_instance_id
+        description: ""
+      - name: intacct_bank_account_id
+        description: ""
+      - name: intacct_location_id
+        description: ""
+      - name: intacct_undepfundsacct
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

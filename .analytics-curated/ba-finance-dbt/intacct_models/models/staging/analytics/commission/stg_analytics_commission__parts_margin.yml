@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__parts_margin
+    description: Model for analytics.commission.parts_margin
+    columns:
+      - name: line_item_id
+        description: ""
+      - name: part_id
+        description: ""
+      - name: store_part_id
+        description: ""
+      - name: recorded_part_cost
+        description: ""
+      - name: margin
+        description: ""
+      - name: max_margin
+        description: ""
+      - name: margin_perc
+        description: ""
+      - name: margin_perc_used
+        description: ""
+      - name: additional_commission
+        description: ""
+      - name: additional_commission_used
+        description: ""
+      - name: margin_used
+        description: ""
+      - name: margin_commission
+        description: ""
+      - name: _es_date_created
+        description: ""

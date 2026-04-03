@@ -1,0 +1,30 @@
+---
+version: 2
+models:
+  - name: stg_analytics_rate_achievement__rate_achievement_commissions
+    description: Rate tiers for line items used by commissions
+    config:
+      tags:
+        - commissions
+    columns:
+      - name: line_item_id
+        description: line item id
+        data_tests:
+          - unique
+          - not_null
+      - name: rate_tier_id
+        description: Rate tier for use in commissions
+        data_tests:
+          - not_null
+      - name: order_created_date
+        description: date the order was created
+
+      - name: billing_approved_date
+        description: billing approved date
+        data_tests:
+          - not_null
+
+      - name: _es_update_timestamp
+        description: timestamp that the entry was entered into the table
+        data_tests:
+          - not_null

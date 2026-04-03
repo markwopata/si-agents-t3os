@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_total_fuel_used_audit
+    description: Model for es_warehouse.public.asset_total_fuel_used_audit
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: asset_total_fuel_used_audit_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: new_total_fuel_used
+        description: ""
+      - name: old_total_fuel_used
+        description: ""
+      - name: created
+        description: ""
+      - name: asset_update_type_id
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

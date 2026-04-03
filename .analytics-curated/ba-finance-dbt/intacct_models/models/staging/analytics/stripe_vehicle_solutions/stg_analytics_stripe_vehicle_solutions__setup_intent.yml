@@ -1,0 +1,75 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__setup_intent
+    description: SetupIntents guide you through saving a payment method for future payments.
+    columns:
+      - name: id
+        description: "Unique identifier for the SetupIntent."
+        data_tests:
+          - not_null
+          - unique
+      - name: on_behalf_of
+        description: "Account on whose behalf the setup is created."
+      - name: description
+        description: "Arbitrary string attached to the object, useful for display."
+      - name: status
+        description: "Status of the SetupIntent."
+      - name: usage
+        description: "Indicates whether the setup is for on_session or off_session usage."
+      - name: application
+        description: "ID of the Connect application that created the SetupIntent."
+      - name: cancellation_reason
+        description: "Reason the SetupIntent was canceled."
+      - name: created
+        description: ""
+      - name: livemode
+        description: "Indicates if this is a test SetupIntent."
+      - name: mandate
+        description: "ID of the generated mandate, if any."
+      - name: single_use_mandate
+        description: "ID of the single-use mandate, if any."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: payment_method_id
+        description: "ID of the payment method being set up."
+      - name: customer_id
+        description: "ID of the customer, if the payment method is saved to a customer."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: metadata__vehicle
+        description: Extracted from json in column metadata (roughly metadata:vehicle)
+      - name: metadata__id
+        description: Extracted from json in column metadata (roughly metadata:id)
+      - name: metadata__customer_name
+        description: Extracted from json in column metadata (roughly metadata:customer_name)
+      - name: metadata__email
+        description: Extracted from json in column metadata (roughly metadata:email)
+      - name: metadata__phone
+        description: Extracted from json in column metadata (roughly metadata:phone)
+      - name: metadata__pick_up_date
+        description: Extracted from json in column metadata (roughly metadata:pick_up_date)
+      - name: metadata__prefixed_id
+        description: Extracted from json in column metadata (roughly metadata:prefixed_id)
+      - name: metadata__return_location
+        description: Extracted from json in column metadata (roughly metadata:return_location)
+      - name: metadata__total_extras
+        description: Extracted from json in column metadata (roughly metadata:total_extras)
+      - name: metadata__total_insurances
+        description: Extracted from json in column metadata (roughly metadata:total_insurances)
+      - name: metadata__total_rack_rate
+        description: Extracted from json in column metadata (roughly metadata:total_rack_rate)
+      - name: metadata__transaction_type
+        description: Extracted from json in column metadata (roughly metadata:transaction_type)
+      - name: metadata__pick_up_location
+        description: Extracted from json in column metadata (roughly metadata:pick_up_location)
+      - name: metadata__brand
+        description: Extracted from json in column metadata (roughly metadata:brand)
+      - name: metadata__return_date
+        description: Extracted from json in column metadata (roughly metadata:return_date)
+      - name: metadata__total_price
+        description: Extracted from json in column metadata (roughly metadata:total_price)
+      - name: metadata__total_taxes
+        description: Extracted from json in column metadata (roughly metadata:total_taxes)
+      - name: metadata__total_revenue
+        description: Extracted from json in column metadata (roughly metadata:total_revenue)

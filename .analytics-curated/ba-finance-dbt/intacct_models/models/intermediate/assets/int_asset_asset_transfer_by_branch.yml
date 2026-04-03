@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: int_asset_asset_transfer_by_branch
+    description: >
+      This table captures each instance of an asset being transferred from one ES branch to another, including the date of the transfer 
+      and the asset inventory status at that time.
+    tags:
+      - daily
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_id
+              - transfer_date
+              - market_id
+    columns:
+      - name: asset_id
+        description: "Unique identifier for the equipment asset being transferred, ties to assets table"
+
+      - name: oec
+        description: "Original Equipment Cost - the initial cost basis of the transferred asset"
+
+      - name: transfer_date
+        description: "Date in which the asset was transferred to another market"
+
+      - name: market_id
+        description: "Unique market identifier from which the asset was transferred from"
+
+      - name: market_name
+        description: "The name of the market from which the asset was transferred from"
+
+      - name: next_market_id
+        description: "Unique market identifier to which the asset was transferred to"
+
+      - name: next_market_name
+        description: "The name of the market to which the asset was transferred to"
+
+      - name: asset_inventory_status_as_transferred
+        description: "The inventory status of the asset at the time of transfer"
+        

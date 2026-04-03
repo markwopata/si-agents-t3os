@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__retail_sales_commission
+    description: Model for analytics.commission.retail_sales_commission
+    columns:
+      - name: line_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: invoice_id
+        description: ""
+        data_tests:
+          - not_null
+      - name: asset_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: commission_type_id
+        description: ""
+      - name: rate_achievement
+        description: ""
+      - name: commission_rate
+        description: ""
+      - name: nbv
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: credit_amount
+        description: ""
+      - name: net_sales_price
+        description: ""
+      - name: profit
+        description: ""
+      - name: profit_margin
+        description: ""
+      - name: amount
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: online_rate
+        description: ""
+      - name: _es_date_created
+        description: ""
+      - name: new_calc_ind
+        description: ""
+      - name: used
+        description: ""
+      - name: new
+        description: ""

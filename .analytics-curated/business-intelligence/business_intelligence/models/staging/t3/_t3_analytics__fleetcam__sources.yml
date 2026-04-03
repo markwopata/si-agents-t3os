@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: analytics__fleetcam
+    config:
+      freshness: # default freshness
+        warn_after: {count: 12, period: hour}
+        error_after: {count: 24, period: hour}
+    database: analytics
+    schema: fleetcam
+    tables:
+      - name: driver_assignments_all_companies
+        columns:
+          - name: asset_id
+            data_type: number
+          - name: asset_company_id
+            data_type: varchar
+          - name: operator_name
+            data_type: varchar
+          - name: user_id
+            data_type: number
+          - name: operator_id
+            data_type: varchar
+          - name: assignment_time
+            data_type: timestamp_ntz
+          - name: unassignment_time
+            data_type: timestamp_ntz
+          - name: current_assignment
+            data_type: boolean
+      - name: asset_fleetcam_xwalk
+        columns:
+          - name: fleetcam_vehicle_id
+            data_type: number
+          - name: fleetcam_vehicle_name
+            data_type: varchar
+          - name: es_asset_id
+            data_type: number
+          - name: device_serial
+            data_type: varchar
+          - name: camera_install_date
+            data_type: timestamp_tz

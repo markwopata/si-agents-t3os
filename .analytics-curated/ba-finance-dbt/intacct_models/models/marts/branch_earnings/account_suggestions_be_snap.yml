@@ -1,0 +1,14 @@
+---
+version: 2
+
+models:
+  - name: account_suggestions_be_snap
+    description: >
+      Snapshot of branch earnings account suggestions with account metadata.
+    columns:
+      - name: account_number
+        description: Branch earnings account number.
+      - name: account_name
+        description: Branch earnings account name.
+      - name: account_category
+        description: Branch earnings account category.

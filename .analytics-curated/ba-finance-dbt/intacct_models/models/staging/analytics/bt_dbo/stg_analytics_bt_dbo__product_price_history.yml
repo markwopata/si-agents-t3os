@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_price_history
+    description: Table for tracking historical price changes of products.
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: change_datetime
+        description: 'Datetime when the change occurred.'
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: average_cost_price
+        description: 'Average cost price of the product.'
+      - name: last_cost_price
+        description: 'Last cost price of the product.'
+      - name: standard_buy_price
+        description: 'Standard buy price of the product.'
+      - name: stock_per_id
+        description: 'Stock period identifier.'
+      - name: buy_per_id
+        description: 'Buy period identifier.'
+      - name: standard_sell_price
+        description: 'Standard sell price of the product.'
+      - name: sell_per_id
+        description: 'Sell period identifier.'
+      - name: last_cost_per_id
+        description: 'Last cost period identifier.'
+      - name: last_cost_price_with_additional
+        description: 'Last cost price with additional charges.'
+      - name: average_cost_price_with_additional
+        description: 'Average cost price with additional charges.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

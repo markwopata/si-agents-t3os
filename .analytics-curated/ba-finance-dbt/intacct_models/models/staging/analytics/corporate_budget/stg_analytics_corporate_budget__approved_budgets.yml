@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_analytics_corporate_budget__approved_budgets
+    description: cleaned model of analytics.corporate_budget.approved_budgets
+    columns:
+      - name: expense_line_id
+        description: ""
+      - name: department_id
+        description: ""
+      - name: sub_department_id
+        description: ""
+      - name: _row
+        description: ""
+      - name: department_name
+        description: ""
+      - name: expense_line_name
+        description: ""
+      - name: sub_department_name
+        description: ""
+      - name: budget_year
+        description: ""
+      - name: approved_budget
+        description: ""
+      - name: _fivetran_synced
+        description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - expense_line_id
+              - department_id
+              - sub_department_id
+              - budget_year

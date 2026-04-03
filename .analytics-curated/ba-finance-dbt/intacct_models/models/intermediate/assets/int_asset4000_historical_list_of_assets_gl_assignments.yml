@@ -1,0 +1,11 @@
+---
+version: 2
+models:
+  - name: int_asset4000_historical_list_of_assets_gl_assignments
+    description: historical list of asset4000 asets with the most recent group date
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset4000_report_date
+              - asset_code

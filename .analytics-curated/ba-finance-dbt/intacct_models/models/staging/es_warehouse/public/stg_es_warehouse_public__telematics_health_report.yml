@@ -1,0 +1,68 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__telematics_health_report
+    description: Model for es_warehouse.public.telematics_health_report
+    columns:
+      - name: tracker_id
+        description: ""
+      - name: device_serial
+        description: ""
+      - name: phone_number
+        description: ""
+      - name: tracker_type
+        description: ""
+      - name: tracker_vendor
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: tracker_last_date_installed
+        description: ""
+      - name: latest_report_timestamp
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: tracker_firmware_version
+        description: ""
+      - name: ble_on_off
+        description: ""
+      - name: geofences
+        description: ""
+      - name: last_location
+        description: ""
+      - name: is_ble_node
+        description: ""
+      - name: out_of_lock_reason
+        description: ""
+      - name: out_of_lock_timestamp
+        description: ""
+      - name: unplugged
+        description: ""
+      - name: street
+        description: ""
+      - name: city
+        description: ""
+      - name: state
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: location
+        description: ""
+      - name: last_checkin_timestamp
+        description: ""
+      - name: asset_battery_voltage
+        description: ""
+      - name: start_stale_gps_fix_timestamp
+        description: ""
+      - name: last_location_timestamp
+        description: ""
+      - name: latest_gps_fix_timestamp
+        description: ""
+      - name: latest_satellites
+        description: ""
+      - name: rssi
+        description: ""
+      - name: rssi_timestamp
+        description: ""
+      - name: hours
+        description: ""

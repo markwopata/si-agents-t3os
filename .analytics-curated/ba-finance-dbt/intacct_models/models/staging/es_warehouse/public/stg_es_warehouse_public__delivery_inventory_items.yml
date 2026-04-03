@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__delivery_inventory_items
+    description: Model for es_warehouse.public.delivery_inventory_items
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: delivery_inventory_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: inventory_item_name
+        description: ""
+      - name: delivery_id
+        description: ""
+      - name: inventory_item_quantity
+        description: ""
+      - name: inventory_product_name_historical
+        description: ""
+      - name: inventory_item_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: base_analytics_asset4000_dbo__gl_grpcde_crossref
+    description: cleaned and renamed model of analytics.asset4000_dbo.gl_grpcde_crossref
+    columns:
+      - name: cross_reference_tag_order
+        description: ""
+
+      - name: group_code
+        description: ""
+
+      - name: entity_name
+        description: ""
+
+      - name: cross_reference_entity
+        description: ""
+
+      - name: cross_reference_group_code
+        description: ""
+
+      - name: group_tag_order
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

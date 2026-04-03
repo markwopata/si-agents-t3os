@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__rental_part_assignments
+    description: Model for es_warehouse.public.rental_part_assignments
+    columns:
+      - name: rental_part_assignment_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: rental_id
+        description: ""
+      - name: part_id
+        description: ""
+      - name: quantity
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: drop_off_delivery_id
+        description: ""
+      - name: return_delivery_id
+        description: ""
+      - name: from_inventory_transaction_id
+        description: ""
+      - name: to_inventory_transaction_id
+        description: ""
+      - name: quantity_returned
+        description: ""
+      - name: quantity_purchased
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

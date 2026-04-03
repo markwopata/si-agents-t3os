@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_confluent__operator_assignments
+    description: "Flattened operator assignment data from Confluent Kafka streams, extracting CloudEvents and business data from nested JSON payload"
+    columns:
+      # Kafka metadata fields
+      - name: kafka_offset
+        data_type: number
+        description: "{{ doc('confluent__kafka_offset') }}"
+        
+      - name: kafka_partition
+        data_type: number
+        description: "{{ doc('confluent__kafka_partition') }}"
+        
+      - name: kafka_create_time_epoch
+        data_type: number
+        description: "{{ doc('confluent__kafka_create_time_epoch') }}"
+        
+      - name: kafka_create_timestamp
+        data_type: timestamp
+        description: "{{ doc('confluent__kafka_create_timestamp') }}"
+        
+      - name: kafka_topic
+        data_type: varchar
+        description: "{{ doc('confluent__kafka_topic') }}"
+
+      - name: kafka_key
+        data_type: varchar
+        description: "{{ doc('confluent__kafka_key') }}"
+
+      # CloudEvents metadata
+      - name: event_id
+        data_type: varchar
+        description: "{{ doc('confluent__event_id') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: event_source
+        data_type: varchar
+        description: "{{ doc('confluent__event_source') }}"
+
+      - name: event_spec_version
+        data_type: varchar
+        description: "{{ doc('confluent__event_spec_version') }}"
+
+      - name: event_timestamp
+        data_type: timestamp
+        description: "{{ doc('confluent__event_timestamp') }}"
+
+      - name: event_type
+        data_type: varchar
+        description: "{{ doc('confluent__event_type') }}"
+
+      # Business data fields
+      - name: operator_id
+        data_type: varchar
+        description: "{{ doc('confluent__operator_id') }}"
+
+      - name: operator_name
+        data_type: varchar
+        description: "{{ doc('confluent__operator_name') }}"
+
+      - name: t3_company_id
+        data_type: varchar
+        description: "{{ doc('confluent__t3_company_id') }}"
+
+      - name: t3_user_id
+        data_type: varchar
+        description: "{{ doc('confluent__t3_user_id') }}"
+
+      - name: t3_asset_id
+        data_type: varchar
+        description: "{{ doc('confluent__t3_asset_id') }}"
+
+      # Debugging fields
+      - name: datadog_trace_id
+        data_type: varchar
+        description: "{{ doc('confluent__datadog_trace_id') }}"
+
+      - name: datadog_parent_id
+        data_type: varchar
+        description: "{{ doc('confluent__datadog_parent_id') }}"
+
+      - name: _created_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_created_recordtimestamp') }}"
+
+      - name: _updated_recordtimestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_updated_recordtimestamp') }}"

@@ -1,0 +1,13 @@
+---
+version: 2
+models:
+  - name: stg_analytics_concur__last_close_date_ap
+    description: "Manually populated by Financial Systems to record when the AP ledger is closed each month"
+    columns:
+      - name: period_end_date
+        description: "Month End Date"
+        data_tests:
+          - not_null
+          - unique
+      - name: last_modified
+        description: "Date/time AP was closed for that month end"

@@ -1,0 +1,42 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_supplier_price
+    description: Table for product supplier prices
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: supplier_id
+        description: 'Identifier for the supplier.'
+      - name: imcs_product
+        description: 'IMCS product identifier.'
+      - name: discount_1
+        description: 'First discount applied to the product.'
+      - name: discount_2
+        description: 'Second discount applied to the product.'
+      - name: discount_3
+        description: 'Third discount applied to the product.'
+      - name: buy_per_id
+        description: 'Identifier for the buy period.'
+      - name: discount_4
+        description: 'Fourth discount applied to the product.'
+      - name: standard_buy
+        description: 'Standard buy price of the product.'
+      - name: option_last_updated
+        description: 'Timestamp when the option was last updated.'
+      - name: par_product
+        description: 'Parent product identifier.'
+      - name: lead_time
+        description: 'Lead time for the product.'
+      - name: cut_off
+        description: 'Cut-off time for purchasing the product.'
+      - name: standard_buy_datetime
+        description: 'Datetime when the standard buy price was set.'
+      - name: purchasing_notes
+        description: 'Notes related to purchasing the product.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

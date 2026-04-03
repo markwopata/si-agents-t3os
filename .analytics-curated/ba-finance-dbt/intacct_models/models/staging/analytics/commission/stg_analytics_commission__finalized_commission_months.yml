@@ -1,0 +1,20 @@
+---
+version: 2
+models:
+  - name: stg_analytics_commission__finalized_commission_months
+    description: Model for analytics.commission.finalized_commission_months
+    columns:
+      - name: pk_id
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: date
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: date_completed
+        description: ""
+      - name: completed_by
+        description: ""

@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__manual_adjustments
+    description: ""
+    columns:
+      - name: manual_adjustment_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: modified_by_id
+        description: ""
+      - name: reason_id
+        description: ""
+      - name: transaction_item_id
+        description: ""
+        data_tests:
+          - not_null
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'transaction_items')
+              field: transaction_item_id
+              config:
+                severity: WARN
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

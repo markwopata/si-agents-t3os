@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_t3__po_over_specified_amount
+    description: "PO over specified amount model"
+
+    columns:
+      - name: cost_center
+        data_type: varchar
+        description: "cost_center."
+
+      - name: created_by
+        data_type: varchar
+        description: "created_by"
+
+      - name: date_received
+        data_type: timestamp_tz
+        description: "date_received."
+
+      - name: item_service
+        data_type: varchar
+        description: "item_service."
+
+      - name: item_service_count
+        data_type: number
+        description: "item_service_count"
+
+      - name: line_item_description
+        data_type: varchar
+        description: "line_item_description"
+
+      - name: po_date_created
+        data_type: date
+        description: "po_date_created"
+
+      - name: preferred
+        data_type: varchar
+        description: "preferred"
+
+      - name: purchase_order_id
+        data_type: varchar
+        description: "purchase_order_id."
+
+      - name: purchase_order_number
+        data_type: number
+        description: "purchase_order_number."
+
+      - name: reference
+        data_type: varchar
+        description: "reference"
+
+      - name: total_po_cost
+        data_type: number
+        description: "total_po_cost"
+
+      - name: vendor
+        data_type: varchar
+        description: "vendor"
+
+      - name: market_type
+        data_type: varchar
+        description: "market_type"
+
+      - name: region_name
+        data_type: varchar
+        description: "region_name"
+
+      - name: district
+        data_type: varchar
+        description: "district"

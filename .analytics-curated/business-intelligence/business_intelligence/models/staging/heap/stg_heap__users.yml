@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: stg_heap__users
+    description: "{{ doc('heap__users') }}"
+
+    columns:
+      - name: heap_user_id
+        data_type: number
+        description: "{{ doc('heap__user_id') }}"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: heap_join_date
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__user_join_date') }}"
+
+      - name: last_modified
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__user_last_modified') }}"
+
+      - name: identity
+        data_type: varchar
+        description: "{{ doc('heap__user_identity') }}"
+
+      - name: handle
+        data_type: varchar
+        description: "{{ doc('heap__user_handle') }}"
+
+      - name: heap_email
+        data_type: varchar
+        description: "{{ doc('heap__user_email') }}"
+
+      - name: company_timezone
+        data_type: varchar
+        description: "{{ doc('heap__user_company_timezone') }}"
+
+      - name: es_user_id
+        data_type: varchar
+        description: "{{ doc('es_user_id') }}"
+
+      - name: mimic_user
+        data_type: varchar
+        description: "{{ doc('heap__mimic_user') }}"
+
+      - name: user_created_at
+        data_type: date
+        description: "{{ doc('heap__user_created_at') }}"
+
+      - name: company_name
+        data_type: varchar
+        description: "{{ doc('heap__company_name') }}"
+
+      - name: company_id
+        data_type: varchar
+        description: "{{ doc('heap__company_id') }}"
+
+      - name: es_email
+        data_type: varchar
+        description: "{{ doc('es_email') }}"
+
+      - name: user_timezone
+        data_type: varchar
+        description: "{{ doc('heap__user_timezone') }}"
+
+      - name: user_name
+        data_type: varchar
+        description: "{{ doc('heap__user_name') }}"
+
+      - name: user_cohort
+        data_type: timestamp_ltz
+        description: "{{ doc('heap__user_cohort') }}"
+
+      - name: _dbt_updated_timestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_dbt_updated_timestamp') }}"

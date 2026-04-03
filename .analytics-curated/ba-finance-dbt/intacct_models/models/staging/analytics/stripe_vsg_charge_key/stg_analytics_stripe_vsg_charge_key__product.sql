@@ -1,0 +1,22 @@
+select
+    p.id,
+    p.active as is_active,
+    p.caption,
+    p.created as date_created,
+    p.description,
+    p.livemode as is_live_mode,
+    p.metadata,
+    p.name,
+    p.package_dimensions_height,
+    p.package_dimensions_length,
+    p.package_dimensions_weight,
+    p.package_dimensions_width,
+    p.shippable,
+    p.statement_descriptor,
+    p.type,
+    p.unit_label,
+    p.updated,
+    p.url,
+    p.is_deleted,
+    p._fivetran_synced
+from {{ source('analytics_stripe_vsg_charge_key', 'product') }} as p

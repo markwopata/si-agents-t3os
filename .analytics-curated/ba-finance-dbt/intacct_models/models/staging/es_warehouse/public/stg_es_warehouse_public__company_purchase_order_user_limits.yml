@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__company_purchase_order_user_limits
+    description: Model for es_warehouse.public.company_purchase_order_user_limits
+    columns:
+      - name: company_purchase_order_user_limit_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: approval_limit
+        description: ""
+      - name: can_change_reconciliation_status
+        description: ""
+      - name: can_edit_line_asset_id_assignments
+        description: ""
+      - name: can_edit_line_after_schedule_assignment
+        description: ""
+      - name: can_edit_pending_schedule
+        description: ""
+      - name: can_change_out_of_reconciliation
+        description: ""
+      - name: can_edit_read_only_line
+        description: ""
+      - name: can_change_out_of_financial_schedule
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

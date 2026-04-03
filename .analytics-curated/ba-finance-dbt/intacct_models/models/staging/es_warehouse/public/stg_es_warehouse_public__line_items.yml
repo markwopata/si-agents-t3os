@@ -1,0 +1,123 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__line_items
+    description: ""
+    config:
+      tags:
+        - hourly
+        - es_warehouse
+        - source
+    columns:
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: rental_id
+        description: ""
+      - name: line_item_id
+        description: ""
+        data_tests:
+          - unique
+      - name: line_item_type_id
+        description: ""
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: description
+        description: ""
+      - name: extended_data
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: part_id
+        description: ""
+      - name: number_of_units
+        description: ""
+      - name: price_per_unit
+        description: ""
+      - name: amount
+        description: ""
+      - name: taxable
+        description: ""
+      - name: override_market_tax_rate
+        description: ""
+      - name: tax_rate_id
+        description: ""
+      - name: payouts_processed
+        description: ""
+      - name: tax_rate_percentage
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: extended_data__rental
+        description: Extracted from json in column extended_data (roughly extended_data:rental)
+      - name: extended_data__rental__cheapest_period_week_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_week_count)
+      - name: extended_data__rental__location
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location)
+      - name: extended_data__rental__location__street_1
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:street_1)
+      - name: extended_data__rental__price_per_month
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_month)
+      - name: extended_data__rental__shift_info__shift_type
+        description: Extracted from json in column extended_data (roughly extended_data:rental:shift_info:shift_type)
+      - name: extended_data__rental__location__state
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:state)
+      - name: extended_data__rental__equipment_assignments
+        description: Extracted from json in column extended_data (roughly extended_data:rental:equipment_assignments)
+      - name: extended_data__rental__location__street_2
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:street_2)
+      - name: extended_data__rental__price_per_day
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_day)
+      - name: extended_data__rental__rental_bill_type
+        description: Extracted from json in column extended_data (roughly extended_data:rental:rental_bill_type)
+      - name: extended_data__delivery
+        description: Extracted from json in column extended_data (roughly extended_data:delivery)
+      - name: extended_data__delivery__asset_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:asset_id)
+      - name: extended_data__rental__location__zip_code
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:zip_code)
+      - name: extended_data__rental__price_per_hour
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_hour)
+      - name: extended_data__part_number
+        description: Extracted from json in column extended_data (roughly extended_data:part_number)
+      - name: extended_data__rental__equipment_class_name
+        description: Extracted from json in column extended_data (roughly extended_data:rental:equipment_class_name)
+      - name: extended_data__rental__shift_info__shift_type_id
+        description: Extracted from json in column extended_data (roughly extended_data:rental:shift_info:shift_type_id)
+      - name: extended_data__rental__location__city
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:city)
+      - name: extended_data__delivery__scheduled_date
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:scheduled_date)
+      - name: extended_data__rental__price_per_week
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_week)
+      - name: extended_data__rental__rental_id
+        description: Extracted from json in column extended_data (roughly extended_data:rental:rental_id)
+      - name: extended_data__rental__cheapest_period_hour_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_hour_count)
+      - name: extended_data__rental__cheapest_period_month_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_month_count)
+      - name: extended_data__rental__end_date
+        description: Extracted from json in column extended_data (roughly extended_data:rental:end_date)
+      - name: extended_data__rental__start_date
+        description: Extracted from json in column extended_data (roughly extended_data:rental:start_date)
+      - name: extended_data__delivery__delivery_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:delivery_id)
+      - name: extended_data__rental__shift_info
+        description: Extracted from json in column extended_data (roughly extended_data:rental:shift_info)
+      - name: extended_data__delivery__rental_id
+        description: Extracted from json in column extended_data (roughly extended_data:delivery:rental_id)
+      - name: extended_data__rental__cheapest_period_day_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_day_count)
+      - name: extended_data__rental__location__nickname
+        description: Extracted from json in column extended_data (roughly extended_data:rental:location:nickname)
+      - name: extended_data__part_id
+        description: Extracted from json in column extended_data (roughly extended_data:part_id)
+      - name: extended_data__rental__cheapest_period_four_week_count
+        description: Extracted from json in column extended_data (roughly extended_data:rental:cheapest_period_four_week_count)
+      - name: extended_data__rental__price_per_four_weeks
+        description: Extracted from json in column extended_data (roughly extended_data:rental:price_per_four_weeks)

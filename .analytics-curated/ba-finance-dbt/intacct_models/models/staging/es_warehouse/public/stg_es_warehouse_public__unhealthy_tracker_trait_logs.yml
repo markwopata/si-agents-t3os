@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__unhealthy_tracker_trait_logs
+    description: Model for es_warehouse.public.unhealthy_tracker_trait_logs
+    columns:
+      - name: unhealthy_tracker_trait_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: ""
+      - name: optional_fields
+        description: ""
+      - name: date_ended
+        description: ""
+      - name: unhealthy_tracker_log_id
+        description: ""
+      - name: date_started
+        description: ""
+      - name: unhealthy_tracker_trait_type_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: debounced_tracking_event_ids
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: optional_fields__end_incident_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:end_incident_id)
+      - name: optional_fields__start_staleness_seconds
+        description: Extracted from json in column optional_fields (roughly optional_fields:start_staleness_seconds)
+      - name: optional_fields__stale_threshold_seconds
+        description: Extracted from json in column optional_fields (roughly optional_fields:stale_threshold_seconds)
+      - name: optional_fields__duration_seconds
+        description: Extracted from json in column optional_fields (roughly optional_fields:duration_seconds)
+      - name: optional_fields__start_gps_fix_timestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:start_gps_fix_timestamp)
+      - name: optional_fields__start_incident_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:start_incident_id)

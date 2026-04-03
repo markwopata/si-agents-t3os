@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_analytics_claims__employee_worker_comp_claims_detail
+    description: "Historical worker's compensation injury tracker list based on the WC Loss Runs with more detail"
+    
+    meta:
+      point_of_contact: Peter Mooney
+      google_drive_link: https://docs.google.com/spreadsheets/d/1idfKsSF3FPnIvVR0Qo3uUXRAJM0-nDgd-cyDllODaEA/edit?gid=0#gid=0 
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - claim_number
+            - employee_id
+          severity: warn    
+          where: "claim_number is not null and employee_id is not null"
+
+    columns:
+      - name: claim_number
+        description: ""
+
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+
+      - name: employee_name
+        description: ""
+
+      - name: date_of_injury
+        description: ""
+
+      - name: fivetran_synced_date
+        description: ""
+        

@@ -1,0 +1,495 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__command_audit
+    description: Model for es_warehouse.inventory.command_audit
+    columns:
+      - name: command_audit_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: originator
+        description: ""
+      - name: command
+        description: ""
+      - name: parameters
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: parameters__fields__company_id
+        description: Extracted from json in column parameters (roughly parameters:fields:company_id)
+      - name: parameters__fields__store_id
+        description: Extracted from json in column parameters (roughly parameters:fields:store_id)
+      - name: parameters__fields__custom_id
+        description: Extracted from json in column parameters (roughly parameters:fields:custom_id)
+      - name: parameters__duplicate_store_part_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part_id)
+      - name: parameters__product_id
+        description: Extracted from json in column parameters (roughly parameters:product_id)
+      - name: parameters__fields__sku_field
+        description: Extracted from json in column parameters (roughly parameters:fields:sku_field)
+      - name: parameters___name
+        description: Extracted from json in column parameters (roughly parameters:_name)
+      - name: parameters__product_type_id
+        description: Extracted from json in column parameters (roughly parameters:product_type_id)
+      - name: parameters__inventory_location_id
+        description: Extracted from json in column parameters (roughly parameters:inventory_location_id)
+      - name: parameters__is_system_generated
+        description: Extracted from json in column parameters (roughly parameters:is_system_generated)
+      - name: parameters__raw_items
+        description: Extracted from json in column parameters (roughly parameters:raw_items)
+      - name: parameters__changes__manufacturer_id
+        description: Extracted from json in column parameters (roughly parameters:changes:manufacturer_id)
+      - name: parameters__changes__manufacturer_number
+        description: Extracted from json in column parameters (roughly parameters:changes:manufacturer_number)
+      - name: parameters__group_id
+        description: Extracted from json in column parameters (roughly parameters:group_id)
+      - name: parameters__split_input_0
+        description: Extracted from json in column parameters (roughly parameters:split_input_0)
+      - name: parameters__transaction__memo
+        description: Extracted from json in column parameters (roughly parameters:transaction:memo)
+      - name: parameters__transaction__transaction_type_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:transaction_type_id)
+      - name: parameters__fields__resource_type_id
+        description: Extracted from json in column parameters (roughly parameters:fields:resource_type_id)
+      - name: parameters__quantity_difference
+        description: Extracted from json in column parameters (roughly parameters:quantity_difference)
+      - name: parameters__changes__parent_id
+        description: Extracted from json in column parameters (roughly parameters:changes:parent_id)
+      - name: parameters__permissions_ids
+        description: Extracted from json in column parameters (roughly parameters:permissions_ids)
+      - name: parameters__session_id
+        description: Extracted from json in column parameters (roughly parameters:session_id)
+      - name: parameters__items
+        description: Extracted from json in column parameters (roughly parameters:items)
+      - name: parameters__fields__name
+        description: Extracted from json in column parameters (roughly parameters:fields:name)
+      - name: parameters__cost_update_setting
+        description: Extracted from json in column parameters (roughly parameters:cost_update_setting)
+      - name: parameters__transaction__transaction_status_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:transaction_status_id)
+      - name: parameters__update_store_flag
+        description: Extracted from json in column parameters (roughly parameters:update_store_flag)
+      - name: parameters__data__part_categories__get_or_create
+        description: Extracted from json in column parameters (roughly parameters:data:part_categories:get_or_create)
+      - name: parameters__create_store_flag
+        description: Extracted from json in column parameters (roughly parameters:create_store_flag)
+      - name: parameters__company_name
+        description: Extracted from json in column parameters (roughly parameters:company_name)
+      - name: parameters__key
+        description: Extracted from json in column parameters (roughly parameters:key)
+      - name: parameters__fields__provider_part_number_id
+        description: Extracted from json in column parameters (roughly parameters:fields:provider_part_number_id)
+      - name: parameters__changes__part_type_id
+        description: Extracted from json in column parameters (roughly parameters:changes:part_type_id)
+      - name: parameters__fields__part_type_id
+        description: Extracted from json in column parameters (roughly parameters:fields:part_type_id)
+      - name: parameters__fields__description
+        description: Extracted from json in column parameters (roughly parameters:fields:description)
+      - name: parameters__fields__item_id
+        description: Extracted from json in column parameters (roughly parameters:fields:item_id)
+      - name: parameters__manufacturer_id
+        description: Extracted from json in column parameters (roughly parameters:manufacturer_id)
+      - name: parameters__cost
+        description: Extracted from json in column parameters (roughly parameters:cost)
+      - name: parameters__user_id
+        description: Extracted from json in column parameters (roughly parameters:user_id)
+      - name: parameters__changes__note
+        description: Extracted from json in column parameters (roughly parameters:changes:note)
+      - name: parameters__duplicate_part_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_part_id)
+      - name: parameters__duplicate_store_part__part_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:part_id)
+      - name: parameters__raw_rental_items
+        description: Extracted from json in column parameters (roughly parameters:raw_rental_items)
+      - name: parameters__is_override
+        description: Extracted from json in column parameters (roughly parameters:is_override)
+      - name: parameters__fields__inventory_location_id
+        description: Extracted from json in column parameters (roughly parameters:fields:inventory_location_id)
+      - name: parameters__user_ids
+        description: Extracted from json in column parameters (roughly parameters:user_ids)
+      - name: parameters__fields__spending_limit
+        description: Extracted from json in column parameters (roughly parameters:fields:spending_limit)
+      - name: parameters__transaction__custom_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:custom_id)
+      - name: parameters__inventory_type_id
+        description: Extracted from json in column parameters (roughly parameters:inventory_type_id)
+      - name: parameters__fields__note
+        description: Extracted from json in column parameters (roughly parameters:fields:note)
+      - name: parameters__good_product_id
+        description: Extracted from json in column parameters (roughly parameters:good_product_id)
+      - name: parameters__csv_file_key
+        description: Extracted from json in column parameters (roughly parameters:csv_file_key)
+      - name: parameters__entity_id
+        description: Extracted from json in column parameters (roughly parameters:entity_id)
+      - name: parameters__rental_session_id
+        description: Extracted from json in column parameters (roughly parameters:rental_session_id)
+      - name: parameters__from_quantity
+        description: Extracted from json in column parameters (roughly parameters:from_quantity)
+      - name: parameters__category_name
+        description: Extracted from json in column parameters (roughly parameters:category_name)
+      - name: parameters__role_id
+        description: Extracted from json in column parameters (roughly parameters:role_id)
+      - name: parameters__data__providers__get_or_create
+        description: Extracted from json in column parameters (roughly parameters:data:providers:get_or_create)
+      - name: parameters__changes__provider_part_number_id
+        description: Extracted from json in column parameters (roughly parameters:changes:provider_part_number_id)
+      - name: parameters__data__stores__create
+        description: Extracted from json in column parameters (roughly parameters:data:stores:create)
+      - name: parameters__changes__category_number
+        description: Extracted from json in column parameters (roughly parameters:changes:category_number)
+      - name: parameters__fields__part_number
+        description: Extracted from json in column parameters (roughly parameters:fields:part_number)
+      - name: parameters__fields__from_id
+        description: Extracted from json in column parameters (roughly parameters:fields:from_id)
+      - name: parameters__fields__from_uuid_id
+        description: Extracted from json in column parameters (roughly parameters:fields:from_uuid_id)
+      - name: parameters__store_part_cost_id
+        description: Extracted from json in column parameters (roughly parameters:store_part_cost_id)
+      - name: parameters__memo
+        description: Extracted from json in column parameters (roughly parameters:memo)
+      - name: parameters__good_store_part_id
+        description: Extracted from json in column parameters (roughly parameters:good_store_part_id)
+      - name: parameters__updated_store_part_cost_ids
+        description: Extracted from json in column parameters (roughly parameters:updated_store_part_cost_ids)
+      - name: parameters__from_part_id
+        description: Extracted from json in column parameters (roughly parameters:from_part_id)
+      - name: parameters__branch_id
+        description: Extracted from json in column parameters (roughly parameters:branch_id)
+      - name: parameters__fields__conversion_unit_id
+        description: Extracted from json in column parameters (roughly parameters:fields:conversion_unit_id)
+      - name: parameters__changes__upc
+        description: Extracted from json in column parameters (roughly parameters:changes:upc)
+      - name: parameters__credit_purchase_receipt_id
+        description: Extracted from json in column parameters (roughly parameters:credit_purchase_receipt_id)
+      - name: parameters__period_start
+        description: Extracted from json in column parameters (roughly parameters:period_start)
+      - name: parameters__changes__spending_limit
+        description: Extracted from json in column parameters (roughly parameters:changes:spending_limit)
+      - name: parameters__fields__role_id
+        description: Extracted from json in column parameters (roughly parameters:fields:role_id)
+      - name: parameters__split_input_1__status
+        description: Extracted from json in column parameters (roughly parameters:split_input_1:status)
+      - name: parameters__transaction
+        description: Extracted from json in column parameters (roughly parameters:transaction)
+      - name: parameters__transaction__modified_by
+        description: Extracted from json in column parameters (roughly parameters:transaction:modified_by)
+      - name: parameters__fields__threshold
+        description: Extracted from json in column parameters (roughly parameters:fields:threshold)
+      - name: parameters__changes__inventory_type_id
+        description: Extracted from json in column parameters (roughly parameters:changes:inventory_type_id)
+      - name: parameters__updated_store_to_provider_transaction_ids
+        description: Extracted from json in column parameters (roughly parameters:updated_store_to_provider_transaction_ids)
+      - name: parameters__data__stores
+        description: Extracted from json in column parameters (roughly parameters:data:stores)
+      - name: parameters__fields__default_location
+        description: Extracted from json in column parameters (roughly parameters:fields:default_location)
+      - name: parameters__duplicate_store_part__max
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:max)
+      - name: parameters__fields__manufacturer_id
+        description: Extracted from json in column parameters (roughly parameters:fields:manufacturer_id)
+      - name: parameters__transaction__to_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:to_id)
+      - name: parameters__fields__branch_id
+        description: Extracted from json in column parameters (roughly parameters:fields:branch_id)
+      - name: parameters__permission_ids
+        description: Extracted from json in column parameters (roughly parameters:permission_ids)
+      - name: parameters__allowed_fields
+        description: Extracted from json in column parameters (roughly parameters:allowed_fields)
+      - name: parameters__compatible_with
+        description: Extracted from json in column parameters (roughly parameters:compatible_with)
+      - name: parameters__fields__msrp
+        description: Extracted from json in column parameters (roughly parameters:fields:msrp)
+      - name: parameters__fields__provider_id
+        description: Extracted from json in column parameters (roughly parameters:fields:provider_id)
+      - name: parameters__part_number
+        description: Extracted from json in column parameters (roughly parameters:part_number)
+      - name: parameters__upc
+        description: Extracted from json in column parameters (roughly parameters:upc)
+      - name: parameters__changes__item_status_id
+        description: Extracted from json in column parameters (roughly parameters:changes:item_status_id)
+      - name: parameters__changes__modified_by
+        description: Extracted from json in column parameters (roughly parameters:changes:modified_by)
+      - name: parameters__store_part_id
+        description: Extracted from json in column parameters (roughly parameters:store_part_id)
+      - name: parameters__fields__quantity
+        description: Extracted from json in column parameters (roughly parameters:fields:quantity)
+      - name: parameters__allow_cancelling_a_completed_transaction
+        description: Extracted from json in column parameters (roughly parameters:allow_cancelling_a_completed_transaction)
+      - name: parameters__fields__transaction_status_id
+        description: Extracted from json in column parameters (roughly parameters:fields:transaction_status_id)
+      - name: parameters__event_id
+        description: Extracted from json in column parameters (roughly parameters:event_id)
+      - name: parameters__duplicate_store_part
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part)
+      - name: parameters__changes__provider_id
+        description: Extracted from json in column parameters (roughly parameters:changes:provider_id)
+      - name: parameters__conversion_unit_id
+        description: Extracted from json in column parameters (roughly parameters:conversion_unit_id)
+      - name: parameters__product_class_id
+        description: Extracted from json in column parameters (roughly parameters:product_class_id)
+      - name: parameters__provider_id
+        description: Extracted from json in column parameters (roughly parameters:provider_id)
+      - name: parameters__fields__group_id
+        description: Extracted from json in column parameters (roughly parameters:fields:group_id)
+      - name: parameters__fields__resource_id
+        description: Extracted from json in column parameters (roughly parameters:fields:resource_id)
+      - name: parameters__split_input_1
+        description: Extracted from json in column parameters (roughly parameters:split_input_1)
+      - name: parameters__transaction__transaction_group_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:transaction_group_id)
+      - name: parameters__duplicate_provider_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_provider_id)
+      - name: parameters__data__parts
+        description: Extracted from json in column parameters (roughly parameters:data:parts)
+      - name: parameters__duplicate_store_part__date_created
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:date_created)
+      - name: parameters__duplicate_store_part__note
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:note)
+      - name: parameters__fields__product_class_id
+        description: Extracted from json in column parameters (roughly parameters:fields:product_class_id)
+      - name: parameters__manual_adjustment_id
+        description: Extracted from json in column parameters (roughly parameters:manual_adjustment_id)
+      - name: parameters__reason_id
+        description: Extracted from json in column parameters (roughly parameters:reason_id)
+      - name: parameters__transaction__company_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:company_id)
+      - name: parameters__archive_inventory_location_flag
+        description: Extracted from json in column parameters (roughly parameters:archive_inventory_location_flag)
+      - name: parameters__updated_store_provider_ids
+        description: Extracted from json in column parameters (roughly parameters:updated_store_provider_ids)
+      - name: parameters__fields__part_category_id
+        description: Extracted from json in column parameters (roughly parameters:fields:part_category_id)
+      - name: parameters__changes__branch_id
+        description: Extracted from json in column parameters (roughly parameters:changes:branch_id)
+      - name: parameters__data__parts__update
+        description: Extracted from json in column parameters (roughly parameters:data:parts:update)
+      - name: parameters__changes__quantity_received
+        description: Extracted from json in column parameters (roughly parameters:changes:quantity_received)
+      - name: parameters__transaction_items
+        description: Extracted from json in column parameters (roughly parameters:transaction_items)
+      - name: parameters__changes__transaction_status_id
+        description: Extracted from json in column parameters (roughly parameters:changes:transaction_status_id)
+      - name: parameters__changes__location
+        description: Extracted from json in column parameters (roughly parameters:changes:location)
+      - name: parameters__duplicate_store_part__search_vector
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:search_vector)
+      - name: parameters__to_part_id
+        description: Extracted from json in column parameters (roughly parameters:to_part_id)
+      - name: parameters__value
+        description: Extracted from json in column parameters (roughly parameters:value)
+      - name: parameters__wac_snapshot_id
+        description: Extracted from json in column parameters (roughly parameters:wac_snapshot_id)
+      - name: parameters__changes__product_class_id
+        description: Extracted from json in column parameters (roughly parameters:changes:product_class_id)
+      - name: parameters__split_input_0__items
+        description: Extracted from json in column parameters (roughly parameters:split_input_0:items)
+      - name: parameters__split_input_1__items
+        description: Extracted from json in column parameters (roughly parameters:split_input_1:items)
+      - name: parameters__transaction__created_by
+        description: Extracted from json in column parameters (roughly parameters:transaction:created_by)
+      - name: parameters__transaction__date_cancelled
+        description: Extracted from json in column parameters (roughly parameters:transaction:date_cancelled)
+      - name: parameters__transaction__date_created
+        description: Extracted from json in column parameters (roughly parameters:transaction:date_created)
+      - name: parameters__fields__parent_id
+        description: Extracted from json in column parameters (roughly parameters:fields:parent_id)
+      - name: parameters__direct_updated_part_ids
+        description: Extracted from json in column parameters (roughly parameters:direct_updated_part_ids)
+      - name: parameters__data
+        description: Extracted from json in column parameters (roughly parameters:data)
+      - name: parameters__archive_store_flag
+        description: Extracted from json in column parameters (roughly parameters:archive_store_flag)
+      - name: parameters__failed_items_csv_key
+        description: Extracted from json in column parameters (roughly parameters:failed_items_csv_key)
+      - name: parameters__status_id
+        description: Extracted from json in column parameters (roughly parameters:status_id)
+      - name: parameters__fields__max
+        description: Extracted from json in column parameters (roughly parameters:fields:max)
+      - name: parameters__data__part_classes
+        description: Extracted from json in column parameters (roughly parameters:data:part_classes)
+      - name: parameters__custom_id
+        description: Extracted from json in column parameters (roughly parameters:custom_id)
+      - name: parameters__old_price_per_item
+        description: Extracted from json in column parameters (roughly parameters:old_price_per_item)
+      - name: parameters__quantity_to_change
+        description: Extracted from json in column parameters (roughly parameters:quantity_to_change)
+      - name: parameters__standard_price
+        description: Extracted from json in column parameters (roughly parameters:standard_price)
+      - name: parameters__changes
+        description: Extracted from json in column parameters (roughly parameters:changes)
+      - name: parameters__changes__msrp
+        description: Extracted from json in column parameters (roughly parameters:changes:msrp)
+      - name: parameters__transaction_id
+        description: Extracted from json in column parameters (roughly parameters:transaction_id)
+      - name: parameters__fields__transaction_group_id
+        description: Extracted from json in column parameters (roughly parameters:fields:transaction_group_id)
+      - name: parameters__fields__transaction_type_id
+        description: Extracted from json in column parameters (roughly parameters:fields:transaction_type_id)
+      - name: parameters__fields__event_id
+        description: Extracted from json in column parameters (roughly parameters:fields:event_id)
+      - name: parameters__changes__max
+        description: Extracted from json in column parameters (roughly parameters:changes:max)
+      - name: parameters__quantity
+        description: Extracted from json in column parameters (roughly parameters:quantity)
+      - name: parameters__rental_id
+        description: Extracted from json in column parameters (roughly parameters:rental_id)
+      - name: parameters__manufacturer_number
+        description: Extracted from json in column parameters (roughly parameters:manufacturer_number)
+      - name: parameters__date_applied
+        description: Extracted from json in column parameters (roughly parameters:date_applied)
+      - name: parameters__weighted_average_cost
+        description: Extracted from json in column parameters (roughly parameters:weighted_average_cost)
+      - name: parameters__transaction__date_updated
+        description: Extracted from json in column parameters (roughly parameters:transaction:date_updated)
+      - name: parameters__transaction__from_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:from_id)
+      - name: parameters__fields__object_id
+        description: Extracted from json in column parameters (roughly parameters:fields:object_id)
+      - name: parameters__fields__location
+        description: Extracted from json in column parameters (roughly parameters:fields:location)
+      - name: parameters__duplicate_product_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_product_id)
+      - name: parameters__updated_provider_to_store_transaction_ids
+        description: Extracted from json in column parameters (roughly parameters:updated_provider_to_store_transaction_ids)
+      - name: parameters__data__parts__get_or_create
+        description: Extracted from json in column parameters (roughly parameters:data:parts:get_or_create)
+      - name: parameters__data__providers
+        description: Extracted from json in column parameters (roughly parameters:data:providers)
+      - name: parameters__fields__created_by
+        description: Extracted from json in column parameters (roughly parameters:fields:created_by)
+      - name: parameters__duplicate_store_part__location
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:location)
+      - name: parameters__changes__part_number
+        description: Extracted from json in column parameters (roughly parameters:changes:part_number)
+      - name: parameters__target_type_id
+        description: Extracted from json in column parameters (roughly parameters:target_type_id)
+      - name: parameters__transaction__split_from
+        description: Extracted from json in column parameters (roughly parameters:transaction:split_from)
+      - name: parameters__fields__inventory_type_id
+        description: Extracted from json in column parameters (roughly parameters:fields:inventory_type_id)
+      - name: parameters__changes__default_location
+        description: Extracted from json in column parameters (roughly parameters:changes:default_location)
+      - name: parameters__data__part_categories
+        description: Extracted from json in column parameters (roughly parameters:data:part_categories)
+      - name: parameters__admin_user_ids
+        description: Extracted from json in column parameters (roughly parameters:admin_user_ids)
+      - name: parameters__cat_class
+        description: Extracted from json in column parameters (roughly parameters:cat_class)
+      - name: parameters__update_inventory_location_flag
+        description: Extracted from json in column parameters (roughly parameters:update_inventory_location_flag)
+      - name: parameters__fields__class_number
+        description: Extracted from json in column parameters (roughly parameters:fields:class_number)
+      - name: parameters__work_order_id
+        description: Extracted from json in column parameters (roughly parameters:work_order_id)
+      - name: parameters__new_price_per_item
+        description: Extracted from json in column parameters (roughly parameters:new_price_per_item)
+      - name: parameters__fields__category_number
+        description: Extracted from json in column parameters (roughly parameters:fields:category_number)
+      - name: parameters__fields__upc
+        description: Extracted from json in column parameters (roughly parameters:fields:upc)
+      - name: parameters__msrp
+        description: Extracted from json in column parameters (roughly parameters:msrp)
+      - name: parameters__fields__part_id
+        description: Extracted from json in column parameters (roughly parameters:fields:part_id)
+      - name: parameters__fields__modified_by
+        description: Extracted from json in column parameters (roughly parameters:fields:modified_by)
+      - name: parameters__transaction_status_id
+        description: Extracted from json in column parameters (roughly parameters:transaction_status_id)
+      - name: parameters__store_id
+        description: Extracted from json in column parameters (roughly parameters:store_id)
+      - name: parameters__duplicate_store_part__date_updated
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:date_updated)
+      - name: parameters__duplicate_store_part__quantity
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:quantity)
+      - name: parameters__transaction_group_id
+        description: Extracted from json in column parameters (roughly parameters:transaction_group_id)
+      - name: parameters__sku_field
+        description: Extracted from json in column parameters (roughly parameters:sku_field)
+      - name: parameters__year
+        description: Extracted from json in column parameters (roughly parameters:year)
+      - name: parameters__incoming_cost_per_item
+        description: Extracted from json in column parameters (roughly parameters:incoming_cost_per_item)
+      - name: parameters__target_id
+        description: Extracted from json in column parameters (roughly parameters:target_id)
+      - name: parameters__rental_items
+        description: Extracted from json in column parameters (roughly parameters:rental_items)
+      - name: parameters__fields__to_uuid_id
+        description: Extracted from json in column parameters (roughly parameters:fields:to_uuid_id)
+      - name: parameters__on_hand_quantity
+        description: Extracted from json in column parameters (roughly parameters:on_hand_quantity)
+      - name: parameters__to_quantity
+        description: Extracted from json in column parameters (roughly parameters:to_quantity)
+      - name: parameters__fields__split_from
+        description: Extracted from json in column parameters (roughly parameters:fields:split_from)
+      - name: parameters__split_input_0__status
+        description: Extracted from json in column parameters (roughly parameters:split_input_0:status)
+      - name: parameters__deleted_store_providers
+        description: Extracted from json in column parameters (roughly parameters:deleted_store_providers)
+      - name: parameters__data__part_classes__get_or_create
+        description: Extracted from json in column parameters (roughly parameters:data:part_classes:get_or_create)
+      - name: parameters__fields__memo
+        description: Extracted from json in column parameters (roughly parameters:fields:memo)
+      - name: parameters__retail_sale_id
+        description: Extracted from json in column parameters (roughly parameters:retail_sale_id)
+      - name: parameters__direct_updated_store_part_ids
+        description: Extracted from json in column parameters (roughly parameters:direct_updated_store_part_ids)
+      - name: parameters__reason
+        description: Extracted from json in column parameters (roughly parameters:reason)
+      - name: parameters__transaction__transaction_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:transaction_id)
+      - name: parameters__changes__description
+        description: Extracted from json in column parameters (roughly parameters:changes:description)
+      - name: parameters__part_id
+        description: Extracted from json in column parameters (roughly parameters:part_id)
+      - name: parameters__fields
+        description: Extracted from json in column parameters (roughly parameters:fields)
+      - name: parameters__description
+        description: Extracted from json in column parameters (roughly parameters:description)
+      - name: parameters__company_id
+        description: Extracted from json in column parameters (roughly parameters:company_id)
+      - name: parameters__fields__to_id
+        description: Extracted from json in column parameters (roughly parameters:fields:to_id)
+      - name: parameters__changes__threshold
+        description: Extracted from json in column parameters (roughly parameters:changes:threshold)
+      - name: parameters__good_part_id
+        description: Extracted from json in column parameters (roughly parameters:good_part_id)
+      - name: parameters__duplicate_store_part__store_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:store_id)
+      - name: parameters__duplicate_store_part__store_part_id
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:store_part_id)
+      - name: parameters__duplicate_store_part__threshold
+        description: Extracted from json in column parameters (roughly parameters:duplicate_store_part:threshold)
+      - name: parameters__invoice_id
+        description: Extracted from json in column parameters (roughly parameters:invoice_id)
+      - name: parameters__direction
+        description: Extracted from json in column parameters (roughly parameters:direction)
+      - name: parameters__incoming_quantity
+        description: Extracted from json in column parameters (roughly parameters:incoming_quantity)
+      - name: parameters__reservation_id
+        description: Extracted from json in column parameters (roughly parameters:reservation_id)
+      - name: parameters__changes__name
+        description: Extracted from json in column parameters (roughly parameters:changes:name)
+      - name: parameters__transaction__date_completed
+        description: Extracted from json in column parameters (roughly parameters:transaction:date_completed)
+      - name: parameters__transaction__from_uuid_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:from_uuid_id)
+      - name: parameters__classification
+        description: Extracted from json in column parameters (roughly parameters:classification)
+      - name: parameters__region_id
+        description: Extracted from json in column parameters (roughly parameters:region_id)
+      - name: parameters__before_parent_id
+        description: Extracted from json in column parameters (roughly parameters:before_parent_id)
+      - name: parameters__good_provider_id
+        description: Extracted from json in column parameters (roughly parameters:good_provider_id)
+      - name: parameters__purchase_order_id
+        description: Extracted from json in column parameters (roughly parameters:purchase_order_id)
+      - name: parameters__transaction__to_uuid_id
+        description: Extracted from json in column parameters (roughly parameters:transaction:to_uuid_id)
+      - name: parameters__data__stores__update
+        description: Extracted from json in column parameters (roughly parameters:data:stores:update)

@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_analytics_treasury__dispute_summary
+    description: ""
+    columns:
+      - name: dispute_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: resolved_by_user_id
+        description: ""
+      - name: status
+        description: ""
+      - name: branch_name
+        description: ""
+      - name: created_by_email
+        description: ""
+      - name: resolved_by_email
+        description: ""
+      - name: created_by_title
+        description: ""
+      - name: resolved_by_title
+        description: ""
+      - name: general_manager
+        description: ""
+      - name: days_to_resolve
+        description: ""
+      - name: created_month
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_resolved
+        description: ""

@@ -1,0 +1,129 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_turo_rentals
+    description: >
+      Clean and standardize Turo rentals ingestion. Selects reservation- and trip-level
+      fields from the staging Turo rentals source, enriches with market/branch mapping,
+      and preserves Elementary sync metadata.
+    columns:
+      - name: reservation_id
+        description: "Turo reservation identifier"
+        data_tests:
+          - not_null
+          - unique
+      - name: guest
+        description: "Guest name or identifier"
+      - name: vehicle_name
+        description: "Vehicle display name"
+      - name: vehicle_model
+        description: "Vehicle model"
+      - name: license_plate_state
+        description: "State of the license plate"
+      - name: license_plate_number
+        description: "License plate number"
+      - name: license_plate_unknown_id
+        description: "Fallback identifier when license plate is unknown"
+      - name: vehicle_rental_indicator
+        description: "Indicator whether the row represents a vehicle rental"
+      - name: trip_start
+        description: "Trip start timestamp"
+      - name: trip_end
+        description: "Trip end timestamp"
+      - name: trip_days
+        description: >
+          Calculated trip days by getting the minutes datediff between trip_start and trip_end and dividing by 24 * 60.
+          We then take the ceiling of this number as turo charges a minimum period of 1 day.
+
+          Independent calculation requested by accounting.
+
+          Reference: https://help.turo.com/en_us/trip-pricing-ByXmVNgN5"
+      - name: trip_days_original
+        description: "Original trip days provided by Turo. Kept for reference."
+      - name: pickup_location
+        description: "Pickup location name or identifier"
+      - name: return_location
+        description: "Return location name or identifier"
+      - name: trip_status
+        description: "Status of the trip (e.g., completed, cancelled)"
+      - name: check_in_odometer
+        description: "Odometer at check-in"
+      - name: check_out_odometer
+        description: "Odometer at check-out"
+      - name: distance_traveled
+        description: "Distance traveled during trip"
+      - name: trip_price
+        description: "Base trip price"
+      - name: boost_price
+        description: "Boost price applied to the trip"
+      - name: discount_3_day
+        description: "3-day discount amount"
+      - name: discount_1_week
+        description: "1-week discount amount"
+      - name: discount_2_week
+        description: "2-week discount amount"
+      - name: discount_3_week
+        description: "3-week discount amount"
+      - name: discount_1_month
+        description: "1-month discount amount"
+      - name: discount_2_month
+        description: "2-month discount amount"
+      - name: discount_3_month
+        description: "3-month discount amount"
+      - name: early_bird_discount
+        description: "Early bird discount amount"
+      - name: host_promotional_credit
+        description: "Promotional credit applied by host"
+      - name: delivery
+        description: "Delivery fee amount"
+      - name: excess_distance
+        description: "Excess distance charge"
+      - name: extras
+        description: "Extra charges"
+      - name: cancellation_fee
+        description: "Cancellation fee amount"
+      - name: additional_usage
+        description: "Additional usage fees"
+      - name: late_fee
+        description: "Late return fee"
+      - name: improper_return_fee
+        description: "Improper return fee"
+      - name: airport_operations_fee
+        description: "Airport operations fee"
+      - name: tolls_and_tickets
+        description: "Tolls and ticket fees"
+      - name: on_trip_ev_charging
+        description: "EV charging cost while on trip"
+      - name: post_trip_ev_charging
+        description: "EV charging cost after trip"
+      - name: smoking
+        description: "Smoking fee"
+      - name: cleaning
+        description: "Cleaning fee"
+      - name: fines_paid_to_host
+        description: "Fines paid to host"
+      - name: gas_reimbursement
+        description: "Gas reimbursement amount"
+      - name: gas_fee
+        description: "Gas fee amount"
+      - name: other_fees
+        description: "Other miscellaneous fees"
+      - name: non_refundable_discount
+        description: "Non-refundable discount portion"
+      - name: sales_tax
+        description: "Sales tax amount"
+      - name: total_earnings
+        description: "Total earnings for the reservation"
+      - name: file_name
+        description: "Source file name from ingestion"
+      - name: turo_account_short_code
+        description: "Turo account short code used for branch mapping"
+      - name: market_id
+        description: "Mapped market id (from seed_vsg_turo_to_branch_mapping)"
+      - name: vsg_region_id
+        description: "Mapped VSG region id (from seed_vsg_turo_to_branch_mapping)"
+      - name: market_name
+        description: "Market name from int_markets lookup"
+      - name: _es_update_timestamp
+        description: "Elementary sync update timestamp"

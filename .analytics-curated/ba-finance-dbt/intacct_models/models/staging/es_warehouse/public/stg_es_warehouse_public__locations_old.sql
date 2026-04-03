@@ -1,0 +1,22 @@
+SELECT
+    lo.zip_code_extended,
+    lo.needs_review,
+    lo.longitude,
+    lo.nickname,
+    lo.company_id,
+    lo.user_id,
+    lo.street_1,
+    lo.location_type_id,
+    lo.state_id,
+    lo.zip_code,
+    lo.city,
+    lo.jobsite,
+    lo.street_2,
+    lo.latitude,
+    lo.description,
+    lo.location_id,
+    lo.state_abb,
+    lo.date_created,
+    lo.date_updated,
+    lo._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'locations_old') }} as lo

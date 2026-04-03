@@ -1,0 +1,116 @@
+version: 2
+
+models:
+  - name: stg_equipmentshare_public__company_purchase_order_line_items
+    description: ""
+    columns:
+      - name: company_purchase_order_line_item_id
+        description: ""
+
+      - name: invoice_number
+        description: ""
+
+      - name: asset_id
+        description: ""
+
+      - name: company_purchase_order_id
+        description: ""
+
+      - name: deleted_by_user_id
+        description: ""
+
+      - name: equipment_class_id
+        description: ""
+
+      - name: equipment_model_id
+        description: ""
+
+      - name: financial_schedule_id
+        description: ""
+
+      - name: license_state_id
+        description: ""
+
+      - name: sage_record_id
+        description: ""
+
+      - name: serial
+        description: ""
+
+      - name: vin
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: company_purchase_order_line_item_number
+        description: ""
+
+      - name: factory_build_specifications
+        description: ""
+
+      - name: finance_status
+        description: ""
+
+      - name: reconciliation_status
+        description: ""
+
+      - name: order_status
+        description: ""
+
+      - name: payment_type
+        description: ""
+
+      - name: attachments
+        description: ""
+
+      - name: freight_cost
+        description: ""
+
+      - name: year
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: net_price
+        description: ""
+
+      - name: note
+        description: ""
+
+      - name: current_promise_date
+        description: ""
+
+      - name: invoice_date
+        description: ""
+
+      - name: invoice_due_date
+        description: ""
+
+      - name: original_promise_date
+        description: ""
+
+      - name: paid_date
+        description: ""
+
+      - name: reconciliation_status_date
+        description: ""
+
+      - name: release_date
+        description: ""
+
+      - name: due_date
+        description: ""
+
+      - name: _company_purchase_order_line_items_effective_start_utc_datetime
+        description: ""
+
+      - name: _company_purchase_order_line_items_effective_delete_utc_datetime
+        description: ""
+
+      - name: sales_tax
+        description: "Sales tax associated with the purchase line item"
+
+      - name: rebate
+        description: "Rebate associated with the purchase line item"

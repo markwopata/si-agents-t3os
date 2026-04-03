@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__units
+    description: Model for es_warehouse.public.units
+    columns:
+      - name: unit_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: unit_type_id
+        description: ""
+      - name: unit_system_id
+        description: ""
+      - name: name
+        description: ""
+      - name: abbreviation
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

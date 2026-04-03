@@ -1,0 +1,40 @@
+---
+version: 2
+models:
+  - name: anaplan_headcount
+    description: "Monthly headcount snapshot of active employees. There will only be 1 snapshot per month."
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - period_start_date
+              - employee_id
+              - snapshot_date
+    columns:
+      - name: pk_headcount_id
+        description: "Surrogate primary key for the headcount row."
+        data_tests:
+          - not_null
+          - unique
+      - name: snapshot_date
+        description: "Last day of month or most recent snapshot date in date format. There will only be 1 snapshot per month."
+      - name: period_start_date
+        description: "First day of the month in date format. There will only be 1 snapshot per month."
+      - name: division
+        description: ""
+      - name: region
+        description: "Name of the region to which the employee is assigned."
+      - name: district
+        description: "Name of the district to which the employee is assigned."
+      - name: location
+        description: "Name of the location employee is assigned to."
+      - name: cost_center
+        description: "Cost center to which the employee is assigned. (Last element of default_cost_centers_full_path)"
+      - name: market_id
+        description: "Identifier for the market to which the employee is assigned."
+      - name: employee_id
+        description: "Unique numeric identifier for the employee."
+      - name: employee_title
+        description: "Job title of the employee."
+      - name: full_name
+        description: "Full name of the employee."

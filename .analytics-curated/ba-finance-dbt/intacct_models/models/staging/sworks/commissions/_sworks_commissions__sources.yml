@@ -1,0 +1,12 @@
+---
+version: 2
+
+description: Commission tables created by sworks
+sources:
+  - name: sworks_commissions
+    tags: ["sources"]
+    database: sworks
+    schema: commissions
+    tables:
+      - name: commission_override_requests
+        description: ""

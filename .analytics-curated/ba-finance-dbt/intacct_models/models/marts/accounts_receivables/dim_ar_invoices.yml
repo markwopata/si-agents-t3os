@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: dim_ar_invoices
+    description: "a collection of data that describe invoices. Invoices are documents sent by the seller to the buyer\n"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - invoice_id
+              - fk_ar_line_id
+    columns:
+      - name: customer_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: credit_note_id
+        description: ""
+      - name: fk_ar_line_id
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: line_item_type_name
+        description: ""
+      - name: ar_line_type
+        description: ""
+      - name: invoice_number
+        description: ""
+      - name: ar_header_type
+        description: ""
+      - name: url_admin
+        description: ""
+      - name: invoice_date
+        description: ""

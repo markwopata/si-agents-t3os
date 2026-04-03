@@ -1,0 +1,102 @@
+---
+version: 2
+models:
+  - name: dim_asset4000_assets
+    description: >
+      This model is a mart of all Asset4000 assets. Contains relevant fields related to these assets
+    config:
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_code
+              - depreciation_date
+    columns:
+      - name: asset_code
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: depreciation_date
+        description: ""
+
+      - name: asset_account
+        description: ""
+
+      - name: accumulated_depreciation_account
+        description: ""
+
+      - name: depreciation_expense_account
+        description: ""
+
+      - name: serial_number
+        description: ""
+
+      - name: sage_transaction_number
+        description: ""
+
+      - name: admin_asset_id
+        description: ""
+
+      - name: source
+        description: ""
+
+      - name: asset_title
+        description: ""
+
+      - name: address
+        description: ""
+
+      - name: asset_class
+        description: ""
+        data_tests:
+          - not_null
+
+      - name: asset_class_name
+        description: ""
+        data_tests:
+          - not_null
+
+      - name: facility_type
+        description: ""
+
+      - name: last_modified_by
+        description: ""
+
+      - name: make
+        description: ""
+
+      - name: model
+        description: ""
+
+      - name: invoice_number
+        description: ""
+
+      - name: invoice_number_two
+        description: ""
+
+      - name: invoice_number_three
+        description: ""
+
+      - name: asset_disposal_reason
+        description: ""
+
+      - name: asset_disposal_date
+        description: ""
+
+      - name: asset_purchase_date
+        description: ""
+
+      - name: asset_capitalized_date
+        description: ""
+
+      - name: asset_gl_assignment_date
+        description: ""
+
+      - name: asset_expiration_date
+        description: ""
+
+      - name: asset_depreciation_start_date
+        description: ""

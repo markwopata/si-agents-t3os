@@ -1,0 +1,143 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracking_incidents
+    description: Model for es_warehouse.public.tracking_incidents
+    columns:
+      - name: tracking_event_id
+        description: ""
+      - name: optional_fields
+        description: ""
+      - name: report_timestamp
+        description: ""
+      - name: tracking_incident_type_id
+        description: ""
+      - name: vendor_timestamp
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: tracking_incident_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          # - unique # This test is time-expensive
+      - name: duration
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: geofence_id
+        description: ""
+      - name: incident_viewed
+        description: ""
+      - name: time_fence_id
+        description: ""
+      - name: asset_incident_threshold_id
+        description: ""
+      - name: created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: optional_fields__startincidentid
+        description: Extracted from json in column optional_fields (roughly optional_fields:startincidentid)
+      - name: optional_fields__driver_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_id)
+      - name: optional_fields__trip_odometer_miles
+        description: Extracted from json in column optional_fields (roughly optional_fields:trip_odometer_miles)
+      - name: optional_fields__idle_threshold
+        description: Extracted from json in column optional_fields (roughly optional_fields:idle_threshold)
+      - name: optional_fields__driver_location_timestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_location_timestamp)
+      - name: optional_fields__trip_distance_accumulator
+        description: Extracted from json in column optional_fields (roughly optional_fields:trip_distance_accumulator)
+      - name: optional_fields__location_timezone_name
+        description: Extracted from json in column optional_fields (roughly optional_fields:location_timezone_name)
+      - name: optional_fields__error
+        description: Extracted from json in column optional_fields (roughly optional_fields:error)
+      - name: optional_fields__stop_driving_source
+        description: Extracted from json in column optional_fields (roughly optional_fields:stop_driving_source)
+      - name: optional_fields__speed_unit
+        description: Extracted from json in column optional_fields (roughly optional_fields:speed_unit)
+      - name: optional_fields__driver_asset_timestamp_difference
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_asset_timestamp_difference)
+      - name: optional_fields__idlestartincidentid
+        description: Extracted from json in column optional_fields (roughly optional_fields:idlestartincidentid)
+      - name: optional_fields__gps_fix_timestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:gps_fix_timestamp)
+      - name: optional_fields__maxspeed
+        description: Extracted from json in column optional_fields (roughly optional_fields:maxspeed)
+      - name: optional_fields__trip_ended_by
+        description: Extracted from json in column optional_fields (roughly optional_fields:trip_ended_by)
+      - name: optional_fields__duration_error
+        description: Extracted from json in column optional_fields (roughly optional_fields:duration_error)
+      - name: optional_fields__driver_longitude
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_longitude)
+      - name: optional_fields__state__id
+        description: Extracted from json in column optional_fields (roughly optional_fields:state:id)
+      - name: optional_fields__durationerror
+        description: Extracted from json in column optional_fields (roughly optional_fields:durationerror)
+      - name: optional_fields__fuelusage
+        description: Extracted from json in column optional_fields (roughly optional_fields:fuelusage)
+      - name: optional_fields__elog_device_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:elog_device_id)
+      - name: optional_fields__vehicle_speed
+        description: Extracted from json in column optional_fields (roughly optional_fields:vehicle_speed)
+      - name: optional_fields__location_time
+        description: Extracted from json in column optional_fields (roughly optional_fields:location_time)
+      - name: optional_fields__voltage
+        description: Extracted from json in column optional_fields (roughly optional_fields:voltage)
+      - name: optional_fields__state
+        description: Extracted from json in column optional_fields (roughly optional_fields:state)
+      - name: optional_fields__ignition_on_incident_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:ignition_on_incident_id)
+      - name: optional_fields__odometer_using_speed_over_time
+        description: Extracted from json in column optional_fields (roughly optional_fields:odometer_using_speed_over_time)
+      - name: optional_fields__speedstartincidentid
+        description: Extracted from json in column optional_fields (roughly optional_fields:speedstartincidentid)
+      - name: optional_fields__duration_fix_tracking_event_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:duration_fix_tracking_event_id)
+      - name: optional_fields__ignition_off_timestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:ignition_off_timestamp)
+      - name: optional_fields__trip_odo_miles
+        description: Extracted from json in column optional_fields (roughly optional_fields:trip_odo_miles)
+      - name: optional_fields__idlethreshold
+        description: Extracted from json in column optional_fields (roughly optional_fields:idlethreshold)
+      - name: optional_fields__extreme_threshold_value
+        description: Extracted from json in column optional_fields (roughly optional_fields:extreme_threshold_value)
+      - name: optional_fields__driver_distance_from_asset
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_distance_from_asset)
+      - name: optional_fields__endincidenttimestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:endincidenttimestamp)
+      - name: optional_fields__state__name
+        description: Extracted from json in column optional_fields (roughly optional_fields:state:name)
+      - name: optional_fields__street
+        description: Extracted from json in column optional_fields (roughly optional_fields:street)
+      - name: optional_fields__trip_distance_miles
+        description: Extracted from json in column optional_fields (roughly optional_fields:trip_distance_miles)
+      - name: optional_fields__duplicate_error
+        description: Extracted from json in column optional_fields (roughly optional_fields:duplicate_error)
+      - name: optional_fields__notify
+        description: Extracted from json in column optional_fields (roughly optional_fields:notify)
+      - name: optional_fields__start_driving_incident_id
+        description: Extracted from json in column optional_fields (roughly optional_fields:start_driving_incident_id)
+      - name: optional_fields__idleendincidenttimestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:idleendincidenttimestamp)
+      - name: optional_fields__state__abbreviation
+        description: Extracted from json in column optional_fields (roughly optional_fields:state:abbreviation)
+      - name: optional_fields__county
+        description: Extracted from json in column optional_fields (roughly optional_fields:county)
+      - name: optional_fields__posted_speed_limit
+        description: Extracted from json in column optional_fields (roughly optional_fields:posted_speed_limit)
+      - name: optional_fields__source
+        description: Extracted from json in column optional_fields (roughly optional_fields:source)
+      - name: optional_fields__driver_latitude
+        description: Extracted from json in column optional_fields (roughly optional_fields:driver_latitude)
+      - name: optional_fields__driving_distance_miles
+        description: Extracted from json in column optional_fields (roughly optional_fields:driving_distance_miles)
+      - name: optional_fields__city
+        description: Extracted from json in column optional_fields (roughly optional_fields:city)
+      - name: optional_fields__ignition_on_timestamp
+        description: Extracted from json in column optional_fields (roughly optional_fields:ignition_on_timestamp)

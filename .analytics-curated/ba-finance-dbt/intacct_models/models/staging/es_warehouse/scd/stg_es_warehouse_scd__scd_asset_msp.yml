@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_scd__scd_asset_msp
+    description: Model for es_warehouse.scd.scd_asset_msp
+    data_tests:
+      - test_date_start_end_overlaps:
+          name: test_stg_es_warehouse_scd__scd_asset_msp_date_start_end_overlaps
+          date_start_column: date_start
+          date_end_column: date_end
+          group_by_columns: [asset_id]
+          config:
+            severity: warn
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          name: test_stg_es_warehouse_scd__scd_asset_msp_unique_asset_plus_date
+          column_list:
+            - asset_id
+            - date_start
+          config:
+            severity: warn
+    columns:
+      - name: scd_asset_msp_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: service_branch_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: current_flag
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

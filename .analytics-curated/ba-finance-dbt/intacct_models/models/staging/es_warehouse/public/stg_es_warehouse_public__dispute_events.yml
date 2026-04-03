@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__dispute_events
+    description: ""
+    columns:
+      - name: dispute_id
+        description: ""
+      - name: credit_note_id
+        description: ""
+      - name: created_by_user_id
+        description: ""
+      - name: dispute_event_type_id
+        description: ""
+      - name: dispute_credit_reason_id
+        description: ""
+      - name: dispute_event_id
+        description: ""
+      - name: description
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: _es_load_timestamp
+        description: ""

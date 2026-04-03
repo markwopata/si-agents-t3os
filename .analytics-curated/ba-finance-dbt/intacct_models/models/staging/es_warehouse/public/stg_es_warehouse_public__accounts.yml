@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__accounts
+    description: Model for es_warehouse.public.accounts
+    columns:
+      - name: account_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: google_account_id
+        description: ""
+      - name: type
+        description: ""
+      - name: email
+        description: ""
+      - name: username
+        description: ""
+      - name: is_active
+        description: ""
+      - name: first_name
+        description: ""
+      - name: last_name
+        description: ""
+      - name: picture
+        description: ""
+      - name: description
+        description: ""
+      - name: hashed_password
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""

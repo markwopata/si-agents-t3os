@@ -1,0 +1,28 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__remaining_rental_cost
+    description: Model for es_warehouse.public.remaining_rental_cost
+    columns:
+      - name: num_days
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: num_weeks
+        description: ""
+      - name: day_cost
+        description: ""
+      - name: round_down_week_plus_days
+        description: ""
+      - name: round_up_week
+        description: ""
+      - name: month_cost
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: cheapest_option
+        description: ""

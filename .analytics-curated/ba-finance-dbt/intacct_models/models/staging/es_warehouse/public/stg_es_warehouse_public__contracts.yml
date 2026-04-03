@@ -1,0 +1,87 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__contracts
+    description: Model for es_warehouse.public.contracts
+    columns:
+      - name: contract_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          - unique
+      - name: type
+        description: ""
+      - name: terms
+        description: ""
+      - name: signature
+        description: ""
+      - name: date_signed
+        description: ""
+      - name: contract_type_id
+        description: ""
+      - name: title
+        description: ""
+      - name: last_sent
+        description: ""
+      - name: order_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: terms__billing__email
+        description: Extracted from json in column terms (roughly terms:billing:email)
+      - name: terms__billing__reference
+        description: Extracted from json in column terms (roughly terms:billing:reference)
+      - name: terms__billing__salesperson_name
+        description: Extracted from json in column terms (roughly terms:billing:salesperson_name)
+      - name: terms__market__address
+        description: Extracted from json in column terms (roughly terms:market:address)
+      - name: terms__market__phone
+        description: Extracted from json in column terms (roughly terms:market:phone)
+      - name: terms__billing
+        description: Extracted from json in column terms (roughly terms:billing)
+      - name: terms__billing__address
+        description: Extracted from json in column terms (roughly terms:billing:address)
+      - name: terms__billing__name
+        description: Extracted from json in column terms (roughly terms:billing:name)
+      - name: terms__line_items
+        description: Extracted from json in column terms (roughly terms:line_items)
+      - name: terms__order__job_name
+        description: Extracted from json in column terms (roughly terms:order:job_name)
+      - name: terms__order__total
+        description: Extracted from json in column terms (roughly terms:order:total)
+      - name: terms__order__name
+        description: Extracted from json in column terms (roughly terms:order:name)
+      - name: terms__market__service_email
+        description: Extracted from json in column terms (roughly terms:market:service_email)
+      - name: terms__billing__is_company_tax_exempt
+        description: Extracted from json in column terms (roughly terms:billing:is_company_tax_exempt)
+      - name: terms__order__tax_percentage
+        description: Extracted from json in column terms (roughly terms:order:tax_percentage)
+      - name: terms__order_id
+        description: Extracted from json in column terms (roughly terms:order_id)
+      - name: terms__order__subtotal
+        description: Extracted from json in column terms (roughly terms:order:subtotal)
+      - name: terms__market__name
+        description: Extracted from json in column terms (roughly terms:market:name)
+      - name: terms__rentals
+        description: Extracted from json in column terms (roughly terms:rentals)
+      - name: terms__order__total_tax
+        description: Extracted from json in column terms (roughly terms:order:total_tax)
+      - name: terms__version
+        description: Extracted from json in column terms (roughly terms:version)
+      - name: terms__billing__phone
+        description: Extracted from json in column terms (roughly terms:billing:phone)
+      - name: terms__has_quote
+        description: Extracted from json in column terms (roughly terms:has_quote)
+      - name: terms__jurisdiction
+        description: Extracted from json in column terms (roughly terms:jurisdiction)
+      - name: terms__market
+        description: Extracted from json in column terms (roughly terms:market)
+      - name: terms__order
+        description: Extracted from json in column terms (roughly terms:order)
+      - name: terms__order__job_phase_name
+        description: Extracted from json in column terms (roughly terms:order:job_phase_name)

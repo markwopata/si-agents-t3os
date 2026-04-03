@@ -14,6 +14,7 @@ const EXCLUDED_FILE_NAMES = new Set([
   ".env",
   ".env.example",
   "dbt_project.yml",
+  "docker-compose.yml",
   "package-lock.json",
   "package.json",
   "poetry.lock",

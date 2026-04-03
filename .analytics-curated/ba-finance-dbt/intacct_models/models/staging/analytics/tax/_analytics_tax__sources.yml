@@ -1,0 +1,583 @@
+---
+version: 2
+
+sources:
+  - name: analytics_tax
+    tags: ["sources"]
+    database: analytics
+    schema: tax
+    description: data in analytics.tax (analytics database / tax schema) used for tax purposes (BA ETL scripts)
+    meta:
+      owner: ["@tyler.young"]
+    tables:
+      - name: app_assessment_records
+        description: summary table of app assessments
+        columns:
+          - name: assessment_id
+            description: unique identifier for the assessment
+            data_tests:
+              - unique
+              - not_null
+          - name: assessment_status
+            description: current status of the assessment
+            data_tests:
+              - not_null
+          - name: taxable_value
+            description: taxable value associated with the assessment
+            data_tests:
+              - not_null
+          - name: tax_assessment
+            description: amount authority declared as owed
+            data_tests:
+              - not_null
+          - name: period_start
+            description: start date of the assessment period
+            data_tests:
+              - not_null
+          - name: period_end
+            description: end date of the assessment period
+            data_tests:
+              - not_null
+          - name: tax_authority_id
+            description: identifier for the tax authority
+            data_tests:
+              - not_null
+          - name: parcel_id
+            description: identifier for the parcel
+            data_tests:
+              - not_null
+          - name: notes
+            description: additional notes regarding the assessment
+          - name: current_status
+            description: current status of the record
+          - name: supplemental
+            description: indicates if the assessment is supplemental
+          - name: assessment_pdf
+            description: link to the assessment PDF
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: assessment_accrual_amount
+            description: amount to accrue for the assessment
+            data_tests:
+              - not_null
+      - name: app_assessment_records_audit_log
+        description: audit log table of app assessments
+        columns:
+          - name: assessment_id
+            description: unique identifier for the assessment
+            data_tests:
+              - not_null
+          - name: assessment_status
+            description: current status of the assessment
+          - name: taxable_value
+            description: taxable value associated with the assessment
+          - name: tax_assessment
+            description: amount authority declared as owed
+          - name: period_start
+            description: start date of the assessment period
+          - name: period_end
+            description: end date of the assessment period
+          - name: tax_authority_id
+            description: identifier for the tax authority
+          - name: parcel_id
+            description: identifier for the parcel
+          - name: notes
+            description: additional notes regarding the assessment
+          - name: current_status
+            description: current status of the record
+          - name: supplemental
+            description: indicates if the assessment is supplemental
+          - name: assessment_pdf
+            description: link to the assessment PDF
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: updated_by
+            description: user who last updated the record
+            data_tests:
+              - not_null
+          - name: updated_date
+            description: date the record was last updated
+            data_tests:
+              - not_null
+          - name: audit_action
+            description: type of action performed (INSERT, UPDATE, DELETE)
+            data_tests:
+              - not_null
+          - name: assessment_accrual_amount
+            description: amount to accrue for the assessment
+      - name: app_bill_records
+        description: table of app bill records
+        columns:
+          - name: bill_id
+            description: unique identifier for the bill
+            data_tests:
+              - unique
+              - not_null
+          - name: billing_description
+            description: description of the bill
+            data_tests:
+              - not_null
+          - name: amount
+            description: amount associated with the bill
+            data_tests:
+              - not_null
+          - name: due_date
+            description: due date for the bill
+            data_tests:
+              - not_null
+          - name: bill_status
+            description: current status of the bill
+            data_tests:
+              - not_null
+          - name: assessment_id
+            description: unique identifier for the assessment
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: paid_date
+            description: date the bill was paid
+      - name: app_bill_records_audit_log
+        description: audit log table of app bill records
+        columns:
+          - name: bill_id
+            description: unique identifier for the bill
+            data_tests:
+              - not_null
+          - name: billing_description
+            description: description of the bill
+          - name: amount
+            description: amount associated with the bill
+          - name: due_date
+            description: due date for the bill
+          - name: bill_status
+            description: current status of the bill
+          - name: assessment_id
+            description: unique identifier for the assessment
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: updated_by
+            description: user who last updated the record
+            data_tests:
+              - not_null
+          - name: updated_date
+            description: date the record was last updated
+            data_tests:
+              - not_null
+          - name: audit_action
+            description: type of action performed (INSERT, UPDATE, DELETE)
+            data_tests:
+              - not_null
+          - name: paid_date
+            description: date the bill was paid
+      - name: app_legal_owners
+        description: table of app legal owners
+        columns:
+          - name: legal_owner_id
+            description: unique identifier for the owner
+            data_tests:
+              - unique
+              - not_null
+          - name: legal_owner_name
+            description: name of the owner
+            data_tests:
+              - not_null
+          - name: legal_owner_address
+            description: address of the owner
+          - name: legal_owner_state
+            description: state of the owner
+          - name: legal_owner_city
+            description: city of the owner
+          - name: legal_owner_zip
+            description: zip code of the owner
+          - name: legal_owner_contact
+            description: contact information of the owner
+          - name: legal_owner_email
+            description: email address of owner
+          - name: legal_owner_phone
+            description: phone number of the owner
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+      - name: app_locations
+        description: table of app locations
+        columns:
+          - name: location_id
+            description: unique identifier for the location
+            data_tests:
+              - unique
+              - not_null
+          - name: market_id
+            description: identifier for the market
+            data_tests:
+              - not_null
+          - name: location_name
+            description: name of the location
+            data_tests:
+              - not_null
+          - name: location_address
+            description: address of the location
+          - name: location_city
+            description: city of the location
+          - name: location_state
+            description: state of the location
+          - name: location_zip
+            description: zip code of the location
+          - name: location_county
+            description: county of the location
+          - name: active
+            description: whether the location is active
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: inactive_date
+            description: date the location was inactivated
+      - name: app_locations_audit_log
+        description: audit log table of app locations
+        columns:
+          - name: location_id
+            description: unique identifier for the location
+            data_tests:
+              - not_null
+          - name: market_id
+            description: identifier for the market
+          - name: location_name
+            description: name of the location
+          - name: location_address
+            description: address of the location
+          - name: location_city
+            description: city of the location
+          - name: location_state
+            description: state of the location
+          - name: location_zip
+            description: zip code of the location
+          - name: location_county
+            description: county of the location
+          - name: active
+            description: whether the location is active
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: inactive_date
+            description: date the location was inactivated
+          - name: updated_date
+            description: date the record was last updated
+            data_tests:
+              - not_null
+          - name: updated_by
+            description: user who last updated the record
+            data_tests:
+              - not_null
+          - name: audit_action
+            description: type of action performed (INSERT, UPDATE, DELETE)
+            data_tests:
+              - not_null
+      - name: app_ownership_types
+        description: table of app ownership types
+        columns:
+          - name: ownership_type_id
+            description: unique identifier for the ownership type
+            data_tests:
+              - unique
+              - not_null
+          - name: description
+            description: description of the ownership type
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+      - name: app_parcels
+        description: table of app parcels
+        columns:
+          - name: parcel_id
+            description: unique identifier for the parcel
+            data_tests:
+              - unique
+              - not_null
+          - name: parcel_tax_id
+            description: tax identifier given by authority for the parcel
+            data_tests:
+              - not_null
+          - name: location_id
+            description: identifier for the location
+            data_tests:
+              - not_null
+          - name: legal_owner_id
+            description: identifier for the legal owner
+            data_tests:
+              - not_null
+          - name: ownership_type_id
+            description: identifier for the ownership type
+            data_tests:
+              - not_null
+          - name: tax_admin_type_id
+            description: identifier for the tax admin type
+            data_tests:
+              - not_null
+          - name: parcel_type
+            description: type of the parcel (real or personal property)
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: active
+            description: whether the parcel is active
+      - name: app_parcels_audit_log
+        description: audit log table of app parcels
+        columns:
+          - name: parcel_id
+            description: unique identifier for the parcel
+            data_tests:
+              - not_null
+          - name: parcel_tax_id
+            description: tax identifier given by authority for the parcel
+          - name: location_id
+            description: identifier for the location
+          - name: legal_owner_id
+            description: identifier for the legal owner
+          - name: ownership_type_id
+            description: identifier for the ownership type
+          - name: tax_admin_type_id
+            description: identifier for the tax admin type
+          - name: parcel_type
+            description: type of the parcel (real or personal property)
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: updated_date
+            description: date the record was last updated
+            data_tests:
+              - not_null
+          - name: updated_by
+            description: user who last updated the record
+            data_tests:
+              - not_null
+          - name: audit_action
+            description: type of action performed (INSERT, UPDATE, DELETE)
+            data_tests:
+              - not_null
+          - name: active
+            description: whether the parcel is active
+      - name: app_payment_terms
+        description: table of app payment terms
+        columns:
+          - name: payment_terms_id
+            description: unique identifier for the payment term
+            data_tests:
+              - unique
+              - not_null
+          - name: number_of_payments
+            description: number of pay installments associated with the term
+            data_tests:
+              - not_null
+          - name: payment1_due_date_days
+            description: number of days until first payment is due from FY start
+            data_tests:
+              - not_null
+          - name: payment2_due_date_days
+            description: number of days until second payment is due from FY start
+          - name: payment3_due_date_days
+            description: number of days until third payment is due from FY start
+          - name: payment4_due_date_days
+            description: number of days until fourth payment is due from FY start
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: fiscal_year_start
+            description: start date of the fiscal year for the payment terms
+            data_tests:
+              - not_null
+      - name: app_tax_admin_types
+        description: table of app tax admin types
+        columns:
+          - name: tax_admin_type_id
+            description: unique identifier for the tax admin type
+            data_tests:
+              - unique
+              - not_null
+          - name: description
+            description: description of the tax admin type
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+      - name: app_tax_authorities
+        arguments:
+          - at_least_one_not_null:
+              column_list: ['rpt_payment_terms_id', 'ppt_payment_terms_id']
+        description: table of app tax authorities
+        columns:
+          - name: authority_id  
+            description: unique identifier for the tax authority
+            data_tests:
+              - unique
+              - not_null
+          - name: sage_vendor_id
+            description: identifier for the sage vendor associated with the tax authority
+          - name: fiscal_year_start
+            description: start date of the fiscal year for the tax authority
+            data_tests:
+              - not_null
+          - name: authority_name
+            description: name of the tax authority
+            data_tests:
+              - unique
+              - not_null
+          - name: authority_url
+            description: URL of the tax authority
+          - name: rpt_payment_terms_id
+            description: identifier for the real payment terms associated with the tax authority
+          - name: ppt_payment_terms_id
+            description: identifier for the personal property tax terms associated with the tax authority
+          - name: notes
+            description: additional notes regarding the tax authority
+          - name: return_due_month
+            description: month when the tax return is due
+          - name: expected_assessment_month
+            description: month when the assessment is expected
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: authority_state
+            description: state where the tax authority is located
+      - name: app_tax_authorities_audit_log
+        description: audit log table of app tax authorities
+        columns:
+          - name: authority_id  
+            description: unique identifier for the tax authority
+            data_tests:
+              - not_null
+          - name: sage_vendor_id
+            description: identifier for the sage vendor associated with the tax authority
+          - name: fiscal_year_start
+            description: start date of the fiscal year for the tax authority
+          - name: authority_name
+            description: name of the tax authority
+          - name: authority_url
+            description: URL of the tax authority
+          - name: rpt_payment_terms_id
+            description: identifier for the real payment terms associated with the tax authority
+          - name: ppt_payment_terms_id
+            description: identifier for the personal property tax terms associated with the tax authority
+          - name: notes
+            description: additional notes regarding the tax authority
+          - name: return_due_month
+            description: month when the tax return is due
+          - name: expected_assessment_month
+            description: month when the assessment is expected
+          - name: created_by
+            description: user who created the record
+            data_tests:
+              - not_null
+          - name: created_date
+            description: date the record was created
+            data_tests:
+              - not_null
+          - name: updated_by
+            description: user who last updated the record
+            data_tests:
+              - not_null
+          - name: updated_date
+            description: date the record was last updated
+            data_tests:
+              - not_null
+          - name: audit_action
+            description: type of action performed (INSERT, UPDATE, DELETE)
+            data_tests:
+              - not_null
+          - name: authority_state
+            description: state where the tax authority is located
+      - name: market_county
+        description: mapping of markets to counties
+        meta:
+          generated_from: One-off Python script
+          python_script: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-tax/-/blob/main/ad_hoc_scripts/get_counties.py?ref_type=heads
+        columns:
+          - name: market_id
+            description: unique identifier for the market
+            data_tests:
+              - not_null
+          - name: market_name
+            description: name of the market
+            data_tests:
+              - not_null
+          - name: latitude
+            description: latitude of the county centroid
+            data_tests:
+              - not_null
+          - name: longitude
+            description: longitude of the county centroid
+            data_tests:
+              - not_null
+          - name: county
+            description: County the market is located in, as per coordinates from lat/long and the US Census Bureau
+            data_tests:
+              - not_null

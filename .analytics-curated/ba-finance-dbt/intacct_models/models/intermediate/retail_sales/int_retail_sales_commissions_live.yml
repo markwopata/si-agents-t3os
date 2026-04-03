@@ -1,0 +1,13 @@
+---
+version: 2
+models:
+  - name: int_retail_sales_commissions_live
+    description: Retail Commissions Checking if invoice was fully paid, if so, which date
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique
+      - name: line_item_id
+        data_tests:
+          - not_null

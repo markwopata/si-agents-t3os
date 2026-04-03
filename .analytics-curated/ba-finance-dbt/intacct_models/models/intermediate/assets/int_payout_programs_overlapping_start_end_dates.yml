@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: int_payout_programs_overlapping_start_end_dates
+    description: >
+        table containing overlapping start / end dates for payout programs. since it is a fleeting test (it fails and corrects itself) + store failures dooesn't support history, we create this table to capture the failures over time
+    columns:
+      - name: failure_logged_at
+        description: the date the failure was captured
+      - name: payout_program_assignment_id
+        description: "Identifier for the payout program assignment"
+      - name: payout_program_id
+        description: "Unique identifier for the payout program"
+      - name: payout_program_name
+        description: "Name of the payout program"
+      - name: payout_program_type_id
+        description: "Identifier for the payout program type"
+      - name: payout_program_type
+        description: "Name of the payout program type"
+      - name: asset_id
+        description: "Identifier for the asset associated with the payout program"
+      - name: date_start
+        description: "Start date of the payout program"
+      - name: date_end
+        description: "End date of the payout program"
+      - name: original_date_start
+        description: "Original start date of the payout program assignment"
+      - name: original_date_end
+        description: "Original end date of the payout program assignment"
+      - name: asset_payout_percentage
+        description: "Payout percentage for the asset"
+      - name: is_payout_program_unpaid
+        description: >
+          Indicates if the payout program is unpaid. payout_program_id 104 indicates that the asset will be added to an
+          active payout program soon, but it hasn't been paid for by the OWN participant yet.
+      - name: is_payout_program_enrolled
+        description: "Indicates if the payout program is enrolled (must have paid). Not on payout_program_id 104."
+      - name: _es_update_timestamp
+        description: '{{ doc("_es_update_timestamp") }}'

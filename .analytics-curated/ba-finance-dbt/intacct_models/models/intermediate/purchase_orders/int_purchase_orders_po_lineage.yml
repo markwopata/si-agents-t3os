@@ -1,0 +1,142 @@
+version: 2
+
+models:
+  - name: int_purchase_orders_po_lineage
+    description: |
+      Final model combining PO line-level details with aggregates and conversion status.
+      Includes both relieved and unconverted PO line records.
+
+      Model Name: PO Lineage
+      
+      Model:  The purpose of this model is to combine the different converting documents to its
+              original po. We do not have good visibility to all of the converting docs in sage or looker.
+              This model joins the converting docs back to the parent po along with the true up journals posted
+              for price variances. The model identifies po/po line status, unconverted qty/$. 
+
+      Model Steps:
+        - step 1: (int_purchase_orders_po_to_vi) combines converting doc to po
+        - step 2: (int_purchase_orders_po_true_ups) pulls all apa true ups
+        - step 3: (int_purchase_orders_po_union) union step 1 & 2
+        - step 4: (int_purchase_orders_po_aggregate) calculate po/po line totals
+        - step 5: (int_purchase_orders_po_lineage) joins step 3 & 4, adds unconverted row
+
+      Grain:
+        - One record per combination of:
+          - fk_subledger_line_id (PO line)
+          - apa_fk_gl_entry_id (GL entry id)
+          - converting_doc_fk_po_line_id (nullable)
+
+    columns:
+      - name: fk_subledger_line_id
+        description: "Foreign key to the Intacct PO line (may have '_unconverted' suffix for synthetic rows)."
+ 
+      - name: receipt_number
+        description: "PO/receipt number."
+
+      - name: document_name
+        description: "PO document name (long)."
+
+      - name: quantity
+        description: "PO line quantity."
+
+      - name: unit_price
+        description: "PO line unit price."
+
+      - name: po_amount
+        description: "Relieved amount at line level (relieved_quantity * unit_price, or derived for unconverted rows)."
+
+      - name: cpo_amount
+        description: "Closed PO amount (0 if not closed)."
+
+      - name: apa_trueup_amount
+        description: "APA true-up amount (0 for non-true-up rows)."
+
+      - name: vi_amount
+        description: "Vendor invoice amount matched to the PO/receipt (0 for APA true-ups)."
+
+      - name: expense_account_number
+        description: "Expense account number from GL."
+
+      - name: relieved_by
+        description: "Document type that relieved/converted the PO (e.g., 'invoice matched to receipt', 'closed receipt', 'apa true up', 'not yet relieved')."
+
+      - name: relieved_by_entry_date
+        description: "Entry date for the relieving/converted document."
+
+      - name: relieved_quantity
+        description: "Quantity relieved/converted."
+
+      - name: closed_receipts
+        description: "Closed receipt document number(s)."
+
+      - name: bill_numbers
+        description: "Vendor invoice/bill number(s)."
+
+      - name: url_sage
+        description: "Deep link to the Sage PO."
+
+      - name: entry_date
+        description: "PO entry date."
+
+      - name: url_journal
+        description: "Deep link to the Sage journal entry."
+
+      - name: t3_cost_capture_url
+        description: "Deep link to T3 cost capture."
+
+      - name: journal_number
+        description: "Journal transaction number."
+
+      - name: vendor_id
+        description: "Vendor ID from the PO context."
+
+      - name: vendor_name
+        description: "Vendor name from the PO."
+
+      - name: line_description
+        description: "PO line description."
+
+      - name: mkt_id
+        description: "Market/branch/department id from GL (department_id)."
+
+      - name: converting_doc_fk_po_line_id
+        description: "fk_po_line_id from the converting/relieving document (nullable)."
+
+      - name: converting_doc
+        description: "Constructed converting document label (if available)."
+
+      - name: recordno
+        description: "Parsed from GL entry_description; used for APA true-ups."
+
+      - name: fk_gl_entry_id
+        description: "Foreign key to GL entry id."
+
+      - name: fk_po_line_id
+        description: "Foreign key to the PO line (from po_detail)."
+
+      - name: po_total_gl_amount
+        description: "GL total for the receipt."
+
+      - name: po_total_quantity
+        description: "Total PO quantity for the receipt."
+
+      - name: po_total_relieved_quantity
+        description: "Total relieved quantity for the receipt."
+
+      - name: po_line_total_quantity
+        description: "Total PO quantity for the specific line."
+
+      - name: po_line_total_relieved_quantity
+        description: "Total relieved quantity for the specific PO line."
+
+      - name: po_status
+        description: "PO-level conversion status (fully, partially, over, or unconverted)."
+
+      - name: po_line_status
+        description: "PO line-level conversion status (fully, partially, over, or unconverted)."
+
+      - name: qty_unconverted
+        description: "Remaining quantity to convert on the PO line (0 for fully converted rows)."
+
+      - name: dollars_unconverted
+        description: "Remaining dollar amount to convert (qty_unconverted * unit_price; 0 for fully converted rows)."

@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: unassigned_tech_hours
+    description: |
+      Calculates hours for techs and mechanics that are not assigned to a work order, allowing us to present a # of unassigned tech hours KPI.
+      Employee titles included: %technician% and %mechanics%, does not include yard technicians.
+    config:
+      tags: ["branch_earnings", "hourly"]
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+      - name: employee_title
+        description: ""
+      - name: employee_name
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: market_id
+        description: "{{ doc('market_id') }}"
+      - name: market_name
+        description: "{{ doc('market_name') }}"
+      - name: region_district
+        description: ""
+      - name: work_order_id
+        description: "{{ doc('work_order_id') }}"
+      - name: work_order_type
+        description: ""
+      - name: url_t3
+        description: "{{ doc('url_t3_work_order') }}"
+      - name: work_codes
+        description: "Array of work codes on work order"
+      - name: total_hours
+        description: "Total hours for tech (includes %technicians% and %mechanics% does not include yard technicians)"
+      - name: assigned_hours
+        description: "Number of tech hours assigned to a work order"
+      - name: unassigned_hours
+        description: "Number of tech hours not assigned to a work order"
+      - name: pk_unassigned_tech_hours_id
+        data_tests:
+          - not_null
+          - unique
+        description: "Primary key for table"

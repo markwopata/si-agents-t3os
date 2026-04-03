@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_charge_key__application_fee
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the application fee."
+        data_tests:
+          - not_null
+          - unique
+      - name: amount_in_cents
+        description: "Amount of the application fee in cents."
+      - name: amount
+        description: "Amount of the application fee (cents / 100.0)."
+      - name: amount_refunded_in_cents
+        description: "Amount of the application fee that has been refunded in cents."
+      - name: amount_refunded
+        description: "Amount of the application fee that has been refunded (cents / 100.0)."
+      - name: application
+        description: "ID of the Connect application that earned the fee."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: livemode
+        description: "Indicates if this is a test application fee."
+      - name: originating_transaction
+        description: "ID of the transaction this application fee originated from."
+      - name: refunded
+        description: "Whether the application fee has been fully refunded."
+      - name: account_id
+        description: "ID of the connected account the application fee was taken from."
+      - name: balance_transaction_id
+        description: "Balance transaction describing the impact on your account balance."
+      - name: charge_id
+        description: "ID of the charge the application fee was taken from."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

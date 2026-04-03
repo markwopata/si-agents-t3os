@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_work_orders__work_order_types
+    description: ""
+    config:
+      tags:
+        - work_orders
+        - hourly
+        - source
+    columns:
+      - name: work_order_type_id
+        description: ""
+      - name: name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

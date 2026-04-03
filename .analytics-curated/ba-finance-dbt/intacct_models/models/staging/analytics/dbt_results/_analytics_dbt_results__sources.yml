@@ -1,0 +1,21 @@
+---
+version: 2
+sources:
+  - name: analytics_dbt_results
+    tags:
+      - sources
+    database: analytics
+    schema: dbt_results
+    description: data in analytics.dbt_results used for dbt run results
+    tables:
+      - name: dbt_snowflake_locations
+        description: >
+          there are stray/unused dbt tables that: 1) waste space 2) create confusion for end users about which table to use
+          This table tracks those stray tables:
+            NULL → no stray tables
+            NOT NULL → stray table found; review and delete as needed
+        meta:
+          generated_from: Gitlab
+          gitlab_url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-jenkins-scripts/-/blob/6cf9f39c48a99e9649e9ccea6b22bf5c024d2746/fa_dbt_results/dbt_snowflake_locations.py
+          jenkins_url: https://bi-jenkins.internal.equipmentshare.com/job/FA%20Monitored%20-%20dbt%20stray%20artifacts/
+          owner: ["@erik.chu"]

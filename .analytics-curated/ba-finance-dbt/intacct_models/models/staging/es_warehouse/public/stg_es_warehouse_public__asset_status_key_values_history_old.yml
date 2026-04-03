@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_status_key_values_history_old
+    description: Model for es_warehouse.public.asset_status_key_values_history_old
+    columns:
+      - name: asset_status_key_value_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: asset_status_value_type_id
+        description: ""
+      - name: name
+        description: ""
+      - name: value
+        description: ""
+      - name: value_timestamp
+        description: ""
+      - name: updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__purchase_orders
+    description: Model for es_warehouse.public.purchase_orders
+    columns:
+      - name: purchase_order_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: budget_amount
+        description: ""
+      - name: currency_type
+        description: ""
+      - name: name
+        description: ""
+      - name: company_id
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: created_by
+        description: ""
+      - name: active
+        description: ""
+      - name: universal_entity_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

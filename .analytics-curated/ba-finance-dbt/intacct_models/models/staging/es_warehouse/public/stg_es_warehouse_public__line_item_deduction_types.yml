@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_es_warehouse_public__line_item_deduction_types
+    description: >
+        Staging model for line item deduction types that can be applied to invoice line items.
+    columns:
+      - name: line_item_deduction_type_id
+        description: id of the line item deduction type
+
+      - name: name
+        description: type of line item deduction
+
+      - name: is_after_tax
+        description: >
+            boolean whether the deduction is applied before or after tax calculation
+
+      - name: deduction_method
+        description: >
+            how the line item deduction is applied. Values specify whether the deduction
+            can only be entered as a fixed dollar amount or may be entered as either a dollar amount
+            or a percentage of the line item total
+
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+
+      - name: _es_load_timestamp
+        description: ""

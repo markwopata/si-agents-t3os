@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_asset_cpoli_received
+    description: >
+        the earliest date an asset was received based on company purchase order line items
+    columns:
+      - name: asset_id
+        description: "{{ doc('admin_asset_id') }}"
+        data_tests:
+          - unique
+
+      - name: received_date
+        description: the earliest date the asset was received

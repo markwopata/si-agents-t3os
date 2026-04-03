@@ -1,0 +1,38 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_lodging_detail
+    description: >-
+      This model contains detailed information about lodging expenses from Citi credit card transactions.
+    columns:
+      - name: transaction_id
+        description: The unique identifier for the transaction.
+        data_tests:
+          - not_null
+          - unique
+      - name: sequence_number
+        description: The sequence number of the transaction.
+        data_tests:
+          - not_null
+      - name: customer_service_toll_free_800_num
+        description: The toll-free customer service number.
+      - name: property_phone_num
+        description: The phone number of the property.
+      - name: total_room_nights
+        description: The total number of room nights.
+      - name: room_rate_amount
+        description: The amount charged for the room rate.
+      - name: total_room_tax
+        description: The total tax applied to the room charges.
+      - name: source_file
+        description: The source file from which the data was extracted.
+        data_tests:
+          - not_null
+      - name: maintenance_code
+        description: The code used for maintenance purposes.
+      - name: folio_num
+        description: The folio number associated with the transaction.
+      - name: _es_update_timestamp
+        description: The timestamp when the record was last updated.
+        data_tests:
+          - not_null

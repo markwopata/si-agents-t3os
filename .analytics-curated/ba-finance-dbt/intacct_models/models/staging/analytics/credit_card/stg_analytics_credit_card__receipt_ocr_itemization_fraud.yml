@@ -1,0 +1,48 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_credit_card__receipt_ocr_itemization_fraud
+    description: ""
+    columns:
+      - name: purchase_id
+        description: identifier for each purchase transaction, used to track and reference individual credit card receipts.
+
+      - name: market_id
+        description:  "{{ doc('market_id') }}"
+
+      - name: image_url
+        description: the URL of the image associated with the credit card receipt, used for audit and verification purposes.
+
+      - name: item_text
+        description: line item description from the receipt
+
+      - name: category
+        description: ChatGPT category for the line item, used to classify the type of expense.
+
+      - name: line_notes
+        description: ChatGPT explanation for the line item
+
+      - name: fraud_reasoning
+        description: ChatGPT reasoning for the fraud classification of the line item, providing insights into why it was flagged as potentially fraudulent.
+
+      - name: line_idx
+        description: line item index
+
+      - name: amount
+        description: line item amount
+
+      - name: fraud_confidence
+        description: ChatGPT confidence score (0 to 100) for the fraud classification of the line item, indicating the likelihood that the item is fraudulent.
+
+      - name: fraud_flag
+        description: ChatGPT flag indicating whether the line item is considered fraudulent or not. 
+
+      - name: need_further_review
+        description: ChatGPT flag indicating whether the line item requires further review or not
+
+      - name: submitted_at
+        description: Timestamp indicating when the record was submitted.
+
+      - name: upload_date
+        description: The timestamp indicating when the record was last modified.

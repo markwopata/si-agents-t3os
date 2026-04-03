@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__third_party_assets
+    description: Model for es_warehouse.public.third_party_assets
+    columns:
+      - name: third_party_asset_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: equipment_class_id
+        description: ""
+      - name: equipment_make_id
+        description: ""
+      - name: equipment_model_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: model
+        description: ""
+      - name: hours
+        description: ""
+      - name: description
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: company_id
+        description: ""
+      - name: category_id
+        description: ""
+      - name: make
+        description: ""
+      - name: asset_class
+        description: ""
+      - name: location_id
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

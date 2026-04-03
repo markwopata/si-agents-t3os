@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_purchase_orders_po_aggregate
+    description: |
+      Calculate aggregates for the unioned model. 
+      Used to determine if a po line or PO is fully converted.
+
+      Model Name: PO Lineage
+      
+      Model:  The purpose of this model is to combine the different converting documents to its
+              original po. We do not have good visibility to all of the converting docs in sage or looker.
+              This model joins the converting docs back to the parent po along with the true up journals posted
+              for price variances. The model identifies po/po line status, unconverted qty/$. 
+
+      Model Steps:
+        - step 1: (int_purchase_orders_po_to_vi) combines converting doc to po
+        - step 2: (int_purchase_orders_po_true_ups) pulls all apa true ups
+        - step 3: (int_purchase_orders_po_union) union step 1 & 2
+        - step 4: (int_purchase_orders_po_aggregate) calculate po/po line totals
+        - step 5: (int_purchase_orders_po_lineage) joins step 3 & 4, adds unconverted row
+
+    columns:
+      - name: fk_po_line_id
+        description: "Foreign key to the PO line (from po_detail)."
+
+      - name: po_total_gl_amount
+        description: "Total GL amount for the receipt (sum over receipt_number)."
+
+      - name: po_total_quantity
+        description: "Total PO quantity for the receipt (sum over receipt_number)."
+
+      - name: po_line_total_quantity
+        description: "Total PO quantity for the specific line (sum over fk_subledger_line_id)."
+
+      - name: po_line_gl_amount
+        description: "Total GL amount for the specific PO line (sum over fk_subledger_line_id)."

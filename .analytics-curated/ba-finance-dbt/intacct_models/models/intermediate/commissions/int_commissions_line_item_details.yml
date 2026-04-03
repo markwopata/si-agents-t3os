@@ -1,0 +1,115 @@
+---
+version: 2
+models:
+  - name: int_commissions_line_item_details
+    description: Commission Line Item Details
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - line_item_id
+            - salesperson_user_id
+    config:
+      snowflake_warehouse: "PROD_ANALYTICS_LARGE_PROCESSESING_WH"
+    columns:
+      - name: line_item_id
+        description: ""
+      - name: line_item_type
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: invoice_no
+        description: ""
+      - name: billing_approved_date
+        description: ""
+      - name: paid_date
+        description: ""
+      - name: market_id
+        description: ""
+      - name: market_name
+        description: ""
+      - name: parent_market_id
+        description: ""
+      - name: parent_market_name
+        description: ""
+      - name: region
+        description: ""
+      - name: region_name
+        description: ""
+      - name: district
+        description: ""
+      - name: ship_to_state
+        description: ""
+      - name: line_item_type_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: company_name
+        description: ""
+      - name: amount
+        description: ""
+      - name: order_id
+        description: ""
+      - name: order_date
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: rental_class
+        description: ""
+      - name: rental_billed_days
+        description: ""
+      - name: cheapest_period
+        description: ""
+      - name: quoted_rates
+        description: ""
+      - name: price_per_unit
+        description: ""
+      - name: invoice_asset_make
+        description: ""
+      - name: invoice_class_id
+        description: ""
+      - name: invoice_class
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: rental_date_created
+        description: ""
+      - name: rental_start_date
+        description: ""
+      - name: rental_class_id
+        description: ""
+      - name: rate_tier_id
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: rate_tier_name
+        description: ""
+      - name: commission_percentage
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: salesperson_type_id
+        description: ""
+      - name: sales_person_type
+        description: ""
+      - name: secondary_rep_count
+        description: ""
+      - name: email_address
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: full_name
+        description: ""
+      - name: employee_title
+        description: ""
+      - name: date_terminated
+        description: ""
+      - name: employee_manager_id
+        description: ""
+      - name: employee_manager
+        description: ""

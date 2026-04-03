@@ -1,0 +1,115 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__manual_order_line_type
+    description: contains manual order line types used in transactions such as service repairs and adjustments.
+    tags: [bisTrack]
+    columns:
+      - name: manual_order_line_type_id
+        description: Unique identifier for the manual order line type.
+      - name: allow_settlement_discount
+        description: Indicates if settlement discount is allowed.
+      - name: allow_on_supplier_return
+        description: Indicates if allowed on supplier return.
+      - name: allow_description_override_on_sales
+        description: Indicates if description override is allowed on sales.
+      - name: name
+        description: Name of the manual order line type.
+      - name: allow_on_purchase_order
+        description: Indicates if allowed on purchase order.
+      - name: default_cost_price
+        description: Default cost price for the manual order line type.
+      - name: gl_code_payable
+        description: General ledger code for payables.
+      - name: gl_code_cost
+        description: General ledger code for cost.
+      - name: region_id
+        description: Identifier for the region.
+      - name: last_modified_by_id
+        description: Identifier for the user who last modified the record.
+      - name: default_sell_price
+        description: Default sell price for the manual order line type.
+      - name: remove_cost_on_posting
+        description: Indicates if cost is removed on posting.
+      - name: last_modified_datetime
+        description: Timestamp when the record was last modified.
+      - name: override_sales_analysis_code
+        description: Indicates if sales analysis code is overridden.
+      - name: payment_method_id
+        description: Identifier for the payment method.
+      - name: apply_to_all_stock_receipts_when_fixed_amount
+        description: Indicates if applied to all stock receipts when fixed amount.
+      - name: gift_card_terms
+        description: Terms for gift cards.
+      - name: prorate_cost_over_stock_lines
+        description: Indicates if cost is prorated over stock lines.
+      - name: cash_account_balance
+        description: Cash account balance for the manual order line type.
+      - name: division_id
+        description: Identifier for the division.
+      - name: ace_visa_gift_card
+        description: Indicates if ACE Visa gift card is enabled.
+      - name: default_gl_code
+        description: Default general ledger code.
+      - name: allow_code_override_on_sales
+        description: Indicates if code override is allowed on sales.
+      - name: cost_prorate_by
+        description: Method for prorating cost.
+      - name: include_in_margin_calculation
+        description: Indicates if included in margin calculation.
+      - name: product_group_id
+        description: Identifier for the product group.
+      - name: automatic_item_charge
+        description: Indicates if automatic item charge is enabled.
+      - name: remove_settlement_discount_on_cost
+        description: Indicates if settlement discount is removed on cost.
+      - name: automatic_line_charge
+        description: Indicates if automatic line charge is enabled.
+      - name: installed_sales_invoicing
+        description: Indicates if installed sales invoicing is enabled.
+      - name: default_tax_group_id
+        description: Identifier for the default tax group.
+      - name: default_description
+        description: Default description for the manual order line type.
+      - name: cost_weight_per_id
+        description: Identifier for cost weight per unit.
+      - name: allow_cost_override_on_sales
+        description: Indicates if cost override is allowed on sales.
+      - name: deleted
+        description: Indicates if the record is deleted.
+      - name: allow_on_transfer
+        description: Indicates if allowed on transfer.
+      - name: post_variance_to_molt_id
+        description: Identifier for posting variance to MOLT.
+      - name: sales_analysis_code_id
+        description: Identifier for the sales analysis code.
+      - name: promotion_type
+        description: Type of promotion applied.
+      - name: non_sales_amount
+        description: Non-sales amount for the manual order line type.
+      - name: allow_tax_group_override_on_sales
+        description: Indicates if tax group override is allowed on sales.
+      - name: allow_on_sales_order
+        description: Indicates if allowed on sales order.
+      - name: available_to_all_users
+        description: Indicates if available to all users.
+      - name: product_id
+        description: Identifier for the product.
+      - name: automatic_uplift
+        description: Indicates if automatic uplift is enabled.
+      - name: gift_card
+        description: Indicates if gift card is enabled.
+      - name: gl_code_sales
+        description: General ledger code for sales.
+      - name: default_code
+        description: Default code for the manual order line type.
+      - name: allow_price_override_on_sales
+        description: Indicates if price override is allowed on sales.
+      - name: delivery
+        description: Indicates if delivery is enabled.
+      - name: cost_value_type
+        description: Type of cost value used.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

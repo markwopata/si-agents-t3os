@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_engine_statuses
+    description: Model for es_warehouse.public.asset_engine_statuses
+    columns:
+      - name: engine_active
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: coolant_temperature
+        description: ""
+      - name: engine_oil_temperature
+        description: ""
+      - name: engine_oil_pressure
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: speed
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: selected_gear
+        description: ""
+      - name: asset_engine_status_id
+        description: ""
+        data_tests:
+          - not_null
+          # - unique # This is a very time-expensive test
+      - name: fuel_level
+        description: ""
+      - name: report_timestamp
+        description: ""
+      - name: tracking_event_id
+        description: ""
+      - name: engine_rpm
+        description: ""
+      - name: fuel_consumption_rate_gph
+        description: ""
+      - name: coolant_level_percent
+        description: ""
+      - name: diesel_particles_filter_regen_status
+        description: ""
+      - name: diesel_exhaust_fluid_level
+        description: ""
+      - name: fuel_economy_lifetime_mpg
+        description: ""
+      - name: fuel_economy_instantaneous_mpg
+        description: ""
+      - name: battery_voltage
+        description: ""
+      - name: average_fuel_economy
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

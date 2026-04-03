@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: inbound__ftsgps
+    database: inbound
+    schema: ftsgps
+    tables:
+      - name: vehicle_status
+        columns:
+          - name: process_start_timestamp
+            data_type: timestamp_ntz
+          - name: vehicleid
+            data_type: number
+          - name: vehiclename
+            data_type: varchar
+          - name: facility
+            data_type: varchar
+          - name: lat
+            data_type: float
+          - name: lon
+            data_type: float
+          - name: landmark
+            data_type: varchar
+          - name: velocity
+            data_type: number
+          - name: heading
+            data_type: number
+          - name: address
+            data_type: varchar
+          - name: odometer
+            data_type: number
+          - name: tripometer
+            data_type: number
+          - name: engine
+            data_type: varchar
+          - name: lastupdate
+            data_type: timestamp_ntz
+          - name: enginetime
+            data_type: varchar
+          - name: engineminutes
+            data_type: number
+          - name: dvrstatus
+            data_type: varchar
+          - name: dvrheartbeat
+            data_type: timestamp_ntz
+          - name: sensorstatus
+            data_type: variant
+          - name: drivername
+            data_type: varchar
+          - name: driverid
+            data_type: varchar

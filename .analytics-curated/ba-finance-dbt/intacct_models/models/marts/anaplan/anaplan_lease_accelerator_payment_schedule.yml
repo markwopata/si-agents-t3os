@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: anaplan_lease_accelerator_payment_schedule
+    description: >
+      Lease Accelerator payment schedule by asset type, for Anaplan use
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - asset_type
+              - payment_date
+    columns:
+      - name: pk_lease_accelerator_payment_schedule_id
+        description: "Surrogate primary key for the lease accelerator payment schedule row."
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_type
+        description: ""
+      - name: payment_date
+        description: ""
+      - name: period_start_date
+        description: ""
+      - name: amount_paid
+        description: ""

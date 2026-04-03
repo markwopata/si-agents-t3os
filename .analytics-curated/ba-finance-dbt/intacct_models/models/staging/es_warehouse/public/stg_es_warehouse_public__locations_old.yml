@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__locations_old
+    description: Model for es_warehouse.public.locations_old
+    columns:
+      - name: zip_code_extended
+        description: ""
+      - name: needs_review
+        description: ""
+      - name: longitude
+        description: ""
+      - name: nickname
+        description: ""
+      - name: company_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: street_1
+        description: ""
+      - name: location_type_id
+        description: ""
+      - name: state_id
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: city
+        description: ""
+      - name: jobsite
+        description: ""
+      - name: street_2
+        description: ""
+      - name: latitude
+        description: ""
+      - name: description
+        description: ""
+      - name: location_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: state_abb
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,444 @@
+version: 2
+
+models:
+  - name: api__on_rent
+    description: "Data contract enforced. View for Developer API containing T3 assets on rent, calculating utilization and rental metrics."
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: vendor
+        data_type: varchar
+        description: "Vendor"
+
+      - name: rental_id
+        data_type: varchar
+        description: "Rental ID"
+
+      - name: order_id
+        data_type: varchar
+        description: "Order ID"
+
+      - name: parent_company_id
+        data_type: number
+        description: "Parent Company ID"
+
+      - name: custom_name
+        data_type: varchar
+        description: "Custom Name"
+
+      - name: company_id
+        data_type: number
+        description: "Company ID"  
+
+      - name: company_name
+        data_type: varchar
+        description: "Company Name"
+
+      - name: make_and_model
+        data_type: varchar
+        description: "Make and Model"
+
+      - name: jobsite
+        data_type: varchar
+        description: "Jobsite"
+
+      - name: purchase_order_name
+        data_type: varchar
+        description: "Purchase Order Name"
+
+      - name: asset_class
+        data_type: varchar
+        description: "Asset Class"
+      
+      - name: category
+        data_type: varchar
+        description: ""
+
+      - name: parent_category
+        data_type: varchar
+        description: ""
+
+      - name: ordered_by
+        data_type: varchar
+        description: "Ordered By"
+
+      - name: rental_start_date
+        data_type: date
+        description: "Rental Start Date"
+
+      - name: scheduled_off_rent_date
+        data_type: date
+        description: "Scheduled Off Rent Date"
+
+      - name: next_cycle_date
+        data_type: timestamp_ntz
+        description: "Next Cycle Date"
+
+      - name: total_days_on_rent
+        data_type: number
+        description: "Total Days on Rent"
+
+      - name: total_weekdays_on_rent
+        data_type: number
+        description: "Total Weekdays on Rent"
+
+      - name: billing_days_left
+        data_type: number
+        description: "Billing Days Left"
+
+      - name: current_asset_location
+        data_type: varchar
+        description: "Current Asset Location"
+
+      - name: price_per_day
+        data_type: float
+        description: "Price Per Day"
+
+      - name: price_per_month
+        data_type: float
+        description: "Price Per Month"
+
+      - name: price_per_week
+        data_type: float
+        description: "Price Per Week"
+
+      - name: current_cycle
+        data_type: number
+        description: "Current Cycle"
+
+      - name: to_date_rental
+        data_type: number
+        description: "To Date Rental"
+
+      - name: previous_day_date
+        data_type: date
+        description: "Previous Day Date"
+
+      - name: previous_day_utilization_utc
+        data_type: float
+        description: "Previous Day Utilization UTC"
+
+      - name: previous_day_utilization_est
+        data_type: float
+        description: "Previous Day Utilization EST"
+
+      - name: previous_day_utilization_cst
+        data_type: float
+        description: "Previous Day Utilization CST"
+
+      - name: previous_day_utilization_mnt
+        data_type: float
+        description: "Previous Day Utilization MNT"
+
+      - name: previous_day_utilization_wst
+        data_type: float
+        description: "Previous Day Utilization WST"
+
+      - name: two_days_ago_date
+        data_type: date
+        description: "Two Days Ago Date"
+
+      - name: two_days_utilization_utc
+        data_type: float
+        description: "Two Days Utilization UTC"
+
+      - name: two_days_utilization_est
+        data_type: float
+        description: "Two Days Utilization EST"
+
+      - name: two_days_utilization_cst
+        data_type: float
+        description: "Two Days Utilization CST"
+
+      - name: two_days_utilization_mnt
+        data_type: float
+        description: "Two Days Utilization MNT"
+
+      - name: two_days_utilization_wst
+        data_type: float
+        description: "Two Days Utilization WST"
+
+      - name: three_days_ago_date
+        data_type: date
+        description: "Three Days Ago Date"
+
+      - name: three_days_utilization_utc
+        data_type: float
+        description: "Three Days Utilization UTC"
+
+      - name: three_days_utilization_est
+        data_type: float
+        description: "Three Days Utilization EST"
+
+      - name: three_days_utilization_cst
+        data_type: float
+        description: "Three Days Utilization CST"
+
+      - name: three_days_utilization_mnt
+        data_type: float
+        description: "Three Days Utilization MNT"
+
+      - name: three_days_utilization_wst
+        data_type: float
+        description: "Three Days Utilization WST"
+
+      - name: four_days_ago_date
+        data_type: date
+        description: "Four Days Ago Date"
+
+      - name: four_days_utilization_utc
+        data_type: float
+        description: "Four Days Utilization UTC"
+
+      - name: four_days_utilization_est
+        data_type: float
+        description: "Four Days Utilization EST"
+
+      - name: four_days_utilization_cst
+        data_type: float
+        description: "Four Days Utilization CST"
+
+      - name: four_days_utilization_mnt
+        data_type: float
+        description: "Four Days Utilization MNT"
+
+      - name: four_days_utilization_wst
+        data_type: float
+        description: "Four Days Utilization WST"
+
+      - name: five_days_ago_date
+        data_type: date
+        description: "Five Days Ago Date"
+
+      - name: five_days_utilization_utc
+        data_type: float
+        description: "Five Days Utilization UTC"
+
+      - name: five_days_utilization_est
+        data_type: float
+        description: "Five Days Utilization EST"
+
+      - name: five_days_utilization_cst
+        data_type: float
+        description: "Five Days Utilization CST"
+
+      - name: five_days_utilization_mnt
+        data_type: float
+        description: "Five Days Utilization MNT"
+
+      - name: five_days_utilization_wst
+        data_type: float
+        description: "Five Days Utilization WST"
+
+      - name: six_days_ago_date
+        data_type: date
+        description: "Six Days Ago Date"
+
+      - name: six_days_utilization_utc
+        data_type: float
+        description: "Six Days Utilization UTC"
+
+      - name: six_days_utilization_est
+        data_type: float
+        description: "Six Days Utilization EST"
+
+      - name: six_days_utilization_cst
+        data_type: float
+        description: "Six Days Utilization CST"
+
+      - name: six_days_utilization_mnt
+        data_type: float
+        description: "Six Days Utilization MNT"
+
+      - name: six_days_utilization_wst
+        data_type: float
+        description: "Six Days Utilization WST"
+
+      - name: seven_days_ago_date
+        data_type: date
+        description: "Seven Days Ago Date"
+
+      - name: seven_days_utilization_utc
+        data_type: float
+        description: "Seven Days Utilization UTC"
+
+      - name: seven_days_utilization_est
+        data_type: float
+        description: "Seven Days Utilization EST"
+
+      - name: seven_days_utilization_cst
+        data_type: float
+        description: "Seven Days Utilization CST"
+
+      - name: seven_days_utilization_mnt
+        data_type: float
+        description: "Seven Days Utilization MNT"
+
+      - name: seven_days_utilization_wst
+        data_type: float
+        description: "Seven Days Utilization WST"
+
+      - name: rental_period_utilization_utc
+        data_type: float
+        description: "Rental Period Utilization UTC"
+
+      - name: rental_period_utilization_est
+        data_type: float
+        description: "Rental Period Utilization EST"
+
+      - name: rental_period_utilization_cst
+        data_type: float
+        description: "Rental Period Utilization CST"
+
+      - name: rental_period_utilization_mnt
+        data_type: float
+        description: "Rental Period Utilization MNT"
+
+      - name: rental_period_utilization_wst
+        data_type: float
+        description: "Rental Period Utilization WST"
+
+      - name: asset_id
+        data_type: number
+        description: "Asset ID"
+
+      - name: filename
+        data_type: varchar
+        description: "Filename"
+
+      - name: purchase_order_id
+        data_type: number
+        description: "Purchase Order ID"
+
+      - name: rental_location
+        data_type: varchar
+        description: "Rental Location"
+
+      - name: utilization_status
+        data_type: varchar
+        description: "Utilization Status"
+
+      - name: lat_lon
+        data_type: varchar
+        description: "Latitude and Longitude"
+
+      - name: rental_start_date_and_time
+        data_type: timestamp_tz
+        description: "Rental Start Date and Time"
+
+      - name: scheduled_off_rent_date_and_time
+        data_type: timestamp_tz
+        description: "Scheduled Off Rent Date and Time"
+
+      - name: jobsite_city_state
+        data_type: varchar
+        description: "Jobsite City and State"
+
+      - name: benchmarked_parent_category_asset_count
+        data_type: number
+        description: ""
+      
+      - name: benchmarked_asset_count
+        data_type: number
+        description: "Number of Distinct asset_id in the benchmarked period"
+
+      - name: public_health_status
+        data_type: varchar
+        description: "The health status of the tracker at the time of the last refresh"
+
+      - name: utilization_30_day_class_benchmark
+        data_type: float
+        description: "30 Day Rental Utilization"
+
+      - name: class_comparable_assets
+        data_type: varchar
+        description: ""
+
+      - name: class_utilization_comparison
+        data_type: varchar
+        description: ""
+
+      - name: utilization_30_day_class_benchmark_double_shift
+        data_type: float
+        description: ""
+
+      - name: class_utilization_comparison_double_shift
+        data_type: varchar
+        description: ""
+
+      - name: utilization_30_day_class_benchmark_triple_shift
+        data_type: float
+        description: ""
+
+      - name: class_utilization_comparison_triple_shift
+        data_type: varchar
+        description: ""
+
+      - name: benchmarked_category_asset_count
+        data_type: number
+        description: ""
+
+      - name: utilization_30_day_category_benchmark
+        data_type: float
+        description: ""
+
+      - name: category_comparable_assets
+        data_type: varchar
+        description: ""
+
+      - name: category_utilization_comparison
+        data_type: varchar
+        description: ""
+
+      - name: benchmarked_parent_category_asset_count
+        data_type: number
+        description: ""
+
+      - name: utilization_30_day_parent_category_benchmark
+        data_type: float
+        description: ""
+
+      - name: parent_category_comparable_assets
+        data_type: varchar
+        description: ""
+
+      - name: parent_category_utilization_comparison
+        data_type: varchar
+        description: ""
+
+      - name: public_health_status
+        data_type: varchar
+        description: ""
+
+      - name: sub_renter_id
+        data_type: number
+        description: ""
+
+      - name: sub_renter_company_id
+        data_type: number
+        description: ""
+
+      - name: sub_renting_company
+        data_type: varchar
+        description: ""
+
+      - name: sub_renting_contact
+        data_type: varchar
+        description: ""
+      
+      - name: rental_period_percent
+        data_type: float
+        description: ""
+
+      - name: rental_period_percent_double_shift
+        data_type: float
+        description: ""
+
+      - name: rental_period_percent_triple_shift
+        data_type: float
+        description: ""
+
+      - name: data_refresh_timestamp
+        data_type: timestamp_ntz
+        description: ""

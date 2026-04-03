@@ -1,0 +1,17 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__assets
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.assets table, maintaining point-in-time history of assets.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: asset_id
+        description: Primary key of the underlying asset record.
+        data_tests:
+          - not_null

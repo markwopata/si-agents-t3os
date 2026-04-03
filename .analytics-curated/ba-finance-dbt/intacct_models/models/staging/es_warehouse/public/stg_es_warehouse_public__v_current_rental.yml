@@ -1,0 +1,46 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__v_current_rental
+    description: Model for es_warehouse.public.v_current_rental
+    columns:
+      - name: make
+        description: ""
+      - name: model
+        description: ""
+      - name: class
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: rental_start_date
+        description: ""
+      - name: billing_days_remaining
+        description: ""
+      - name: days_rented
+        description: ""
+      - name: next_cycle
+        description: ""
+      - name: end_date
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: reference
+        description: ""
+      - name: nickname
+        description: ""
+      - name: street
+        description: ""
+      - name: city
+        description: ""
+      - name: state
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: price_per_day
+        description: ""
+      - name: price_per_week
+        description: ""
+      - name: price_per_month
+        description: ""
+      - name: invoiced
+        description: ""

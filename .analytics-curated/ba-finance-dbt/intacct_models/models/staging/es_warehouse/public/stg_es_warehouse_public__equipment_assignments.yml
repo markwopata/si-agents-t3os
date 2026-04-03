@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__equipment_assignments
+    description: >
+      There are some overlapping start/end dates which is impossible. This model
+      corrects the end_date if it's after the next start_date. It also renames
+      start_date and end_date to how they are seen in other tables.
+    columns:
+      - name: equipment_assignment_id
+        description: "Unique identifier for the equipment assignment."
+        data_tests:
+          - not_null
+          - unique
+      - name: asset_id
+        description: "{{ doc('admin_asset_id') }}"
+      - name: rental_id
+        description: "{{ doc('rental_id') }}"
+      - name: drop_off_delivery_id
+        description: "{{ doc('drop_off_delivery_id') }}"
+      - name: return_delivery_id
+        description: "{{ doc('return_delivery_id') }}"
+      - name: date_start
+        description: "{{ doc('rental_start_date') }}"
+      - name: next_date_start
+        description: "{{ doc('asset_next_rental_start_date') }}"
+      - name: date_end
+        description: "{{ doc('rental_end_date') }}; corrected if after next_date_start. Rental should end before the next one starts."
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: rental_duration
+        description: "Duration in minutes between date_start and date_end."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

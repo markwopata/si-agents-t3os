@@ -1,0 +1,22 @@
+---
+version: 2
+models:
+  - name: stg_analytics_navan__booking_origin
+    description: Staging model for Navan booking origin information, containing details about the starting locations of travel bookings
+    columns:
+      - name: booking_uuid
+        description: ''
+      - name: index
+        description: ''
+      - name: _fivetran_deleted
+        description: ''
+      - name: _fivetran_synced
+        description: ''
+      - name: country
+        description: ''
+      - name: city
+        description: ''
+      - name: airport_code
+        description: ''
+      - name: state
+        description: ''

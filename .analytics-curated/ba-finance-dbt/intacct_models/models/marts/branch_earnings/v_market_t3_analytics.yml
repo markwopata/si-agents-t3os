@@ -1,0 +1,56 @@
+---
+version: 2
+models:
+  - name: v_market_t3_analytics
+    description: |
+      This view is a wrapper around the branch earnings market model intended for use by t3_analytics.
+      Use a wrapper to avoid exposing unnecessary/potentially sensitive data to t3 analytics.
+      It is very similar to analytics.public.market_region_xwalk with the added benefit of parent-child hierarchy and market start dates.
+      Use child_market_id as the primary join key for this model. You can use market_id/market_name if you want to display parent market.
+
+      Quirks to know about:
+      - analytics.public.market_region_xwalk does not show markets that are not active in the market pipeline retool app (market_data schema)
+        - If an inactive branch has an active parent, they are shown as a child_market_id in our market model (because financial activity for these should not disappear)
+      - child_market_id is the primary_key - almost always join to this
+      - market_id/market_name are the parent market - you can use this for display if you want. Depends on use case
+        - start_month are based on parent - only way we'd want it
+      - 1 hour lag because it depends on our underlying analytics.branch_earnings.market model being built
+    config:
+      tags: ["branch_earnings", "analytics"]
+    columns:
+      - name: child_market_id
+        description: "Original/base market id - join on this. Primary key for table."
+      - name: child_market_name
+        description: "Original/base market name"
+      - name: market_id
+        description: "Market id of parent market if exists, else child. Output this for dashboards/combined reporting."
+      - name: market_name
+        description: "Market name of parent market if exists, else child. Output this for dashboards/combined reporting."
+      - name: state
+        description: "State of parent market if exists, else child"
+      - name: abbreviation
+        description: "Abbreviation of parent market if exists, else child"
+      - name: region
+        description: "Region number of parent market if exists, else child"
+      - name: region_name
+        description: "Region name of parent market if exists, else child"
+      - name: area_code
+        description: "Area code of parent market if exists, else child"
+      - name: district
+        description: "District of parent market if exists, else child"
+      - name: region_district
+        description: "Region_district of parent market if exists, else child"
+      - name: _id_dist
+        description: "_id_dist of parent market if exists, else child"
+      - name: market_type_id
+        description: "market_type_id of parent market if exists, else child"
+      - name: market_type
+        description: "Market type of parent market if exists, else child"
+      - name: is_dealership
+        description: "Bool for whether this is a dealership market or not. Parent market's value if exists, else child"
+      - name: branch_earnings_start_month
+        description: "This start_month is when a branch started for branch earnings/profit sharing purposes. Consider this the internal start. branch_earnings_start_month of parent market if exists, else child"
+      - name: market_start_month
+        description: "This start_month is when a branch started for external purposes (bankers/decks/etc). There may be mild differences between this date and branch_earnings_start_month. market_start_month of parent market if exists, else child"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"

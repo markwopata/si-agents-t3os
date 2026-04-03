@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: int_materials_payroll
+    description: "Intermediate model for materials payroll calculations."
+    columns:
+      - name: pk_gl_detail_id
+        description: "Primary key for the GL detail record."
+        data_tests:
+          - not_null
+          - unique
+      - name: market_id
+        description: "Identifier for the market."
+        data_tests:
+          - not_null
+      - name: market_name
+        description: "Name of the market."
+      - name: account_name
+        description: "Name of the payroll account."
+      - name: entry_description
+        description: "Description of the journal entry."
+      - name: amount
+        description: "Amount associated with the payroll entry."
+      - name: entry_date
+        description: "Date of the journal entry."
+      - name: url_journal
+        description: "URL link to the journal entry."

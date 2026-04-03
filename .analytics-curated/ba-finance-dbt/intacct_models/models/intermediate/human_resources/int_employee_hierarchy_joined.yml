@@ -1,0 +1,32 @@
+---
+version: 2
+models:
+  - name: int_employee_hierarchy_joined
+    description: company directory (full historical list of employees) with full manager hierarchy up to CEO
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - employee_id
+              - manager_employee_id
+    columns:
+      - name: employee_id
+        description: "Unique identifier for the employee."
+      - name: manager_employee_id
+        description: "Unique identifier for this hierarchy level's manager."
+      - name: first_name
+        description: "First name of the employee."
+      - name: last_name
+        description: "Last name of the employee."
+      - name: full_employee_name
+        description: "Full name of the employee (first and last)."
+      - name: work_email
+        description: "Work email address of the employee."
+      - name: employee_title
+        description: "Job title or position of the employee."
+      - name: manager
+        description: "Name of the employee's direct manager (not in a consistent format)."
+      - name: full_manager_name
+        description: "Full name of this hierarchy level's manager with employee id"
+      - name: report_type
+        description: "Identifies level of hierarchy - first_report, second_report, etc, or override"

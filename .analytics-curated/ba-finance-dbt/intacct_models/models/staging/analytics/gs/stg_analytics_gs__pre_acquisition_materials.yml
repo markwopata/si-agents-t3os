@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_analytics_gs__pre_acquisition_materials
+    description: Table for monthly materials revenue prior to acquisition date. Table is unique by market_id by month.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list:
+            - date
+            - market_id
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: market_id
+        description: "Equipment Share market id for Materials branches"
+        data_tests:
+          - not_null
+      - name: market_name
+        description: "Equipment share market name for Materials branches"
+      - name: date
+        description: "Period start date associated with revenue"
+      - name: revenue
+        description: "Pre-acquisition materials revenue for the branch and month"

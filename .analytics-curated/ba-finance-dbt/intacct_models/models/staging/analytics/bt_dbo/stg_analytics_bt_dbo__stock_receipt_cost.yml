@@ -1,0 +1,81 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__stock_receipt_cost
+    description: Table for stock receipt costs, capturing costs associated with transactions.
+    columns:
+      - name: stock_receipt_cost_id
+        description: 'Unique identifier for the stock receipt cost.'
+        data_tests:
+          - not_null
+          - unique
+      - name: expected_cost_price
+        description: 'Expected cost price of the stock receipt.'
+      - name: fully_invoiced
+        description: 'Indicates whether the stock receipt is fully invoiced.'
+      - name: pending_actions
+        description: 'Pending actions related to the stock receipt.'
+      - name: total_cost_price
+        description: 'Total cost price of the stock receipt.'
+      - name: unit_cost_price
+        description: 'Unit cost price of the stock receipt.'
+      - name: date_received
+        description: 'Date when the stock was received.'
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: order_id
+        description: 'Identifier for the order.'
+      - name: per_id
+        description: 'Period identifier.'
+      - name: stock_receipt_line_id
+        description: 'Identifier for the stock receipt line.'
+      - name: quantity_credited
+        description: 'Quantity credited in the stock receipt.'
+      - name: order_line_id
+        description: 'Identifier for the order line.'
+      - name: purchase_order_id
+        description: 'Identifier for the purchase order.'
+      - name: entered_in_advance
+        description: 'Indicates whether the stock receipt was entered in advance.'
+      - name: pack_id
+        description: 'Identifier for the pack.'
+      - name: total_manual_cost
+        description: 'Total manual cost associated with the stock receipt.'
+      - name: quantity_invoiced
+        description: 'Quantity invoiced in the stock receipt.'
+      - name: works_order_id
+        description: 'Identifier for the works order.'
+      - name: credit_note_id
+        description: 'Identifier for the credit note.'
+      - name: product_id
+        description: 'Identifier for the product.'
+      - name: stock_adjustment_id
+        description: 'Identifier for the stock adjustment.'
+      - name: stock_quantity_received
+        description: 'Quantity of stock received.'
+      - name: works_order_line_id
+        description: 'Identifier for the works order line.'
+      - name: stock_receipt_id
+        description: 'Identifier for the stock receipt.'
+      - name: input_per_id
+        description: 'Input period identifier.'
+      - name: total_additional_cost
+        description: 'Total additional cost associated with the stock receipt.'
+      - name: customer_return_line_id
+        description: 'Identifier for the customer return line.'
+      - name: customer_return_id
+        description: 'Identifier for the customer return.'
+      - name: stock_quantity_used
+        description: 'Quantity of stock used.'
+      - name: quantity_used
+        description: 'Quantity used in the stock receipt.'
+      - name: quantity_received
+        description: 'Quantity received in the stock receipt.'
+      - name: purchase_order_line_id
+        description: 'Identifier for the purchase order line.'
+      - name: credit_note_line_id
+        description: 'Identifier for the credit note line.'
+      - name: _fivetran_deleted
+        description: 'Indicates whether the record was deleted by Fivetran.'
+      - name: _fivetran_synced
+        description: 'Timestamp when the record was last synced by Fivetran.'

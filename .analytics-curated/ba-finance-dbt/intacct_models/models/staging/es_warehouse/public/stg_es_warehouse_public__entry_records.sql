@@ -1,0 +1,21 @@
+SELECT
+    er.entry_id,
+    er.user_id,
+    er.event_type_id,
+    er.source_application_id,
+    er.created_by_id,
+    er.created_date,
+    er.start_date,
+    er.end_date,
+    er.needs_revision,
+    er.is_revision,
+    er.work_order_id,
+    er.job_id,
+    er.note_id,
+    er.branch_id,
+    er.previous_overtime_state,
+    er.overtime_hours,
+    er.regular_hours,
+    er.approval_status,
+    er._es_update_timestamp
+FROM {{ source('es_warehouse_public', 'entry_records') }} as er

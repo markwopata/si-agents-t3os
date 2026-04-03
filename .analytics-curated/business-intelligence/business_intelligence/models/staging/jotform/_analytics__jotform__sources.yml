@@ -1,0 +1,124 @@
+version: 2
+
+sources:
+  - name: jotform
+    description: "Data sources from the Jotform API. 
+      API documentation in https://api.jotform.com/docs/#form-id-submissions.
+      API configuration in https://gitlab.internal.equipmentshare.com/equipmentshare/engineering/1854/sworks/batch/jotform-snowflake-etl.
+
+      
+      "
+    database: analytics
+    schema: jotform
+    tables:
+      - name: safety_observation
+        description: "{{ doc('jotform__safety_observation__raw') }}"
+        columns:
+          - name: id
+            data_type: number
+            description: "{{ doc('safety_observation__id') }}"
+            data_tests:
+              - not_null
+
+          - name: form_id
+            data_type: number
+            description: "{{ doc('safety_observation__jotform_form_id') }}"
+
+          - name: ip
+            data_type: varchar
+
+          - name: created_at
+            data_type: timestamp_ntz
+            description: "{{ doc('safety_observation__submission_datetime') }}"
+
+          - name: status
+            data_type: varchar
+            description: "{{ doc('safety_observation__jotform_submission_status') }}"
+
+          - name: new
+            data_type: number
+            description: "{{ doc('safety_observation__jotform_submission_is_new') }}"
+
+          - name: flag
+            data_type: number
+            description: "{{ doc('safety_observation__jotform_submission_is_flagged') }}"
+
+          - name: notes
+            data_type: varchar
+            description: "{{ doc('is_null') }}"
+
+          - name: updated_at
+            data_type: timestamp_ntz
+            description: "{{ doc('safety_observation__jotform_submission_updated_at') }}"
+
+          - name: name_first
+            data_type: varchar
+            description: "{{ doc('safety_observation__first_name') }}"
+
+          - name: name_last
+            data_type: varchar
+            description: "{{ doc('safety_observation__last_name') }}"
+
+          - name: email
+            data_type: varchar
+            description: "{{ doc('safety_observation__employee_email') }}"
+
+          - name: branch_location
+            data_type: varchar
+            description: "{{ doc('safety_observation__branch_location') }}"
+
+          - name: region
+            data_type: varchar
+            description: "{{ doc('safety_observation__region') }}"
+
+          - name: observation_category
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_category') }}"
+
+          - name: observation_type
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_type') }}"
+
+          - name: observation_date
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_date') }}"
+
+          - name: observation_time
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_time_12h') }}"
+
+          - name: observation_location
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_location') }}"
+
+          - name: observation_description
+            data_type: varchar
+            description: "{{ doc('safety_observation__observation_description') }}"
+
+          - name: photos
+            data_type: varchar
+            description: "{{ doc('safety_observation__photos') }}"
+
+          - name: corrective_action
+            data_type: varchar
+            description: "{{ doc('safety_observation__corrective_action') }}"
+
+          - name: corrective_action_type
+            data_type: varchar
+            description: "{{ doc('safety_observation__corrective_action_type') }}"
+
+          - name: corrective_action_explanation
+            data_type: varchar
+            description: "{{ doc('safety_observation__corrective_action_explanation') }}"
+
+          - name: safety_manager_elevation
+            data_type: varchar
+            description: "{{ doc('safety_observation__safety_manager_elevation') }}"
+
+          - name: workflowstatus
+            data_type: varchar
+            description: "{{ doc('safety_observation__jotform_workflow_status') }}"
+
+          - name: isworkflowenabled
+            data_type: boolean
+            description: "{{ doc('safety_observation__jotform_is_workflow_enabled') }}"

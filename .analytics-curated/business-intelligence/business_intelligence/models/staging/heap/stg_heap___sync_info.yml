@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: stg_heap___sync_info
+    description: "{{ doc('heap__sync_info') }}"
+    columns:
+      - name: event_table_name
+        data_type: varchar
+        description: "The event name"
+
+      - name: sync_started
+        data_type: timestamp_ltz
+        description: "A timestamp for when that table began syncing."
+
+      - name: sync_ended
+        data_type: timestamp_ltz
+        description: "A timestamp for when that table completed syncing."
+
+      - name: prev_synced_to_time
+        data_type: timestamp_ltz
+        description: ""
+
+      - name: synced_to_time
+        data_type: timestamp_ltz
+        description: "A timestamp that reflects the most recent occurrence of the event. 
+          This also syncs late-arriving data."
+
+      - name: inserted_row_count
+        data_type: number
+        description: "The number of rows inserted during the most recent sync.
+          Note: The only one that is misrepresented is the USER_MIGRATIONS table - 
+          it does a full refresh so number of records captured here is the record count of 
+          the entire table."
+
+      - name: _dbt_updated_timestamp
+        data_type: timestamp_ntz
+        description: "{{ doc('_dbt_updated_timestamp') }}"

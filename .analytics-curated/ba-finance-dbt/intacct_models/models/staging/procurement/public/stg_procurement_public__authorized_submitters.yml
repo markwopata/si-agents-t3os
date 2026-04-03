@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__authorized_submitters
+    description: Model for procurement.public.authorized_submitters
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: authorized_submitter_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_at
+        description: ""
+      - name: authorized_user_id
+        description: ""
+      - name: modified_at
+        description: ""
+      - name: user_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

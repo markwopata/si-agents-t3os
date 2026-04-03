@@ -1,0 +1,46 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__transaction_items
+    description: ""
+    columns:
+      - name: transaction_item_id
+        description: Primary key for table
+        data_tests:
+          - unique
+      - name: transaction_id
+        description: Foreign key to transactions table
+      - name: part_id
+        description: ""
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'parts')
+              field: part_id
+              config:
+                severity: WARN
+      - name: quantity_ordered
+        description: ""
+      - name: quantity_received
+        description: ""
+      - name: item_status_id
+        description: ""
+      - name: created_by
+        description: ""
+      - name: modified_by
+        description: ""
+      - name: cost_per_item
+        description: ""
+      - name: wac_snapshot_id
+        description: ""
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'weighted_average_cost_snapshots')
+              field: wac_snapshot_id
+              config:
+                severity: WARN
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

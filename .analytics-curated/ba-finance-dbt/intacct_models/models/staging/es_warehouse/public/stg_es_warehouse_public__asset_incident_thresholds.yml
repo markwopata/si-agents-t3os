@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_incident_thresholds
+    description: Model for es_warehouse.public.asset_incident_thresholds
+    columns:
+      - name: asset_incident_threshold_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: asset_incident_threshold_field_id
+        description: ""
+      - name: exceeded_value_range
+        description: ""
+      - name: date_deactivated
+        description: ""
+      - name: notify_operator
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: exceeded_value_range__include_upper
+        description: Extracted from json in column exceeded_value_range (roughly exceeded_value_range:include_upper)
+      - name: exceeded_value_range__upper_bound
+        description: Extracted from json in column exceeded_value_range (roughly exceeded_value_range:upper_bound)
+      - name: exceeded_value_range__include_lower
+        description: Extracted from json in column exceeded_value_range (roughly exceeded_value_range:include_lower)
+      - name: exceeded_value_range__lower_bound
+        description: Extracted from json in column exceeded_value_range (roughly exceeded_value_range:lower_bound)

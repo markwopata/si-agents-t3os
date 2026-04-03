@@ -1,0 +1,24 @@
+---
+include:
+  - project: "infrastructure/ci-scripts"
+    file: ".gitlab-ci.yml"
+
+variables:
+  BASE_IMAGE_OS: "bookworm-slim"
+  PROJECT_PYTHON_VERSION: "3.11"
+
+Python Publish:
+  rules:
+    - when: never
+
+Python Black Lint:
+  rules:
+    - when: never
+
+Python Sec Lint:
+  rules:
+    - when: never
+
+Python Lint:
+  rules:
+    - when: never

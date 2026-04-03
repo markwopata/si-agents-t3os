@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchases
+    description: Purchases contains credit card uploads through costcapture mobile or the expense management app.
+    columns:
+      - name: _es_load_timestamp
+        description: ""
+      - name: purchase_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: submitted_at
+        description: ""
+      - name: vendor_id
+        description: ""
+      - name: modified_at
+        description: ""
+      - name: user_id
+        description: ""
+      - name: notes
+        description: ""
+      - name: grand_total
+        description: ""
+      - name: submitted_by_user_id
+        description: ""
+      - name: vendor_name
+        description: ""
+      - name: market_id
+        description: ""
+      - name: account_type
+        description: ""
+      - name: purchased_at
+        description: ""
+      - name: image_urls
+        description: ""
+      - name: business_sub_department_snapshot_id
+        description: ""
+      - name: business_department_snapshot_id
+        description: ""
+      - name: business_expense_line_snapshot_id
+        description: ""
+      - name: inventory_received_status
+        description: ""
+      - name: vendor_snapshot_id
+        description: ""
+      - name: unofficial_vendor_name
+        description: ""
+      - name: purchase_account_id
+        description: ""
+      - name: is_personal_expense
+        description: "toggle added to the Expenses app to indicate if the credit card transaction is a personal expense or not"
+      - name: is_return
+        description: "toggle added to the Expenses app to indicate if the credit card transaction represents a credit issued by the vendor"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

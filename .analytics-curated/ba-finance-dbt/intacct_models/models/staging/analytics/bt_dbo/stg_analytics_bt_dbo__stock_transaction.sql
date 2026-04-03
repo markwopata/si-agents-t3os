@@ -1,0 +1,23 @@
+select
+    stocktransactionid as stock_transaction_id,
+    stockreserved as stock_reserved,
+    stockawaitingprocess as stock_awaiting_process,
+    stocksuspense as stock_suspense,
+    sourceid as source_id,
+    sourcetype as source_type,
+    productid as product_id,
+    stockthirdparty as stock_third_party,
+    branchid as bt_branch_id,
+    stockawaitingprocessnotavailable as stock_awaiting_process_not_available,
+    stockallocated as stock_allocated,
+    stockonorder as stock_on_order,
+    stocktransactiontype as stock_transaction_type,
+    createdbyid as created_by_id,
+    sourcenumber as source_number,
+    stockactual as stock_actual,
+    sourcedocumentdate as source_document_date,
+    stockdue as stock_due,
+    stocktransactiondate as stock_transaction_date,
+    _fivetran_deleted,
+    _fivetran_synced
+from {{ source('analytics_bt_dbo', 'stocktransaction') }}

@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: int_commissions_rate_achievement_rental
+    description: Assigns rate achievement tiers to rental commission type
+    columns:
+      - name: line_item_id
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: rate_tier_id
+        description: ""
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                description: "This test checks if it only rental rate achievement is passed through"
+      - name: grace_period_flag
+        description: ""
+      - name: deal_floor_flag
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: equipment_class_name
+        description: ""
+      - name: equipment_class_id
+        description: ""
+      - name: deal_floor
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: source_model
+        description: ""
+      - name: _es_update_timestamp
+        description: ""

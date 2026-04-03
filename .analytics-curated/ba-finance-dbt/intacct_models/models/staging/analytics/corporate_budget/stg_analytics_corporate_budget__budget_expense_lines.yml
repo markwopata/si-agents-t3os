@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_corporate_budget__budget_expense_lines
+    description: cleaned model of analytics.corporate_budget.budget_expense_lines
+    columns:
+      - name: _row
+        description: ""
+        data_tests:
+          - unique
+
+      - name: expense_line_id
+        description: ""
+
+      - name: gl_mapping
+        description: ""
+
+      - name: cost_capture_id
+        description: ""
+
+      - name: expense_line_name
+        description: ""
+
+      - name: expense_category
+        description: ""
+
+      - name: budget_year
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

@@ -1,0 +1,79 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_inventory__parts
+    description: ""
+    columns:
+      - name: part_id
+        description: Primary key for table
+        data_tests:
+          - not_null
+          - unique
+      - name: part_type_id
+        description: ""
+        data_tests:
+          - relationships_es:
+              to: source('es_warehouse_inventory', 'part_types')
+              field: part_type_id
+              config:
+                severity: error
+                error_if: ">10"
+                warn_if: ">1"
+      - name: provider_part_number_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: date_archived
+        description: ""
+      - name: duplicate_of_id
+        description: ""
+      - name: part_number
+        description: ""
+      - name: description
+        description: Part type description = part.name for all but 1 part.
+      - name: provider_id
+        description: ""
+      - name: verified
+        description: ""
+      - name: sku_field
+        description: ""
+      - name: verified_for_company
+        description: ""
+      - name: verified_globally
+        description: ""
+      - name: item_id
+        description: ""
+      - name: upc
+        description: ""
+      - name: msrp
+        description: ""
+      - name: search
+        description: ""
+      - name: is_global
+        description: ""
+      - name: year
+        description: ""
+      - name: product_type_id
+        description: ""
+      - name: name
+        description: ""
+      - name: manufacturer_id
+        description: ""
+      - name: manufacturer_number
+        description: ""
+      - name: manufacturer_family_id
+        description: ""
+      - name: model
+        description: ""
+      - name: product_category_id
+        description: ""
+      - name: product_class_id
+        description: ""
+      - name: conversion_unit_id
+        description: ""
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

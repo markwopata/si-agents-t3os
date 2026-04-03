@@ -1,0 +1,67 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__asset_geofence_encounters
+    description: Model for es_warehouse.public.asset_geofence_encounters
+    columns:
+      - name: geofence_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: encounter_time_range
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: asset_geofence_encounter_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: start_odometer
+        description: ""
+      - name: end_odometer
+        description: ""
+      - name: start_hours
+        description: ""
+      - name: end_hours
+        description: ""
+      - name: start_tracking_event_id
+        description: ""
+      - name: end_tracking_event_id
+        description: ""
+      - name: start_location_old
+        description: ""
+      - name: end_location_old
+        description: ""
+      - name: start_location_geo
+        description: ""
+      - name: end_location_geo
+        description: ""
+      - name: start_location
+        description: ""
+      - name: end_location
+        description: ""
+      - name: encounter_start_timestamp
+        description: ""
+      - name: encounter_end_timestamp
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: encounter_time_range__end_bound
+        description: Extracted from json in column encounter_time_range (roughly encounter_time_range:end_bound)
+      - name: encounter_time_range__start_bound
+        description: Extracted from json in column encounter_time_range (roughly encounter_time_range:start_bound)
+      - name: encounter_time_range__end_range
+        description: Extracted from json in column encounter_time_range (roughly encounter_time_range:end_range)
+      - name: encounter_time_range__start_range
+        description: Extracted from json in column encounter_time_range (roughly encounter_time_range:start_range)
+      - name: start_location__type
+        description: Extracted from json in column start_location (roughly start_location:type)
+      - name: start_location__coordinates
+        description: Extracted from json in column start_location (roughly start_location:coordinates)
+      - name: end_location__type
+        description: Extracted from json in column end_location (roughly end_location:type)
+      - name: end_location__coordinates
+        description: Extracted from json in column end_location (roughly end_location:coordinates)

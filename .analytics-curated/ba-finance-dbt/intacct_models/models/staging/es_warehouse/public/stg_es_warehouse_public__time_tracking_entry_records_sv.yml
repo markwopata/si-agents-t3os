@@ -1,0 +1,50 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__time_tracking_entry_records_sv
+    description: Model for es_warehouse.public.time_tracking_entry_records_sv
+    columns:
+      - name: entry_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: event_type_id
+        description: ""
+      - name: event_type_description
+        description: ""
+      - name: source_application_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: pay_period_start_date
+        description: ""
+      - name: pay_period_end_date
+        description: ""
+      - name: company_id
+        description: ""
+      - name: needs_revision
+        description: ""
+      - name: is_revision
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: job_id
+        description: ""
+      - name: note_id
+        description: ""
+      - name: previous_overtime_state
+        description: ""
+      - name: overtime_hours
+        description: ""
+      - name: total_hours
+        description: ""
+      - name: approval_status
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

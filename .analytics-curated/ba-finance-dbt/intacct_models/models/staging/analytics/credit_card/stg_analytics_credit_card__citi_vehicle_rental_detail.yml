@@ -1,0 +1,76 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_vehicle_rental_detail
+    description: >-
+      This model contains detailed information about vehicle rental expenses from Citi credit card transactions.
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction
+        data_tests:
+          - not_null
+          - unique
+      - name: sequence_number
+        description: Sequence number for the transaction
+        data_tests:
+          - not_null
+      - name: days_rented
+        description: Number of days the vehicle was rented
+      - name: rental_rate
+        description: Daily rental rate for the vehicle
+      - name: rate_per_mile
+        description: Rate charged per mile driven
+      - name: total_miles
+        description: Total miles driven during the rental period
+      - name: maximum_free_miles
+        description: Maximum number of free miles included in the rental
+      - name: insurance_charges
+        description: Amount charged for insurance coverage
+      - name: weekly_rental_rate
+        description: Weekly rental rate for the vehicle
+      - name: total_authorized_amount
+        description: Total amount authorized for the rental transaction
+      - name: source_file
+        description: Source file name containing the transaction data
+      - name: return_location_id
+        description: Identifier for the vehicle return location
+      - name: maintenance_code
+        description: Code indicating maintenance status or requirements
+      - name: rental_agreement_number
+        description: Rental agreement number
+      - name: renter_name
+        description: Name of the person renting the vehicle
+      - name: rental_return_city
+        description: City where the vehicle was returned
+      - name: rental_return_state_province
+        description: State or province where the vehicle was returned
+      - name: rental_return_country
+        description: Country where the vehicle was returned
+      - name: rental_rate_indicator
+        description: Indicator for the type of rental rate applied
+      - name: insurance_indicator
+        description: Indicator for insurance coverage type
+      - name: vehicle_check_out_city
+        description: City where the vehicle was checked out
+      - name: vehicle_check_out_state_province
+        description: State or province where the vehicle was checked out
+      - name: vehicle_check_out_country
+        description: Country where the vehicle was checked out
+      - name: rental_class
+        description: Class or category of the rental vehicle
+      - name: corporate_identifier
+        description: Corporate account identifier
+      - name: no_show_indicator
+        description: Indicator if the renter was a no-show
+      - name: customer_service_toll_free_800_num
+        description: Customer service toll-free number
+      - name: vehicle_return_location
+        description: Description of the vehicle return location
+      - name: rental_return_date
+        description: Date when the vehicle was returned
+      - name: check_out_date
+        description: Date when the vehicle was checked out
+      - name: _es_update_timestamp
+        description: Timestamp when the record was last updated in the source system
+        data_tests:
+          - not_null

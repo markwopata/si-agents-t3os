@@ -1,0 +1,96 @@
+---
+version: 2
+models:
+  - name: stg_fleet_optimization_gold__dim_dates_fleet_opt
+    description: Model for fleet_optimization.gold.dim_dates_fleet_opt
+    columns:
+      - name: dt_key
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+        data_tests:
+          - unique
+      - name: dt_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_year
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_month
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_month_name
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: date_month_start
+        description: The first day of the month for the given date
+      - name: date_month_end
+        description: The last day of the month for the given date
+      - name: dt_period
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_prior_period
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_next_period
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_year_month
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_day
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_day_of_week
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_week_of_year
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_day_of_year
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_weekday
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_last_30_days
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_last_60_days
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_last_90_days
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_last_120_days
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_last_180_days
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_year_to_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_quarter_to_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_month_to_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_prior_year_to_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_prior_month_to_date
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_prior_month
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_current_month
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_prior_quarter
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates
+      - name: dt_recordtimestamp
+        description: See documentation of platform's dim_dates, found at 
+          https://cloud.getdbt.com/explore/252546/projects/359676/environments/production/details/model.platform.dim_dates

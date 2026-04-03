@@ -1,0 +1,210 @@
+view: v_dim_dates_bi {
+  sql_table_name: business_intelligence.gold.v_dim_dates_bi ;;
+
+    measure: count {
+      type: count
+      drill_fields: [detail*]
+    }
+
+    dimension: date_key {
+      type: string
+      sql: ${TABLE}."DATE_KEY" ;;
+    }
+
+    dimension: date {
+      type: date
+      sql: ${TABLE}."DATE" ;;
+    }
+
+    dimension: year {
+      type: string
+      sql: ${TABLE}."YEAR" ;;
+    }
+
+    dimension: month {
+      type: string
+      sql: ${TABLE}."MONTH" ;;
+    }
+
+    dimension: month_name {
+      type: string
+      sql: ${TABLE}."MONTH_NAME" ;;
+    }
+
+    dimension: period {
+      type: string
+      sql: ${TABLE}."PERIOD" ;;
+    }
+
+    dimension: prior_period {
+      type: string
+      sql: ${TABLE}."PRIOR_PERIOD" ;;
+    }
+
+    dimension: next_period {
+      type: string
+      sql: ${TABLE}."NEXT_PERIOD" ;;
+    }
+
+    dimension: year_month {
+      type: string
+      sql: ${TABLE}."YEAR_MONTH" ;;
+    }
+
+    dimension: day {
+      type: number
+      sql: ${TABLE}."DAY" ;;
+    }
+
+    dimension: day_of_week {
+      type: number
+      sql: ${TABLE}."DAY_OF_WEEK" ;;
+    }
+
+    dimension: week_of_year {
+      type: number
+      sql: ${TABLE}."WEEK_OF_YEAR" ;;
+    }
+
+    dimension: day_of_year {
+      type: number
+      sql: ${TABLE}."DAY_OF_YEAR" ;;
+    }
+
+    dimension: is_current_day {
+      type: yesno
+      sql: current_date = ${TABLE}."DATE" ;;
+    }
+
+    dimension: is_weekday {
+      type: yesno
+      sql: ${TABLE}."IS_WEEKDAY" ;;
+    }
+
+    dimension: is_last_30_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_30_DAYS" ;;
+    }
+
+    dimension: is_last_31_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_31_DAYS" ;;
+    }
+
+    dimension: is_last_60_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_60_DAYS" ;;
+    }
+
+    dimension: is_last_90_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_90_DAYS" ;;
+    }
+
+    dimension: is_last_120_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_120_DAYS" ;;
+    }
+
+    dimension: is_last_180_days {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_180_DAYS" ;;
+    }
+
+    dimension: is_year_to_date {
+      type: yesno
+      sql: ${TABLE}."IS_YEAR_TO_DATE" ;;
+    }
+
+    dimension: is_quarter_to_date {
+      type: yesno
+      sql: ${TABLE}."IS_QUARTER_TO_DATE" ;;
+    }
+
+    dimension: is_month_to_date {
+      type: yesno
+      sql: ${TABLE}."IS_MONTH_TO_DATE" ;;
+    }
+
+    dimension: is_prior_year_to_date {
+      type: yesno
+      sql: ${TABLE}."IS_PRIOR_YEAR_TO_DATE" ;;
+    }
+
+    dimension: is_prior_month_to_date {
+      type: yesno
+      sql: ${TABLE}."IS_PRIOR_MONTH_TO_DATE" ;;
+    }
+
+    dimension: is_prior_month {
+      type: yesno
+      sql: ${TABLE}."IS_PRIOR_MONTH" ;;
+    }
+
+    dimension: is_current_month {
+      type: yesno
+      sql: ${TABLE}."IS_CURRENT_MONTH" ;;
+    }
+
+    dimension: is_prior_quarter {
+      type: yesno
+      sql: ${TABLE}."IS_PRIOR_QUARTER" ;;
+    }
+
+    dimension: is_first_day_of_month {
+      type: yesno
+      sql: ${TABLE}."IS_FIRST_DAY_OF_MONTH" ;;
+    }
+
+    dimension: is_last_day_of_month {
+      type: yesno
+      sql: ${TABLE}."IS_LAST_DAY_OF_MONTH" ;;
+    }
+
+    dimension_group: _created_recordtimestamp {
+      type: time
+      sql: ${TABLE}."_CREATED_RECORDTIMESTAMP" ;;
+    }
+
+    dimension_group: _updated_recordtimestamp {
+      type: time
+      sql: ${TABLE}."_UPDATED_RECORDTIMESTAMP" ;;
+    }
+
+    set: detail {
+      fields: [
+        date_key,
+        date,
+        year,
+        month,
+        month_name,
+        period,
+        prior_period,
+        next_period,
+        year_month,
+        day,
+        day_of_week,
+        week_of_year,
+        day_of_year,
+        is_weekday,
+        is_last_30_days,
+        is_last_31_days,
+        is_last_60_days,
+        is_last_90_days,
+        is_last_120_days,
+        is_last_180_days,
+        is_year_to_date,
+        is_quarter_to_date,
+        is_month_to_date,
+        is_prior_year_to_date,
+        is_prior_month_to_date,
+        is_prior_month,
+        is_current_month,
+        is_prior_quarter,
+        is_first_day_of_month,
+        is_last_day_of_month,
+        _created_recordtimestamp_time,
+        _updated_recordtimestamp_time
+      ]
+    }
+  }

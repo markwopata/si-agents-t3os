@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: dim_customer_salespersons
+    description: >
+      This model consolidates information about customers and their associated salespersons. The salespersons'
+      full names are aggregated into an array for each company.
+    columns:
+      - name: company_id
+        description: "{{ doc('company_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: "{{ doc('customer_name') }}"
+      - name: list_of_salespersons
+        description: "List of salespersons associated with the customer derived from invoices table."

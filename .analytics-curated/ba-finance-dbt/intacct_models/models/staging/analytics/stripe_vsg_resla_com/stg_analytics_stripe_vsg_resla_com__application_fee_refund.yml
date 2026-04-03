@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__application_fee_refund
+    description: Unused as of 2025-10-16
+    columns:
+      - name: id
+        description: "Unique identifier for the application fee refund."
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: balance_transaction_id
+        description: "Balance transaction describing the impact on your account balance."
+      - name: application_fee_id
+        description: "ID of the application fee that was refunded."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

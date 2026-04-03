@@ -1,0 +1,40 @@
+---
+version: 2
+models:
+  - name: int_commissions_rate_achievement_pickup_and_delivery
+    description: Assigns rate achievement tiers to Pickup and Delivery commission type
+    columns:
+      - name: rate_tier_id
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 11, 12, 13, 14, 15, 16]
+                description:
+                  "This test checks if it only line item type id 0 (no rate achievement), 11, 12, 13 (P&D above,
+                  between and floor rate), 14, 15, and 16 (P&D overweight above, between and floor rate) is passed through this
+                  rate achievement check"
+        description: ""
+      - name: line_item_id
+        data_tests:
+          - unique
+          - not_null
+        description: ""
+      - name: business_segment_id
+        description: ""
+      - name: grace_period_flag
+        description: ""
+      - name: deal_floor_flag
+        description: ""
+      - name: deal_floor
+        description: ""
+      - name: floor_rate
+        description: ""
+      - name: benchmark_rate
+        description: ""
+      - name: book_rate
+        description: ""
+      - name: source_model
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

@@ -1,0 +1,49 @@
+---
+version: 2
+models:
+  - name: stg_procurement_public__purchase_transaction_adjustments
+    description: |
+      Staging model for credit card transaction adjustments from procurement system.
+      Contains credits, refunds, chargebacks, and other adjustments to credit card transactions.
+      One row per adjustment transaction.
+    columns:
+      - name: _es_load_timestamp
+        description: "Timestamp when the record was first loaded into the data warehouse"
+      - name: purchase_transaction_adjustment_id
+        description: "Unique identifier for the adjustment transaction"
+        data_tests:
+          - not_null
+          - unique
+      - name: is_credit
+        description: "Boolean flag indicating if the adjustment is a credit (refund/return) or debit"
+      - name: acquirer_reference_number
+        description: >
+          Original transaction id from the credit card provider. For the adjustment transaction, this is the tie back
+          to the original credit card transaction.
+      - name: metadata
+        description: "Additional metadata about the adjustment in JSON format"
+      - name: adjusted_transaction_id
+        description: |
+          Foreign key to the original purchase_transaction_id that this adjustment relates to.
+          Links to procurement.public.purchase_transactions table.
+      - name: adjustment_description
+        description: "Describes what kind of transaction this is - e.g. FOREIGN TRANSACTION FEE"
+      - name: posting_date
+        description: "Date when the adjustment was posted to the account"
+      - name: external_transaction_id
+        description: |
+          External transaction ID from the credit card feed (maps to cc_and_fuel_spend_all.transaction_id).
+          Used to match adjustments to credit card transactions in the verification process.
+        data_tests:
+          - not_null
+          - unique
+      - name: adjustment_code
+        description: "Numeric identifier for type of adjustment."
+      - name: amount
+        description: "Dollar amount of the adjustment. Always positive. Use is_credit to get negatives."
+      - name: purchase_date
+        description: "Date of the original purchase that is being adjusted"
+      - name: date_created
+        description: "Timestamp when the adjustment record was created in the procurement system"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

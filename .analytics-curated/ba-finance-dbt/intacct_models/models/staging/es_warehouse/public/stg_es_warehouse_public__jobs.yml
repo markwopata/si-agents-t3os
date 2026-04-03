@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__jobs
+    description: Model for es_warehouse.public.jobs
+    columns:
+      - name: job_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: custom_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: geofence_id
+        description: ""
+      - name: create_date
+        description: ""
+      - name: update_date
+        description: ""
+      - name: created_by
+        description: ""
+      - name: updated_by
+        description: ""
+      - name: parent_job_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

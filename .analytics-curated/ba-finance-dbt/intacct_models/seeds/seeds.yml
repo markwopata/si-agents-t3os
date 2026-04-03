@@ -1,0 +1,279 @@
+---
+version: 2
+
+seeds:
+  - name: seed_be_dropped_je
+    description: list of journal entries to be excluded from branch earnings
+    meta:
+      point_of_contact: Vishesh Mathur
+      google_drive_link: https://docs.google.com/spreadsheets/d/12hoXXvJVC6a9TmmFPs1EMuEiAhbgbxeGfvpnuQs9ZWs/edit#gid=1562540674
+
+  - name: seed_plexi_periods
+    description: when monthly branch earnings offifcial gets closed
+    meta:
+      point_of_contact: Vishesh Mathur and Brody Cridlebaugh
+      google_drive_link: https://docs.google.com/spreadsheets/d/1rT6nfC0-MJUv5HttKwf3I8u4tEDwnPoJPJYNCaRwlkA/edit#gid=0
+    columns:
+      - name: period_published
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["published"]
+  - name: seed_intercompany_line_item_account_mapping
+    description: mapping of intercompany line item accounts to their respective GL accounts for intecompany transactions
+    meta:
+      point_of_contact: Loren Severs
+    columns:
+      - name: pk_intercompany_line_item_mapping_id
+        description: "Primary key for the intercompany line item mapping table"
+        data_tests:
+          - not_null
+          - unique
+
+  - name: seed_monday_board_column_map
+    description: Mapping of monday.com board columns to database friendly column names.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - column_id
+              - column_name # Typically you should have unique column_ids per board_id. We can duplicate a column as an alias though.
+    columns:
+      - name: board_id
+        description: "Unique ID of the board. Foreign key to monday.board.id"
+        data_tests:
+          - not_null
+      - name: column_id
+        description: "Unique ID of the column. Foreign key to monday.columns.id or monday.column_values.id"
+        data_tests:
+          - not_null
+      - name: column_name
+        description: "Name of the column"
+        data_tests:
+          - not_null
+      - name: column_type_override
+        description: "Override type of the column. The monday macro will assume some database column types from the board column type."
+      - name: skip_etl_flag
+        description: "Flag/boolean to indicate whether we should skip ETLing this column"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["true", "false"]
+  - name: seed_stat_acct_map
+    description: Provides map that aligns STAT and GAAP accounts.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: stat_acct
+        description: "Statistical account nunber."
+        data_tests:
+          - not_null
+          - unique
+      - name: map_id
+        description: "Rollup ID that maps Stat to GAAP."
+        data_tests:
+          - not_null
+      - name: rep_acct
+        description: "Lists accounts represented in the rollup map_id."
+        data_tests:
+          - not_null
+      - name: rep_acct_name
+        description: "Lists account names represented in the rollup map_id."
+        data_tests:
+          - not_null
+      - name: sort_group_ovr
+        description: "Override for grouped stat accounts that rollup to multiple sort_groups."
+      - name: dept_ovr
+        description: "Override for grouped stat accounts that rollup to multiple departments."
+      - name: revexp_ovr
+        description: "Override for grouped stat accounts that rollup to multiple revexp."
+      - name: stat_start_date
+        description: "First month the stat account appears in branch earnings. "
+  - name: seed_gaap_acct_map
+    description: Provides map that aligns STAT and GAAP accounts.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: gaap_acct
+        description: "Statistical account nunber."
+        data_tests:
+          - not_null
+          - unique
+      - name: map_id
+        description: "Rollup ID that maps Stat to GAAP."
+        data_tests:
+          - not_null
+      - name: rep_acct
+        description: "Lists accounts represented in the rollup map_id."
+        data_tests:
+          - not_null
+      - name: rep_acct_name
+        description: "Lists account names represented in the rollup map_id."
+        data_tests:
+          - not_null
+      - name: sort_group_ovr
+        description: "Override for grouped stat accounts that rollup to multiple sort_groups."
+      - name: dept_ovr
+        description: "Override for grouped stat accounts that rollup to multiple departments."
+      - name: revexp_ovr
+        description: "Override for grouped stat accounts that rollup to multiple revexp."
+
+  - name: seed_line_item_erp_refs_override
+    description: Maps each line item type ID to its corresponding GL account
+    meta:
+      point_of_contact: Loren Severs
+    columns:
+      - name: line_item_type_id
+        description: "Primary key for the line item erp refs override table"
+        data_tests:
+          - not_null
+          - unique
+      - name: override_gl_account_no
+        description: "The BE account number that we are overriding the default GL Account with"
+        data_tests:
+          - not_null
+
+  - name: seed_materials_monthly_rev
+    description: Revenue data for materials branches before being acquired
+    meta:
+      point_of_contact: Neil Maniar
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - date
+              - market_id
+    columns:
+      - name: date
+        description: date column should be first day of the month
+      - name: bt_branch_id
+        description: BisTrack branch ID for the materials branch
+        data_tests:
+          - not_null
+      - name: market_id
+        description: Identifier for the market.
+        data_tests:
+          - not_null
+      - name: market_name
+        description: Name of the market.
+        data_tests:
+          - not_null
+      - name: revenue
+        description: Revenue for the month.
+
+  - name: seed_retail_market_map
+    description: mapping file that identifies the retail territory of a retail market and also distinguishes whether it is a dealership/rental hybrid market or not.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: market_id
+        description: Child MarketID for given dealership market.
+        data_tests:
+          - not_null
+          - unique
+      - name: market_name
+        description: Name of the dealership market.
+        data_tests:
+          - not_null
+      - name: retail_territory
+        description: Identifies which management territory the dealership market falls into.
+      - name: is_retail_rental_hybrid
+        description: Binary flagging that identifies if the given dealership market is a dealership/rental hybrid market or not. If false, then it is a standalone market.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["true", "false"]
+      - name: start_date
+        description: Date market was added as a dealership market. Defaults to Branch Earnings Start Date.
+      - name: end_date
+        description: Date market was removed as a dealership market. Null if still active.
+
+  - name: seed_vsg_turo_to_branch_mapping
+    description: >
+      Mapping from VSG Turo account short codes to admin/T3 market IDs + VSG's region id. Each 'region' has a separate
+      Turo account. They pull the turo data and load with a short code that doesn't match what's in the supabase regions
+      table. We need a mapping to get to a market.
+    meta:
+      point_of_contact: Vishesh Mathur
+    columns:
+      - name: turo_account_short_code
+        description: >
+          Short code for the Turo account - MO, ATX, ATL, etc. This does not match any other table. Unique to Turo csv
+          pulls.
+        data_tests:
+          - not_null
+          - unique
+      - name: vsg_region_id
+        description: VSG region identifier
+        data_tests:
+          - not_null
+      - name: market_id
+        description: Admin/T3 market id. Foreign key to es_warehouse.markets.market_id
+        data_tests:
+          - not_null
+      - name: market_name
+        description: Current market name in admin/t3. For reference.
+
+  - name: seed_account_targets_account_comp_metric_map
+    description: Provides a map that assigns a comp metric to each account in the P/L for the purposes of creating target percentages by account. These comp metrics include OEC and Revenue.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: account_no
+        description: Account Number in the P/L.
+        data_tests:
+          - not_null
+          - unique
+      - name: cost_type
+        description: For expense accounts, indicates whether the account is considered controllable or fixed.
+        data_tests:
+          - not_null
+      - name: comp_metric
+        description: Assigns a comp metric for each account in the P/L.
+        data_tests:
+          - not_null
+
+  - name: seed_account_targets_comp_markets
+    description: Identifies grouping of high performing target markets, used for assigning targets for each account in the P/L.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: market_id
+        description: MarketID for each target market.
+        data_tests:
+          - not_null
+          - unique
+      - name: market_name
+        description: Name of each target market.
+        data_tests:
+          - not_null
+      - name: comp_markets_id
+        description: Grouping ID assigned to each set of target markets. This is used to flag which collection of target markets we apply to each individual market for setting targets.
+        data_tests:
+          - not_null
+     
+  - name: seed_account_targets_market_comp_map
+    description: Assigns the comp market grouping to each individual market for the purposes of setting targets.
+    meta:
+      point_of_contact: Jack Martin
+    columns:
+      - name: market_id
+        description: MarketID for each market
+        data_tests:
+          - not_null
+          - unique
+      - name: market_name
+        description: Name of each target market.
+        data_tests:
+          - not_null
+      - name: market_type
+        description: Identifies the type of each market, ie Core vs Adv vs etc...
+        data_tests:
+          - not_null
+      - name: comp_markets_id
+        description: Links each market to its group of target markets for setting account targets.
+        data_tests:
+          - not_null

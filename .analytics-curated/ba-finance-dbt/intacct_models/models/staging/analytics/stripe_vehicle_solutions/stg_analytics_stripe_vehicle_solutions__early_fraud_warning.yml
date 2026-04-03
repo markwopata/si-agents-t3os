@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vehicle_solutions__early_fraud_warning
+    description: Early fraud warnings provide a signal that a card network suspects a charge is fraudulent.
+    columns:
+      - name: id
+        description: "Unique identifier for the early fraud warning."
+        data_tests:
+          - not_null
+          - unique
+      - name: actionable
+        description: "Whether you can take action on the warning (e.g., refund)."
+      - name: created
+        description: ""
+      - name: fraud_type
+        description: "Type of suspected fraud."
+      - name: livemode
+        description: "Indicates if this is a test record."
+      - name: charge_id
+        description: "ID of the charge the warning relates to."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_t3__coi_user_list
+    description: Line-level purchase order information, with each row containing  details about a specific purchase order line item
+    columns:
+      - name: "First Name"
+        data_type: string
+        description: "Contact First Name"
+
+      - name: "Last Name"
+        data_type: string
+        description: "Contact Last Name"
+
+      - name: "Company Name"
+        data_type: string
+        description: "Company Name associated with contact"
+
+      - name: "Insurance Tier"
+        data_type: string
+        description: "Level of insurance associated with company"
+
+      - name: "Company Address 1"
+        data_type: string
+        description: "Main address associated with company"
+
+      - name: "Company Address 2"
+        data_type: string
+        description: "Secondary address associated with company"
+
+      - name: "Company Country"
+        data_type: string
+        description: "Country location of company"
+
+      - name: "Company State/Province"
+        data_type: string
+        description: "State/province location of company"
+
+      - name: "Company City"
+        data_type: string
+        description: "City location of company"
+
+      - name: "Company Zip Code/Post Code/Pin Code"
+        data_type: string
+        description: "Shipping Zip or Post location of company"
+
+      - name: "Email"
+        data_type: string
+        description: "Shipping Zip or Post location of company"
+
+      - name: "Tax ID"
+        data_type: string
+        description: "Tax ID of company"
+
+      - name: supplier_id
+        data_type: number
+        description: "ID assocaited with company"
+
+      - name: baseline_loaded_at
+        data_type: date
+        description: "Date company was loaded into table"

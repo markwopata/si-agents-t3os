@@ -1,0 +1,18 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__billing_company_preferences
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.billing_company_preferences table, maintaining point-in-time
+      history of billing company preferences.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: billing_company_preferences_id
+        description: Primary key of the underlying billing company preferences record.
+        data_tests:
+          - not_null

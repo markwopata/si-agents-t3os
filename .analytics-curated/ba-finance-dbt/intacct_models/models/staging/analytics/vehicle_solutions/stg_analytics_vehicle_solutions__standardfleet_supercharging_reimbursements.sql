@@ -1,0 +1,63 @@
+select
+    ssr.id,
+    ssr.period_start_date,
+    ssr.charge_session_start,
+    ssr.charge_session_end,
+    ssr.payment_created,
+    ssr.status,
+    ssr.amount_cents,
+    ssr.currency,
+    ssr.amount_paid_by_reserve_cents,
+    ssr.upcharge_cents,
+    ssr.sf_processing_fee_cents,
+    ssr.reservation_id,
+    ssr.tesla_invoice_number,
+    ssr.reserve_applied_id,
+    ssr.partner_reference,
+    ssr.charge_session_id,
+    ssr.category,
+    ssr.supercharge_amount,
+    ssr.amount_paid,
+    ssr.file_name,
+    ssr.ck_payments_enabled,
+    ssr.payment_complete,
+    ssr.payment_started,
+    ssr.vin,
+    ssr.charge_session_created,
+    ssr.total_cost,
+    ssr.reservation_charges_category,
+    ssr.upcharge,
+    ssr.sf_fee,
+    ssr.net_payout,
+    ssr.session_id,
+    ssr.ck_id,
+    ssr.ck_created,
+    ssr.ck_updated,
+    ssr.ck_start,
+    ssr.ck_end,
+    ssr.partner_ref,
+    ssr.reservation_charge_id,
+    ssr.payment_intent_id,
+    ssr.kwh,
+    ssr.row_num,
+    ssr.payment_status,
+    ssr.unnamed_28,
+    ssr.unnamed_29,
+    ssr.unnamed_30,
+    ssr.unnamed_31,
+    ssr.amount_paid_by_deposit,
+    ssr.sf_account_id,
+    ssr._es_update_timestamp,
+    row_number() over (
+        partition by
+            ssr.vin,
+            ssr.reservation_charge_id,
+            ssr.tesla_invoice_number
+        order by
+            ssr._es_update_timestamp desc,
+            ssr.total_cost desc
+    ) as rn
+from {{ ref('base_analytics_vehicle_solutions__standardfleet_supercharging_reimbursements') }} as ssr
+where ssr.file_name not ilike '%.xlsx'
+qualify
+    ssr._es_update_timestamp = max(ssr._es_update_timestamp) over (partition by ssr.file_name)

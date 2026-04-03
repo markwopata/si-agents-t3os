@@ -1,0 +1,52 @@
+---
+version: 2
+
+models:
+  - name: int_vsg_hq_rental_payments_timeline_details
+    description: >
+      Detailed timeline of payments and revenue recognition for HQ rentals, broken down by rental date.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - reservation_id
+              - rental_date
+    columns:
+      - name: reservation_id
+        description: "Reservation id from HQ rentals"
+
+      - name: rental_date
+        description: "Date for each day in the rental period"
+
+      - name: is_month_end
+        description: "Indicates if the rental period ends in the last day of the month."
+
+      - name: sales_tax
+        description: "Sales tax applied to the rental."
+
+      - name: deposit_amount
+        description: "Deposit amount for the rental."
+
+      - name: paid_amount
+        description: "Paid amount for the rental (from Stripe)."
+
+      - name: refunded_amount
+        description: "Refunded amount for the rental."
+
+      - name: cumulative_paid_amount
+        description: "Cumulative paid amount for the rental (from Stripe)."
+
+      - name: cumulative_sales_tax
+        description: "Cumulative sales tax for the rental."
+        
+      - name: revenue
+        description: "Revenue generated from the rental (from HQ rental)."
+
+      - name: cumulative_revenue
+        description: "Cumulative revenue generated from the rental."
+
+      - name: deferred_revenue
+        description: "Deferred revenue for the rental. occurs when cash paid > cumulative revenue"
+
+      - name: unbilled_revenue
+        description: "Unbilled revenue for the rental. occurs when cash paid < cumulative revenue"

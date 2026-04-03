@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: int_commissions_reimbursements
+    description: reimbursement Calculation
+    columns:
+      - name: commission_id
+        data_tests:
+          - not_null
+          - unique_store_fails
+        description: ""
+      - name: line_item_id
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: credit_note_line_item_id
+        description: ""
+      - name: manual_adjustment_id
+        description: ""
+      - name: transaction_type_id
+        description: ""
+      - name: commission_type_id
+        description: ""
+      - name: transaction_date
+        description: ""
+      - name: commission_rate
+        description: ""
+      - name: split
+        description: ""
+      - name: reimbursement_factor
+        description: ""
+      - name: override_rate
+        description: ""
+      - name: exception
+        description: ""
+      - name: amount
+        description: ""

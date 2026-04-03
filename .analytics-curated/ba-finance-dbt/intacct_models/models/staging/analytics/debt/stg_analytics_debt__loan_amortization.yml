@@ -1,0 +1,24 @@
+---
+version: 2
+models:
+  - name: stg_analytics_debt__loan_amortization
+    description: Loan amortization table. Owner Brandon Howard. There's no unique keys. You can have multiple payments on the same day for the same payment_schedule_id
+    columns:
+      - name: payment_schedule_id
+        description: 'Foreign key to loan_attributes table.'
+      - name: event
+        description: 'Name of loan event: Loan, Lease, Payment, Rate Change, etc'
+      - name: date
+        description: ''
+      - name: positive_cash_flow_amount
+        description: 'Positive cash flow amount'
+      - name: negative_cash_flow_amount
+        description: 'Negative cash flow amount'
+      - name: interest_amount
+        description: ''
+      - name: principal_amount
+        description: ''
+      - name: balance
+        description: ''
+      - name: memo
+        description: ''

@@ -1,0 +1,27 @@
+---
+version: 2
+
+models:
+  - name: stg_analytics_vsg_postgres__public__vehicle_rack_rates
+    description: cleaned and renamed staging model for analytics.vsg_postgres__public.vehiclerackrates
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - vin
+              - date
+    columns:
+      - name: vin
+        description: vehicle identification number
+
+      - name: date
+        description: date of the rack rate
+
+      - name: rack_rate
+        description: rack rate in dollars
+
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

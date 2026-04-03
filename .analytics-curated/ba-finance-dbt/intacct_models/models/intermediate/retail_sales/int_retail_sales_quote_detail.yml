@@ -1,0 +1,78 @@
+---
+version: 2
+
+models:
+  - name: int_retail_sales_quote_detail
+    description: >
+        This model is used for quote level details for retail sales. 
+        It includes the current version of the quote
+    config:
+      tags: ["retail_sales"]
+    columns:
+      - name: quote_pk_id
+        description: >
+          The primary key for the record.
+        data_tests:
+          - not_null
+          - unique
+      - name: quote_id
+        description: >
+          The unique identifier for the quote. This is unique because we are only 
+          capturing the most recent version of the quote.
+        data_tests:
+          - not_null
+          - unique
+      - name: salesperson_user_id
+        description: >
+          The user ID of the salesperson who created the quote.
+      - name: secondary_salesperson_user_id
+        description: >
+          The user ID of the secondary salesperson responsible for the quote. Foreign key to the users table.
+      - name: market_id
+        description: >
+          The ID of the market where the quote was created.
+      - name: status
+        description: >
+          The current status of the quote (e.g., draft, pending, complete, denied).
+        data_tests:
+          - not_null
+      - name: quote_created_at
+        description: >
+          The timestamp when the quote was first created (earliest version).
+        data_tests:
+          - not_null
+      - name: quote_completed_at
+        description: >
+          The timestamp when the quote was completed.
+      - name: days_to_complete
+        description: >
+          The number of days it took to complete the quote from creation to completion.
+      - name: is_current
+        description: >
+          Boolean flag indicating if this is the current/latest version of the quote.
+        data_tests:
+          - not_null
+      - name: invoice_id
+        description: >
+          The invoice ID if the quote has been converted to an invoice.
+      - name: payment_method
+        description: "{{ doc('retail_sales_payment_method') }}"
+      - name: type_of_sale
+        description: >
+          The type of sale for the quote (e.g., new, used).
+      - name: asset_count
+        description: >
+          The total number of assets included in the quote.
+      - name: total_price
+        description: >
+          The total price of all assets in the quote, including additional items.
+      - name: total_cost
+        description: >
+          The total cost of all assets in the quote, including additional items 
+          and trade-in over allowances.
+      - name: total_rebate
+        description: >
+          The total rebate amount for all assets in the quote.
+      - name: total_margin
+        description: >
+          The total margin for the quote calculated as total price minus total cost plus rebates.

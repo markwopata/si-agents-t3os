@@ -1,0 +1,20 @@
+---
+version: 2
+sources:
+  - name: analytics_warranty
+    tags: ["sources"]
+    database: analytics
+    schema: warranties
+    description: data in analytics.warranty (analytics database / warranty schema) used for warranty processes
+    meta:
+      generated_from: Gitlab
+      url: https://gitlab.internal.equipmentshare.com/business-intelligence/ba-part-analytics/-/blob/main/snowflake_tasks/warranty_invoices_task.sql
+      snowflake_task: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/PUBLIC/task/WARRANTY_INVOICES_TASK
+      owner: ["@tommie.altvater"]
+    tables:
+      - name: warranty_invoices
+        description: each row represents an invoice with warranty details
+        columns:
+            - name: invoice_id
+              data_tests:
+                - unique

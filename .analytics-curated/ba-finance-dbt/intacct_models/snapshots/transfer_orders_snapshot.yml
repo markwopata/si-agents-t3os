@@ -1,0 +1,17 @@
+---
+version: 2
+
+snapshots:
+  - name: transfer_orders_snapshot
+    description: >
+        Hourly snapshot of the asset transfers table to maintain a point-in-time history of all transfers.
+        An asset is in_transit when it has a record in asset_transfer.public.transfer_orders with status = 'Approved', and it is marked Received once it reaches its destination.
+        Once the asset reaches its destination, the status changes to Received and the original Approved record is overwritten 
+    meta:
+      background_slack_message: https://equipmentshare.slack.com/archives/C09QN01J7CM/p1762452591066669?thread_ts=1762276989.664019&cid=C09QN01J7CM
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique

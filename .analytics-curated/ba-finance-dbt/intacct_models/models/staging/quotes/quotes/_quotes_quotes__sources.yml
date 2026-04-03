@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: quotes_quotes
+    tags: ["sources","quotes"]
+    database: QUOTES
+    schema: QUOTES
+    description: >
+      Raw quotes data from the quoting system, keyed by quote ID and linked to orders.
+    tables:
+      - name: quote
+        description: >
+          Every quote generated for rental orders, including company, order, and pricing metadata.
+      - name: request_source
+        description: >
+          The source of the quote
+

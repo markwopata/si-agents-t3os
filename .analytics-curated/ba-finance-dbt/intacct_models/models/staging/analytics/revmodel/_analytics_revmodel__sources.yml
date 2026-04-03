@@ -1,0 +1,28 @@
+---
+version: 2
+
+sources:
+  - name: analytics_revmodel
+    tags: ["sources"]
+    database: analytics
+    schema: revmodel
+    description: "Data in analytics.revmodel (analytics database / revmodel schema) used for business intelligence analytics."
+    tables:
+      - name: account_mapping3
+        description: "The analytics.revmodel.account_mapping3 table maps Intacct GL account numbers to revenue categories."
+        data_tests:
+          - dbt_expectations.expect_compound_columns_to_be_unique:
+              arguments:
+                column_list:
+                - accountno
+                - title
+                - accounttype
+        columns:
+          - name: accountno
+            description: "Intacct GL account number"
+            data_tests:
+              - not_null
+      - name: es_financials_23q2close
+        description: ''
+      - name: es_financials_versions
+        description: ''

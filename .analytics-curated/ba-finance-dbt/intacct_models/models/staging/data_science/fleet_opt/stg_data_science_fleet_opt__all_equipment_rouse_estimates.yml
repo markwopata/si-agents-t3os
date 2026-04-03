@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_data_science_fleet_opt__all_equipment_rouse_estimates
+    description: >
+      Since base_data_science_fleet_opt__all_equipment_rouse_estimates is a historical table of asset estimates, this model selects the most recent estimate for each asset.
+    columns:
+      - name: asset_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: cost_with_attachments
+        description: ""
+
+      - name: net_book_value
+        description: ""
+
+      - name: predictions_retail
+        description: ""
+
+      - name: predictions_retail_lower_25
+        description: ""
+
+      - name: predictions_retail_upper_75
+        description: ""
+
+      - name: rouse_retail
+        description: ""
+
+      - name: four_pct_commission_bound
+        description: ""
+
+      - name: predictions_wholesale
+        description: ""
+
+      - name: predictions_wholesale_lower_25
+        description: ""
+
+      - name: predictions_wholesale_upper_75
+        description: ""
+
+      - name: orderly_liquidation_value
+        description: "{{ doc('orderly_liquidation_value') }}"
+
+      - name: buyout_price
+        description: "{{ doc('buyout_price') }}"
+
+      - name: predictions_auction_lower_25
+        description: ""
+
+      - name: predictions_auction
+        description: ""
+
+      - name: predictions_auction_upper_75
+        description: ""
+
+      - name: rouse_auction
+        description: ""
+
+      - name: five_pct_commission_bound
+        description: ""
+
+      - name: lower_sale_cutoff
+        description: ""
+
+      - name: date_created
+        description: ""

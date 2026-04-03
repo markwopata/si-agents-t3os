@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: int_cip_committed
+    description: >
+      Purchase Order committed amounts for Construction in Progress accounts.  
+      Includes only PO lines from January 2025 onward with positive remaining committed amounts,  
+      calculated as (Quantity Remaining × Unit Price). Excludes POs where the line was fully converted.  
+      Only accounts 1509, 1233, and 1604 are included.
+    config:
+      materialized: view
+      tags: ["construction", "cip", "purchase_order"]
+    columns:
+      - name: fk_po_line_id
+        description: "Primary key for the PO line."
+      - name: document_number
+        description: "Purchase order document number."
+      - name: document_type
+        description: "Document type (e.g., 'Purchase Order Entry')."
+      - name: gl_date
+        description: "General ledger date of the entry."
+      - name: account_number
+        description: "{{ doc('account_number') }}."
+      - name: account_name
+        description: "{{ doc('account_name') }}."
+      - name: department_id
+        description: "Department identifier associated with the PO line."
+      - name: market_id
+        description: "Department id cast as int."
+      - name: department_name
+        description: "Department name associated with the PO line."
+      - name: url_sage
+        description: "URL to view the PO line in Sage."
+      - name: line_description
+        description: "Description of the PO line item."
+      - name: quantity
+        description: "Original PO line quantity."
+      - name: quantity_converted
+        description: "Quantity from the PO line that has been converted."
+      - name: quantity_remaining
+        description: "Quantity still remaining on the PO line."
+      - name: committed_amount
+        description: "Remaining committed amount (quantity_remaining * unit_price), rounded to 2 decimals."

@@ -1,0 +1,81 @@
+---
+version: 2
+models:
+  - name: transaction_verification
+    description: "This model aims to map credit card transaction proof of purchase to its respective credit card swipe"
+    columns:
+      - name: pk_transaction
+        description: "Can be repeated, not unique. Per Peter 04-2025"
+        data_tests:
+          - not_null
+      - name: pk_upload
+        description: ""
+      - name: transaction_id
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: transaction_date
+        description: ""
+      - name: transaction_amount
+        description: ""
+      - name: transaction_merchant_name
+        description: ""
+      - name: transaction_mcc_code
+        description: ""
+      - name: transaction_mcc
+        description: ""
+      - name: transaction_card_type
+        description: ""
+      - name: upload_id
+        description: ""
+        data_tests:
+          - unique
+      - name: upload_date
+        description: ""
+      - name: upload_amount
+        description: ""
+      - name: employee_id
+        description: ""
+      - name: full_name
+        description: ""
+      - name: work_email
+        description: ""
+      - name: transaction_default_cost_centers_full_path
+        description: ""
+      - name: transaction_card_holder_name
+        description: ""
+      - name: upload_market_id
+        description: ""
+      - name: upload_market_verified
+        description: ""
+      - name: sub_department_id
+        description: ""
+      - name: sub_department
+        description: ""
+      - name: expense_line_id
+        description: ""
+      - name: expense_line
+        description: ""
+      - name: verified_status
+        description: ""
+      - name: verified_status_desc
+        description: ""
+      - name: upload_notes
+        description: ""
+      - name: upload_url
+        description: ""
+      - name: upload_submitted_at_date
+        description: ""
+      - name: upload_modified_at_date
+        description: ""
+      - name: load_section
+        description: ""
+      - name: recordtimestamp
+        description: ""
+      - name: corporate_account_name
+        description: ""
+      - name: is_personal_expense
+        description: "toggle added to the Expenses app to indicate if the credit card transaction is a personal expense or not"
+      - name: is_return
+        description: "toggle added to the Expenses app to indicate if the credit card transaction represents a credit issued by the vendor"

@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: int_live_branch_earnings_market_allocation
+    description: ""
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - market_id
+              - department_id
+              - gl_date
+    columns:
+      - name: gl_date
+        description: ""
+
+      - name: department_id
+        description: ""
+
+      - name: market_id
+        description: ""
+
+      - name: allocation_pct
+        description: ""
+
+      - name: allocation_method
+        description: ""

@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_heap__user_migrations
+    description: "{{ doc('heap__user_migrations') }}"
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          arguments:
+            compare_model: source('heap', 'user_migrations')
+          config:
+                severity: error
+                error_if: ">10"
+                warn_if: ">0"
+    columns:
+      - name: from_user_id
+        description: Heap's auto-generated user_id. This is our unique identifier since
+          once a user_id is migrated, it should stay migrated (though it can be migrated 
+          multiple times). This user_id would no longer appear 
+          in the USERS source table after migration.
+        data_type: number
+        
+      - name: to_user_id
+        description: Heap's user_id after Heap internally identifies the user 
+          and consolidates the information into one user_id. This allows Heap
+          to create a single, cohesive view of a particular user across devices,
+          browsers, and domains. This is the user_id that should be consistent with
+          what appears in the USERS table.
+        data_type: number
+        
+      - name: _dbt_updated_timestamp
+        description: "{{ doc('_dbt_updated_timestamp') }}"
+        data_type: timestamp_ntz

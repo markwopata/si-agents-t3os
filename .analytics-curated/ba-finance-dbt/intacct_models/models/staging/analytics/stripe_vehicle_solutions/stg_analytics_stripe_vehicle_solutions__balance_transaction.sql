@@ -1,0 +1,21 @@
+select
+    bt.id,
+    bt.connected_account_id,
+    bt.amount as amount_in_cents,
+    round(bt.amount / 100.0, 2) as amount,
+    bt.available_on,
+    bt.created,
+    bt.currency,
+    bt.description,
+    bt.exchange_rate,
+    bt.fee as fee_amount_in_cents,
+    round(bt.fee / 100.0, 2) as fee_amount,
+    bt.net as net_amount_in_cents,
+    round(bt.net / 100.0, 2) as net_amount,
+    bt.source,
+    bt.status,
+    bt.type,
+    bt.reporting_category,
+    bt._fivetran_synced,
+    bt.payout_id
+from {{ source('analytics_stripe_vehicle_solutions', 'balance_transaction') }} as bt

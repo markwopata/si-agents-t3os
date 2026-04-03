@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: int_branch_earnings_account_detail
+    description: Branch Earnings Account Detail based on plexibucketmapping
+    columns:
+      - name: account_number
+        description: ""
+        data_tests:
+            - unique
+
+      - name: gl_account_name
+        description: ""
+
+      - name: code
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: revexp
+        description: ""
+
+      - name: dept
+        description: ""

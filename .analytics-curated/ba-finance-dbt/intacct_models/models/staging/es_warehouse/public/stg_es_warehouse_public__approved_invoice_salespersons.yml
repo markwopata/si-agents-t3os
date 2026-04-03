@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__approved_invoice_salespersons
+    description:
+      "This staging model processes approved invoice salespersons data. Transformations include:\n  - Removal of
+      Brackets: The `secondary_salesperson_ids` column initially contains values enclosed in square brackets\n  - Splitting
+      Values: After removing the brackets, the `secondary_salesperson_ids` values are split into individual values based on
+      the comma delimiter. Each value is then expanded into separate rows\n"
+    columns:
+      - name: invoice_id
+        description: "Foreign key to es_warehouse invoices table."
+      - name: salesperson_id
+        description: "Unique id for the salesperson. Foreign key to es_warehouse users table."
+      - name: salesperson_type_id
+        description: "Identifier for the type of salesperson, 1 for primary and 2 for secondary."
+      - name: sales_person_type
+        description: "Type of salesperson, either 'Primary Salesperson' or 'Secondary Salesperson'."
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - invoice_id
+              - salesperson_id

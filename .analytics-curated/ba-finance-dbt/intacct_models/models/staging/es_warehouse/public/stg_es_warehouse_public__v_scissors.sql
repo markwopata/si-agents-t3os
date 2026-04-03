@@ -1,0 +1,19 @@
+SELECT
+    vs.tracker_id,
+    vs.device_serial,
+    vs.tracker_type_id,
+    vs.asset_id,
+    vs.year,
+    vs.equipment_make_id,
+    vs.make_name,
+    vs.model,
+    vs.equipment_model_id,
+    vs.model_name,
+    vs.equipment_class_id,
+    vs.class_name,
+    vs.category_id,
+    vs.category_name,
+    vs.cat_canonical_name,
+    vs.cat_singular_name,
+    vs.bus_type
+FROM {{ source('es_warehouse_public', 'v_scissors') }} as vs

@@ -1,0 +1,82 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__global_invoices_v1
+    description: Model for es_warehouse.public.global_invoices_v1
+    columns:
+      - name: id
+        description: ""
+      - name: domain_id
+        description: ""
+      - name: invoice_id
+        description: ""
+      - name: order_id
+        description: ""
+      - name: invoice_no
+        description: ""
+      - name: due_date
+        description: ""
+      - name: created_date
+        description: ""
+      - name: invoice_date
+        description: ""
+      - name: billing_approved_date
+        description: ""
+      - name: billing_approved
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: rental_amount
+        description: ""
+      - name: owed_amount
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: billed_amount
+        description: ""
+      - name: rpp_amount
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: customer_tax_exempt_status
+        description: ""
+      - name: sent
+        description: ""
+      - name: sent_date
+        description: ""
+      - name: reference
+        description: ""
+      - name: paid
+        description: ""
+      - name: paid_date
+        description: ""
+      - name: salesperson_user_id
+        description: ""
+      - name: purchase_order_id
+        description: ""
+      - name: ordered_by_user_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: credit_note_parent_invoice_id
+        description: ""
+      - name: rental_id
+        description: ""
+      - name: status
+        description: ""
+      - name: type
+        description: ""
+      - name: currency_code
+        description: ""
+      - name: billing_address
+        description: ""
+      - name: deleted_date
+        description: ""
+      - name: outstanding
+        description: ""
+      - name: due_date_outstanding
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

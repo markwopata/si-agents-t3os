@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__warranties
+    description: Model for es_warehouse.public.warranties
+    columns:
+      - name: warranty_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: ""
+      - name: description
+        description: ""
+      - name: date_deleted
+        description: ""
+      - name: note
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

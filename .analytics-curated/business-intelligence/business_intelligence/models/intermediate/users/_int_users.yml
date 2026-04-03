@@ -1,0 +1,10 @@
+version: 2
+
+models:
+
+  - name: int_user_flags
+    description: "{{ doc('int_user_flags') }}"
+
+  - name: int_user_mimic_links
+    description: "{{ doc('int_user_mimic_links') }}"
+  

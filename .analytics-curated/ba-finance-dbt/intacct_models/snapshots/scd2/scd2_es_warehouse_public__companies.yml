@@ -1,0 +1,17 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_es_warehouse_public__companies
+    description: >
+      SCD2 (Type 2) snapshot of the staged es_warehouse.public.companies table, maintaining point-in-time history of companies.
+    config:
+      enabled: true
+    columns:
+      - name: dbt_scd_id
+        data_tests:
+          - unique
+      - name: company_id
+        description: Primary key of the underlying company record.
+        data_tests:
+          - not_null

@@ -1,0 +1,67 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__tracking_events
+    description: Model for es_warehouse.public.tracking_events
+    columns:
+      - name: tracking_event_id
+        description: ""
+        data_tests:
+          - not_null:
+              config:
+                severity: warn  # Temporary until data ops fixes the snowflake tables
+          # - unique # This is a very time-expensive test
+      - name: report_timestamp
+        description: ""
+      - name: vendor_timestamp
+        description: ""
+      - name: location_lon
+        description: ""
+      - name: location_lat
+        description: ""
+      - name: speed
+        description: ""
+      - name: direction
+        description: ""
+      - name: engine_active
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: tracker_id
+        description: ""
+      - name: trip_id
+        description: ""
+      - name: trip_odo_miles
+        description: ""
+      - name: satellites
+        description: ""
+      - name: rssi
+        description: ""
+      - name: hdop
+        description: ""
+      - name: gps_fix_timestamp
+        description: ""
+      - name: street
+        description: ""
+      - name: city
+        description: ""
+      - name: county
+        description: ""
+      - name: state_id
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: ble_signal_power
+        description: ""
+      - name: state_abb
+        description: ""
+      - name: location
+        description: ""
+      - name: hdop_new
+        description: ""
+      - name: created
+        description: ""
+      - name: posted_speed_limit
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

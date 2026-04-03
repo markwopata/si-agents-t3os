@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_analytics_public__disc_master
+    description: list of employee's (from UKG and payroll) DISC information
+    columns:
+      - name: employee_id
+        description: "{{ doc('employee_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: disc_code
+        description: ""
+        data_tests:
+          - not_null
+      - name: email_address
+        description: ""
+      - name: disc_sent_date
+        description: ""
+      - name: completed_date
+        description: ""
+      - name: environment_style
+        description: ""
+      - name: basic_style
+        description: ""
+      - name: blend
+        description: ""
+      - name: main_strength
+        description: ""
+      - name: applicant
+        description: ""
+      - name: status
+        description: ""
+      - name: updated_date
+        description: ""
+      - name: url_disc
+        description: ""

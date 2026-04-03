@@ -1,0 +1,85 @@
+---
+version: 2
+models:
+  - name: stg_analytics_microsoft_dynamics__inventory_transactions_origin
+    description: ""
+    columns:
+      - name: recid
+        description: ""
+        data_tests:
+          - unique
+
+      - name: id
+        description: ""
+
+      - name: inventtransid
+        description: ""
+
+      - name: itemid
+        description: ""
+
+      - name: iteminventdimid
+        description: ""
+
+      - name: referenceid
+        description: ""
+
+      - name: tableid
+        description: ""
+
+      - name: versionnumber
+        description: ""
+
+      - name: modifiedtransactionid
+        description: ""
+
+      - name: createdtransactionid
+        description: ""
+
+      - name: dataareaid
+        description: ""
+
+      - name: referencecategory
+        description: ""
+
+      - name: party
+        description: ""
+
+      - name: sysdatastatecode
+        description: ""
+
+      - name: recversion
+        description: ""
+
+      - name: partition
+        description: ""
+
+      - name: sysrowversion
+        description: ""
+
+      - name: isexcludedfrominventoryvalue
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: createdon
+        description: ""
+
+      - name: modifiedon
+        description: ""
+
+      - name: sink_created_on
+        description: ""
+
+      - name: sink_modified_on
+        description: ""
+
+      - name: modifieddatetime
+        description: ""
+
+      - name: createddatetime
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

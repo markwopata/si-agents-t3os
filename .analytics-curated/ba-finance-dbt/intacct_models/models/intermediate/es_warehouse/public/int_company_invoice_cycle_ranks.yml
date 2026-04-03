@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: int_company_invoice_cycle_ranks
+    description: |
+      Assigns each approved invoice for a company a sequential cycle number
+      (1=first billing cycle, 2=second, etc.), treating each invoice as its own commission cycle.
+    config:
+      tags:
+        - intermediate
+        - commissions
+
+    tests:
+      # enforce that no two rows share the same (company_id, invoice_sequence)
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ["company_id", "invoice_sequence"]
+
+    columns:
+      - name: invoice_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_es_warehouse_public__invoices')
+              field: invoice_id
+
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: company_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_es_warehouse_public__companies')
+              field: company_id
+
+      - name: billing_approved_date
+        tests:
+          - not_null
+
+      - name: billed_amount
+        tests:
+          - not_null
+
+      - name: invoice_sequence
+        tests:
+          - not_null

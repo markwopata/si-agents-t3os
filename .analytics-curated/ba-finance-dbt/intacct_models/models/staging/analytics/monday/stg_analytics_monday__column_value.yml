@@ -1,0 +1,89 @@
+---
+version: 2
+models:
+  - name: stg_analytics_monday__column_value
+    description: Value of a column within an item in a monday board. This is the main way you get specific "cell" values. Depending on the type of column, the value is stored in a different column (text, number, date, so on). Streamed from Fivetran.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - item_id
+              - id
+    columns:
+      - name: board_id
+        description: "Unique id for the board. Foreign key to monday.board.id"
+      - name: item_id
+        description: "Unique id for the item. Foreign key to monday.item.id"
+      - name: id
+        description: "Unique id for the column"
+      - name: column_title
+        description: ""
+      - name: column_description
+        description: ""
+      - name: settings_str
+        description: ""
+      - name: settings_json
+        description: ""
+      - name: visualization_type
+        description: ""
+      - name: width
+        description: ""
+      - name: value_raw
+        description: "Raw value column. Contains either a string or json"
+      - name: value_json
+        description: "If value is json, parse out to a json object."
+      - name: value_str
+        description: "If the value is not a json and just a string, convert to a plain string value"
+      - name: text
+        description: ""
+      - name: display_value
+        description: ""
+      - name: date
+        description: ""
+      - name: symbol
+        description: ""
+      - name: rating
+        description: ""
+      - name: running
+        description: ""
+      - name: duration
+        description: ""
+      - name: number
+        description: ""
+      - name: from_date
+        description: ""
+      - name: to_date
+        description: ""
+      - name: checked
+        description: ""
+      - name: direction
+        description: ""
+      - name: is_done
+        description: ""
+      - name: index
+        description: ""
+      - name: label
+        description: ""
+      - name: time
+        description: ""
+      - name: hour
+        description: ""
+      - name: minute
+        description: ""
+      - name: label_style_color
+        description: ""
+      - name: label_style_border
+        description: ""
+      - name: is_archived
+        description: ""
+      - name: started_at
+        description: ""
+      - name: update_id
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

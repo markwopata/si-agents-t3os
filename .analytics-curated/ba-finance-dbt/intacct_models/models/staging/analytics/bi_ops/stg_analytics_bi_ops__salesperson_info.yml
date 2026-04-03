@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bi_ops__salesperson_info
+    description: "The analytics.bi_ops.salesperson_info table tracks time-bound details about salespeople, including their roles, regions, employment status, and reporting managers."
+
+    columns:
+      - name: user_id
+        description: "User ID for the salesperson"
+        data_tests:
+          - not_null
+      - name: record_effective_date
+        description: "Effective date of the record"
+      - name: record_ineffective_date
+        description: "Ineffective date of the record"
+      - name: employee_id
+        description: "Employee ID for the salesperson"
+      - name: name
+        description: "Name of the salesperson"
+      - name: email_address
+        description: "Email address of the salesperson"
+      - name: region_dated
+        description: "Region associated with the salesperson"
+      - name: region_name_dated
+        description: "Name of the region associated with the salesperson"
+      - name: district_dated
+        description: "District associated with the salesperson"
+      - name: home_market_id_dated
+        description: "Home market ID associated with the salesperson"
+      - name: home_market_dated
+        description: "Home market associated with the salesperson"
+      - name: date_hired_inital
+        description: "Initial date of hire for the salesperson"
+      - name: start_date_as_salesperson
+        description: "Start date as a salesperson"
+      - name: date_rehired_present
+        description: "Date of rehire for the salesperson"
+      - name: date_terminated_present
+        description: "Date of termination for the salesperson"
+      - name: employee_status_present
+        description: "Current status of the employee"
+      - name: employee_title_dated
+        description: "Title of the employee"
+      - name: employee_title_dated_is_salesperson
+        description: "Indicates if the employee is a salesperson"
+      - name: salesperson_jurisdiction_dated
+        description: "Jurisdiction associated with the salesperson"
+      - name: direct_manager_user_id_present
+        description: "User ID of the direct manager for the salesperson"
+      - name: direct_manager_employee_id_present
+        description: "Employee ID of the direct manager for the salesperson"
+      - name: direct_manager_name_present
+        description: "Name of the direct manager for the salesperson"
+      - name: direct_manager_email_present
+        description: "Email address of the direct manager for the salesperson"
+      - name: first_date_as_tam
+        description: "First date as a TAM"

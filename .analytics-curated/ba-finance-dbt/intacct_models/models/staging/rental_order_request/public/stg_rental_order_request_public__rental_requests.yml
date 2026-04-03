@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_rental_order_request_public__rental_requests
+    description: ""
+    config:
+      tags:
+        - source
+        - rental_requests
+    columns:
+      - name: request_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: quote_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: web_user_id
+        description: ""
+      - name: request_created_at
+        description: ""
+      - name: request_updated_at
+        description: ""
+      - name: deleted_at
+        description: ""
+      - name: is_guest_request
+        description: ""
+      - name: dropoff_fee
+        description: ""
+      - name: delivery_fee
+        description: ""
+      - name: equipment_charges
+        description: ""
+      - name: rental_subtotal
+        description: ""
+      - name: rpp_cost
+        description: ""
+      - name: order_total
+        description: ""
+      - name: taxes
+        description: ""
+      - name: rpp_percentage
+        description: ""
+      - name: shift_plan_multiplier
+        description: ""
+      - name: po_number
+        description: ""
+      - name: shift_id
+        description: ""
+      - name: shift_plan_name
+        description: ""
+      - name: shift_plan_description
+        description: ""
+      - name: delivery_instructions
+        description: ""
+      - name: delivery_option
+        description: ""
+      - name: dropoff_option
+        description: ""
+      - name: receiver_option
+        description: ""
+      - name: receiver_contact_name
+        description: ""
+      - name: receiver_contact_phone
+        description: ""
+      - name: jobsite_address_id
+        description: ""
+      - name: city
+        description: ""
+      - name: state_abbrev
+        description: ""
+      - name: state_name
+        description: ""
+      - name: latitude
+        description: ""
+      - name: longitude
+        description: ""
+      - name: timezone
+        description: ""
+      - name: get_directions_link
+        description: ""
+      - name: rental_protection_plan
+        description: ""
+      - name: request_type
+        description: ""
+      - name: request_status
+        description: ""
+      - name: _es_update_timestamp
+        description: ""
+      - name: _es_load_timestamp
+        description: ""

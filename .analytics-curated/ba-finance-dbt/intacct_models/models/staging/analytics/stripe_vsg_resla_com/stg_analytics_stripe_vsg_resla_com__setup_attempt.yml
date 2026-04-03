@@ -1,0 +1,36 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__setup_attempt
+    description: Records attempts to set up a payment method for future payments.
+    columns:
+      - name: setup_intent_id
+        description: "ID of the related SetupIntent."
+      - name: id
+        description: "Unique identifier for the setup attempt."
+      - name: on_behalf_of
+        description: "Account on whose behalf the setup attempt was made."
+      - name: default_payment_method_id
+        description: "Default payment method selected during the attempt."
+      - name: application
+        description: "ID of the Connect application that created the setup attempt."
+      - name: created
+        description: ""
+      - name: livemode
+        description: "Indicates if this is a test setup attempt."
+      - name: status
+        description: "Status of the setup attempt."
+      - name: usage
+        description: "Whether the setup is intended for on_session or off_session usage."
+      - name: setup_error_code
+        description: "Error code for the setup failure, if any."
+      - name: setup_error_decline_code
+        description: "Issuer-provided decline code, if any."
+      - name: setup_error_doc_url
+        description: "Documentation URL for the error, if provided."
+      - name: setup_error_message
+        description: "Human-readable error message, if any."
+      - name: setup_error_type
+        description: "Type/category of the setup error."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

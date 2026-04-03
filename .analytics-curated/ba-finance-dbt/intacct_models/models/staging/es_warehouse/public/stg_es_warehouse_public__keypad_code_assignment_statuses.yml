@@ -1,0 +1,17 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__keypad_code_assignment_statuses
+    description: Model for es_warehouse.public.keypad_code_assignment_statuses
+    columns:
+      - name: keypad_code_assignment_status_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: ""
+      - name: date_created
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

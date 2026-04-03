@@ -1,0 +1,83 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__notification_delivery_logs_old
+    description: Model for es_warehouse.public.notification_delivery_logs_old
+    columns:
+      - name: notification_delivery_log_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ""
+      - name: tracking_incident_id
+        description: ""
+      - name: notification_type_id
+        description: ""
+      - name: created_at
+        description: ""
+      - name: recipient
+        description: ""
+      - name: message
+        description: ""
+      - name: message_varchar
+        description: ""
+      - name: delivered_at
+        description: ""
+      - name: delivery_message
+        description: ""
+      - name: tracking_diagnostic_codes_id
+        description: ""
+      - name: asset_alert_rule_id
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: message__verb
+        description: Extracted from json in column message (roughly message:verb)
+      - name: message__is_entering
+        description: Extracted from json in column message (roughly message:is_entering)
+      - name: message__recipient
+        description: Extracted from json in column message (roughly message:recipient)
+      - name: message__threshold_alert_operand
+        description: Extracted from json in column message (roughly message:threshold_alert_operand)
+      - name: message__reply_to__email
+        description: Extracted from json in column message (roughly message:reply_to:email)
+      - name: message__additional_information
+        description: Extracted from json in column message (roughly message:additional_information)
+      - name: message__incident_alert_type
+        description: Extracted from json in column message (roughly message:incident_alert_type)
+      - name: message__from__email
+        description: Extracted from json in column message (roughly message:from:email)
+      - name: message__reply_to
+        description: Extracted from json in column message (roughly message:reply_to)
+      - name: message__threshold_alert_current_value
+        description: Extracted from json in column message (roughly message:threshold_alert_current_value)
+      - name: message__asset_id
+        description: Extracted from json in column message (roughly message:asset_id)
+      - name: message__subject
+        description: Extracted from json in column message (roughly message:subject)
+      - name: message__threshold_alert_unit
+        description: Extracted from json in column message (roughly message:threshold_alert_unit)
+      - name: message__personalizations
+        description: Extracted from json in column message (roughly message:personalizations)
+      - name: message__driver_name
+        description: Extracted from json in column message (roughly message:driver_name)
+      - name: message__template_id
+        description: Extracted from json in column message (roughly message:template_id)
+      - name: message__geofence_name
+        description: Extracted from json in column message (roughly message:geofence_name)
+      - name: message__asset_status_alert_type
+        description: Extracted from json in column message (roughly message:asset_status_alert_type)
+      - name: message__threshold_exceeded_value_range
+        description: Extracted from json in column message (roughly message:threshold_exceeded_value_range)
+      - name: message__alert_time
+        description: Extracted from json in column message (roughly message:alert_time)
+      - name: message__application_link
+        description: Extracted from json in column message (roughly message:application_link)
+      - name: message__asset_custom_name
+        description: Extracted from json in column message (roughly message:asset_custom_name)
+      - name: message__asset_image
+        description: Extracted from json in column message (roughly message:asset_image)
+      - name: message__from
+        description: Extracted from json in column message (roughly message:from)

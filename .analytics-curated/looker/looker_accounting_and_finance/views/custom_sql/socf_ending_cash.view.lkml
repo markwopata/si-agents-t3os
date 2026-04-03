@@ -1,0 +1,20 @@
+view: socf_ending_cash {
+  derived_table: {
+    sql: WITH SOCF_CTE AS (
+SELECT SUM(COMPOSITEBALANCECONVERTED) AS AMOUNT
+FROM  ANALYTICS.TREASURY.CASH_BALANCES_BY_ENTITY_HISTORY
+WHERE DATE::DATE = '2022-12-31'
+UNION ALL
+SELECT SUM(AMOUNT)
+FROM ANALYTICS.TREASURY.TROVATA_LOOKER_TRANSACTIONS)
+SELECT SUM(AMOUNT) AS ENDING_CASH
+FROM SOCF_CTE;;
+  }
+
+
+  dimension: ending_cash {
+    type: number
+    value_format: "$#,##0.0;($#,##0.0);-"
+    sql: ${TABLE}.ENDING_CASH ;;
+  }
+  }

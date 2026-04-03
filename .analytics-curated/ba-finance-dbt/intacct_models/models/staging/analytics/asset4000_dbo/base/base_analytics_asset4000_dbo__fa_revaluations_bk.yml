@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: base_analytics_asset4000_dbo__fa_revaluations_bk
+    description: cleaned and renamed model of analytics.asset4000_dbo.fa_revaluations_bk
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: book_code
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: revaluation_year
+        description: ""
+
+      - name: revaluation_revalued_gbv
+        description: ""
+
+      - name: revaluation_previous_gbv
+        description: ""
+
+      - name: revaluation_revalued_salvage_value
+        description: ""
+
+      - name: revaluation_previous_salvage_value
+        description: ""
+
+      - name: revaluation_revalued_minimum_nbv
+        description: ""
+
+      - name: revaluation_previous_minimum_nbv
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

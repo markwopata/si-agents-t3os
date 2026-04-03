@@ -1,0 +1,18 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__hours_fix
+    description: Model for es_warehouse.public.hours_fix
+    columns:
+      - name: asset_scd_hours_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: hours
+        description: ""
+      - name: date_start
+        description: ""
+      - name: date_end
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

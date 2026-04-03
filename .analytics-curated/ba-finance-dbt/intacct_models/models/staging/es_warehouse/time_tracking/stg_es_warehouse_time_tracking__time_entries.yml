@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_time_tracking__time_entries
+    description: ""
+    config:
+      tags:
+        - time_tracking
+        - hourly
+        - source
+    columns:
+      - name: time_entry_id
+        description: ""
+      - name: user_id
+        description: ""
+      - name: event_type_id
+        description: ""
+      - name: source_application_id
+        description: ""
+      - name: created_by_id
+        description: ""
+      - name: created_date
+        description: ""
+      - name: start_date
+        description: ""
+      - name: end_date
+        description: ""
+      - name: needs_revision
+        description: ""
+      - name: is_revision
+        description: ""
+      - name: work_order_id
+        description: ""
+      - name: job_id
+        description: ""
+      - name: branch_id
+        description: ""
+      - name: asset_id
+        description: ""
+      - name: overtime_state
+        description: ""
+      - name: regular_hours
+        description: ""
+      - name: note_id
+        description: ""
+      - name: archived
+        description: ""
+      - name: archived_date
+        description: ""
+      - name: approval_status
+        description: ""
+      - name: overtime_hours
+        description: ""
+      - name: overtime_json
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

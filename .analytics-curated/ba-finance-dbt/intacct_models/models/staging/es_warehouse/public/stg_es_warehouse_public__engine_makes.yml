@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__engine_makes
+    description: Model for es_warehouse.public.engine_makes
+    columns:
+      - name: engine_make_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: engine_make_name
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

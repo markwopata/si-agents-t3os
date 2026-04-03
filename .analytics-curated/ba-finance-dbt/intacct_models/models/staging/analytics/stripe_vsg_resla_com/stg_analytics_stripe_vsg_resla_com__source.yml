@@ -1,0 +1,95 @@
+---
+version: 2
+models:
+  - name: stg_analytics_stripe_vsg_resla_com__source
+    description: Legacy source objects representing a customer's payment instrument.
+    columns:
+      - name: id
+        description: "Unique identifier for the source."
+        data_tests:
+          - not_null
+          - unique
+      - name: connected_account_id
+        description: "ID of the connected account associated with this source."
+      - name: amount_in_cents
+        description: "Amount in cents."
+      - name: amount
+        description: "Amount in dollars (amount_in_cents / 100.0)."
+      - name: code_verificationattempts_remaining
+        description: "Number of verification attempts remaining."
+      - name: code_verificationstatus
+        description: "Current status of code verification."
+      - name: created
+        description: ""
+      - name: currency
+        description: "Three-letter ISO currency code, in lowercase."
+      - name: flow
+        description: "Authentication flow of the source."
+      - name: livemode
+        description: "Indicates if this is a test source."
+      - name: metadata
+        description: "Custom metadata added to the record, in JSON string format."
+      - name: owner_address_city
+        description: "City, district, suburb, town, or village."
+      - name: owner_address_country
+        description: "Two-letter country code (ISO 3166-1 alpha-2)."
+      - name: owner_address_line_1
+        description: "Address line 1 (street, PO Box, or company name)."
+      - name: owner_address_line_2
+        description: "Address line 2 (apartment, suite, unit, or building)."
+      - name: owner_address_postal_code
+        description: "ZIP or postal code."
+      - name: owner_address_state
+        description: "State, county, province, or region."
+      - name: owner_email
+        description: "Owner email address."
+      - name: owner_name
+        description: "Owner full name."
+      - name: owner_phone
+        description: "Owner phone number."
+      - name: owner_verified_address_city
+        description: "Verified address city."
+      - name: owner_verified_address_country
+        description: "Verified address country."
+      - name: owner_verified_address_line_1
+        description: "Verified address line 1."
+      - name: owner_verified_address_line_2
+        description: "Verified address line 2."
+      - name: owner_verified_address_postal_code
+        description: "Verified postal code."
+      - name: owner_verified_address_state
+        description: "Verified address state."
+      - name: owner_verified_email
+        description: "Verified email address."
+      - name: owner_verified_name
+        description: "Verified full name."
+      - name: owner_verified_phone
+        description: "Verified phone number."
+      - name: receiver_address
+        description: "Receiver address for the source."
+      - name: receiver_amount_charged
+        description: "Total amount charged to the receiver."
+      - name: receiver_amount_received
+        description: "Total amount received by the receiver."
+      - name: receiver_amount_returned
+        description: "Total amount returned by the receiver."
+      - name: redirect_failure_reason
+        description: "Reason the redirect failed, if applicable."
+      - name: redirect_return_url
+        description: "URL to return to after redirect."
+      - name: redirect_status
+        description: "Status of the redirect flow."
+      - name: redirect_url
+        description: "URL to which the customer is redirected for authorization."
+      - name: statement_descriptor
+        description: "Statement descriptor that appears on the customer’s statement."
+      - name: status
+        description: "Current status of the source."
+      - name: type
+        description: "Type of the source."
+      - name: usage
+        description: "How the source is used (reusable or single-use)."
+      - name: customer_id
+        description: "ID of the customer this source is associated with."
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

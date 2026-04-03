@@ -1,0 +1,179 @@
+---
+version: 2
+
+snapshots:
+  - name: scd2_analytics_vsg_postgres__public__reservations
+    description: >
+      SCD2 (Type 2) snapshot of the staged analytics_vsg_postgres__public.reservations table, maintaining point-in-time
+      history of reservations data from Resla's supabase postgres database for reservations and related data.
+    columns:
+      - name: dbt_scd_id
+        description: ""
+        data_tests:
+          - unique
+
+      - name: id
+        description: ""
+
+      - name: reservation_id
+        description: ""
+
+      - name: confirm_insurance
+        description: ""
+
+      - name: confirm_license
+        description: ""
+
+      - name: phone
+        description: ""
+
+      - name: vehicle_vin
+        description: ""
+
+      - name: email
+        description: ""
+
+      - name: customer_first_name
+        description: ""
+
+      - name: return_at
+        description: ""
+
+      - name: pickup_at
+        description: ""
+
+      - name: pickup_location
+        description: ""
+
+      - name: return_location
+        description: ""
+
+      - name: pickup_timezone
+        description: ""
+
+      - name: return_timezone
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: vehicle_model
+        description: ""
+
+      - name: customer_last_name
+        description: ""
+
+      - name: prefixed_id
+        description: ""
+
+      - name: pickup_location_id
+        description: ""
+
+      - name: return_location_id
+        description: ""
+
+      - name: vehicle_class
+        description: ""
+
+      - name: payment_balance
+        description: ""
+
+      - name: security_balance
+        description: ""
+
+      - name: platform
+        description: ""
+
+      - name: platform_id
+        description: ""
+
+      - name: notes
+        description: ""
+
+      - name: region_id
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: billing_complete
+        description: ""
+
+      - name: pickup_photos
+        description: ""
+
+      - name: return_photos
+        description: ""
+
+      - name: return_user_id
+        description: ""
+
+      - name: pickup_user_id
+        description: ""
+
+      - name: upload_return_photos
+        description: ""
+
+      - name: upload_pickup_photos
+        description: ""
+
+      - name: damage_waiver
+        description: ""
+
+      - name: charging_balance
+        description: ""
+
+      - name: charging_method
+        description: ""
+
+      - name: late
+        description: ""
+
+      - name: extended
+        description: ""
+
+      - name: returned_at
+        description: ""
+
+      - name: picked_up_at
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: return_schedule_priority
+        description: ""
+
+      - name: pickup_schedule_priority
+        description: ""
+
+      - name: collections_status
+        description: ""
+
+      - name: gclid
+        description: ""
+
+      - name: tesla_rents_id
+        description: ""
+
+      - name: is_expired
+        description: ""
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+      - name: created_by_service
+        description: ""
+
+      
+      - name: dbt_updated_at
+        description: ""
+
+      - name: dbt_valid_from
+        description: ""
+
+      - name: dbt_valid_to
+        description: ""

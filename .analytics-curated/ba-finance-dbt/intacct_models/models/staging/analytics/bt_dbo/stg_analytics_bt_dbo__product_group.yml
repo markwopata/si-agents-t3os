@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__product_group
+    description: Table for product groupings
+    columns:
+      - name: product_group_id
+        description: 'Unique identifier for the product group.'
+        data_tests:
+          - not_null
+          - unique
+      - name: gl_code
+        description: 'Primary general ledger code associated with the product group.'
+      - name: name
+        description: 'Name of the product group.'
+      - name: description
+        description: 'Free-text description of the product group.'
+      - name: document_text
+        description: 'Long-form documentation or notes about the product group.'
+      - name: parent_id
+        description: 'Identifier of the parent product group.'
+      - name: tree_level
+        description: 'Depth of the product group in the hierarchy tree.'
+      - name: tree_sequence
+        description: 'Ordering sequence of the node within the hierarchy tree.'
+      - name: level_1_id
+        description: 'Level 1 (top) grouping identifier in the product hierarchy.'
+      - name: level_2_id
+        description: 'Level 2 grouping identifier in the product hierarchy.'
+      - name: level_3_id
+        description: 'Level 3 grouping identifier in the product hierarchy.'
+      - name: level_4_id
+        description: 'Level 4 grouping identifier in the product hierarchy.'
+      - name: level_5_id
+        description: 'Level 5 grouping identifier in the product hierarchy.'
+      - name: next_special_suffix
+        description: 'Next special-use suffix to be assigned within the group.'
+      - name: gl_code_cost
+        description: 'Cost general ledger code for the product group.'
+      - name: is_deleted
+        description: 'Flag set to true when record is marked as deleted in source.'
+      - name: gl_code_inventory
+        description: 'Inventory general ledger code for the product group.'
+      - name: _fivetran_deleted
+        description: '{{ doc("_fivetran_deleted") }}'
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'

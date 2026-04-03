@@ -1,0 +1,107 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__credit_notes
+    description: Model for es_warehouse.public.credit_notes
+    columns:
+      - name: credit_note_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: created_by_user_id
+        description: ""
+      - name: erp_external_id
+        description: ""
+      - name: company_id
+        description: ""
+      - name: originating_invoice_id
+        description: ""
+      - name: credit_note_type_id
+        description: ""
+      - name: avalara_transaction_id
+        description: ""
+      - name: credit_note_status_id
+        description: ""
+      - name: memo
+        description: ""
+      - name: reference
+        description: ""
+      - name: market_id
+        description: ""
+      - name: ship_from
+        description: ""
+      - name: ship_to
+        description: ""
+      - name: url_credit_note_admin
+        description: ""
+      - name: credit_note_number
+        description: ""
+      - name: total_credit_amount
+        description: ""
+      - name: tax_amount
+        description: ""
+      - name: remaining_credit_amount
+        description: ""
+      - name: line_item_amount
+        description: ""
+      - name: are_tax_calcs_missing
+        description: ""
+      - name: sent
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: avalara_transaction_id_update_dt_tm
+        description: ""
+      - name: taxes_invalidated_dt_tm
+        description: ""
+      - name: credit_note_date
+        description: ""
+      - name: ship_from_state
+        description: Extracted from json in column ship_from (roughly ship_from:address:state_abbreviation)
+      - name: ship_from_branch_id
+        description: Extracted from json in column ship_from (roughly ship_from:branch_id)
+      - name: ship_from_latitude
+        description: Extracted from json in column ship_from (roughly ship_from:address:latitude)
+      - name: ship_from_zip_code
+        description: Extracted from json in column ship_from (roughly ship_from:address:zip_code)
+      - name: ship_from_street
+        description: Extracted from json in column ship_from (roughly ship_from:address:street_1)
+      - name: ship_from_longitude
+        description: Extracted from json in column ship_from (roughly ship_from:address:longitude)
+      - name: ship_from_address
+        description: Extracted from json in column ship_from (roughly ship_from:address)
+      - name: ship_from_country
+        description: Extracted from json in column ship_from (roughly ship_from:address:country)
+      - name: ship_from_city
+        description: Extracted from json in column ship_from (roughly ship_from:address:city)
+      - name: ship_from_location_id
+        description: Extracted from json in column ship_from (roughly ship_from:location_id)
+      - name: ship_from_nickname
+        description: Extracted from json in column ship_from (roughly ship_from:nickname)
+      - name: ship_to_state
+        description: Extracted from json in column ship_to (roughly ship_to:address:state_abbreviation)
+      - name: ship_to_branch_id
+        description: Extracted from json in column ship_to (roughly ship_to:branch_id)
+      - name: ship_to_latitude
+        description: Extracted from json in column ship_to (roughly ship_to:address:latitude)
+      - name: ship_to_zip_code
+        description: Extracted from json in column ship_to (roughly ship_to:address:zip_code)
+      - name: ship_to_street
+        description: Extracted from json in column ship_to (roughly ship_to:address:street_1)
+      - name: ship_to_longitude
+        description: Extracted from json in column ship_to (roughly ship_to:address:longitude)
+      - name: ship_to_address
+        description: Extracted from json in column ship_to (roughly ship_to:address)
+      - name: ship_to_country
+        description: Extracted from json in column ship_to (roughly ship_to:address:country)
+      - name: ship_to_city
+        description: Extracted from json in column ship_to (roughly ship_to:address:city)
+      - name: ship_to_location_id
+        description: Extracted from json in column ship_to (roughly ship_to:location_id)
+      - name: ship_to_nickname
+        description: Extracted from json in column ship_to (roughly ship_to:nickname)

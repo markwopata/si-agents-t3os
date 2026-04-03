@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__f_ifta_detail
+    description: Model for es_warehouse.public.f_ifta_detail
+    columns:
+      - name: company_id
+        description: ""
+      - name: custom_name
+        description: ""
+      - name: make
+        description: ""
+      - name: model
+        description: ""
+      - name: name
+        description: ""
+      - name: state_entry
+        description: ""
+      - name: state_exit
+        description: ""
+      - name: start_odometer
+        description: ""
+      - name: end_odometer
+        description: ""
+      - name: miles_driven
+        description: ""
+      - name: start_lat
+        description: ""
+      - name: start_lon
+        description: ""
+      - name: end_lat
+        description: ""
+      - name: end_lon
+        description: ""

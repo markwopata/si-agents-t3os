@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: stg_tools_trailer_retail_sales__assets
+    description: Retail Sales assets.
+    config:
+      tags: ["retail_sales"]
+    columns:
+        - name: pk_id
+          description: "Primary key for each asset record."
+          data_tests:
+            - unique
+            - not_null
+        - name: quote_pk_id
+          description: "Primary key for the quote associated with this asset. Foreign key to the quotes table."
+          data_tests:
+            - not_null
+        - name: quote_id
+          description: "Identifier for the quote. This is how the business identifies the quote."
+          data_tests:
+            - not_null
+        - name: asset_pk_id
+          description: "Primary key for each asset. This can be duplicated across quotes."
+          data_tests:
+            - not_null
+        - name: asset_id
+          description: "Asset ID of the asset"
+        - name: sale_price
+          description: "Sale price of the asset."
+        - name: make
+          description: "Asset make"
+        - name: model
+          description: "Asset model."
+        - name: oec
+          description: "Original Equipment Cost of the asset."
+        - name: rebate_oec
+          description: >
+            Rebate Original Equipment Cost of the asset. 
+            This is the value given to us by the manufacturer that they base their rebates on.
+        - name: serial_number
+          description: "Serial Number of the asset."
+        - name: warranty_note
+          description: "Warranty note for the asset."
+        - name: warranty_type
+          description: "Warranty type for the asset."

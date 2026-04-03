@@ -1,0 +1,30 @@
+---
+version: 2
+models:
+  - name: base_analytics_asset4000_dbo__gl_grpcodes
+    description: cleaned and renamed model of asset4000_dbo.gl_grpcodes
+    columns:
+      - name: entity_name
+        description: Name of the entity
+      - name: group_id
+        description: This is basically the numeric id for the group
+      - name: group_code
+        description: Code of the group
+      - name: group_name
+        description: Name of the group. More descriptive than the short_description column.
+      - name: group_short_description
+        description: Short description of the group
+      - name: group_order
+        description: Order of the group
+      - name: is_group_live
+        description: Indicates if the group is live
+      - name: is_group_selectable
+        description: Indicates if the group is selectable
+      - name: barcode
+        description: Barcode, unused.
+      - name: is_pda_live
+        description: Not clear what this is, but it is a boolean
+      - name: _fivetran_deleted
+        description: Indicates if the record is deleted
+      - name: _fivetran_synced
+        description: Timestamp when the record was last synced by Fivetran

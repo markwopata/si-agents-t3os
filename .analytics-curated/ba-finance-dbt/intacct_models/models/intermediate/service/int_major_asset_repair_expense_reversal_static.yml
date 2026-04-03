@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: int_major_asset_repair_expense_reversal_static
+    description: >
+      Reversing expenses from 3 separate expense buckets as noted in retool app.
+      Expense reversal entries for major asset repair capitalization. Generates GL-style rows for month 1 only
+      (parts, ES labor, outside service labor) based on the capitalization schedule, mapped to Plexi bucket/Sage GL
+      via PLEXI_BUCKET_MAPPING. Output amounts are positive (amount * 1) as they are expense reversals.
+    columns:
+      - name: pk
+        description: "Composite primary key: major_asset_repair_requests_id-work_order_id-asset_id."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: mkt_id
+        description: "Market/branch identifier (from capitalization schedule branch_id)."
+
+      - name: mkt_name
+        description: "Market name from es_warehouse.public.markets."
+
+      - name: type
+        description: "Display type from PLEXI_BUCKET_MAPPING (pbm.display_name)."
+
+      - name: code
+        description: "Static code value 'GROUP'."
+
+      - name: revexp
+        description: "Revenue/expense classification from PLEXI_BUCKET_MAPPING (pbm.revexp)."
+
+      - name: dept
+        description: "Department derived from code via right('GROUP', length('GROUP') - 3)."
+
+      - name: pr_type
+        description: "Placeholder; null in this model."
+
+      - name: gl_acct
+        description: "Sage GL account name from PLEXI_BUCKET_MAPPING (pbm.sage_name)."
+
+      - name: acctno
+        description: >
+          Source account number used for mapping (hardcoded per component):
+          GDDA (parts), 6310 (labor), 6302 (outside service labor).
+
+      - name: descr
+        description: "Narrative description assembled from asset/work order/POs/work order description."
+
+      - name: gl_date
+        description: "GL date for the reversal entry (major_asset_repair_request_effective_date from the capitalization schedule)."
+
+      - name: doc_no
+        description: "Document number (work_order_id)."
+
+      - name: url_sage
+        description: "Placeholder; null in this model."
+
+      - name: url_yooz
+        description: "Placeholder; null in this model."
+
+      - name: url_admin
+        description: "Admin URL to the work order T3."
+
+      - name: url_track
+        description: "Placeholder; null in this model."
+
+      - name: amount
+        description: "Amount from capitalization schedule components (parts, labor, outside service); output as positive values in this model to represent expense reversals."
+
+      - name: type2
+        description: "Placeholder; null in this model."
+
+      - name: metadata
+        description: "JSON/object with keys: asset_id, work_order_id, major_asset_repair_request_id (constructed via object_construct)."
+

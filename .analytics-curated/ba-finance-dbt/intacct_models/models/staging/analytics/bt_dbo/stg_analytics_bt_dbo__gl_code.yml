@@ -1,0 +1,25 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__gl_code
+    description: Table for general ledger codes, allowing mapping to Sage on export.
+    tags: [bisTrack]
+    columns:
+      - name: gl_code_id
+        description: "Unique identifier for the general ledger code."
+      - name: gl_code
+        description: "General ledger code value."
+      - name: gl_code_description
+        description: "Description of the general ledger code."
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: is_active
+        description: "Indicates if the GL code is active."
+      - name: created_date
+        description: "Date when the GL code was created."
+      - name: modified_date
+        description: "Date when the GL code was last modified."
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

@@ -1,0 +1,347 @@
+---
+version: 2
+models:
+  - name: stg_analytics_bt_dbo__branch
+    description: Table for branch level details in bisTrack
+    tags: [bisTrack]
+    columns:
+      - name: bt_branch_id
+        description: "{{ doc('bt_branch_id') }}"
+      - name: bt_branch_code
+        description: "Branch code. Used to refer to market_id/department_id in Sage"
+      - name: gl_code
+        description: "Same as branch code.Used to refer to market_id/department_id in Sage"
+      - name: quick_account_id_1
+        description: "Quick account identifier 1 for the branch."
+      - name: quick_account_id_2
+        description: "Quick account identifier 2 for the branch."
+      - name: quick_account_id_3
+        description: "Quick account identifier 3 for the branch."
+      - name: quick_account_id_4
+        description: "Quick account identifier 4 for the branch."
+      - name: quick_account_id_5
+        description: "Quick account identifier 5 for the branch."
+      - name: last_modified_by_id
+        description: "Identifier for the user who last modified the branch."
+      - name: i4go_merchant_id
+        description: "I4Go merchant identifier for the branch."
+      - name: epicor_payment_gateway_private_label_merchant_id
+        description: "Epicor payment gateway private label merchant ID."
+      - name: default_stock_location_id
+        description: "Default stock location identifier for the branch."
+      - name: delivery_area_id
+        description: "Identifier for the delivery area associated with the branch."
+      - name: edi_branch_wms_message_format_id
+        description: "EDI branch WMS message format identifier."
+      - name: stock_count_reason_id
+        description: "Stock count reason identifier."
+      - name: cash_account_id
+        description: "Cash account identifier for the branch."
+      - name: division_id
+        description: "Division identifier for the branch."
+      - name: region_id
+        description: "Region identifier for the branch."
+      - name: default_transfer_vehicle_id
+        description: "Default transfer vehicle identifier."
+      - name: default_vehicle_type_id
+        description: "Default vehicle type identifier."
+      - name: facility_code
+        description: "Facility code for the branch."
+      - name: computer_id
+        description: "Computer identifier for the branch."
+      - name: tax_area_id
+        description: "Tax area identifier for the branch."
+      - name: udf_location_id
+        description: "User-defined field location identifier."
+      - name: created_by_id
+        description: "Identifier for the user who created the branch."
+      - name: blue_tarp_merchant_id
+        description: "BlueTarp merchant identifier."
+      - name: edi_branch_wms_start_date
+        description: "Start date for EDI branch WMS."
+      - name: datetime_last_modified
+        description: "Timestamp when the branch was last modified."
+      - name: datetime_created
+        description: "Timestamp when the branch was created."
+      - name: back_orders_last_checked_up_to
+        description: "Date up to which back orders were last checked."
+      - name: shift4_capture_signature_threshold_amount
+        description: "Shift4 capture signature threshold amount."
+      - name: latitude
+        description: "Latitude coordinate of the branch."
+      - name: longitude
+        description: "Longitude coordinate of the branch."
+      - name: calculated_job_credit_limit_extension_percentage
+        description: "Calculated job credit limit extension percentage."
+      - name: maximum_avo_cost_and_sell_price
+        description: "Maximum AVO cost and sell price."
+      - name: minimum_finance_charge_amount
+        description: "Minimum finance charge amount."
+      - name: epicor_payment_gateway_capture_signature_threshold_amount
+        description: "Epicor payment gateway capture signature threshold amount."
+      - name: edi_branch_next_number
+        description: "Next EDI branch number."
+      - name: disable_private_label_promo_codes
+        description: "Indicates if private label promo codes are disabled."
+      - name: ignore_internal_cost
+        description: "Indicates if internal cost is ignored."
+      - name: validate_rewards_card
+        description: "Indicates if rewards card validation is enabled."
+      - name: send_preliminary_lien_notice_when_job_credit_limit_changes
+        description: "Indicates if preliminary lien notice is sent when job credit limit changes."
+      - name: auto_assign_delivery_area_from_coordinates
+        description: "Indicates if delivery area is auto-assigned from coordinates."
+      - name: round_cash_owing
+        description: ""
+      - name: multi_company_gl_offset
+        description: ""
+      - name: auto_apply_financial_charges
+        description: ""
+      - name: interim_running
+        description: ""
+      - name: skip_signature_capture_during_shift4_card_on_file_transactions
+        description: ""
+      - name: use_signature_capture_settings_for_collect_now_when_completing_wms_collect_later_orders
+        description: ""
+      - name: is_deleted
+        description: ""
+      - name: require_campaign_on_customer
+        description: ""
+      - name: allow_duplicate_supplier_product_codes_per_supplier
+        description: ""
+      - name: allow_zero_value_inv_cred_in_financials
+        description: ""
+      - name: include_in_accounts_auto_match_stored_procedure
+        description: ""
+      - name: auto_generate_statements
+        description: ""
+      - name: use_calculated_job_credit_limit
+        description: ""
+      - name: enable_automated_blended_batch_selling_option
+        description: ""
+      - name: require_user_to_accept_signatures_from_signature_capture
+        description: ""
+      - name: send_separate_invoices_for_each_job
+        description: ""
+      - name: append_manufactured_kit_to_existing_work_order_from_sales
+        description: ""
+      - name: auto_generate_financial_charges
+        description: ""
+      - name: udf_remitto_active
+        description: ""
+      - name: work_orders_update_source_on_purchase_order_changes
+        description: ""
+      - name: available_in_web_track
+        description: ""
+      - name: show_product_sales_popup_in_kit_entry
+        description: ""
+      - name: additional_cost_format
+        description: ""
+      - name: gl_code
+        description: "Same as branch code."
+      - name: udf_remitto_city
+        description: ""
+      - name: default_import_folder
+        description: ""
+      - name: printer_1
+        description: ""
+      - name: printer_2
+        description: ""
+      - name: printer_3
+        description: ""
+      - name: printer_4
+        description: ""
+      - name: printer_5
+        description: ""
+      - name: printer_6
+        description: ""
+      - name: printer_7
+        description: ""
+      - name: printer_8
+        description: ""
+      - name: printer_9
+        description: ""
+      - name: printer_10
+        description: ""
+      - name: i4go_serial_number
+        description: ""
+      - name: i4go_card_security_code_required
+        description: ""
+      - name: i4go_street_address_prompt
+        description: ""
+      - name: epicor_payment_gateway_private_label_username
+        description: ""
+      - name: epicor_payment_gateway_private_label_password
+        description: ""
+      - name: epicor_payment_gateway_private_label_processor
+        description: ""
+      - name: epicor_payment_gateway_private_label_bin_range
+        description: ""
+      - name: telephone_1
+        description: ""
+      - name: telephone_2
+        description: ""
+      - name: collect_later_format_set_credit
+        description: ""
+      - name: country
+        description: ""
+      - name: post_code
+        description: ""
+      - name: site
+        description: ""
+      - name: tax_connect_company_code
+        description: ""
+      - name: default_order_copy_from_option
+        description: ""
+      - name: logo_file
+        description: ""
+      - name: signature_capture_for_collect_now_orders
+        description: ""
+      - name: avo_format_set
+        description: ""
+      - name: signature_capture_for_direct_orders
+        description: ""
+      - name: picking_note_format
+        description: ""
+      - name: blue_tarp_client_key
+        description: ""
+      - name: transfer_delivery_format_set
+        description: ""
+      - name: exclude_restock_from_credit_tax_calc
+        description: ""
+      - name: i4go_postal_code_prompt
+        description: ""
+      - name: picking_zone_mask
+        description: ""
+      - name: credit_control_user_ids
+        description: ""
+      - name: collect_later_format_set_cash
+        description: ""
+      - name: picking_zones_format_numbers
+        description: ""
+      - name: udf_remitto_state
+        description: ""
+      - name: quick_account_label_5
+        description: ""
+      - name: quick_account_label_4
+        description: ""
+      - name: count_group_mask
+        description: ""
+      - name: default_order_copy_option
+        description: ""
+      - name: quick_account_label_1
+        description: ""
+      - name: quick_ship_password
+        description: ""
+      - name: quick_account_label_3
+        description: ""
+      - name: quick_account_label_2
+        description: ""
+      - name: special_order_ack_document_format_set
+        description: ""
+      - name: trading_as
+        description: ""
+      - name: default_copy_template_or_accept_quote_by_section_option
+        description: ""
+      - name: collate_journey_set_printing_by
+        description: ""
+      - name: edi_branch_reference_1
+        description: ""
+      - name: edi_branch_reference_2
+        description: ""
+      - name: name
+        description: ""
+      - name: collate_document_printing_by
+        description: ""
+      - name: record_picking_started
+        description: ""
+      - name: default_allow_address_override
+        description: ""
+      - name: udf_llc_assignment
+        description: ""
+      - name: i4go_card_holder_name_prompt
+        description: ""
+      - name: delivery_note_format
+        description: ""
+      - name: signature_capture_for_collect_later_cash_orders
+        description: ""
+      - name: signature_capture_for_collect_later_orders
+        description: ""
+      - name: city
+        description: ""
+      - name: deposit_receipt_format
+        description: ""
+      - name: signature_capture_for_return_to_branch_credit_notes
+        description: ""
+      - name: delivery_format_set_credit
+        description: ""
+      - name: credit_limit_check_hierarchy_option
+        description: ""
+      - name: yard_book_ref_mask
+        description: ""
+      - name: collect_now_picking_document_format_set
+        description: ""
+      - name: calc_tax_based_on_branch_tax_area
+        description: ""
+      - name: order_amend_print_format_set
+        description: ""
+      - name: prompt_for_signature_when_collect_now_order_goes_on_credit_hold_and_is_not_released_immediately
+        description: ""
+      - name: quick_ship_username
+        description: ""
+      - name: county
+        description: ""
+      - name: prompt_rewards_card_on_order
+        description: ""
+      - name: credit_control_telephone
+        description: ""
+      - name: default_works_order_allocate_source
+        description: ""
+      - name: prompt_for_signature_when_changing_wms_order_type_to_collect_later_now
+        description: ""
+      - name: confirm_pos_for_specials
+        description: ""
+      - name: default_for_merging_non_direct_pos_for_wos
+        description: ""
+      - name: address_validation_method
+        description: ""
+      - name: address_2
+        description: ""
+      - name: collection_note_format
+        description: ""
+      - name: address_3
+        description: ""
+      - name: address_1
+        description: ""
+      - name: signature_capture_for_delivered_orders
+        description: ""
+      - name: bin_location_mask
+        description: ""
+      - name: udf_remitto_name
+        description: ""
+      - name: default_order_sale_type
+        description: ""
+      - name: default_days_until_quote_expiry
+        description: ""
+      - name: credit_control_email
+        description: ""
+      - name: shift4_default_url
+        description: ""
+      - name: picking_note_printer
+        description: ""
+      - name: udf_remitto_address_2
+        description: ""
+      - name: udf_remitto_address_1
+        description: ""
+      - name: cti_ip_address
+        description: ""
+      - name: fax
+        description: ""
+      - name: default_wms_picking_status
+        description: ""
+      - name: udf_subsidiary
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

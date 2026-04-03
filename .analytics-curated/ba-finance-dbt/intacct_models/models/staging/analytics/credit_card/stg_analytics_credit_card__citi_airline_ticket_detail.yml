@@ -1,0 +1,46 @@
+---
+version: 2
+models:
+  - name: stg_analytics_credit_card__citi_airline_ticket_detail
+    description: >-
+      This model contains detailed information about airline ticket expenses from Citi credit card transactions.
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction
+        data_tests:
+          - not_null
+          - unique
+      - name: sequence_number
+        description: Sequence number for the transaction
+        data_tests:
+          - not_null
+      - name: total_fare
+        description: Total fare for the ticket
+      - name: ticket_number
+        description: Ticket number
+        data_tests:
+          - not_null
+      - name: source_file
+        description: Source file for the transaction
+        data_tests:
+          - not_null
+      - name: passenger_name
+        description: Name of the passenger
+      - name: maintenance_code
+        description: Maintenance code for the ticket
+        data_tests:
+          - not_null
+      - name: issuing_carrier
+        description: Issuing carrier for the ticket
+      - name: travel_agency_name
+        description: Name of the travel agency
+      - name: travel_agency_code
+        description: Code of the travel agency
+      - name: customer_code
+        description: Customer code for the transaction
+      - name: issue_date
+        description: Date the ticket was issued
+      - name: _es_update_timestamp
+        description: Timestamp for the last update
+        data_tests:
+          - not_null

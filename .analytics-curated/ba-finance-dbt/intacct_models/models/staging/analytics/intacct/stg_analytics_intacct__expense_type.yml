@@ -1,0 +1,31 @@
+---
+version: 2
+models:
+  - name: stg_analytics_intacct__expense_type
+    description: Expense type table. Also currently known as expense line
+    config:
+      tags:
+        - hourly
+        - intacct
+        - source
+    columns:
+      - name: pk_expense_type_id
+        description: Primary key of table
+        data_tests:
+          - not_null
+          - unique
+      - name: expense_type
+        description: "{{ doc('expense_type') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: expense_category
+        description: "{{ doc('expense_category') }}"
+      - name: date_created
+        description: "{{ doc('date_created') }}"
+      - name: date_updated
+        description: "{{ doc('date_updated') }}"
+      - name: dds_read_timestamp
+        description: "{{ doc('dds_read_timestamp') }}"
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

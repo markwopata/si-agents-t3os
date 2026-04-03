@@ -1,0 +1,39 @@
+---
+version: 2
+models:
+  - name: stg_es_warehouse_public__maintenance_group_intervals
+    description: Model for es_warehouse.public.maintenance_group_intervals
+    columns:
+      - name: maintenance_group_interval_id
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: service_interval_id
+        description: ""
+      - name: maintenance_group_id
+        description: ""
+      - name: description
+        description: ""
+      - name: name
+        description: ""
+      - name: delete_date
+        description: ""
+      - name: trigger_from_due
+        description: ""
+      - name: warn_from_due
+        description: ""
+      - name: usage_warn_from_due
+        description: ""
+      - name: secondary_usage_trigger_from_due
+        description: ""
+      - name: secondary_usage_warn_from_due
+        description: ""
+      - name: usage_trigger_from_due
+        description: ""
+      - name: date_created
+        description: ""
+      - name: date_updated
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

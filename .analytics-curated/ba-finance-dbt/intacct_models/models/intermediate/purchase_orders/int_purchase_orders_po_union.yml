@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: int_purchase_orders_po_union
+    description: |
+      Union POs and related documents (VI + apa true-ups) into a single model.
+
+          Model Name: PO Lineage
+      
+      Model:  The purpose of this model is to combine the different converting documents to its
+              original po. We do not have good visibility to all of the converting docs in sage or looker.
+              This model joins the converting docs back to the parent po along with the true up journals posted
+              for price variances. The model identifies po/po line status, unconverted qty/$. 
+
+      Model Steps:
+        - step 1: (int_purchase_orders_po_to_vi) combines converting doc to po
+        - step 2: (int_purchase_orders_po_true_ups) pulls all apa true ups
+        - step 3: (int_purchase_orders_po_union) union step 1 & 2
+        - step 4: (int_purchase_orders_po_aggregate) calculate po/po line totals
+        - step 5: (int_purchase_orders_po_lineage) joins step 3 & 4, adds unconverted row
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - converting_doc_fk_po_line_id
+            - fk_gl_entry_id
+            - fk_subledger_line_id
+
+    columns:
+      - name: fk_subledger_line_id
+        description: "Foreign key to the PO line (Intacct subledger line)."
+
+      - name: gl_amount
+        description: "GL amount on the row grain."
+
+      - name: receipt_number
+        description: "PO/receipt number."
+
+      - name: document_name
+        description: "PO document name (long)."
+
+      - name: quantity
+        description: "PO line quantity (0 for APA true-ups)."
+
+      - name: unit_price
+        description: "PO line unit price (0 for APA true-ups)."
+
+      - name: extended_amount
+        description: "PO line extended amount (mirrors APA posted amount for true-ups)."
+
+      - name: po_amount
+        description: "PO amount at the selected grain (0 for APA true-ups)."
+
+      - name: cpo_amount
+        description: "Closed PO amount (0 for APA true-ups)."
+
+      - name: apa_trueup_amount
+        description: "APA true-up amount (0 for non-true-up rows)."
+
+      - name: vi_amount
+        description: "Vendor invoice amount matched to the PO/receipt (0 for APA true-ups)."
+
+      - name: expense_account_number
+        description: "Expense account number impacted."
+
+      - name: relieved_by
+        description: "Document type that relieved/converted the PO (e.g., 'invoice matched to receipt', 'closed receipt', 'apa true up')."
+
+      - name: relieved_by_entry_date
+        description: "Entry date for the relieving/converted document."
+
+      - name: relieved_quantity
+        description: "Total quantity relieved/converted (0 for APA true-ups)."
+
+      - name: closed_receipts
+        description: "Closed receipt document number(s)."
+
+      - name: bill_numbers
+        description: "Vendor invoice/bill number(s)."
+
+      - name: url_sage
+        description: "Deep link to the Sage PO."
+
+      - name: entry_date
+        description: "GL entry date for the row."
+
+      - name: url_journal
+        description: "Deep link to the Sage journal entry."
+
+      - name: t3_cost_capture_url
+        description: "Deep link to T3 cost capture on the PO line."
+
+      - name: journal_number
+        description: "Sage/APA journal transaction number."
+
+      - name: vendor_id
+        description: "Vendor id."
+
+      - name: vendor_name
+        description: "Vendor name."
+
+      - name: line_description
+        description: "PO line description."
+
+      - name: mkt_id
+        description: "Market/branch/department id from GL (department_id)."
+
+      - name: converting_doc_fk_po_line_id
+        description: "fk_po_line_id from the converting/relieving document (nullable)."
+
+      - name: converting_doc
+        description: "Constructed converting document label."
+
+      - name: recordno
+        description: "Identifier parsed from GL entry_description; used for APA true-up matching."
+
+      - name: fk_gl_entry_id
+        description: "Foreign key to the GL entry id (APA true-ups) / aligns to apa_fk_gl_entry_id in VI rows by position."

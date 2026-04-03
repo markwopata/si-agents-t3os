@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: stg_analytics_asset4000_dbo__fa_transfers
+    description: staging model of base_analytics_asset4000_dbo__fa_transfers that that includes only records that have not been marked as deleted
+    columns:
+      - name: asset_code
+        description: '{{ doc("asset_code") }}'
+
+      - name: transfer_per_sequence
+        description: the point of time (month) when the transfer occurred
+
+      - name: transfer_year
+        description: the year of transfer
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: tfr_timestamp
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""

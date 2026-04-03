@@ -1,0 +1,443 @@
+---
+version: 2
+models:
+  - name: stg_analytics_vehicle_solutions__hq_rental_reservations
+    description: "Reservations from hq rental"
+    columns:
+      - name: id
+        description: ""
+        data_tests:
+          - unique
+          - not_null
+      - name: prefixed_id
+        description: ""
+      - name: custom_reservation_number
+        description: ""
+      - name: pick_up_date
+        description: ""
+      - name: initial_pick_up_date
+        description: ""
+      - name: return_date
+        description: ""
+      - name: initial_return_date
+        description: ""
+      - name: flight_arrival_date
+        description: ""
+      - name: cancellation_date
+        description: ""
+      - name: cancellation_comments
+        description: ""
+      - name: cancellation_reason_id
+        description: ""
+      - name: cancelled_by
+        description: ""
+      - name: cancelled_at
+        description: ""
+      - name: brand_id
+        description: ""
+      - name: initial_brand_id
+        description: ""
+      - name: vehicle_class_id
+        description: ""
+      - name: free_vehicle_class_upgrade_id
+        description: ""
+      - name: pick_up_location_id
+        description: ""
+      - name: return_location_id
+        description: ""
+      - name: flight_number
+        description: ""
+      - name: flight_airline
+        description: ""
+      - name: pick_up_location_custom
+        description: ""
+      - name: return_location_custom
+        description: ""
+      - name: local_address
+        description: ""
+      - name: customer_id
+        description: ""
+      - name: currency
+        description: ""
+      - name: rack_price
+        description: ""
+      - name: miscellaneous_price
+        description: ""
+      - name: external_charges_price
+        description: ""
+      - name: discounts_amount
+        description: ""
+      - name: taxes_amount
+        description: ""
+      - name: security_deposit
+        description: ""
+      - name: security_deposit_excess
+        description: ""
+      - name: manual_discount
+        description: ""
+      - name: manual_discount_percentage
+        description: ""
+      - name: manual_discount_is_percentage
+        description: ""
+      - name: government_tax
+        description: ""
+      - name: abb_tax
+        description: ""
+      - name: location_fee
+        description: ""
+      - name: outstanding_balance
+        description: ""
+      - name: status
+        description: ""
+      - name: completed_at
+        description: ""
+      - name: completed_by
+        description: ""
+      - name: reopened_by
+        description: ""
+      - name: reopened_at
+        description: ""
+      - name: after_sale_email_sent
+        description: ""
+      - name: forced_security_deposit_id
+        description: ""
+      - name: reservation_from_website
+        description: ""
+      - name: created_by
+        description: ""
+      - name: updated_by
+        description: ""
+      - name: deleted_at
+        description: ""
+      - name: created_at
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: uuid
+        description: ""
+      - name: uuid_short
+        description: ""
+      - name: no_show_fee
+        description: ""
+      - name: cancellation_fee
+        description: ""
+      - name: direct_booker_ip
+        description: ""
+      - name: country_code
+        description: ""
+      - name: region_code
+        description: ""
+      - name: zip_code
+        description: ""
+      - name: booker_information
+        description: ""
+      - name: percentage_discount_from_to_commission
+        description: ""
+      - name: was_reopened
+        description: ""
+      - name: has_package_reservation
+        description: ""
+      - name: primary_agent_id
+        description: ""
+      - name: secondary_agents
+        description: ""
+      - name: primary_return_agent_id
+        description: ""
+      - name: secondary_return_agents
+        description: ""
+      - name: walk_in_customer
+        description: ""
+      - name: security_deposit_automatically_charged
+        description: ""
+      - name: security_deposit_paid
+        description: ""
+      - name: exchange_rate_from_currency_to_base
+        description: ""
+      - name: digital_signature
+        description: ""
+      - name: reservation_commission
+        description: ""
+      - name: loan_reservation
+        description: ""
+      - name: distance_limit_per_day
+        description: ""
+      - name: distance_limit_per_week
+        description: ""
+      - name: distance_limit_per_month
+        description: ""
+      - name: return_reminder_email_sent
+        description: ""
+      - name: last_day_counts_for_calculations
+        description: ""
+      - name: reservation_interval
+        description: ""
+      - name: digital_signature_for_initials
+        description: ""
+      - name: signed_at
+        description: ""
+      - name: initials_signed_at
+        description: ""
+      - name: base_reservation_commission
+        description: ""
+      - name: commission_type
+        description: ""
+      - name: disable_renewal
+        description: ""
+      - name: renew_contract_x_days_in_advance
+        description: ""
+      - name: security_deposit_refunded
+        description: ""
+      - name: security_deposit_release_attempts
+        description: ""
+      - name: referral
+        description: ""
+      - name: security_deposit_charged_amount
+        description: ""
+      - name: security_deposit_refunded_amount
+        description: ""
+      - name: distance_manually_updated
+        description: ""
+      - name: transaction_fees_price
+        description: ""
+      - name: distance_limit
+        description: ""
+      - name: force_renewal_to_x_days
+        description: ""
+      - name: reserved_from
+        description: ""
+      - name: percentage_charges_over_discounted_rate
+        description: ""
+      - name: damages_price
+        description: ""
+      - name: charge_distance_when_limit_is_zero
+        description: ""
+      - name: dont_include_location_fee_in_tax_calculation
+        description: ""
+      - name: reservation_type
+        description: ""
+      - name: ota_reservation_type
+        description: ""
+      - name: ota_reservation_id
+        description: ""
+      - name: user_digital_signature_id
+        description: ""
+      - name: user_digital_signature_for_initials_id
+        description: ""
+      - name: car_sharing_vehicle_returned
+        description: ""
+      - name: total_price
+        description: ""
+      - name: authorization_transaction_id
+        description: ""
+      - name: reservation_started_at
+        description: ""
+      - name: reservation_ended_at
+        description: ""
+      - name: flight_departure_date
+        description: ""
+      - name: flight_departure_number
+        description: ""
+      - name: flight_departure_airline
+        description: ""
+      - name: total_rack_rate
+        description: ""
+      - name: total_insurances
+        description: ""
+      - name: total_extras
+        description: ""
+      - name: total_taxes
+        description: ""
+      - name: total_revenue
+        description: ""
+      - name: total_paid
+        description: ""
+      - name: total_refunded
+        description: ""
+      - name: total_days
+        description: ""
+      - name: rental_user_id
+        description: ""
+      - name: dont_include_vehicle_damages_in_location_fee
+        description: ""
+      - name: dont_include_vehicle_damages_in_taxes
+        description: ""
+      - name: internal_reservation
+        description: ""
+      - name: total_location_fee
+        description: ""
+      - name: total_abb_tax
+        description: ""
+      - name: total_government_tax
+        description: ""
+      - name: include_external_charges_in_location_fee
+        description: ""
+      - name: include_external_charges_in_taxes
+        description: ""
+      - name: last_payment_request_sent_at
+        description: ""
+      - name: last_payment_at
+        description: ""
+      - name: user_agent
+        description: ""
+      - name: security_deposit_was_manually_changed
+        description: ""
+      - name: security_deposit_excess_was_manually_changed
+        description: ""
+      - name: language
+        description: ""
+      - name: preferred_credit_card_id
+        description: ""
+      - name: external_charge_account_id
+        description: ""
+      - name: multiple_seasons_for_weekdays
+        description: ""
+      - name: mandatory_charges_based_on_combinations_enabled
+        description: ""
+      - name: website_internal_confirmation_email_sent
+        description: ""
+      - name: confirmation_email_sent
+        description: ""
+      - name: round_amounts_to_two_decimals_on_calculations
+        description: ""
+      - name: max_hours_before_daily_price
+        description: ""
+      - name: max_hours_before_daily_price_additional_charges
+        description: ""
+      - name: rate_type_id
+        description: ""
+      - name: without_mandatory_charges
+        description: ""
+      - name: renew_contract_x_hours_after_planned_return_date
+        description: ""
+      - name: extension_paid_until
+        description: ""
+      - name: has_pending_extensions
+        description: ""
+      - name: grace_period_hours_for_picking_up_cars
+        description: ""
+      - name: grace_period_hours_for_returning_cars
+        description: ""
+      - name: no_show_by
+        description: ""
+      - name: no_show_at
+        description: ""
+      - name: check_value_pricing_on_daily_vs_weekly_rates
+        description: ""
+      - name: availability_percentage_at_creation
+        description: ""
+      - name: enable_multiple_seasons_bookings
+        description: ""
+      - name: enable_season_rates_based_on_multipliers
+        description: ""
+      - name: forced_close_reason
+        description: ""
+      - name: driver_validated
+        description: ""
+      - name: ready_for_pick_up
+        description: ""
+      - name: ready_for_pick_up_approval_user_id
+        description: ""
+      - name: ready_for_pick_up_at
+        description: ""
+      - name: enable_self_service_test_mode
+        description: ""
+      - name: f365
+        description: ""
+      - name: f367
+        description: ""
+      - name: f368
+        description: ""
+      - name: signature_metadata
+        description: ""
+      - name: initials_signature_metadata
+        description: ""
+      - name: f447
+        description: ""
+      - name: f448
+        description: ""
+      - name: enable_self_service
+        description: ""
+      - name: enable_auto_pick_up
+        description: ""
+      - name: enable_auto_return
+        description: ""
+      - name: reservation_email_template_name
+        description: ""
+      - name: disable_all_emails
+        description: ""
+      - name: pick_up_location_custom_latitude
+        description: ""
+      - name: pick_up_location_custom_longitude
+        description: ""
+      - name: return_location_custom_latitude
+        description: ""
+      - name: return_location_custom_longitude
+        description: ""
+      - name: include_vehicle_damages_in_revenue
+        description: ""
+      - name: reserved_until
+        description: ""
+      - name: self_service_rental_picked_up
+        description: ""
+      - name: self_service_rental_returned
+        description: ""
+      - name: self_service_billed
+        description: ""
+      - name: insurance_verified
+        description: ""
+      - name: ota_billed
+        description: ""
+      - name: ota_price
+        description: ""
+      - name: last_auto_charge_at
+        description: ""
+      - name: last_auto_payment_request_at
+        description: ""
+      - name: tour_operator
+        description: ""
+      - name: pick_up_location_label
+        description: ""
+      - name: return_location_label
+        description: ""
+      - name: reservation_type_label
+        description: ""
+      - name: brand_label
+        description: ""
+      - name: total_price_without_taxes
+        description: ""
+      - name: pick_up_time
+        description: ""
+      - name: return_time
+        description: ""
+      - name: commission
+        description: ""
+      - name: pick_up_location
+        description: ""
+      - name: pick_up_state
+        description: "the state in which the rental is picked up"
+      - name: pick_up_city
+        description: "the city in which the rental is picked up"
+      - name: return_location
+        description: ""
+      - name: brand
+        description: ""
+      - name: customer
+        description: ""
+      - name: additional_drivers
+        description: ""
+      - name: vehicle_class
+        description: ""
+      - name: free_vehicle_class_upgrade
+        description: ""
+      - name: rack_rate_details
+        description: ""
+      - name: all_additional_charges
+        description: ""
+      - name: reservation_vehicle_information
+        description: ""
+      - name: active_vehicle_information
+        description: ""
+      - name: package_reservation
+        description: ""
+      - name: _es_update_timestamp
+        description: "{{ doc('_es_update_timestamp') }}"

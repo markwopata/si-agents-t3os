@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: int_monday_unpivoted_values
+    description: >
+      Combine monday.com tables into a single table with one row per column value.
+      Exclude fivetran deleted rows. I assume this has multiple common uses for debugging
+      while not having to build up the query every time. This will result in unpivoted column values.
+      Next step is to pivot to specific columns for a specific board into a specific mart.
+    data_tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list:
+              - board_id
+              - item_id
+              - column_id
+    columns:
+      - name: board_name
+        description: ""
+      - name: board_id
+        description: ""
+      - name: item_id
+        description: ""
+      - name: item_name
+        description: ""
+      - name: group_id
+        description: ""
+      - name: group_title
+        description: ""
+      - name: column_id
+        description: ""
+      - name: column_title
+        description: ""
+      - name: column_description
+        description: ""
+      - name: type
+        description: ""
+      - name: settings_str
+        description: ""
+      - name: settings_json
+        description: ""
+      - name: visualization_type
+        description: ""
+      - name: width
+        description: ""
+      - name: value_raw
+        description: ""
+      - name: value_json
+        description: ""
+      - name: value_str
+        description: ""
+      - name: text
+        description: ""
+      - name: display_value
+        description: ""
+      - name: date
+        description: ""
+      - name: symbol
+        description: ""
+      - name: rating
+        description: ""
+      - name: running
+        description: ""
+      - name: duration
+        description: ""
+      - name: number
+        description: ""
+      - name: from_date
+        description: ""
+      - name: to_date
+        description: ""
+      - name: checked
+        description: ""
+      - name: direction
+        description: ""
+      - name: is_done
+        description: ""
+      - name: index
+        description: ""
+      - name: label
+        description: ""
+      - name: time
+        description: ""
+      - name: hour
+        description: ""
+      - name: minute
+        description: ""
+      - name: label_style_color
+        description: ""
+      - name: label_style_border
+        description: ""
+      - name: is_archived
+        description: ""
+      - name: started_at
+        description: ""
+      - name: update_id
+        description: ""
+      - name: updated_at
+        description: ""
+      - name: _fivetran_deleted
+        description: ""
+      - name: _fivetran_synced
+        description: ""

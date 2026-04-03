@@ -1,0 +1,71 @@
+---
+version: 2
+sources:
+  - name: analytics_rate_achievement
+    tags: ["sources", "commissions"]
+    database: analytics
+    schema: rate_achievement
+    description:
+      data in analytics.rate_achievement (analytics database / rate_achievement schema) used for rate_achievement
+      purposes (BA ETL scripts)
+    tables:
+      - name: rate_regions
+        description: >
+          region categorization for markets in market_region_xwalk
+        meta:
+          generated_from: Snowflake task
+          snowflake_task: https://app.snowflake.com/tczvqmq/gga45239/#/data/databases/ANALYTICS/schemas/RATE_ACHIEVEMENT/task/RATE_REGIONS_TASK
+      - name: discount_rates
+        description: >
+          deal rates are temporary reductions of the floor rate, submitted by District Sales Managers (DSMs) or Regional Sales Managers (RSMs) via retool, to allow salespeople to earn 4% commissions even during off-season when higher rates may not be achievable.
+          at a district level and affects all markets within that district
+        meta:
+          generated_from: Retool
+          snowflake_task: https://equipmentshare.retool-hosted.com/apps/98268aec-728a-11ee-b843-eb6e526e0470/Rate%20Submission%20Tool/Rate%20Maintenance%20Platform
+          owner: ["@aubrey.wise"]
+        columns:
+          - name: discount_rate_id
+            data_tests:
+              - unique
+
+      - name: rate_achievement_commissions
+        description: Rate tiers for line items used by commissions
+        meta:
+          generated_from: Snowflake task
+          snowflake_task: https://app.snowflake.com/us-west-2/gga45239/#/data/databases/ANALYTICS/schemas/RATE_ACHIEVEMENT/task/RATE_ACHIEVEMENT_COMMISSIONS_TASK
+          owner: ["@bri.porter", "@brian.jeon"]
+        columns:
+          - name: line_item_id
+            data_tests:
+              - unique
+          - name: rate_tier_id
+
+      - name: commission_rate_tiers
+        description: Rate tiers for line items used by commissions
+        columns:
+          - name: rate_tier_id
+            data_tests:
+              - unique
+              - not_null
+          - name: name
+          - name: commission_percentage
+          - name: category
+
+      - name: fuel_rates
+
+        description: "Fuel rates for line items used by commissions."
+      - name: high_pd_classes
+        description: "High PD classes for line items used by commissions."
+  - name: fleet_optimization_gold
+    tags: ["sources", "commissions"]
+    schema: gold
+    database: fleet_optimization
+    
+    description:
+      New dbt process for rate achievement
+    tables:
+      - name: v_fact_rate_achievement
+        description: >
+          New dbt process for rate tiers for line items used by commissions
+
+          
