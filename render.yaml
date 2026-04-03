@@ -37,12 +37,22 @@ services:
         sync: false
       - key: FROSTY_BASE_URL
         sync: false
+      - key: FROSTY_SQL_WAREHOUSE
+        sync: false
       - key: FROSTY_REQUEST_TIMEOUT_MS
         value: 30000
+      - key: ANALYTICS_CURATED_CORPUS_PATH
+        sync: false
       - key: ANALYTICS_SEARCH_TIMEOUT_MS
         value: 20000
       - key: KPI_RESEARCH_TIMEOUT_MS
-        value: 45000
+        value: 360000
+      - key: OPENAI_KPI_MODEL
+        value: gpt-5
+      - key: OPENAI_KPI_REASONING_EFFORT
+        value: medium
+      - key: OPENAI_KPI_TIMEOUT_MS
+        value: 300000
       - key: PORTFOLIO_STEP_TIMEOUT_MS
         value: 600000
       - key: EVIDENCE_SYNC_REUSE_HOURS
@@ -85,3 +95,13 @@ services:
         value: portfolio_refresh
       - key: AGENT_RUN_ON_START
         value: true
+      - key: ANALYTICS_CURATED_CORPUS_PATH
+        sync: false
+      - key: FROSTY_SQL_WAREHOUSE
+        sync: false
+      - key: OPENAI_KPI_MODEL
+        value: gpt-5
+      - key: OPENAI_KPI_REASONING_EFFORT
+        value: medium
+      - key: OPENAI_KPI_TIMEOUT_MS
+        value: 300000

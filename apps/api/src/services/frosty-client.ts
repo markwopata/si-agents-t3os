@@ -44,6 +44,7 @@ let sessionId: string | null = null;
 let initializePromise: Promise<string> | null = null;
 let requestCounter = 1;
 const DEFAULT_FROSTY_TIMEOUT_MS = Number(process.env.FROSTY_REQUEST_TIMEOUT_MS ?? "30000");
+const selectedWarehouseByBaseUrl = new Map<string, string>();
 
 function nextRequestId(): number {
   requestCounter += 1;
@@ -228,6 +229,40 @@ export async function executeSqlThroughFrosty(
   }
 
   return extractToolJson(result);
+}
+
+export async function ensureFrostyWarehouse(
+  warehouse: string,
+  baseUrl = process.env.FROSTY_BASE_URL ?? "http://localhost:8888",
+): Promise<void> {
+  const trimmedWarehouse = warehouse.trim();
+  if (!trimmedWarehouse) {
+    return;
+  }
+
+  if (selectedWarehouseByBaseUrl.get(baseUrl) === trimmedWarehouse) {
+    return;
+  }
+
+  const useResult = await executeSqlThroughFrosty(`use warehouse ${trimmedWarehouse}`, baseUrl);
+  if (useResult.success === false) {
+    throw new FrostyError(
+      `Frosty could not select warehouse ${trimmedWarehouse}.`,
+      undefined,
+      useResult.error ?? undefined,
+    );
+  }
+
+  selectedWarehouseByBaseUrl.set(baseUrl, trimmedWarehouse);
+}
+
+export async function executeSqlThroughFrostyWithWarehouse(
+  query: string,
+  warehouse: string,
+  baseUrl = process.env.FROSTY_BASE_URL ?? "http://localhost:8888",
+): Promise<FrostySqlResult> {
+  await ensureFrostyWarehouse(warehouse, baseUrl);
+  return executeSqlThroughFrosty(query, baseUrl);
 }
 
 export async function getFrostyStatus(baseUrl = process.env.FROSTY_BASE_URL ?? "http://localhost:8888"): Promise<{

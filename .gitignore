@@ -11,4 +11,5 @@ _reference_code/
 tools_snowflake.py
 apps/api/.data/
 apps/web/.vite/
+.analytics-curated/
 *.log

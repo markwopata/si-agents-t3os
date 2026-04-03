@@ -9,6 +9,7 @@
     "start": "tsx src/server.ts",
     "db:migrate": "tsx src/scripts/migrate.ts",
     "import:workbook": "tsx src/scripts/import-workbook.ts",
+    "build:analytics-corpus": "tsx src/scripts/build-curated-analytics-corpus.ts",
     "process:portfolio": "tsx src/scripts/process-portfolio-runs.ts",
     "test": "vitest run"
   },

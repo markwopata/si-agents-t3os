@@ -1,18 +1,25 @@
 import type { InitiativeDetail, InitiativeKpiResearch, KpiFinding } from "@si/domain";
-import { execFile as execFileCallback } from "node:child_process";
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { promisify } from "node:util";
 import { and, desc, eq } from "drizzle-orm";
 import { env } from "../config/env.js";
 import { db } from "../db/client.js";
 import { kpiFindings, kpiResearchRuns } from "../db/schema.js";
 import { createId } from "../lib/id.js";
-import { executeSqlThroughFrosty } from "./frosty-client.js";
+import {
+  retrieveAnalyticsCorpusSnippets,
+  type AnalyticsCorpusSnippet,
+  resolveAnalyticsCorpusPath,
+} from "./analytics-corpus-service.js";
+import {
+  executeSqlThroughFrostyWithWarehouse,
+  type FrostySqlResult,
+} from "./frosty-client.js";
+import {
+  openAiKpiResearchEnabled,
+  proposeKpisWithOpenAi,
+  type ProposedKpiCandidate,
+} from "./openai-kpi-research-service.js";
 import { getLatestTrackerForInitiative } from "./tracker-service.js";
 
-const execFile = promisify(execFileCallback);
-const ANALYTICS_SEARCH_TIMEOUT_MS = env.ANALYTICS_SEARCH_TIMEOUT_MS;
 const KPI_RESEARCH_TIMEOUT_MS = env.KPI_RESEARCH_TIMEOUT_MS;
 
 const STOPWORDS = new Set([
@@ -34,23 +41,15 @@ const STOPWORDS = new Set([
   "action",
 ]);
 
-const METRIC_HINT_PATTERN =
-  /\b(revenue|earnings|margin|fee|fees|target|baseline|forecast|booked|earned|collect|collected|throughput|utilization|count|rate|volume|profit|sales|buyback|buybacks|capex|capital|inventory)\b/i;
-
-const GENERIC_LINE_PATTERNS = [
-  /^@property$/i,
-  /^from\s+\S+/i,
-  /^import\s+\S+/i,
-  /^dimension:\s*[a-z_]+$/i,
-  /^measure:\s*[a-z_]+$/i,
-  /^view:\s*[a-z_]+$/i,
-];
-
 function slugify(value: string): string {
   return value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
+}
+
+function unique<T>(values: T[]): T[] {
+  return Array.from(new Set(values));
 }
 
 function buildSearchTerms(initiative: InitiativeDetail, trackerText: string[]): string[] {
@@ -61,40 +60,7 @@ function buildSearchTerms(initiative: InitiativeDetail, trackerText: string[]): 
     .map((token) => token.trim())
     .filter((token) => token.length >= 4 && !STOPWORDS.has(token));
 
-  return Array.from(new Set(base)).slice(0, 8);
-}
-
-function classifySourceType(filePath: string): string {
-  if (filePath.includes("/ba-finance-dbt/")) {
-    return "dbt_model";
-  }
-  if (filePath.includes("/looker/")) {
-    return "looker_model";
-  }
-  return "analytics_code";
-}
-
-function sourceWeight(sourceType: string): number {
-  if (sourceType === "dbt_model") {
-    return 5;
-  }
-  if (sourceType === "looker_model") {
-    return 4;
-  }
-  return 2;
-}
-
-function countMatchedTerms(lineText: string, filePath: string, terms: string[]): number {
-  const haystack = `${lineText} ${path.basename(filePath)}`.toLowerCase();
-  return terms.filter((term) => haystack.includes(term.toLowerCase())).length;
-}
-
-function isUsefulAnalyticsLine(lineText: string): boolean {
-  const text = lineText.trim();
-  if (text.length < 18) {
-    return false;
-  }
-  return !GENERIC_LINE_PATTERNS.some((pattern) => pattern.test(text));
+  return Array.from(new Set(base)).slice(0, 10);
 }
 
 function deriveTrackerFindings(tracker: Awaited<ReturnType<typeof getLatestTrackerForInitiative>>): KpiFinding[] {
@@ -167,7 +133,7 @@ function deriveTrackerFindings(tracker: Awaited<ReturnType<typeof getLatestTrack
   return summaryMetrics;
 }
 
-function deriveProposedFindings(
+function deriveHeuristicProposalFindings(
   initiative: InitiativeDetail,
   tracker: Awaited<ReturnType<typeof getLatestTrackerForInitiative>>,
 ): KpiFinding[] {
@@ -184,7 +150,7 @@ function deriveProposedFindings(
       sourceRef: tracker.trackerFileId,
       provenance: {
         reason: "Tracker freshness is central to evaluating SI operating discipline.",
-        findingPriority: "proposal",
+        findingPriority: "supporting_proposal",
       },
     },
     {
@@ -200,7 +166,7 @@ function deriveProposedFindings(
       sourceRef: tracker.trackerFileId,
       provenance: {
         reason: "The tracker is organized around prioritized work items and phases.",
-        findingPriority: "proposal",
+        findingPriority: "supporting_proposal",
       },
     },
   ];
@@ -219,7 +185,7 @@ function deriveProposedFindings(
       sourceRef: tracker.trackerFileId,
       provenance: {
         reason: "The tracker summary already references booked earnings and target values.",
-        findingPriority: "proposal",
+        findingPriority: "supporting_proposal",
       },
     });
   }
@@ -237,7 +203,7 @@ function deriveProposedFindings(
       sourceRef: tracker.trackerFileId,
       provenance: {
         reason: "This SI appears transaction-oriented and should show throughput, not just narrative progress.",
-        findingPriority: "proposal",
+        findingPriority: "supporting_proposal",
       },
     });
   }
@@ -250,10 +216,7 @@ async function getLatestCompletedFindingsForInitiative(
   excludeRunId: string,
 ): Promise<KpiFinding[]> {
   const latestCompletedRun = await db.query.kpiResearchRuns.findFirst({
-    where: and(
-      eq(kpiResearchRuns.initiativeId, initiativeId),
-      eq(kpiResearchRuns.status, "completed"),
-    ),
+    where: and(eq(kpiResearchRuns.initiativeId, initiativeId), eq(kpiResearchRuns.status, "completed")),
     orderBy: [desc(kpiResearchRuns.createdAt)],
   });
 
@@ -284,108 +247,6 @@ async function getLatestCompletedFindingsForInitiative(
   }));
 }
 
-async function searchAnalyticsCorpus(terms: string[]): Promise<
-  Array<{
-    filePath: string;
-    lineNumber: string;
-    lineText: string;
-    sourceType: string;
-    score: number;
-  }>
-> {
-  if (terms.length === 0) {
-    return [];
-  }
-
-  const escapedTerms = terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const pattern = escapedTerms.join("|");
-  const corpusPath = env.ANALYTICS_CORPUS_PATH;
-  const searchRoots = [
-    path.join(corpusPath, "ba_gitlab_repos", "ba-finance-dbt"),
-    path.join(corpusPath, "dbt_cloud", "business-intelligence"),
-    path.join(corpusPath, "looker"),
-  ];
-  const args = [
-    "-l",
-    "-i",
-    "--glob",
-    "*.{sql,lkml,md,yml,yaml,py}",
-    pattern,
-    ...searchRoots,
-  ];
-
-  try {
-    const { stdout } = await execFile("rg", args, {
-      maxBuffer: 1024 * 1024 * 8,
-      timeout: ANALYTICS_SEARCH_TIMEOUT_MS,
-    });
-    const candidateFiles = stdout
-      .split("\n")
-      .filter(Boolean)
-      .slice(0, 40);
-    const hits: Array<{
-      filePath: string;
-      lineNumber: string;
-      lineText: string;
-      sourceType: string;
-      score: number;
-    }> = [];
-
-    for (const filePath of candidateFiles) {
-      let content: string;
-      try {
-        content = await readFile(filePath, "utf8");
-      } catch {
-        continue;
-      }
-      const lines = content.split("\n");
-      for (let index = 0; index < lines.length; index += 1) {
-        const lineText = lines[index]?.trim() ?? "";
-        if (!lineText) {
-          continue;
-        }
-        const haystack = `${filePath} ${lineText}`.toLowerCase();
-        if (!terms.some((term) => haystack.includes(term.toLowerCase()))) {
-          continue;
-        }
-        const sourceType = classifySourceType(filePath);
-        const termMatches = countMatchedTerms(lineText, filePath, terms);
-        const metricHintScore = METRIC_HINT_PATTERN.test(lineText) ? 3 : 0;
-        const pathHintScore = METRIC_HINT_PATTERN.test(filePath) ? 2 : 0;
-        const hit = {
-          filePath,
-          lineNumber: String(index + 1),
-          lineText,
-          sourceType,
-          score: sourceWeight(sourceType) + termMatches * 2 + metricHintScore + pathHintScore,
-        };
-        if (!isUsefulAnalyticsLine(hit.lineText)) {
-          continue;
-        }
-        if (hit.score < 6 && !METRIC_HINT_PATTERN.test(hit.lineText)) {
-          continue;
-        }
-        hits.push(hit);
-      }
-    }
-
-    return hits.sort((left, right) => right.score - left.score).slice(0, 10);
-  } catch (error) {
-    const execError = error as { stdout?: string; code?: number | string; killed?: boolean; signal?: string };
-    if (execError.code === 1) {
-      return [];
-    }
-    if (
-      execError.code === "ETIMEDOUT" ||
-      execError.killed === true ||
-      execError.signal === "SIGTERM"
-    ) {
-      return [];
-    }
-    throw error;
-  }
-}
-
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const timeoutHandle = setTimeout(() => {
@@ -404,50 +265,187 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): 
   });
 }
 
-async function runSnowflakeDiscovery(terms: string[]): Promise<string | null> {
-  if (terms.length === 0) {
-    return null;
+function normalizeSqlRows(result: FrostySqlResult): Array<Record<string, unknown>> {
+  if (!Array.isArray(result.data)) {
+    return [];
   }
 
-  const sanitizedTerms = terms.slice(0, 5).map((term) => term.replace(/'/g, "''"));
-  const valuesClause = sanitizedTerms.map((term) => `('${term}')`).join(", ");
-  const sql = `
+  return result.data.map((row) => {
+    if (!Array.isArray(row)) {
+      return row as Record<string, unknown>;
+    }
+    return Object.fromEntries((result.columns ?? []).map((column, index) => [column, row[index] ?? null]));
+  });
+}
+
+function escapeSqlLiteral(value: string): string {
+  return value.replace(/'/g, "''");
+}
+
+function buildAnalyticsReferenceFindings(snippets: AnalyticsCorpusSnippet[]): KpiFinding[] {
+  return snippets.map((snippet) => ({
+    id: createId("kpi"),
+    findingClass: "analytics_code_reference",
+    sourceType: snippet.sourceType,
+    metricKey: slugify(snippet.bestLine.slice(0, 64) || snippet.relativePath),
+    label: snippet.bestLine.slice(0, 120) || snippet.relativePath,
+    metricValue: null,
+    unit: null,
+    narrative: "High-signal analytics-code snippet retrieved for KPI research.",
+    sourceRef: `${snippet.relativePath}:${snippet.lineStart}-${snippet.lineEnd}`,
+    provenance: {
+      relativePath: snippet.relativePath,
+      score: snippet.score,
+      matchedTerms: snippet.matchedTerms,
+      excerpt: snippet.excerpt,
+      lineStart: snippet.lineStart,
+      lineEnd: snippet.lineEnd,
+      findingPriority: snippet.score >= 12 ? "high_signal_reference" : "reference",
+    },
+  }));
+}
+
+function buildGptProposalFindings(
+  candidates: ProposedKpiCandidate[],
+  model: string | null,
+  trackerFileId: string | null,
+): KpiFinding[] {
+  return candidates.map((candidate) => ({
+    id: createId("kpi"),
+    findingClass: "proposal",
+    sourceType: "gpt_proposal",
+    metricKey: slugify(candidate.metricKey),
+    label: candidate.label,
+    metricValue: null,
+    unit: null,
+    narrative: candidate.whyItMatters,
+    sourceRef: trackerFileId,
+    provenance: {
+      model,
+      confidence: candidate.confidence,
+      likelySourceObjects: candidate.likelySourceObjects,
+      warehouseSearchTerms: candidate.warehouseSearchTerms,
+      supportingSnippetRefs: candidate.supportingSnippetRefs,
+      findingPriority: "primary_proposal",
+    },
+  }));
+}
+
+async function validateKpiCandidatesWithWarehouse(
+  candidates: ProposedKpiCandidate[],
+  fallbackTerms: string[],
+): Promise<{ findings: KpiFinding[]; outputs: Array<Record<string, unknown>> }> {
+  const findings: KpiFinding[] = [];
+  const outputs: Array<Record<string, unknown>> = [];
+
+  for (const candidate of candidates.slice(0, 5)) {
+    const exactObjects = unique(
+      candidate.likelySourceObjects
+        .map((value) => value.trim())
+        .filter((value) => value.length > 0)
+        .map((value) => value.toLowerCase()),
+    ).slice(0, 5);
+    const queryTerms = unique(
+      candidate.warehouseSearchTerms
+        .concat(
+          exactObjects.flatMap((value) => value.split(/[^a-z0-9_]+/i)),
+          fallbackTerms,
+          candidate.label.split(/[^a-z0-9_]+/i),
+        )
+        .map((value) => value.trim().toLowerCase())
+        .filter((value) => value.length >= 4),
+    ).slice(0, 8);
+
+    if (queryTerms.length === 0 && exactObjects.length === 0) {
+      continue;
+    }
+
+    const termValuesClause =
+      queryTerms.length > 0
+        ? queryTerms.map((term) => `('${escapeSqlLiteral(term)}')`).join(", ")
+        : "('metric')";
+    const exactObjectClause =
+      exactObjects.length > 0
+        ? `or lower(c.table_schema || '.' || c.table_name) in (${exactObjects
+            .map((value) => `'${escapeSqlLiteral(value)}'`)
+            .join(", ")})`
+        : "";
+
+    const sql = `
 with terms(term) as (
-  select column1 from values ${valuesClause}
+  select column1 from values ${termValuesClause}
 )
 select table_schema, table_name, column_name
 from analytics.information_schema.columns c
-join terms t
-  on lower(c.table_name) like '%' || lower(t.term) || '%'
-  or lower(c.column_name) like '%' || lower(t.term) || '%'
-where table_schema <> 'INFORMATION_SCHEMA'
-limit 25
+where c.table_schema <> 'INFORMATION_SCHEMA'
+  and (
+    exists (
+      select 1
+      from terms t
+      where lower(c.table_schema) like '%' || lower(t.term) || '%'
+        or lower(c.table_name) like '%' || lower(t.term) || '%'
+        or lower(c.column_name) like '%' || lower(t.term) || '%'
+    )
+    ${exactObjectClause}
+  )
+limit 12
 `;
 
-  try {
-    const result = await executeSqlThroughFrosty(sql, env.FROSTY_BASE_URL);
-    if (result.success === false) {
-      return result.error?.trim() || null;
-    }
+    try {
+      const result = await executeSqlThroughFrostyWithWarehouse(
+        sql,
+        env.FROSTY_SQL_WAREHOUSE,
+        env.FROSTY_BASE_URL,
+      );
+      const rows = normalizeSqlRows(result);
+      if (rows.length === 0) {
+        continue;
+      }
 
-    if (!Array.isArray(result.data) || result.data.length === 0) {
-      return null;
-    }
+      const matchedObjects = rows.map((row) => ({
+        tableSchema: String(row.table_schema ?? ""),
+        tableName: String(row.table_name ?? ""),
+        columnName: String(row.column_name ?? ""),
+      }));
 
-    return JSON.stringify(
-      {
-        statementType: result.statement_type ?? null,
-        columns: result.columns ?? [],
-        rowCount: result.row_count ?? result.data.length,
-        data: result.data,
-      },
-      null,
-      2,
-    );
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    return message.trim() || null;
+      outputs.push({
+        metricKey: candidate.metricKey,
+        label: candidate.label,
+        warehouse: env.FROSTY_SQL_WAREHOUSE,
+        matchedRowCount: matchedObjects.length,
+        matchedObjects,
+      });
+
+      findings.push({
+        id: createId("kpi"),
+        findingClass: "warehouse_validated",
+        sourceType: "snowflake_validation",
+        metricKey: slugify(candidate.metricKey),
+        label: candidate.label,
+        metricValue: null,
+        unit: null,
+        narrative: `Snowflake metadata validation found ${matchedObjects.length} likely source columns for this KPI candidate.`,
+        sourceRef: "analytics.information_schema.columns",
+        provenance: {
+          likelySourceObjects: candidate.likelySourceObjects,
+          queryTerms,
+          warehouse: env.FROSTY_SQL_WAREHOUSE,
+          matchedObjects,
+          validationMethod: "information_schema_search",
+          findingPriority: "warehouse_validated",
+        },
+      });
+    } catch (error) {
+      outputs.push({
+        metricKey: candidate.metricKey,
+        label: candidate.label,
+        warehouse: env.FROSTY_SQL_WAREHOUSE,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
   }
+
+  return { findings, outputs };
 }
 
 export async function runKpiResearchForInitiative(
@@ -455,7 +453,10 @@ export async function runKpiResearchForInitiative(
   agentRunId?: string,
 ): Promise<{ researchRunId: string; findings: KpiFinding[] }> {
   const tracker = await getLatestTrackerForInitiative(initiative.id);
-  const trackerContext = tracker.items.slice(0, 6).map((item) => `${item.itemType ?? ""} ${item.description}`);
+  const trackerContext = tracker.items
+    .slice(0, 8)
+    .map((item) => `${item.itemType ?? ""} ${item.description} ${item.notes ?? ""}`.trim())
+    .filter(Boolean);
   const terms = buildSearchTerms(initiative, trackerContext);
 
   const researchRunId = createId("kpi_research");
@@ -466,65 +467,77 @@ export async function runKpiResearchForInitiative(
     status: "running",
     summary: {
       terms,
+      analyticsCorpusPath: resolveAnalyticsCorpusPath(),
     },
   });
 
   try {
-    const [searchHits, snowflakeOutput] = await withTimeout(
-      Promise.all([
-        searchAnalyticsCorpus(terms),
-        runSnowflakeDiscovery(terms),
-      ]),
+    const trackerFindings = deriveTrackerFindings(tracker);
+    const heuristicProposals = deriveHeuristicProposalFindings(initiative, tracker);
+
+    const result = await withTimeout(
+      (async () => {
+        const analyticsSnippets = await retrieveAnalyticsCorpusSnippets({
+          initiative,
+          trackerContext,
+          searchTerms: terms,
+        });
+
+        const analyticsReferenceFindings = buildAnalyticsReferenceFindings(analyticsSnippets);
+        let openAiCandidates: ProposedKpiCandidate[] = [];
+        let openAiModel: string | null = null;
+        let openAiWarning: string | null = null;
+
+        if (analyticsSnippets.length > 0 && openAiKpiResearchEnabled()) {
+          try {
+            const openAiResult = await proposeKpisWithOpenAi({
+              initiative,
+              trackerContext,
+              trackerCurrentFindings: trackerFindings.map((finding) => ({
+                label: finding.label,
+                metricValue: finding.metricValue,
+                narrative: finding.narrative,
+              })),
+              heuristicProposals: heuristicProposals.map((finding) => ({
+                label: finding.label,
+                narrative: finding.narrative,
+              })),
+              snippets: analyticsSnippets,
+            });
+            openAiCandidates = openAiResult.candidates;
+            openAiModel = openAiResult.model;
+          } catch (error) {
+            openAiWarning = error instanceof Error ? error.message : String(error);
+          }
+        }
+
+        const gptProposalFindings = buildGptProposalFindings(openAiCandidates, openAiModel, tracker.trackerFileId);
+        const validation = await validateKpiCandidatesWithWarehouse(openAiCandidates, terms);
+
+        const findings: KpiFinding[] = [
+          ...trackerFindings,
+          ...analyticsReferenceFindings,
+          ...gptProposalFindings,
+          ...validation.findings,
+          ...heuristicProposals,
+        ];
+
+        return {
+          findings,
+          analyticsSnippets,
+          openAiCandidates,
+          openAiModel,
+          openAiWarning,
+          validationOutputs: validation.outputs,
+        };
+      })(),
       KPI_RESEARCH_TIMEOUT_MS,
       `KPI research for ${initiative.code}`,
     );
 
-    const findings: KpiFinding[] = [
-      ...deriveTrackerFindings(tracker),
-      ...searchHits.map((hit) => ({
-        id: createId("kpi"),
-        findingClass: "analytics_reference",
-        sourceType: hit.sourceType,
-        metricKey: slugify(hit.lineText.slice(0, 60) || path.basename(hit.filePath)),
-        label: hit.lineText.slice(0, 120) || path.basename(hit.filePath),
-        metricValue: null,
-        unit: null,
-        narrative: "Ranked analytics-code reference discovered during KPI research.",
-        sourceRef: `${hit.filePath}:${hit.lineNumber}`,
-        provenance: {
-          filePath: hit.filePath,
-          lineNumber: hit.lineNumber,
-          lineText: hit.lineText,
-          score: hit.score,
-          findingPriority: hit.score >= 10 ? "high_signal_reference" : "reference",
-        },
-      })),
-      ...(snowflakeOutput
-        ? [
-            {
-              id: createId("kpi"),
-              findingClass: "analytics_reference",
-              sourceType: "snowflake_search",
-              metricKey: "snowflake_object_matches",
-              label: "Snowflake object discovery",
-              metricValue: null,
-              unit: null,
-              narrative: "Potential analytics objects discovered in Snowflake metadata for this SI.",
-              sourceRef: "analytics.information_schema.columns",
-              provenance: {
-                queryTerms: terms,
-                output: snowflakeOutput,
-                findingPriority: "warehouse_reference",
-              },
-            },
-          ]
-        : []),
-      ...deriveProposedFindings(initiative, tracker),
-    ];
-
-    if (findings.length > 0) {
+    if (result.findings.length > 0) {
       await db.insert(kpiFindings).values(
-        findings.map((finding) => ({
+        result.findings.map((finding) => ({
           id: finding.id,
           researchRunId,
           initiativeId: initiative.id,
@@ -547,21 +560,29 @@ export async function runKpiResearchForInitiative(
         status: "completed",
         summary: {
           terms,
-          searchHitCount: searchHits.length,
-          trackerFindingCount: findings.filter((finding) => finding.sourceType === "tracker").length,
-          proposedFindingCount: findings.filter((finding) => finding.findingClass === "proposal").length,
-          snowflakeOutput,
+          analyticsCorpusPath: resolveAnalyticsCorpusPath(),
+          analyticsSnippetCount: result.analyticsSnippets.length,
+          analyticsReferenceCount: result.findings.filter((finding) => finding.findingClass === "analytics_code_reference")
+            .length,
+          trackerFindingCount: result.findings.filter((finding) => finding.sourceType === "tracker").length,
+          proposalFindingCount: result.findings.filter((finding) => finding.findingClass === "proposal").length,
+          warehouseValidatedCount: result.findings.filter((finding) => finding.findingClass === "warehouse_validated")
+            .length,
+          openAiCandidateCount: result.openAiCandidates.length,
+          openAiModel: result.openAiModel,
+          openAiWarning: result.openAiWarning,
+          validationOutputs: result.validationOutputs,
         },
         finishedAt: new Date(),
       })
       .where(eq(kpiResearchRuns.id, researchRunId));
 
-    return { researchRunId, findings };
+    return { researchRunId, findings: result.findings };
   } catch (error) {
     const fallbackFindings = [
       ...deriveTrackerFindings(tracker),
-      ...deriveProposedFindings(initiative, tracker),
-      ...await getLatestCompletedFindingsForInitiative(initiative.id, researchRunId),
+      ...deriveHeuristicProposalFindings(initiative, tracker),
+      ...(await getLatestCompletedFindingsForInitiative(initiative.id, researchRunId)),
     ];
 
     if (fallbackFindings.length > 0) {
@@ -590,6 +611,7 @@ export async function runKpiResearchForInitiative(
         summary: {
           warning: error instanceof Error ? error.message : "KPI research failed",
           terms,
+          analyticsCorpusPath: resolveAnalyticsCorpusPath(),
           fallback: true,
           reusedFindingCount: fallbackFindings.length,
         },
