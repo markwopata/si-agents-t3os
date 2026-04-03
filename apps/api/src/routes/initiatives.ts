@@ -1,5 +1,6 @@
 import {
   initiativeAnnotationCreateSchema,
+  initiativeAgentQueryRequestSchema,
   initiativeAskRequestSchema,
   initiativeRankingUpdateSchema,
   initiativeRunConfigUpsertSchema,
@@ -46,6 +47,7 @@ import {
   updateInitiative,
 } from "../services/initiative-service.js";
 import { getLatestKpiResearchForInitiative, runKpiResearchForInitiative } from "../services/kpi-research-service.js";
+import { runInitiativeAgentQuery } from "../services/initiative-agent-query-service.js";
 import { getInitiativeRawEvidence } from "../services/raw-evidence-service.js";
 import { recomputePriorityRanking, saveManualPriorityRanking } from "../services/ranking-service.js";
 import { getInitiativeRunConfig, upsertInitiativeRunConfig } from "../services/run-config-service.js";
@@ -289,6 +291,36 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
 
     const { limit } = (request.query as { limit?: string }) ?? {};
     return getDocumentExtractsForInitiative(initiativeId, limit ? Number(limit) : undefined);
+  });
+
+  app.post("/initiatives/:initiativeId/agent-query", async (request, reply) => {
+    const { initiativeId } = request.params as { initiativeId: string };
+    await ensureInitiativeReadAccess(request, initiativeId);
+    const initiative = await getInitiativeById(initiativeId);
+    if (!initiative) {
+      return reply.notFound("Initiative not found");
+    }
+
+    const parsed = initiativeAgentQueryRequestSchema.parse(request.body ?? {});
+    if (
+      parsed.mode === "assess" ||
+      parsed.mode === "full" ||
+      parsed.refreshPolicy !== "never"
+    ) {
+      requireScope(request, "run:agents");
+    }
+
+    return runInitiativeAgentQuery({
+      initiativeId,
+      requestedByType: request.actor.type,
+      requestedById: request.actor.id,
+      mode: parsed.mode,
+      refreshPolicy: parsed.refreshPolicy,
+      staleAfterMinutes: parsed.staleAfterMinutes,
+      refreshKpis:
+        parsed.refreshKpis ??
+        (parsed.mode === "assess" || parsed.mode === "full"),
+    });
   });
 
   app.post("/initiatives/:initiativeId/ask", async (request, reply) => {

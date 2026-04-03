@@ -452,6 +452,7 @@ export async function runKpiResearchForInitiative(
   initiative: InitiativeDetail,
   agentRunId?: string,
 ): Promise<{ researchRunId: string; findings: KpiFinding[] }> {
+  const startedAtMs = Date.now();
   const tracker = await getLatestTrackerForInitiative(initiative.id);
   const trackerContext = tracker.items
     .slice(0, 8)
@@ -477,11 +478,14 @@ export async function runKpiResearchForInitiative(
 
     const result = await withTimeout(
       (async () => {
+        const timings: Record<string, number> = {};
+        const retrievalStartedAtMs = Date.now();
         const analyticsSnippets = await retrieveAnalyticsCorpusSnippets({
           initiative,
           trackerContext,
           searchTerms: terms,
         });
+        timings.analyticsRetrievalMs = Date.now() - retrievalStartedAtMs;
 
         const analyticsReferenceFindings = buildAnalyticsReferenceFindings(analyticsSnippets);
         let openAiCandidates: ProposedKpiCandidate[] = [];
@@ -490,6 +494,7 @@ export async function runKpiResearchForInitiative(
 
         if (analyticsSnippets.length > 0 && openAiKpiResearchEnabled()) {
           try {
+            const openAiStartedAtMs = Date.now();
             const openAiResult = await proposeKpisWithOpenAi({
               initiative,
               trackerContext,
@@ -506,13 +511,16 @@ export async function runKpiResearchForInitiative(
             });
             openAiCandidates = openAiResult.candidates;
             openAiModel = openAiResult.model;
+            timings.openAiProposalMs = Date.now() - openAiStartedAtMs;
           } catch (error) {
             openAiWarning = error instanceof Error ? error.message : String(error);
           }
         }
 
         const gptProposalFindings = buildGptProposalFindings(openAiCandidates, openAiModel, tracker.trackerFileId);
+        const validationStartedAtMs = Date.now();
         const validation = await validateKpiCandidatesWithWarehouse(openAiCandidates, terms);
+        timings.validationMs = Date.now() - validationStartedAtMs;
 
         const findings: KpiFinding[] = [
           ...trackerFindings,
@@ -529,6 +537,10 @@ export async function runKpiResearchForInitiative(
           openAiModel,
           openAiWarning,
           validationOutputs: validation.outputs,
+          timings: {
+            ...timings,
+            totalMs: Date.now() - startedAtMs,
+          },
         };
       })(),
       KPI_RESEARCH_TIMEOUT_MS,
@@ -572,6 +584,7 @@ export async function runKpiResearchForInitiative(
           openAiModel: result.openAiModel,
           openAiWarning: result.openAiWarning,
           validationOutputs: result.validationOutputs,
+          timings: result.timings,
         },
         finishedAt: new Date(),
       })
@@ -614,6 +627,9 @@ export async function runKpiResearchForInitiative(
           analyticsCorpusPath: resolveAnalyticsCorpusPath(),
           fallback: true,
           reusedFindingCount: fallbackFindings.length,
+          timings: {
+            totalMs: Date.now() - startedAtMs,
+          },
         },
         finishedAt: new Date(),
       })

@@ -12,6 +12,7 @@ import {
   runEvaluationForAllInitiatives,
   runEvaluationForInitiative,
 } from "../services/agent-service.js";
+import { syncEvidenceForAllInitiatives } from "../services/history-sync-service.js";
 import { getObservationReview, upsertObservationReview } from "../services/observation-review-service.js";
 
 export const agentRoutes: FastifyPluginAsync = async (app) => {
@@ -24,6 +25,17 @@ export const agentRoutes: FastifyPluginAsync = async (app) => {
       requestedById: request.actor.id,
       refreshKpisBeforeEvaluation: body.refreshKpis ?? true,
       hydrateLiveEvidence: body.hydrateLiveEvidence ?? false,
+    });
+  });
+
+  app.post("/agent/sync-all", async (request) => {
+    requireScope(request, "run:agents");
+    requireExecutive(request);
+    const body = ((request.body ?? {}) as { staleAfterMinutes?: number });
+    return syncEvidenceForAllInitiatives({
+      requestedByType: request.actor.type,
+      requestedById: request.actor.id,
+      staleAfterMinutes: body.staleAfterMinutes ?? 60,
     });
   });
 

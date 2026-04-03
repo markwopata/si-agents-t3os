@@ -6,8 +6,10 @@ export const rootRoutes: FastifyPluginAsync = async (app) => {
     docs: {
       health: "/health",
       initiatives: "/initiatives",
+      initiativeAgentQuery: "/initiatives/:initiativeId/agent-query",
       initiativeAsk: "/initiatives/:initiativeId/ask",
       initiativeRawEvidence: "/initiatives/:initiativeId/raw-evidence",
+      agentSyncAll: "/agent/sync-all",
       initiativeAnnotations: "/initiatives/:initiativeId/annotations",
       platformContacts: "/platform/contacts",
       platformWorkspaceMembers: "/platform/workspace-members",

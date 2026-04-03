@@ -81,12 +81,12 @@ services:
         value: openid,email,profile,https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/spreadsheets.readonly
 
   - type: cron
-    name: si-agents-refresh
+    name: si-agents-hourly-sync
     runtime: node
     rootDir: .
     buildCommand: npm install && npm run build
     startCommand: npm run start -w @si/agent-runner
-    schedule: "0 6 * * *"
+    schedule: "5 * * * *"
     autoDeploy: true
     envVars:
       - key: NODE_VERSION
@@ -98,7 +98,45 @@ services:
       - key: AGENT_RUN_MODE
         value: once
       - key: AGENT_RUN_TARGET
-        value: portfolio_refresh
+        value: sync_all_evidence
+      - key: AGENT_RUN_ON_START
+        value: true
+      - key: ANALYTICS_CURATED_CORPUS_PATH
+        sync: false
+      - key: FROSTY_SQL_WAREHOUSE
+        sync: false
+      - key: OPENAI_EVALUATION_MODEL
+        value: gpt-5.4
+      - key: OPENAI_EVALUATION_REASONING_EFFORT
+        value: high
+      - key: OPENAI_EVALUATION_TIMEOUT_MS
+        value: 45000
+      - key: OPENAI_KPI_MODEL
+        value: gpt-5.4
+      - key: OPENAI_KPI_REASONING_EFFORT
+        value: high
+      - key: OPENAI_KPI_TIMEOUT_MS
+        value: 300000
+
+  - type: cron
+    name: si-agents-daily-assess
+    runtime: node
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -w @si/agent-runner
+    schedule: "15 6 * * *"
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: SI_API_BASE_URL
+        sync: false
+      - key: SI_AGENT_SERVICE_TOKEN
+        sync: false
+      - key: AGENT_RUN_MODE
+        value: once
+      - key: AGENT_RUN_TARGET
+        value: run_all_evaluations
       - key: AGENT_RUN_ON_START
         value: true
       - key: ANALYTICS_CURATED_CORPUS_PATH

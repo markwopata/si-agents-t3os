@@ -16,7 +16,7 @@ const dailyMinute = Number(process.env.AGENT_RUN_DAILY_MINUTE || "0");
 const directPortfolioWorker = (process.env.AGENT_DIRECT_PORTFOLIO_WORKER || "false") === "true";
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
-type RunTarget = "portfolio_refresh" | "run_all_evaluations";
+type RunTarget = "portfolio_refresh" | "run_all_evaluations" | "sync_all_evidence";
 
 function authHeaders(): Record<string, string> {
   return serviceToken
@@ -28,7 +28,11 @@ function authHeaders(): Record<string, string> {
 
 async function triggerTarget(): Promise<void> {
   const endpoint =
-    target === "run_all_evaluations" ? "/agent/run-all" : "/portfolio/refresh";
+    target === "run_all_evaluations"
+      ? "/agent/run-all"
+      : target === "sync_all_evidence"
+        ? "/agent/sync-all"
+        : "/portfolio/refresh";
   const response = await fetch(`${apiBaseUrl}${endpoint}`, {
     method: "POST",
     headers: authHeaders(),
@@ -40,11 +44,16 @@ async function triggerTarget(): Promise<void> {
 
   const payload = (await response.json()) as
     | { runIds: string[] }
-    | { runId: string; status: string };
+    | { runId: string; status: string }
+    | { initiativeCount: number; syncedCount: number; failures: Array<unknown> };
 
   if ("runIds" in payload) {
     console.log(
       `[agent-runner] completed ${target} at ${new Date().toISOString()} with ${payload.runIds.length} evaluation runs`,
+    );
+  } else if ("initiativeCount" in payload) {
+    console.log(
+      `[agent-runner] completed ${target} at ${new Date().toISOString()} with ${payload.syncedCount}/${payload.initiativeCount} initiatives synced and ${payload.failures.length} failures`,
     );
   } else {
     console.log(

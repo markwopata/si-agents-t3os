@@ -21,7 +21,9 @@ import { createId } from "../lib/id.js";
 import { getGoogleAccessToken } from "../integrations/google/service.js";
 import { parseGoogleFileLink } from "../integrations/google/reader.js";
 import { parseSlackChannelLink } from "../integrations/slack/reader.js";
+import { extractDocumentsForInitiative } from "./document-extraction-service.js";
 import { getInitiativeById } from "./initiative-service.js";
+import { parseTrackerForInitiative } from "./tracker-service.js";
 
 interface SlackApiResponse {
   ok: boolean;
@@ -127,6 +129,11 @@ interface TrackerCandidate {
   trackerFileId: string;
   trackerName: string;
   webViewLink: string | null;
+}
+
+interface SyncExecutionOptions {
+  force?: boolean;
+  reuseWithinMinutes?: number;
 }
 
 function sanitizeSlackText(text: string | undefined): string {
@@ -331,6 +338,9 @@ async function fetchChannelName(token: string, channelId: string): Promise<strin
 async function fetchFullChannelHistory(
   token: string,
   channelId: string,
+  options?: {
+    oldestTs?: string | null;
+  },
 ): Promise<SlackHistoryPayload["messages"]> {
   const allMessages: NonNullable<SlackHistoryPayload["messages"]> = [];
   let cursor = "";
@@ -339,6 +349,7 @@ async function fetchFullChannelHistory(
     const payload = await slackApi<SlackHistoryPayload>(token, "conversations.history", {
       channel: channelId,
       limit: "200",
+      ...(options?.oldestTs ? { oldest: options.oldestTs } : {}),
       ...(cursor ? { cursor } : {}),
     });
 
@@ -360,6 +371,9 @@ async function fetchFullThreadReplies(
   token: string,
   channelId: string,
   threadTs: string,
+  options?: {
+    oldestTs?: string | null;
+  },
 ): Promise<SlackRepliesPayload["messages"]> {
   const replies: NonNullable<SlackRepliesPayload["messages"]> = [];
   let cursor = "";
@@ -369,6 +383,7 @@ async function fetchFullThreadReplies(
       channel: channelId,
       ts: threadTs,
       limit: "200",
+      ...(options?.oldestTs ? { oldest: options.oldestTs } : {}),
       ...(cursor ? { cursor } : {}),
     });
 
@@ -480,6 +495,57 @@ async function listAllRevisions(token: string, fileId: string): Promise<GoogleDr
   return revisions;
 }
 
+function subtractSlackTs(ts: string, seconds: number): string {
+  const numeric = Number(ts);
+  if (!Number.isFinite(numeric)) {
+    return ts;
+  }
+  return String(Math.max(numeric - seconds, 0));
+}
+
+function isGoogleSnapshotChanged(
+  existing:
+    | {
+        parentFileId: string | null;
+        depth: number;
+        crawlPath: string;
+        name: string;
+        mimeType: string | null;
+        modifiedTime: Date | null;
+        lastModifyingUser: string | null;
+        webViewLink: string | null;
+      }
+    | undefined,
+  next: {
+    parentFileId: string | null;
+    depth: number;
+    crawlPath: string;
+    name: string;
+    mimeType: string | null;
+    modifiedTime: Date | null;
+    lastModifyingUser: string | null;
+    webViewLink: string | null;
+  },
+): boolean {
+  if (!existing) {
+    return true;
+  }
+
+  const existingModified = existing.modifiedTime?.getTime() ?? null;
+  const nextModified = next.modifiedTime?.getTime() ?? null;
+
+  return (
+    existing.parentFileId !== next.parentFileId ||
+    existing.depth !== next.depth ||
+    existing.crawlPath !== next.crawlPath ||
+    existing.name !== next.name ||
+    existing.mimeType !== next.mimeType ||
+    existingModified !== nextModified ||
+    existing.lastModifyingUser !== next.lastModifyingUser ||
+    existing.webViewLink !== next.webViewLink
+  );
+}
+
 async function resolveGoogleTargets(initiative: InitiativeDetail): Promise<GoogleFileTarget[]> {
   return initiative.links
     .filter((link) => /google\.(com|usercontent)/i.test(link.url))
@@ -531,8 +597,31 @@ async function crawlGoogleTree(input: {
     lastModifyingUser: string | null;
     rawJson: Record<string, unknown>;
   }>;
+  existingSnapshotByFileId: Map<
+    string,
+    {
+      parentFileId: string | null;
+      depth: number;
+      crawlPath: string;
+      name: string;
+      mimeType: string | null;
+      modifiedTime: Date | null;
+      lastModifyingUser: string | null;
+      webViewLink: string | null;
+    }
+  >;
+  latestRevisionModifiedTimeByFileId: Map<string, Date | null>;
 }): Promise<void> {
-  const { token, target, initiativeId, runId, snapshots, revisionRows } = input;
+  const {
+    token,
+    target,
+    initiativeId,
+    runId,
+    snapshots,
+    revisionRows,
+    existingSnapshotByFileId,
+    latestRevisionModifiedTimeByFileId,
+  } = input;
   const visited = new Set<string>();
   const queue: Array<{
     fileId: string;
@@ -581,7 +670,7 @@ async function crawlGoogleTree(input: {
       continue;
     }
 
-    snapshots.push({
+    const nextSnapshot = {
       fileId: file.id,
       parentFileId: current.parentFileId,
       depth: current.depth,
@@ -598,7 +687,24 @@ async function crawlGoogleTree(input: {
         sourceUrl: current.sourceUrl ?? null,
         sourceLabel: current.sourceLabel ?? null,
       }) as Record<string, unknown>,
-    });
+    };
+
+    const existingSnapshot = existingSnapshotByFileId.get(file.id);
+    const snapshotChanged = isGoogleSnapshotChanged(existingSnapshot, nextSnapshot);
+
+    if (snapshotChanged) {
+      snapshots.push(nextSnapshot);
+      existingSnapshotByFileId.set(file.id, {
+        parentFileId: nextSnapshot.parentFileId,
+        depth: nextSnapshot.depth,
+        crawlPath: nextSnapshot.crawlPath,
+        name: nextSnapshot.name,
+        mimeType: nextSnapshot.mimeType,
+        modifiedTime: nextSnapshot.modifiedTime,
+        lastModifyingUser: nextSnapshot.lastModifyingUser,
+        webViewLink: nextSnapshot.webViewLink,
+      });
+    }
 
     if (file.mimeType === "application/vnd.google-apps.folder") {
       const children = await listAllFolderFiles(token, file.id).catch(async (error) => {
@@ -634,19 +740,28 @@ async function crawlGoogleTree(input: {
       continue;
     }
 
-    const revisions = await listAllRevisions(token, file.id).catch(async (error) => {
-      await recordSyncIssue({
-        initiativeId,
-        sourceType: "google",
-        runId,
-        sourceId: file.id!,
-        error,
-        metadata: {
-          crawlPath: current.crawlPath,
-          phase: "revisions",
-        },
-      });
-      return [];
+    const latestKnownRevisionModifiedTime = latestRevisionModifiedTimeByFileId.get(file.id) ?? null;
+    const revisions = (snapshotChanged || !latestKnownRevisionModifiedTime
+      ? await listAllRevisions(token, file.id).catch(async (error) => {
+          await recordSyncIssue({
+            initiativeId,
+            sourceType: "google",
+            runId,
+            sourceId: file.id!,
+            error,
+            metadata: {
+              crawlPath: current.crawlPath,
+              phase: "revisions",
+            },
+          });
+          return [];
+        })
+      : []
+    ).filter((revision) => {
+      if (!latestKnownRevisionModifiedTime || !revision.modifiedTime) {
+        return true;
+      }
+      return new Date(revision.modifiedTime).getTime() > latestKnownRevisionModifiedTime.getTime();
     });
     revisionRows.push(
       ...revisions
@@ -659,15 +774,35 @@ async function crawlGoogleTree(input: {
           rawJson: sanitizeJsonValue(revision) as Record<string, unknown>,
         })),
     );
+    if (revisions.length > 0) {
+      latestRevisionModifiedTimeByFileId.set(
+        file.id,
+        revisions.reduce<Date | null>((latest, revision) => {
+          const modified = revision.modifiedTime ? new Date(revision.modifiedTime) : null;
+          if (!modified) {
+            return latest;
+          }
+          if (!latest || modified.getTime() > latest.getTime()) {
+            return modified;
+          }
+          return latest;
+        }, latestKnownRevisionModifiedTime),
+      );
+    }
   }
 }
 
-export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail): Promise<{
+export async function syncSlackHistoryForInitiative(
+  initiative: InitiativeDetail,
+  options?: SyncExecutionOptions,
+): Promise<{
   runIds: string[];
+  newRunIds: string[];
   messagesSynced: number;
   repliesSynced: number;
   attachmentsSynced: number;
   issueCount: number;
+  performedSync: boolean;
 }> {
   const token = await getSlackUserToken();
   if (!token) {
@@ -691,11 +826,15 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
     .filter((value): value is { channelId: string; label: string; url: string } => Boolean(value));
 
   const runIds: string[] = [];
+  const newRunIds: string[] = [];
   let messagesSynced = 0;
   let repliesSynced = 0;
   let attachmentsSynced = 0;
   let issueCount = 0;
-  const reuseThreshold = new Date(Date.now() - env.EVIDENCE_SYNC_REUSE_HOURS * 60 * 60 * 1000);
+  let performedSync = false;
+  const reuseWindowMinutes =
+    options?.reuseWithinMinutes ?? env.EVIDENCE_SYNC_REUSE_HOURS * 60;
+  const reuseThreshold = new Date(Date.now() - reuseWindowMinutes * 60 * 1000);
 
   for (const channel of channelTargets) {
     const latestCompletedRun = await db.query.slackSyncRuns.findFirst({
@@ -707,7 +846,7 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
       orderBy: [desc(slackSyncRuns.createdAt)],
     });
 
-    if (latestCompletedRun && latestCompletedRun.createdAt >= reuseThreshold) {
+    if (!options?.force && latestCompletedRun && latestCompletedRun.createdAt >= reuseThreshold) {
       const summary = (latestCompletedRun.summary ?? {}) as Record<string, unknown>;
       runIds.push(latestCompletedRun.id);
       messagesSynced += typeof summary.messagesSynced === "number" ? summary.messagesSynced : 0;
@@ -736,19 +875,30 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
 
     const runId = createId("slack_sync");
     runIds.push(runId);
+    newRunIds.push(runId);
+    performedSync = true;
+    const latestKnownMessage = await db.query.slackMessageEvents.findFirst({
+      where: and(
+        eq(slackMessageEvents.initiativeId, initiative.id),
+        eq(slackMessageEvents.channelId, channel.channelId),
+      ),
+      orderBy: [desc(slackMessageEvents.messageAt), desc(slackMessageEvents.createdAt)],
+    });
+    const historyOldestTs = latestKnownMessage?.ts ? subtractSlackTs(latestKnownMessage.ts, 1) : null;
+    const syncMode = historyOldestTs ? "incremental" : "full_backfill";
     await db.insert(slackSyncRuns).values({
       id: runId,
       initiativeId: initiative.id,
       channelId: channel.channelId,
       channelName: channel.label,
       status: "running",
-      syncMode: "full_backfill",
+      syncMode,
       summary: {},
     });
 
     try {
       const channelName = await fetchChannelName(token, channel.channelId);
-      const history = (await fetchFullChannelHistory(token, channel.channelId) ?? []).filter(
+      const history = (await fetchFullChannelHistory(token, channel.channelId, { oldestTs: historyOldestTs }) ?? []).filter(
         (message) => !message.subtype && sanitizeSlackText(message.text),
       );
 
@@ -794,6 +944,32 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
         threadTs: message.thread_ts ?? message.ts,
       }));
 
+      const threadTargets = Array.from(
+        new Set(messageRows.filter((message) => message.replyCount > 0).map((message) => message.threadTs)),
+      );
+      const existingRepliesForTargets =
+        threadTargets.length > 0
+          ? await db.query.slackReplyEvents.findMany({
+              where: and(
+                eq(slackReplyEvents.initiativeId, initiative.id),
+                eq(slackReplyEvents.channelId, channel.channelId),
+                inArray(slackReplyEvents.parentTs, threadTargets),
+              ),
+            })
+          : [];
+      const existingReplyCountByParent = new Map<string, number>();
+      const latestReplyTsByParent = new Map<string, string>();
+      for (const existingReply of existingRepliesForTargets) {
+        existingReplyCountByParent.set(
+          existingReply.parentTs,
+          (existingReplyCountByParent.get(existingReply.parentTs) ?? 0) + 1,
+        );
+        const currentLatestTs = latestReplyTsByParent.get(existingReply.parentTs);
+        if (!currentLatestTs || Number(existingReply.ts) > Number(currentLatestTs)) {
+          latestReplyTsByParent.set(existingReply.parentTs, existingReply.ts);
+        }
+      }
+
       for (const message of messageRows) {
         attachmentRows.push(
           ...message.attachments.map((attachment) => ({
@@ -810,7 +986,17 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
           continue;
         }
 
-        const replies = (await fetchFullThreadReplies(token, channel.channelId, message.threadTs)) ?? [];
+        const existingReplyCount = existingReplyCountByParent.get(message.threadTs) ?? 0;
+        if (existingReplyCount >= message.replyCount) {
+          continue;
+        }
+
+        const replies =
+          (await fetchFullThreadReplies(token, channel.channelId, message.threadTs, {
+            oldestTs: latestReplyTsByParent.get(message.threadTs)
+              ? subtractSlackTs(latestReplyTsByParent.get(message.threadTs)!, 1)
+              : null,
+          })) ?? [];
         for (const reply of replies.slice(1)) {
           if (reply.subtype || !sanitizeSlackText(reply.text)) {
             continue;
@@ -966,6 +1152,7 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
             attachmentsSynced: attachmentRows.length,
             oldestTs: messageRows.at(-1)?.ts ?? null,
             newestTs: messageRows[0]?.ts ?? null,
+            syncMode,
           },
           finishedAt: new Date(),
         })
@@ -1000,32 +1187,40 @@ export async function syncSlackHistoryForInitiative(initiative: InitiativeDetail
 
   return {
     runIds,
+    newRunIds,
     messagesSynced,
     repliesSynced,
     attachmentsSynced,
     issueCount,
+    performedSync,
   };
 }
 
-export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetail): Promise<{
+export async function syncGoogleHistoryForInitiative(
+  initiative: InitiativeDetail,
+  options?: SyncExecutionOptions,
+): Promise<{
   runId: string;
   trackerCandidate: TrackerCandidate | null;
   snapshotCount: number;
   revisionCount: number;
   issueCount: number;
+  performedSync: boolean;
 }> {
   const token = await getGoogleAccessToken();
   if (!token) {
     throw new Error("Google is not connected.");
   }
 
-  const reuseThreshold = new Date(Date.now() - env.EVIDENCE_SYNC_REUSE_HOURS * 60 * 60 * 1000);
+  const reuseWindowMinutes =
+    options?.reuseWithinMinutes ?? env.EVIDENCE_SYNC_REUSE_HOURS * 60;
+  const reuseThreshold = new Date(Date.now() - reuseWindowMinutes * 60 * 1000);
   const latestCompletedRun = await db.query.googleSyncRuns.findFirst({
     where: and(eq(googleSyncRuns.initiativeId, initiative.id), eq(googleSyncRuns.status, "completed")),
     orderBy: [desc(googleSyncRuns.createdAt)],
   });
 
-  if (latestCompletedRun && latestCompletedRun.createdAt >= reuseThreshold) {
+  if (!options?.force && latestCompletedRun && latestCompletedRun.createdAt >= reuseThreshold) {
     const summary = (latestCompletedRun.summary ?? {}) as Record<string, unknown>;
     return {
       runId: latestCompletedRun.id,
@@ -1033,6 +1228,7 @@ export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetai
       snapshotCount: typeof summary.snapshotCount === "number" ? summary.snapshotCount : 0,
       revisionCount: typeof summary.revisionCount === "number" ? summary.revisionCount : 0,
       issueCount: typeof summary.issueCount === "number" ? summary.issueCount : 0,
+      performedSync: false,
     };
   }
 
@@ -1056,10 +1252,55 @@ export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetai
     initiativeId: initiative.id,
     rootFileId: targets[0]?.fileId ?? null,
     status: "running",
-    summary: {},
+    summary: {
+      syncMode: "incremental",
+    },
   });
 
   try {
+    const existingSnapshots = await db.query.googleFileSnapshots.findMany({
+      where: eq(googleFileSnapshots.initiativeId, initiative.id),
+      orderBy: [desc(googleFileSnapshots.createdAt)],
+    });
+    const existingSnapshotByFileId = new Map<
+      string,
+      {
+        parentFileId: string | null;
+        depth: number;
+        crawlPath: string;
+        name: string;
+        mimeType: string | null;
+        modifiedTime: Date | null;
+        lastModifyingUser: string | null;
+        webViewLink: string | null;
+      }
+    >();
+    for (const snapshot of existingSnapshots) {
+      if (existingSnapshotByFileId.has(snapshot.fileId)) {
+        continue;
+      }
+      existingSnapshotByFileId.set(snapshot.fileId, {
+        parentFileId: snapshot.parentFileId,
+        depth: snapshot.depth,
+        crawlPath: snapshot.crawlPath,
+        name: snapshot.name,
+        mimeType: snapshot.mimeType,
+        modifiedTime: snapshot.modifiedTime,
+        lastModifyingUser: snapshot.lastModifyingUser,
+        webViewLink: snapshot.webViewLink,
+      });
+    }
+    const existingRevisions = await db.query.googleRevisionEvents.findMany({
+      where: eq(googleRevisionEvents.initiativeId, initiative.id),
+      orderBy: [desc(googleRevisionEvents.modifiedTime), desc(googleRevisionEvents.createdAt)],
+    });
+    const latestRevisionModifiedTimeByFileId = new Map<string, Date | null>();
+    for (const revision of existingRevisions) {
+      if (!latestRevisionModifiedTimeByFileId.has(revision.fileId)) {
+        latestRevisionModifiedTimeByFileId.set(revision.fileId, revision.modifiedTime);
+      }
+    }
+
     const snapshots: Array<{
       fileId: string;
       parentFileId: string | null;
@@ -1088,6 +1329,8 @@ export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetai
         runId,
         snapshots,
         revisionRows,
+        existingSnapshotByFileId,
+        latestRevisionModifiedTimeByFileId,
       });
     }
 
@@ -1152,6 +1395,7 @@ export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetai
           revisionCount: revisionRows.length,
           issueCount,
           trackerCandidate,
+          syncMode: "incremental",
         },
         finishedAt: new Date(),
       })
@@ -1163,6 +1407,7 @@ export async function syncGoogleHistoryForInitiative(initiative: InitiativeDetai
       snapshotCount: snapshots.length,
       revisionCount: revisionRows.length,
       issueCount,
+      performedSync: true,
     };
   } catch (error) {
     await recordSyncIssue({
@@ -1516,9 +1761,20 @@ export async function getStoredGoogleEvidenceForInitiative(initiativeId: string)
     };
   }
 
-  const snapshots = await db.query.googleFileSnapshots.findMany({
-    where: eq(googleFileSnapshots.syncRunId, latestRun.id),
-    orderBy: [desc(googleFileSnapshots.modifiedTime), desc(googleFileSnapshots.createdAt)],
+  const allSnapshots = await db.query.googleFileSnapshots.findMany({
+    where: eq(googleFileSnapshots.initiativeId, initiativeId),
+    orderBy: [desc(googleFileSnapshots.createdAt)],
+  });
+  const latestSnapshotByFileId = new Map<string, (typeof allSnapshots)[number]>();
+  for (const snapshot of allSnapshots) {
+    if (!latestSnapshotByFileId.has(snapshot.fileId)) {
+      latestSnapshotByFileId.set(snapshot.fileId, snapshot);
+    }
+  }
+  const snapshots = Array.from(latestSnapshotByFileId.values()).sort((left, right) => {
+    const leftModified = left.modifiedTime?.getTime() ?? 0;
+    const rightModified = right.modifiedTime?.getTime() ?? 0;
+    return rightModified - leftModified;
   });
 
   const revisions =
@@ -1600,6 +1856,114 @@ export async function getStoredGoogleEvidenceForInitiative(initiativeId: string)
         revisions: revisionsByFile.get(child.fileId) ?? [],
       })),
     })),
+  };
+}
+
+export async function syncEvidenceForAllInitiatives(input: {
+  requestedByType: "human" | "service_token";
+  requestedById: string;
+  staleAfterMinutes?: number;
+}): Promise<{
+  initiativeCount: number;
+  syncedCount: number;
+  results: Array<{
+    initiativeId: string;
+    code: string;
+    title: string;
+    synced: boolean;
+    slackPerformedSync: boolean;
+    googlePerformedSync: boolean;
+    trackerUpdated: boolean;
+    extractionProcessedCount: number;
+  }>;
+  failures: Array<{ initiativeId: string; code: string; title: string; error: string }>;
+}> {
+  const activeInitiatives = await db.query.initiatives.findMany({
+    where: eq(initiatives.isActive, true),
+    orderBy: (table) => table.code,
+  });
+
+  const results: Array<{
+    initiativeId: string;
+    code: string;
+    title: string;
+    synced: boolean;
+    slackPerformedSync: boolean;
+    googlePerformedSync: boolean;
+    trackerUpdated: boolean;
+    extractionProcessedCount: number;
+  }> = [];
+  const failures: Array<{ initiativeId: string; code: string; title: string; error: string }> = [];
+  let nextIndex = 0;
+  const workerCount = Math.min(env.PORTFOLIO_CONCURRENCY, Math.max(activeInitiatives.length, 1));
+
+  const workers = Array.from({ length: workerCount }, async () => {
+    for (;;) {
+      const row = activeInitiatives[nextIndex];
+      nextIndex += 1;
+      if (!row) {
+        return;
+      }
+
+      try {
+        const initiative = await getInitiativeById(row.id);
+        if (!initiative) {
+          continue;
+        }
+
+        const [slackSync, googleSync] = await Promise.all([
+          syncSlackHistoryForInitiative(initiative, {
+            reuseWithinMinutes: input.staleAfterMinutes ?? 60,
+          }),
+          syncGoogleHistoryForInitiative(initiative, {
+            reuseWithinMinutes: input.staleAfterMinutes ?? 60,
+          }),
+        ]);
+
+        let extractionProcessedCount = 0;
+        let trackerUpdated = false;
+        if (slackSync.performedSync || googleSync.performedSync) {
+          const extraction = await extractDocumentsForInitiative({
+            initiativeId: initiative.id,
+            slackRunIds: slackSync.newRunIds,
+            googleRunId: googleSync.performedSync ? googleSync.runId : null,
+          });
+          extractionProcessedCount = extraction.processedCount;
+        }
+
+        if (googleSync.performedSync) {
+          const tracker = await parseTrackerForInitiative(initiative.id, googleSync.runId);
+          trackerUpdated = Boolean(tracker?.latestParseRunId);
+        }
+
+        results.push({
+          initiativeId: initiative.id,
+          code: initiative.code,
+          title: initiative.title,
+          synced: slackSync.performedSync || googleSync.performedSync,
+          slackPerformedSync: slackSync.performedSync,
+          googlePerformedSync: googleSync.performedSync,
+          trackerUpdated,
+          extractionProcessedCount,
+        });
+      } catch (error) {
+        failures.push({
+          initiativeId: row.id,
+          code: row.code,
+          title: row.title,
+          error: error instanceof Error ? error.message : "Evidence sync failed",
+        });
+      }
+    }
+  });
+
+  await Promise.all(workers);
+
+  return {
+    initiativeCount: activeInitiatives.length,
+    syncedCount: results.filter((result) => result.synced).length,
+    results,
+    failures,
   };
 }
 

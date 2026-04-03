@@ -628,6 +628,17 @@ export const initiativeAskRequestSchema = z.object({
   includeRawEvidence: z.boolean().default(false),
 });
 
+export const initiativeAgentQueryModeEnum = z.enum(["raw", "insights", "assess", "full"]);
+
+export const initiativeAgentQueryRefreshPolicyEnum = z.enum(["if_stale", "always", "never"]);
+
+export const initiativeAgentQueryRequestSchema = z.object({
+  mode: initiativeAgentQueryModeEnum.default("insights"),
+  refreshPolicy: initiativeAgentQueryRefreshPolicyEnum.default("if_stale"),
+  staleAfterMinutes: z.number().int().min(1).max(24 * 60).default(60),
+  refreshKpis: z.boolean().optional(),
+});
+
 export const initiativeAskResponseSchema = z.object({
   initiativeId: z.string(),
   question: z.string(),
