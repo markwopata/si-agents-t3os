@@ -1,0 +1,472 @@
+import type { ApiToken, CurrentUser, TokenScope } from "@si/domain";
+import { useEffect, useMemo, useState } from "react";
+import {
+  createApiToken,
+  deleteApiToken,
+  getCurrentUser,
+  listApiTokens,
+} from "../api/client";
+
+const TOKEN_SCOPE_OPTIONS: Array<{ value: TokenScope; label: string; description: string }> = [
+  {
+    value: "read:initiatives",
+    label: "Read initiatives",
+    description: "Registry, details, ownership, and initiative metadata.",
+  },
+  {
+    value: "write:initiatives",
+    label: "Write initiatives",
+    description: "Create, update, archive, and manage initiative mappings.",
+  },
+  {
+    value: "read:knowledge",
+    label: "Read knowledge",
+    description: "Global and initiative markdown guidance.",
+  },
+  {
+    value: "write:knowledge",
+    label: "Write knowledge",
+    description: "Update global or SI-specific markdown content.",
+  },
+  {
+    value: "read:observations",
+    label: "Read observations",
+    description: "Assessment history, KPI outputs, and stored insight runs.",
+  },
+  {
+    value: "write:observations",
+    label: "Write observations",
+    description: "Review or adjust stored assessment artifacts.",
+  },
+  {
+    value: "read:platform",
+    label: "Read platform",
+    description: "T3OS-backed contacts, workspace members, and platform state.",
+  },
+  {
+    value: "write:platform",
+    label: "Write platform",
+    description: "Manage T3OS-backed contacts and related platform records.",
+  },
+  {
+    value: "run:agents",
+    label: "Run agents",
+    description: "Trigger SI assessment, evaluation, and portfolio actions.",
+  },
+  {
+    value: "manage:tokens",
+    label: "Manage tokens",
+    description: "Create and revoke personal API tokens.",
+  },
+];
+
+const DEFAULT_TOKEN_SCOPES: TokenScope[] = [
+  "read:initiatives",
+  "read:knowledge",
+  "read:observations",
+];
+
+function formatDateTime(value: string | null): string {
+  if (!value) {
+    return "Never";
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return "Unknown";
+  }
+
+  return parsed.toLocaleString();
+}
+
+function getOwnerLabel(token: ApiToken): string {
+  return token.ownerDisplayName ?? token.ownerEmail ?? token.ownerUserId ?? "Unknown owner";
+}
+
+export function ApiTokensPage() {
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [tokens, setTokens] = useState<ApiToken[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
+  const [label, setLabel] = useState("");
+  const [selectedScopes, setSelectedScopes] = useState<TokenScope[]>(DEFAULT_TOKEN_SCOPES);
+  const [revealedToken, setRevealedToken] = useState("");
+  const [busyTokenId, setBusyTokenId] = useState("");
+  const [search, setSearch] = useState("");
+
+  const isAdmin = currentUser?.type === "service_token" || currentUser?.appRole === "admin";
+
+  async function load() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const me = await getCurrentUser();
+      setCurrentUser(me);
+      const tokenItems = await listApiTokens(me.type === "service_token" || me.appRole === "admin");
+      setTokens(tokenItems);
+    } catch (caughtError) {
+      setError(
+        caughtError instanceof Error ? caughtError.message : "Unable to load API token inventory.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  const visibleTokens = useMemo(() => {
+    const searchValue = search.trim().toLowerCase();
+    const source = [...tokens].sort((left, right) => {
+      const ownerCompare = getOwnerLabel(left).localeCompare(getOwnerLabel(right));
+      if (ownerCompare !== 0) {
+        return ownerCompare;
+      }
+      return left.label.localeCompare(right.label);
+    });
+
+    if (!searchValue) {
+      return source;
+    }
+
+    return source.filter((token) =>
+      [
+        token.label,
+        token.ownerDisplayName ?? "",
+        token.ownerEmail ?? "",
+        token.ownerWorkspaceId ?? "",
+        token.scopes.join(" "),
+        token.tokenPreview,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(searchValue),
+    );
+  }, [search, tokens]);
+
+  const myTokens = useMemo(
+    () =>
+      visibleTokens.filter((token) =>
+        currentUser?.type === "service_token"
+          ? true
+          : token.ownerUserId === currentUser?.id,
+      ),
+    [currentUser?.id, currentUser?.type, visibleTokens],
+  );
+
+  const otherTokens = useMemo(
+    () =>
+      isAdmin
+        ? visibleTokens.filter((token) => token.ownerUserId !== currentUser?.id)
+        : [],
+    [currentUser?.id, isAdmin, visibleTokens],
+  );
+
+  function toggleScope(scope: TokenScope) {
+    setSelectedScopes((current) =>
+      current.includes(scope)
+        ? current.filter((value) => value !== scope)
+        : [...current, scope],
+    );
+  }
+
+  async function handleCreateToken() {
+    if (!label.trim()) {
+      setStatus("Add a label so the token is easy to recognize later.");
+      return;
+    }
+
+    if (selectedScopes.length === 0) {
+      setStatus("Select at least one scope for the token.");
+      return;
+    }
+
+    setStatus("Creating token...");
+    setRevealedToken("");
+
+    try {
+      const created = await createApiToken({
+        label: label.trim(),
+        scopes: selectedScopes,
+      });
+      setRevealedToken(created.token);
+      setLabel("");
+      setSelectedScopes(DEFAULT_TOKEN_SCOPES);
+      setStatus("Token created. Copy it now because it will not be shown again.");
+      await load();
+    } catch (caughtError) {
+      setStatus(
+        caughtError instanceof Error ? caughtError.message : "Token creation failed.",
+      );
+    }
+  }
+
+  async function handleDeleteToken(tokenId: string) {
+    setBusyTokenId(tokenId);
+    setStatus("");
+
+    try {
+      await deleteApiToken(tokenId);
+      setStatus("Token revoked.");
+      await load();
+    } catch (caughtError) {
+      setStatus(caughtError instanceof Error ? caughtError.message : "Token revoke failed.");
+    } finally {
+      setBusyTokenId("");
+    }
+  }
+
+  async function handleCopyToken() {
+    if (!revealedToken) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(revealedToken);
+      setStatus("Token copied to clipboard.");
+    } catch {
+      setStatus("Copy failed. Select the token manually and copy it now.");
+    }
+  }
+
+  return (
+    <div className="page-stack">
+      <section className="hero-card panel-tonal compact">
+        <div>
+          <div className="eyebrow">API Access</div>
+          <h2>User tokens</h2>
+          <p>
+            Create personal API tokens for agents and integrations. Admins can also audit and
+            revoke tokens across the workspace.
+          </p>
+        </div>
+      </section>
+
+      {error ? (
+        <section className="notice-card notice-warning">
+          <strong>Token inventory unavailable.</strong>
+          <p className="muted">{error}</p>
+        </section>
+      ) : null}
+
+      {status ? (
+        <section className="notice-card notice-info">
+          <strong>API access</strong>
+          <p className="muted">{status}</p>
+        </section>
+      ) : null}
+
+      {revealedToken ? (
+        <section className="panel">
+          <div className="section-header">
+            <div>
+              <h2>Copy your new token now</h2>
+              <p className="panel-subtitle">
+                For safety, we only reveal the full token once at creation time.
+              </p>
+            </div>
+            <button className="secondary-button" onClick={() => void handleCopyToken()}>
+              Copy Token
+            </button>
+          </div>
+          <div className="setup-code">{revealedToken}</div>
+        </section>
+      ) : null}
+
+      <section className="token-page-grid">
+        <article className="panel">
+          <div className="section-header">
+            <div>
+              <h2>Create token</h2>
+              <p className="panel-subtitle">
+                The token can only request scopes your current role already has.
+              </p>
+            </div>
+          </div>
+
+          <div className="form-grid">
+            <input
+              value={label}
+              placeholder="Example: Jabbok executive agent"
+              onChange={(event) => setLabel(event.target.value)}
+            />
+          </div>
+
+          <div className="token-scope-grid">
+            {TOKEN_SCOPE_OPTIONS.map((scope) => {
+              const checked = selectedScopes.includes(scope.value);
+              const allowed = currentUser?.scopes?.includes(scope.value) ?? false;
+
+              return (
+                <label
+                  key={scope.value}
+                  className={`token-scope-card${checked ? " token-scope-card-selected" : ""}${allowed ? "" : " token-scope-card-disabled"}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    disabled={!allowed}
+                    onChange={() => toggleScope(scope.value)}
+                  />
+                  <div className="token-scope-copy">
+                    <strong>{scope.label}</strong>
+                    <span>{scope.description}</span>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+
+          <div className="button-row">
+            <button className="primary-button" onClick={() => void handleCreateToken()}>
+              Create Token
+            </button>
+          </div>
+        </article>
+
+        <article className="panel">
+          <div className="section-header">
+            <div>
+              <h2>{isAdmin ? "Workspace token inventory" : "Your tokens"}</h2>
+              <p className="panel-subtitle">
+                {isAdmin
+                  ? "Admins can inspect every user-owned token in the workspace and revoke any one of them."
+                  : "Review and revoke your existing tokens."}
+              </p>
+            </div>
+          </div>
+
+          <div className="filter-grid">
+            <input
+              type="search"
+              value={search}
+              placeholder={isAdmin ? "Search by owner, label, scope, or preview" : "Search your tokens"}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+
+          {loading ? (
+            <p className="muted">Loading token inventory...</p>
+          ) : (
+            <div className="page-stack">
+              <div className="table-shell">
+                <div className="table-wrap">
+                  <table className="data-table compact-table">
+                    <thead>
+                      <tr>
+                        {isAdmin ? <th>Owner</th> : null}
+                        <th>Label</th>
+                        <th>Scopes</th>
+                        <th>Preview</th>
+                        <th>Last used</th>
+                        <th>Created</th>
+                        <th aria-label="Actions" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {myTokens.length === 0 && otherTokens.length === 0 ? (
+                        <tr>
+                          <td colSpan={isAdmin ? 7 : 6} className="muted">
+                            No tokens matched the current view.
+                          </td>
+                        </tr>
+                      ) : null}
+
+                      {myTokens.map((token) => (
+                        <tr key={token.id}>
+                          {isAdmin ? (
+                            <td>
+                              <div className="table-cell-stack">
+                                <strong>{getOwnerLabel(token)}</strong>
+                                <span className="muted">{token.ownerEmail ?? token.ownerUserId}</span>
+                              </div>
+                            </td>
+                          ) : null}
+                          <td>{token.label}</td>
+                          <td>
+                            <div className="scope-list token-scope-list">
+                              {token.scopes.map((scope) => (
+                                <span key={scope} className="shell-badge shell-badge-muted">
+                                  {scope}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td>
+                            <code>{token.tokenPreview}</code>
+                          </td>
+                          <td>{formatDateTime(token.lastUsedAt)}</td>
+                          <td>{formatDateTime(token.createdAt)}</td>
+                          <td>
+                            <button
+                              className="ghost-button"
+                              disabled={busyTokenId === token.id}
+                              onClick={() => void handleDeleteToken(token.id)}
+                            >
+                              Revoke
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+
+                      {isAdmin
+                        ? otherTokens.map((token) => (
+                            <tr key={token.id}>
+                              <td>
+                                <div className="table-cell-stack">
+                                  <strong>{getOwnerLabel(token)}</strong>
+                                  <span className="muted">{token.ownerEmail ?? token.ownerUserId}</span>
+                                </div>
+                              </td>
+                              <td>{token.label}</td>
+                              <td>
+                                <div className="scope-list token-scope-list">
+                                  {token.scopes.map((scope) => (
+                                    <span key={scope} className="shell-badge shell-badge-muted">
+                                      {scope}
+                                    </span>
+                                  ))}
+                                </div>
+                              </td>
+                              <td>
+                                <code>{token.tokenPreview}</code>
+                              </td>
+                              <td>{formatDateTime(token.lastUsedAt)}</td>
+                              <td>{formatDateTime(token.createdAt)}</td>
+                              <td>
+                                <button
+                                  className="ghost-button"
+                                  disabled={busyTokenId === token.id}
+                                  onClick={() => void handleDeleteToken(token.id)}
+                                >
+                                  Revoke
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        : null}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {isAdmin ? (
+                <div className="notice-card notice-info">
+                  <strong>Admin note</strong>
+                  <p className="muted">
+                    You can audit every user token and revoke any one of them here, but full token
+                    secrets are only visible once at creation time and are never stored in plain text.
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          )}
+        </article>
+      </section>
+    </div>
+  );
+}

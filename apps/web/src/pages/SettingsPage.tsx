@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 
 const SETTINGS_CARDS = [
   {
+    title: "API Access",
+    description: "Create personal API tokens for agents and, as an admin, audit or revoke workspace tokens.",
+    to: "/settings/tokens",
+  },
+  {
     title: "Import",
     description: "Load or reconcile the SI registry from the workbook when the admin team needs a bulk update.",
     to: "/settings/import",

@@ -17,6 +17,7 @@ export async function listUserApiTokens(input: {
     where: input.includeAllForAdmin
       ? undefined
       : eq(userApiTokens.ownerUserId, input.ownerUserId),
+    orderBy: (table, { desc, asc }) => [asc(table.ownerDisplayName), asc(table.label), desc(table.createdAt)],
   });
 
   return rows.map((row) => ({
@@ -26,6 +27,10 @@ export async function listUserApiTokens(input: {
     tokenPreview: row.tokenPreview,
     createdAt: row.createdAt.toISOString(),
     lastUsedAt: row.lastUsedAt?.toISOString() ?? null,
+    ownerUserId: row.ownerUserId,
+    ownerEmail: row.ownerEmail ?? null,
+    ownerDisplayName: row.ownerDisplayName ?? null,
+    ownerWorkspaceId: row.ownerWorkspaceId ?? null,
   }));
 }
 

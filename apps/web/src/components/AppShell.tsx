@@ -45,6 +45,11 @@ const SETTINGS_NAV: NavItem[] = [
     badge: "O",
   },
   {
+    label: "API Access",
+    to: "/settings/tokens",
+    badge: "A",
+  },
+  {
     label: "Import",
     to: "/settings/import",
     badge: "I",
@@ -65,80 +70,79 @@ function getPageMeta(pathname: string) {
   if (pathname === "/") {
     return {
       eyebrow: "Portfolio HQ",
-      title: "Strategic Initiative command center",
-      description:
-        "Monitor the ranked stack, catch exceptions early, and steer the portfolio from one executive surface.",
+      title: "Portfolio Overview",
+      description: "Review rankings, exceptions, and current actions across the initiative portfolio.",
     };
   }
 
   if (pathname === "/initiatives") {
     return {
       eyebrow: "Initiative Registry",
-      title: "Create and manage the SI portfolio",
-      description:
-        "Review the full registry, filter by ownership and status, and launch new strategic initiatives without leaving the control room.",
+      title: "Initiative Registry",
+      description: "Filter, compare, and manage initiative records by owner, status, and evidence.",
     };
   }
 
   if (pathname === "/initiatives/new") {
     return {
       eyebrow: "Initiative Intake",
-      title: "Create a new strategic initiative",
-      description:
-        "Stand up a new SI record, seed the operating context, and route it into the portfolio with the right ownership from day one.",
+      title: "New Initiative",
+      description: "Create an initiative record and assign the initial operating context.",
     };
   }
 
   if (pathname.startsWith("/initiatives/")) {
     return {
-      eyebrow: "Initiative Control Room",
-      title: "Operate one initiative end to end",
-      description:
-        "Move between summary, ownership, evidence, assessment, and settings without losing the executive thread.",
+      eyebrow: "Initiative Review",
+      title: "Initiative Detail",
+      description: "Assess one initiative across summary, ownership, evidence, and configuration.",
     };
   }
 
   if (pathname === "/contacts") {
     return {
       eyebrow: "Directory",
-      title: "Use T3OS as the system of record for ownership",
-      description:
-        "Browse workspace contacts, map people into SI roles, and keep the portfolio aligned with the canonical T3OS directory.",
+      title: "Contact Directory",
+      description: "Analyze workspace contacts and maintain ownership mappings against the T3OS directory.",
     };
   }
 
   if (pathname.startsWith("/settings/operations")) {
     return {
       eyebrow: "Settings",
-      title: "Observe integrations and system health",
-      description:
-        "Track refresh runs, connection state, and admin operations without crowding the Portfolio HQ experience.",
+      title: "Operations",
+      description: "Track integration state, refresh activity, and system health.",
+    };
+  }
+
+  if (pathname.startsWith("/settings/tokens")) {
+    return {
+      eyebrow: "Settings",
+      title: "API Access",
+      description: "Create personal agent tokens and review workspace token inventory.",
     };
   }
 
   if (pathname.startsWith("/settings/import")) {
     return {
       eyebrow: "Settings",
-      title: "Import the workbook into the live registry",
-      description:
-        "Use workbook ingest as a secondary admin flow when you need to seed or reconcile the initiative registry.",
+      title: "Workbook Import",
+      description: "Load or reconcile registry data from the workbook import flow.",
     };
   }
 
   if (pathname.startsWith("/settings/knowledge")) {
     return {
       eyebrow: "Settings",
-      title: "Maintain the global SI operating model",
-      description:
-        "Keep the evaluation philosophy, leadership expectations, and scoring guidance aligned with how SIs should really operate.",
+      title: "Knowledge Model",
+      description: "Maintain evaluation guidance, operating rules, and reference context.",
     };
   }
 
   return {
     eyebrow: "Settings",
-    title: "System governance and admin controls",
-    description:
-      "Keep import, knowledge, integrations, and operational plumbing organized away from the day-to-day decision surfaces.",
+    title: "Settings Overview",
+    description: "Review administrative configuration, imports, knowledge, and operational controls.",
   };
 }
 

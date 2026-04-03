@@ -1,6 +1,7 @@
 import type { T3osShellState } from "./lib/t3os";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AppShell } from "./components/AppShell";
+import { ApiTokensPage } from "./pages/ApiTokensPage";
 import { ContactsPage } from "./pages/ContactsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { GlobalKnowledgePage } from "./pages/GlobalKnowledgePage";
@@ -26,6 +27,7 @@ export default function App({ shellState }: AppProps) {
         <Route path="/initiatives/new" element={<InitiativeEditorPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/settings/tokens" element={<ApiTokensPage />} />
         <Route path="/settings/import" element={<ImportPage />} />
         <Route path="/settings/knowledge" element={<GlobalKnowledgePage />} />
         <Route path="/settings/operations" element={<OperationsPage />} />

@@ -1,5 +1,7 @@
 import type {
   ContactSummary,
+  ApiToken,
+  ApiTokenCreateInput,
   ObservationReview,
   ObservationReviewUpsertInput,
   GoogleInstallStatus,
@@ -48,9 +50,27 @@ function resolveApiBaseUrl(): string {
   return isLocalHost ? LOCAL_API_BASE_URL : HOSTED_API_BASE_URL;
 }
 
+function resolveApiBaseUrlForToken(token: string | null): string {
+  const explicit = import.meta.env.VITE_API_BASE_URL?.trim();
+  if (explicit) {
+    return explicit;
+  }
+
+  if (typeof window === "undefined") {
+    return LOCAL_API_BASE_URL;
+  }
+
+  const isLocalHost = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  if (isLocalHost && !token) {
+    return LOCAL_API_BASE_URL;
+  }
+
+  return HOSTED_API_BASE_URL;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = await getT3osAccessToken();
-  const response = await fetch(`${resolveApiBaseUrl()}${path}`, {
+  const response = await fetch(`${resolveApiBaseUrlForToken(token)}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -72,6 +92,26 @@ export function getApiBaseUrl(): string {
 
 export function getCurrentUser(): Promise<CurrentUser> {
   return request("/me");
+}
+
+export function listApiTokens(includeAllForAdmin = false): Promise<ApiToken[]> {
+  const query = includeAllForAdmin ? "?all=true" : "";
+  return request(`/api-tokens${query}`);
+}
+
+export function createApiToken(
+  payload: ApiTokenCreateInput,
+): Promise<{ id: string; token: string }> {
+  return request("/api-tokens", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteApiToken(tokenId: string): Promise<{ ok: boolean }> {
+  return request(`/api-tokens/${tokenId}`, {
+    method: "DELETE",
+  });
 }
 
 export function listPlatformContacts(
@@ -315,8 +355,10 @@ export async function importWorkbook(file?: File): Promise<ImportSummary> {
 
   const formData = new FormData();
   formData.append("file", file);
-  const response = await fetch(`${resolveApiBaseUrl()}/imports/si-workbook`, {
+  const token = await getT3osAccessToken();
+  const response = await fetch(`${resolveApiBaseUrlForToken(token)}/imports/si-workbook`, {
     method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     body: formData,
   });
 

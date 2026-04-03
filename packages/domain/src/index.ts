@@ -187,6 +187,10 @@ export const apiTokenSchema = z.object({
   tokenPreview: z.string(),
   createdAt: z.string(),
   lastUsedAt: z.string().nullable(),
+  ownerUserId: z.string().nullable().optional(),
+  ownerEmail: z.string().nullable().optional(),
+  ownerDisplayName: z.string().nullable().optional(),
+  ownerWorkspaceId: z.string().nullable().optional(),
 });
 
 export const initiativeSummarySchema = z.object({
