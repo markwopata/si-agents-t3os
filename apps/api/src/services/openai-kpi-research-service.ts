@@ -21,6 +21,7 @@ const kpiResearchResponseSchema = z.object({
 export type ProposedKpiCandidate = z.infer<typeof kpiCandidateSchema>;
 
 let openAiClient: OpenAI | null = null;
+const OPENAI_KPI_TIMEOUT_MS = Math.max(env.OPENAI_KPI_TIMEOUT_MS, 300_000);
 
 function getOpenAiClient(): OpenAI | null {
   if (!env.OPENAI_API_KEY?.trim()) {
@@ -199,7 +200,7 @@ export async function proposeKpisWithOpenAi(input: {
         },
       },
     }),
-    env.OPENAI_KPI_TIMEOUT_MS,
+    OPENAI_KPI_TIMEOUT_MS,
     `OpenAI KPI research for ${input.initiative.code}`,
   );
 

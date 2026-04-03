@@ -20,7 +20,7 @@ import {
 } from "./openai-kpi-research-service.js";
 import { getLatestTrackerForInitiative } from "./tracker-service.js";
 
-const KPI_RESEARCH_TIMEOUT_MS = env.KPI_RESEARCH_TIMEOUT_MS;
+const KPI_RESEARCH_TIMEOUT_MS = Math.max(env.KPI_RESEARCH_TIMEOUT_MS, 300_000);
 
 const STOPWORDS = new Set([
   "initiative",
