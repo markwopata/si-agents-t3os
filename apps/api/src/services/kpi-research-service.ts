@@ -318,11 +318,12 @@ function buildGptProposalFindings(
     label: candidate.label,
     metricValue: null,
     unit: null,
-    narrative: candidate.whyItMatters,
+    narrative: `${candidate.whyItMatters} Q2 FY26 earnings impact connection: ${candidate.upcomingQuarterEarningsConnection}`,
     sourceRef: trackerFileId,
     provenance: {
       model,
       confidence: candidate.confidence,
+      upcomingQuarterEarningsConnection: candidate.upcomingQuarterEarningsConnection,
       likelySourceObjects: candidate.likelySourceObjects,
       warehouseSearchTerms: candidate.warehouseSearchTerms,
       supportingSnippetRefs: candidate.supportingSnippetRefs,
@@ -572,6 +573,10 @@ export async function runKpiResearchForInitiative(
         status: "completed",
         summary: {
           terms,
+          upcomingQuarterTarget: {
+            quarterLabel: "Q2 FY26",
+            periodEnd: "2026-06-30",
+          },
           analyticsCorpusPath: resolveAnalyticsCorpusPath(),
           analyticsSnippetCount: result.analyticsSnippets.length,
           analyticsReferenceCount: result.findings.filter((finding) => finding.findingClass === "analytics_code_reference")

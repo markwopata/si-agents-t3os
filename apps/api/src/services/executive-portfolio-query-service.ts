@@ -2,7 +2,10 @@ import type {
   ExecutivePortfolioQueryResponse,
   InitiativeSummary,
 } from "@si/domain";
-import { getInitiativeById, listInitiatives } from "./initiative-service.js";
+import {
+  getLatestObservationSummariesForInitiatives,
+  listInitiatives,
+} from "./initiative-service.js";
 
 type QueryIntent =
   | "best_progress"
@@ -163,16 +166,46 @@ function compareStaleness(left: InitiativeSummary, right: InitiativeSummary): nu
     (daysSince(left.latestObservationAt ?? left.updatedAt) ?? -1);
 }
 
-async function buildRead(initiative: InitiativeSummary): Promise<string> {
-  const detail = await getInitiativeById(initiative.id);
-  const latestObservation = detail?.observations[0] ?? null;
+function buildQuarterImpactRead(
+  initiative: InitiativeSummary,
+  progressAssessment: string | null,
+): string | null {
+  const impact = initiative.upcomingQuarterEarningsImpact;
+  if (!impact) {
+    return null;
+  }
+
+  if (!impact.applicable) {
+    return `Q2 earnings impact: not enough evidence yet for ${impact.quarterLabel}.`;
+  }
+
+  const summary =
+    impact.estimateType === "range"
+      ? `Q2 earnings impact: ${impact.direction} estimated range of $${impact.lowEstimate?.toLocaleString() ?? "0"} to $${impact.highEstimate?.toLocaleString() ?? "0"} for ${impact.quarterLabel}.`
+      : `Q2 earnings impact: ${impact.direction} directional view for ${impact.quarterLabel}.`;
+
+  if (
+    progressAssessment &&
+    /q2|earnings impact|quarter ending|june 30, 2026|2026-06-30/i.test(progressAssessment)
+  ) {
+    return summary;
+  }
+
+  return `${summary} Confidence ${Math.round(impact.confidence * 100)}%.`;
+}
+
+function buildRead(input: {
+  initiative: InitiativeSummary;
+  progressAssessment: string | null;
+}): string {
+  const { initiative, progressAssessment } = input;
   const age = daysSince(initiative.latestObservationAt ?? initiative.updatedAt);
   const ownership = ownershipStatus(initiative);
 
   const readParts = [
-    latestObservation
-      ? `Latest opinion is ${latestObservation.statusRecommendation.replace(/_/g, " ")} at ${Math.round(
-          latestObservation.confidenceScore * 100,
+    initiative.latestOpinionStatus
+      ? `Latest opinion is ${initiative.latestOpinionStatus.replace(/_/g, " ")} at ${Math.round(
+          (initiative.latestOpinionConfidence ?? 0) * 100,
         )}% confidence.`
       : "No stored opinion is available yet.",
     ownership === "complete"
@@ -183,8 +216,13 @@ async function buildRead(initiative: InitiativeSummary): Promise<string> {
     age === null ? "Review freshness is unknown." : `Last reviewed ${age}d ago.`,
   ];
 
-  if (latestObservation?.progressAssessment) {
-    readParts.push(latestObservation.progressAssessment.replace(/\s+/g, " ").trim());
+  if (progressAssessment) {
+    readParts.push(progressAssessment.replace(/\s+/g, " ").trim());
+  }
+
+  const quarterImpactRead = buildQuarterImpactRead(initiative, progressAssessment);
+  if (quarterImpactRead) {
+    readParts.push(quarterImpactRead);
   }
 
   return readParts.join(" ");
@@ -259,8 +297,13 @@ export async function queryExecutivePortfolio(input: {
       break;
   }
 
-  const items = await Promise.all(
-    selected.map(async (initiative) => ({
+  const latestObservationByInitiativeId = await getLatestObservationSummariesForInitiatives(
+    selected.map((initiative) => initiative.id),
+  );
+
+  const items = selected.map((initiative) => {
+    const latestObservation = latestObservationByInitiativeId.get(initiative.id) ?? null;
+    return {
       initiativeId: initiative.id,
       code: initiative.code,
       title: initiative.title,
@@ -269,9 +312,13 @@ export async function queryExecutivePortfolio(input: {
       priorityRank: initiative.priorityRank,
       ownershipStatus: ownershipStatus(initiative),
       lastReviewedAt: initiative.latestObservationAt,
-      read: await buildRead(initiative),
-    })),
-  );
+      upcomingQuarterEarningsImpact: initiative.upcomingQuarterEarningsImpact,
+      read: buildRead({
+        initiative,
+        progressAssessment: latestObservation?.progressAssessment ?? null,
+      }),
+    };
+  });
 
   return {
     question: input.question,

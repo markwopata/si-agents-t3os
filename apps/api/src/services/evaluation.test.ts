@@ -27,6 +27,7 @@ function makeInitiative(overrides: Partial<InitiativeDetail> = {}): InitiativeDe
     latestOpinionStatus: null,
     latestOpinionConfidence: null,
     latestObservationAt: null,
+    upcomingQuarterEarningsImpact: null,
     peopleCount: 3,
     hasExecOwner: false,
     hasGroupOwner: false,

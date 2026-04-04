@@ -62,6 +62,7 @@ function emptyInitiative(): InitiativeDetail {
     latestOpinionStatus: null,
     latestOpinionConfidence: null,
     latestObservationAt: null,
+    upcomingQuarterEarningsImpact: null,
     peopleCount: 0,
     hasExecOwner: false,
     hasGroupOwner: false,

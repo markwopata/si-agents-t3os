@@ -349,6 +349,8 @@ export async function runEvaluationForInitiative(input: {
       topBlockers: result.topBlockers,
       suggestedNextActions: result.suggestedNextActions,
       evidenceSummary: result.evidenceSummary,
+      upcomingQuarterEarningsImpact:
+        result.upcomingQuarterEarningsImpact as unknown as Record<string, unknown>,
     });
 
     if (result.evidenceReferences.length > 0) {
@@ -431,6 +433,7 @@ export async function runEvaluationForInitiative(input: {
         summary: {
         statusRecommendation: result.statusRecommendation,
         confidenceScore: result.confidenceScore,
+        upcomingQuarterEarningsImpact: result.upcomingQuarterEarningsImpact,
         evaluationMode,
         evaluationModel,
         timings,
@@ -586,6 +589,7 @@ export async function listInitiativeOpinions(initiativeId: string): Promise<Arra
     topBlockers: row.topBlockers,
     suggestedNextActions: row.suggestedNextActions,
     evidenceSummary: row.evidenceSummary,
+    upcomingQuarterEarningsImpact: row.upcomingQuarterEarningsImpact,
     evidenceReferences: evidenceByObservationId.get(row.id) ?? [],
     review: reviewByObservationId.get(row.id) ?? null,
     createdAt: row.createdAt.toISOString(),

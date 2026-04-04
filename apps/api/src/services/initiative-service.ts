@@ -32,6 +32,105 @@ function toIso(value: Date): string {
 }
 
 type ObservationReviewRecord = NonNullable<InitiativeDetail["observations"][number]["review"]>;
+type LatestObservationSummaryRecord = {
+  initiativeId: string;
+  statusRecommendation: InitiativeSummary["latestOpinionStatus"];
+  confidenceScore: number;
+  progressAssessment: string;
+  createdAt: string;
+  upcomingQuarterEarningsImpact: InitiativeSummary["upcomingQuarterEarningsImpact"];
+};
+
+async function getInitiativeSummaryContext(input: {
+  initiativeIds: string[];
+}): Promise<{
+  ownershipByInitiativeId: Map<
+    string,
+    {
+      peopleCount: number;
+      hasExecOwner: boolean;
+      hasGroupOwner: boolean;
+      hasInitiativeOwner: boolean;
+    }
+  >;
+  latestObservationByInitiativeId: Map<string, LatestObservationSummaryRecord>;
+}> {
+  if (input.initiativeIds.length === 0) {
+    return {
+      ownershipByInitiativeId: new Map(),
+      latestObservationByInitiativeId: new Map(),
+    };
+  }
+
+  const [peopleRows, observationRows] = await Promise.all([
+    db
+      .select({
+        initiativeId: initiativePeople.initiativeId,
+        role: initiativePeople.role,
+      })
+      .from(initiativePeople)
+      .where(inArray(initiativePeople.initiativeId, input.initiativeIds)),
+    db
+      .select({
+        initiativeId: agentObservations.initiativeId,
+        statusRecommendation: agentObservations.statusRecommendation,
+        confidenceScore: agentObservations.confidenceScore,
+        progressAssessment: agentObservations.progressAssessment,
+        createdAt: agentObservations.createdAt,
+        upcomingQuarterEarningsImpact: agentObservations.upcomingQuarterEarningsImpact,
+      })
+      .from(agentObservations)
+      .where(inArray(agentObservations.initiativeId, input.initiativeIds))
+      .orderBy(desc(agentObservations.createdAt)),
+  ]);
+
+  const ownershipByInitiativeId = new Map<
+    string,
+    {
+      peopleCount: number;
+      hasExecOwner: boolean;
+      hasGroupOwner: boolean;
+      hasInitiativeOwner: boolean;
+    }
+  >();
+
+  for (const row of peopleRows) {
+    const current = ownershipByInitiativeId.get(row.initiativeId) ?? {
+      peopleCount: 0,
+      hasExecOwner: false,
+      hasGroupOwner: false,
+      hasInitiativeOwner: false,
+    };
+    current.peopleCount += 1;
+    current.hasExecOwner ||= row.role === "exec_owner";
+    current.hasGroupOwner ||= row.role === "group_owner";
+    current.hasInitiativeOwner ||= row.role === "initiative_owner";
+    ownershipByInitiativeId.set(row.initiativeId, current);
+  }
+
+  const latestObservationByInitiativeId = new Map<string, LatestObservationSummaryRecord>();
+  for (const row of observationRows) {
+    if (latestObservationByInitiativeId.has(row.initiativeId)) {
+      continue;
+    }
+
+    latestObservationByInitiativeId.set(row.initiativeId, {
+      initiativeId: row.initiativeId,
+      statusRecommendation: row.statusRecommendation as InitiativeSummary["latestOpinionStatus"],
+      confidenceScore: row.confidenceScore,
+      progressAssessment: row.progressAssessment,
+      createdAt: toIso(row.createdAt),
+      upcomingQuarterEarningsImpact:
+        (row.upcomingQuarterEarningsImpact as InitiativeSummary["upcomingQuarterEarningsImpact"]) ??
+        null,
+    });
+  }
+
+  return {
+    ownershipByInitiativeId,
+    latestObservationByInitiativeId,
+  };
+}
 
 async function hydrateInitiatives(initiativeIds: string[]): Promise<Map<string, InitiativeDetail>> {
   if (initiativeIds.length === 0) {
@@ -99,6 +198,7 @@ async function hydrateInitiatives(initiativeIds: string[]): Promise<Map<string, 
       latestOpinionStatus: null,
       latestOpinionConfidence: null,
       latestObservationAt: null,
+      upcomingQuarterEarningsImpact: null,
       peopleCount: 0,
       hasExecOwner: false,
       hasGroupOwner: false,
@@ -279,6 +379,9 @@ async function hydrateInitiatives(initiativeIds: string[]): Promise<Map<string, 
       topBlockers: row.topBlockers,
       suggestedNextActions: row.suggestedNextActions,
       evidenceSummary: row.evidenceSummary,
+      upcomingQuarterEarningsImpact:
+        (row.upcomingQuarterEarningsImpact as InitiativeDetail["observations"][number]["upcomingQuarterEarningsImpact"]) ??
+        null,
       evidenceReferences: evidenceByObservationId.get(row.id) ?? [],
       review: reviewByObservationId.get(row.id) ?? null,
       createdAt: toIso(row.createdAt),
@@ -287,6 +390,10 @@ async function hydrateInitiatives(initiativeIds: string[]): Promise<Map<string, 
     if (initiative.latestOpinionStatus === null) {
       initiative.latestOpinionStatus = row.statusRecommendation as InitiativeSummary["latestOpinionStatus"];
       initiative.latestOpinionConfidence = row.confidenceScore;
+      initiative.latestObservationAt = toIso(row.createdAt);
+      initiative.upcomingQuarterEarningsImpact =
+        (row.upcomingQuarterEarningsImpact as InitiativeSummary["upcomingQuarterEarningsImpact"]) ??
+        null;
     }
   }
 
@@ -298,40 +405,55 @@ export async function listInitiatives(): Promise<InitiativeSummary[]> {
     .select()
     .from(initiatives)
     .orderBy(sql`${initiatives.priorityRank} is null`, asc(initiatives.priorityRank), initiatives.code);
-  const hydrated = await hydrateInitiatives(rows.map((row) => row.id));
+  const { ownershipByInitiativeId, latestObservationByInitiativeId } = await getInitiativeSummaryContext({
+    initiativeIds: rows.map((row) => row.id),
+  });
   return rows.map((row) => {
-    const detail = hydrated.get(row.id)!;
+    const ownership = ownershipByInitiativeId.get(row.id) ?? {
+      peopleCount: 0,
+      hasExecOwner: false,
+      hasGroupOwner: false,
+      hasInitiativeOwner: false,
+    };
+    const latestObservation = latestObservationByInitiativeId.get(row.id) ?? null;
     return {
-      id: detail.id,
-      code: detail.code,
-      title: detail.title,
-      objective: detail.objective,
-      group: detail.group,
-      targetCadence: detail.targetCadence,
-      updateType: detail.updateType,
-      stage: detail.stage,
-      lClass: detail.lClass,
-      progress: detail.progress,
-      leadPerformance: detail.leadPerformance,
-      administrationHealth: detail.administrationHealth,
-      impactType: detail.impactType,
-      inCapPlan: detail.inCapPlan,
-      isActive: detail.isActive,
-      priorityRank: detail.priorityRank,
-      priorityScore: detail.priorityScore,
-      priorityReason: detail.priorityReason,
-      prioritySource: detail.prioritySource,
-      rankingUpdatedAt: detail.rankingUpdatedAt,
-      latestOpinionStatus: detail.latestOpinionStatus,
-      latestOpinionConfidence: detail.latestOpinionConfidence,
-      latestObservationAt: detail.observations[0]?.createdAt ?? null,
-      peopleCount: detail.people.length,
-      hasExecOwner: detail.people.some((person) => person.role === "exec_owner"),
-      hasGroupOwner: detail.people.some((person) => person.role === "group_owner"),
-      hasInitiativeOwner: detail.people.some((person) => person.role === "initiative_owner"),
-      updatedAt: detail.updatedAt,
+      id: row.id,
+      code: row.code,
+      title: row.title,
+      objective: row.objective,
+      group: row.group,
+      targetCadence: row.targetCadence,
+      updateType: row.updateType,
+      stage: row.stage,
+      lClass: row.lClass,
+      progress: row.progress,
+      leadPerformance: row.leadPerformance,
+      administrationHealth: row.administrationHealth,
+      impactType: row.impactType,
+      inCapPlan: row.inCapPlan,
+      isActive: row.isActive,
+      priorityRank: row.priorityRank,
+      priorityScore: row.priorityScore,
+      priorityReason: row.priorityReason,
+      prioritySource: (row.prioritySource as InitiativeSummary["prioritySource"]) ?? null,
+      rankingUpdatedAt: row.rankingUpdatedAt ? toIso(row.rankingUpdatedAt) : null,
+      latestOpinionStatus: latestObservation?.statusRecommendation ?? null,
+      latestOpinionConfidence: latestObservation?.confidenceScore ?? null,
+      latestObservationAt: latestObservation?.createdAt ?? null,
+      upcomingQuarterEarningsImpact: latestObservation?.upcomingQuarterEarningsImpact ?? null,
+      peopleCount: ownership.peopleCount,
+      hasExecOwner: ownership.hasExecOwner,
+      hasGroupOwner: ownership.hasGroupOwner,
+      hasInitiativeOwner: ownership.hasInitiativeOwner,
+      updatedAt: toIso(row.updatedAt),
     };
   });
+}
+
+export async function getLatestObservationSummariesForInitiatives(
+  initiativeIds: string[],
+): Promise<Map<string, LatestObservationSummaryRecord>> {
+  return (await getInitiativeSummaryContext({ initiativeIds })).latestObservationByInitiativeId;
 }
 
 export async function getInitiativeById(initiativeId: string): Promise<InitiativeDetail | null> {

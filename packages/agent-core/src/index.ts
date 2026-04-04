@@ -132,6 +132,18 @@ export interface KpiEvidenceInput {
   findings: KpiEvidenceFindingInput[];
 }
 
+export interface UpcomingQuarterEarningsImpact {
+  quarterLabel: string;
+  periodEnd: string;
+  applicable: boolean;
+  estimateType: "range" | "directional" | "insufficient_evidence";
+  lowEstimate: number | null;
+  highEstimate: number | null;
+  direction: "positive" | "negative" | "neutral" | "mixed" | "unknown";
+  confidence: number;
+  rationale: string;
+}
+
 export interface EvaluationInput {
   initiative: InitiativeDetail;
   globalKnowledge: string;
@@ -149,8 +161,12 @@ export interface EvaluationResult {
   topBlockers: string[];
   suggestedNextActions: string[];
   evidenceSummary: string;
+  upcomingQuarterEarningsImpact: UpcomingQuarterEarningsImpact;
   evidenceReferences: EvidenceReference[];
 }
+
+const UPCOMING_QUARTER_LABEL = "Q2 FY26";
+const UPCOMING_QUARTER_PERIOD_END = "2026-06-30";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -189,6 +205,147 @@ function countMatches(values: string[], pattern: RegExp): number {
     total += matches?.length ?? 0;
   }
   return total;
+}
+
+function parseCurrencyLike(value: string | null | undefined): number | null {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = value.replace(/[$,%\s,]/g, "");
+  const match = normalized.match(/-?\d+(\.\d+)?/);
+  if (!match) {
+    return null;
+  }
+
+  const parsed = Number(match[0]);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function roundUsd(value: number): number {
+  return Math.round(value);
+}
+
+function deriveUpcomingQuarterEarningsImpact(input: {
+  initiative: InitiativeDetail;
+  trackerEvidence: TrackerEvidenceInput;
+  kpiEvidence: KpiEvidenceInput;
+  blockers: string[];
+  score: number;
+}): UpcomingQuarterEarningsImpact {
+  const initiativeText = [
+    input.initiative.code,
+    input.initiative.title,
+    input.initiative.objective,
+    input.initiative.group,
+    input.initiative.impactType,
+    input.initiative.progress,
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  const earningsCuePattern =
+    /(earnings|profit|margin|ebitda|ebit|gross profit|revenue|sales|used sales|volume|turns|rental|savings|cost|booked|pricing|yield)/i;
+  const positiveCuePattern =
+    /(increase|grow|improve|lift|gain|savings|reduce cost|margin|profit|revenue|booked|used sales)/i;
+  const negativeCuePattern = /(decline|drop|erosion|loss|risk|blocker|delay|cost increase|headwind)/i;
+
+  const monetaryCandidates = [
+    ...input.trackerEvidence.summaryFields.map((field) => parseCurrencyLike(field.value)),
+    ...input.trackerEvidence.items.flatMap((item) => [
+      parseCurrencyLike(item.currentValueEstimate),
+      parseCurrencyLike(item.impactValue),
+    ]),
+    ...input.kpiEvidence.findings.flatMap((finding) => [
+      finding.unit === "usd" ? parseCurrencyLike(finding.metricValue) : null,
+      parseCurrencyLike(finding.metricValue && finding.metricValue.includes("$") ? finding.metricValue : null),
+    ]),
+  ]
+    .filter((value): value is number => value !== null)
+    .map((value) => Math.abs(value))
+    .filter((value) => value > 0);
+
+  const sortedMonetaryCandidates = [...monetaryCandidates].sort((left, right) => right - left);
+  const topCandidate = sortedMonetaryCandidates[0] ?? null;
+  const floorCandidate =
+    sortedMonetaryCandidates.length > 1
+      ? sortedMonetaryCandidates[sortedMonetaryCandidates.length - 1]
+      : topCandidate !== null
+        ? topCandidate * 0.5
+        : null;
+
+  const kpiBacked =
+    input.kpiEvidence.findings.some((finding) => finding.findingClass === "warehouse_validated") ||
+    input.kpiEvidence.findings.some((finding) => finding.unit === "usd");
+  const hasApplicableSignals =
+    earningsCuePattern.test(initiativeText) ||
+    topCandidate !== null ||
+    input.kpiEvidence.findings.some((finding) =>
+      earningsCuePattern.test(`${finding.label} ${finding.metricKey} ${finding.narrative}`),
+    );
+
+  const direction =
+    positiveCuePattern.test(initiativeText) && negativeCuePattern.test(input.blockers.join(" "))
+      ? "mixed"
+      : positiveCuePattern.test(initiativeText)
+        ? "positive"
+        : negativeCuePattern.test(`${initiativeText} ${input.blockers.join(" ")}`)
+          ? "negative"
+          : topCandidate !== null
+            ? "positive"
+            : hasApplicableSignals
+              ? "mixed"
+              : "unknown";
+
+  if (!hasApplicableSignals) {
+    return {
+      quarterLabel: UPCOMING_QUARTER_LABEL,
+      periodEnd: UPCOMING_QUARTER_PERIOD_END,
+      applicable: false,
+      estimateType: "insufficient_evidence",
+      lowEstimate: null,
+      highEstimate: null,
+      direction: "unknown",
+      confidence: 0.2,
+      rationale:
+        "Current evidence does not credibly tie this initiative to a measurable Q2 FY26 earnings impact yet.",
+    };
+  }
+
+  if (topCandidate !== null) {
+    const lowEstimate = Math.min(topCandidate, floorCandidate ?? topCandidate * 0.5);
+    const highEstimate = Math.max(topCandidate, floorCandidate ?? topCandidate);
+    const confidence = clamp(
+      (kpiBacked ? 0.68 : 0.52) + Math.min(input.kpiEvidence.findings.length, 6) * 0.03 + (input.score >= 0.52 ? 0.05 : 0),
+      0.18,
+      0.9,
+    );
+    return {
+      quarterLabel: UPCOMING_QUARTER_LABEL,
+      periodEnd: UPCOMING_QUARTER_PERIOD_END,
+      applicable: true,
+      estimateType: "range",
+      lowEstimate: roundUsd(lowEstimate),
+      highEstimate: roundUsd(highEstimate),
+      direction: direction === "unknown" ? "positive" : direction,
+      confidence: Number(confidence.toFixed(2)),
+      rationale:
+        "Tracker and KPI evidence include dollar-linked signals that support a directional Q2 FY26 earnings estimate, but the range should still be treated as an operating estimate rather than booked financial guidance.",
+    };
+  }
+
+  return {
+    quarterLabel: UPCOMING_QUARTER_LABEL,
+    periodEnd: UPCOMING_QUARTER_PERIOD_END,
+    applicable: true,
+    estimateType: "directional",
+    lowEstimate: null,
+    highEstimate: null,
+    direction,
+    confidence: Number(clamp(0.35 + Math.min(input.kpiEvidence.findings.length, 5) * 0.05, 0.2, 0.7).toFixed(2)),
+    rationale:
+      "The initiative appears likely to influence Q2 FY26 earnings directionally, but the current KPI and tracker evidence is not strong enough to support a numeric range with confidence.",
+  };
 }
 
 function summarizeHealth(summary: InitiativeSummary | InitiativeDetail): string[] {
@@ -684,7 +841,7 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
     });
   }
 
-  const progressAssessment =
+  const baseProgressAssessment =
     statusRecommendation === "on_track"
       ? "The initiative shows credible recent operating activity and progress signals across Slack, Drive, and the tracker, so it appears to be actively moving toward its goal."
       : statusRecommendation === "needs_attention"
@@ -716,6 +873,23 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
       : "Add the SI working folder so the team has a canonical evidence location.",
   ];
 
+  const upcomingQuarterEarningsImpact = deriveUpcomingQuarterEarningsImpact({
+    initiative,
+    trackerEvidence,
+    kpiEvidence,
+    blockers,
+    score,
+  });
+
+  const quarterImpactSentence =
+    !upcomingQuarterEarningsImpact.applicable
+      ? `For ${upcomingQuarterEarningsImpact.quarterLabel}, there is not enough evidence yet to support a credible earnings-impact estimate.`
+      : upcomingQuarterEarningsImpact.estimateType === "range"
+        ? `For ${upcomingQuarterEarningsImpact.quarterLabel}, the initiative is currently estimated to have a ${upcomingQuarterEarningsImpact.direction} earnings impact in the range of $${upcomingQuarterEarningsImpact.lowEstimate?.toLocaleString() ?? "0"} to $${upcomingQuarterEarningsImpact.highEstimate?.toLocaleString() ?? "0"}, at ${Math.round(upcomingQuarterEarningsImpact.confidence * 100)}% confidence.`
+        : `For ${upcomingQuarterEarningsImpact.quarterLabel}, the initiative currently points to a ${upcomingQuarterEarningsImpact.direction} directional earnings impact at ${Math.round(upcomingQuarterEarningsImpact.confidence * 100)}% confidence.`;
+
+  const progressAssessment = `${baseProgressAssessment} ${quarterImpactSentence}`.trim();
+
   return {
     statusRecommendation,
     progressAssessment,
@@ -743,8 +917,16 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
           ? `${runConfig.cadenceMode}${runConfig.cadenceDetail ? ` (${runConfig.cadenceDetail})` : ""}`
           : "default"
       }`,
+      `Upcoming quarter impact: ${
+        upcomingQuarterEarningsImpact.applicable
+          ? upcomingQuarterEarningsImpact.estimateType === "range"
+            ? `${upcomingQuarterEarningsImpact.direction} $${upcomingQuarterEarningsImpact.lowEstimate?.toLocaleString() ?? "0"} to $${upcomingQuarterEarningsImpact.highEstimate?.toLocaleString() ?? "0"} for ${upcomingQuarterEarningsImpact.quarterLabel}`
+            : `${upcomingQuarterEarningsImpact.direction} directional view for ${upcomingQuarterEarningsImpact.quarterLabel}`
+          : `not enough evidence for ${upcomingQuarterEarningsImpact.quarterLabel}`
+      }`,
       ...evidenceReferences.map((ref) => `${ref.title}: ${ref.excerpt}`),
     ].join("\n"),
+    upcomingQuarterEarningsImpact,
     evidenceReferences,
   };
 }

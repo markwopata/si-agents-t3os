@@ -579,6 +579,9 @@ export const agentObservations = pgTable("agent_observations", {
   topBlockers: jsonb("top_blockers").$type<string[]>().notNull(),
   suggestedNextActions: jsonb("suggested_next_actions").$type<string[]>().notNull(),
   evidenceSummary: text("evidence_summary").notNull(),
+  upcomingQuarterEarningsImpact: jsonb("upcoming_quarter_earnings_impact")
+    .$type<Record<string, unknown> | null>()
+    .default(null),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

@@ -8,6 +8,7 @@ const kpiCandidateSchema = z.object({
   metricKey: z.string().min(1),
   label: z.string().min(1),
   whyItMatters: z.string().min(1),
+  upcomingQuarterEarningsConnection: z.string().min(1),
   likelySourceObjects: z.array(z.string().min(1)).max(5),
   warehouseSearchTerms: z.array(z.string().min(1)).max(8),
   supportingSnippetRefs: z.array(z.string().min(1)).max(6),
@@ -71,7 +72,11 @@ function buildPromptContext(input: {
   return JSON.stringify(
     {
       objective:
-        "Propose the strongest KPI candidates for this strategic initiative using initiative context and analytics-code snippets.",
+        "Propose the strongest KPI candidates for this strategic initiative using initiative context and analytics-code snippets, with special focus on the upcoming quarter ending 2026-06-30 and likely earnings impact.",
+      upcomingQuarterTarget: {
+        quarterLabel: "Q2 FY26",
+        periodEnd: "2026-06-30",
+      },
       initiative: {
         code: input.initiative.code,
         title: input.initiative.title,
@@ -102,11 +107,13 @@ Your job is not to repeat every metric-shaped line. Your job is to produce the 3
 
 Important rules:
 - Prefer business-facing KPIs over technical noise.
+- Prefer KPIs that can credibly support an estimate of near-term earnings impact for Q2 FY26.
 - Use analytics-code snippets to infer existing models, measures, or semantic objects when possible.
 - Only include likelySourceObjects that are plausibly grounded in the snippets.
 - warehouseSearchTerms should be concise SQL validation terms, not sentences.
 - supportingSnippetRefs must reference only the provided snippet refs.
 - Avoid generic filler KPIs when the snippets suggest a stronger initiative-specific KPI.
+- upcomingQuarterEarningsConnection should explain how the KPI would help estimate or judge the initiative's Q2 FY26 earnings impact.
 
 Return only valid JSON matching the schema.`;
 
@@ -166,6 +173,7 @@ export async function proposeKpisWithOpenAi(input: {
                     metricKey: { type: "string" },
                     label: { type: "string" },
                     whyItMatters: { type: "string" },
+                    upcomingQuarterEarningsConnection: { type: "string" },
                     likelySourceObjects: {
                       type: "array",
                       maxItems: 5,
@@ -187,6 +195,7 @@ export async function proposeKpisWithOpenAi(input: {
                     "metricKey",
                     "label",
                     "whyItMatters",
+                    "upcomingQuarterEarningsConnection",
                     "likelySourceObjects",
                     "warehouseSearchTerms",
                     "supportingSnippetRefs",

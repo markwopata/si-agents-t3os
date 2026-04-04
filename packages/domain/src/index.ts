@@ -89,6 +89,32 @@ export const observationReviewVerdictEnum = z.enum([
   "incorrect",
 ]);
 
+export const quarterImpactEstimateTypeEnum = z.enum([
+  "range",
+  "directional",
+  "insufficient_evidence",
+]);
+
+export const quarterImpactDirectionEnum = z.enum([
+  "positive",
+  "negative",
+  "neutral",
+  "mixed",
+  "unknown",
+]);
+
+export const upcomingQuarterEarningsImpactSchema = z.object({
+  quarterLabel: z.string(),
+  periodEnd: z.string(),
+  applicable: z.boolean(),
+  estimateType: quarterImpactEstimateTypeEnum,
+  lowEstimate: z.number().nullable(),
+  highEstimate: z.number().nullable(),
+  direction: quarterImpactDirectionEnum,
+  confidence: z.number().min(0).max(1),
+  rationale: z.string(),
+});
+
 export const initiativeBaseSchema = z.object({
   code: z.string().min(1),
   title: z.string().min(1),
@@ -221,6 +247,7 @@ export const initiativeSummarySchema = z.object({
   latestOpinionStatus: statusRecommendationEnum.nullable(),
   latestOpinionConfidence: z.number().nullable(),
   latestObservationAt: z.string().nullable(),
+  upcomingQuarterEarningsImpact: upcomingQuarterEarningsImpactSchema.nullable(),
   peopleCount: z.number().int(),
   hasExecOwner: z.boolean(),
   hasGroupOwner: z.boolean(),
@@ -287,6 +314,7 @@ export const initiativeDetailSchema = initiativeSummarySchema.extend({
       topBlockers: z.array(z.string()),
       suggestedNextActions: z.array(z.string()),
       evidenceSummary: z.string(),
+      upcomingQuarterEarningsImpact: upcomingQuarterEarningsImpactSchema.nullable(),
       evidenceReferences: z.array(
         z.object({
           id: z.string(),
@@ -703,6 +731,7 @@ export const executivePortfolioQueryResponseSchema = z.object({
       priorityRank: z.number().int().nullable(),
       ownershipStatus: z.enum(["complete", "partial", "missing"]),
       lastReviewedAt: z.string().nullable(),
+      upcomingQuarterEarningsImpact: upcomingQuarterEarningsImpactSchema.nullable(),
       read: z.string(),
     }),
   ),
@@ -1026,6 +1055,7 @@ export const agentObservationSchema = z.object({
   topBlockers: z.array(z.string()),
   suggestedNextActions: z.array(z.string()),
   evidenceSummary: z.string(),
+  upcomingQuarterEarningsImpact: upcomingQuarterEarningsImpactSchema.nullable(),
   evidenceReferences: z.array(
     z.object({
       id: z.string(),
@@ -1047,6 +1077,7 @@ export type TokenScope = z.infer<typeof tokenScopeEnum>;
 export type StatusRecommendation = z.infer<typeof statusRecommendationEnum>;
 export type PrioritySource = z.infer<typeof prioritySourceEnum>;
 export type ObservationReviewVerdict = z.infer<typeof observationReviewVerdictEnum>;
+export type UpcomingQuarterEarningsImpact = z.infer<typeof upcomingQuarterEarningsImpactSchema>;
 export type InitiativeCreateInput = z.infer<typeof initiativeCreateSchema>;
 export type InitiativeUpdateInput = z.infer<typeof initiativeUpdateSchema>;
 export type InitiativePersonInput = z.infer<typeof initiativePersonSchema>;

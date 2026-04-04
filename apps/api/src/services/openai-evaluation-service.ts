@@ -17,6 +17,17 @@ const llmEvaluationSchema = z.object({
   topBlockers: z.array(z.string().min(1)).max(5),
   suggestedNextActions: z.array(z.string().min(1)).max(5),
   evidenceSummary: z.string().min(1),
+  upcomingQuarterEarningsImpact: z.object({
+    quarterLabel: z.string().min(1),
+    periodEnd: z.string().min(1),
+    applicable: z.boolean(),
+    estimateType: z.enum(["range", "directional", "insufficient_evidence"]),
+    lowEstimate: z.number().nullable(),
+    highEstimate: z.number().nullable(),
+    direction: z.enum(["positive", "negative", "neutral", "mixed", "unknown"]),
+    confidence: z.number().min(0.05).max(0.99),
+    rationale: z.string().min(1),
+  }),
 });
 
 let openAiClient: OpenAI | null = null;
@@ -159,12 +170,20 @@ function buildPromptContext(input: {
   return JSON.stringify(
     {
       objective: "Assess whether the strategic initiative is making real progress for senior leadership.",
+      upcomingQuarterTarget: {
+        quarterLabel: "Q2 FY26",
+        periodEnd: "2026-06-30",
+        objective:
+          "Estimate the initiative's likely earnings impact for the upcoming quarter ending 2026-06-30. Use KPI evidence first. If hard data is incomplete, produce a directional or range estimate with explicit confidence.",
+      },
       hardRules: [
         "Do not trust workbook color/status fields by themselves.",
         "Real progress means recent operator work, decision-making, execution, and measurable movement toward the initiative goal.",
         "Administrative churn without outcome movement is not enough for on_track.",
         "Use the KPI evidence when it exists; weak or stale KPI evidence should lower confidence.",
         "Reserve on_track for initiatives with credible recent operating evidence and real progress.",
+        "For upcoming-quarter impact, numeric ranges require credible KPI or tracker support.",
+        "If the initiative is not credibly tied to Q2 FY26 earnings, mark it as not applicable or insufficient evidence.",
       ],
       initiative: {
         id: initiative.id,
@@ -217,6 +236,10 @@ Use the evidence conservatively:
 - If evidence is mixed, use needs_attention.
 - If evidence is stale or momentum appears lost, use stalled or off_track.
 - Only use on_track when the initiative shows credible recent work and forward motion.
+- Also estimate the initiative's likely Q2 FY26 earnings impact for the quarter ending 2026-06-30.
+- Use KPI and tracker evidence first for that estimate.
+- When hard data is incomplete, return a directional or confidence-banded estimate instead of fake precision.
+- Let progressAssessment briefly mention the upcoming-quarter earnings view when it is applicable.
 
 Return only valid JSON matching the schema.`;
 
@@ -285,6 +308,38 @@ export async function evaluateInitiativeWithOpenAi(input: {
                 maxItems: 5,
               },
               evidenceSummary: { type: "string" },
+              upcomingQuarterEarningsImpact: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                  quarterLabel: { type: "string" },
+                  periodEnd: { type: "string" },
+                  applicable: { type: "boolean" },
+                  estimateType: {
+                    type: "string",
+                    enum: ["range", "directional", "insufficient_evidence"],
+                  },
+                  lowEstimate: { type: ["number", "null"] },
+                  highEstimate: { type: ["number", "null"] },
+                  direction: {
+                    type: "string",
+                    enum: ["positive", "negative", "neutral", "mixed", "unknown"],
+                  },
+                  confidence: { type: "number" },
+                  rationale: { type: "string" },
+                },
+                required: [
+                  "quarterLabel",
+                  "periodEnd",
+                  "applicable",
+                  "estimateType",
+                  "lowEstimate",
+                  "highEstimate",
+                  "direction",
+                  "confidence",
+                  "rationale",
+                ],
+              },
             },
             required: [
               "statusRecommendation",
@@ -293,6 +348,7 @@ export async function evaluateInitiativeWithOpenAi(input: {
               "topBlockers",
               "suggestedNextActions",
               "evidenceSummary",
+              "upcomingQuarterEarningsImpact",
             ],
           },
         },
@@ -319,6 +375,18 @@ export async function evaluateInitiativeWithOpenAi(input: {
       topBlockers: parsed.topBlockers,
       suggestedNextActions: parsed.suggestedNextActions,
       evidenceSummary: parsed.evidenceSummary,
+      upcomingQuarterEarningsImpact: {
+        ...parsed.upcomingQuarterEarningsImpact,
+        confidence: Number(parsed.upcomingQuarterEarningsImpact.confidence.toFixed(2)),
+        lowEstimate:
+          parsed.upcomingQuarterEarningsImpact.lowEstimate === null
+            ? null
+            : Number(parsed.upcomingQuarterEarningsImpact.lowEstimate.toFixed(2)),
+        highEstimate:
+          parsed.upcomingQuarterEarningsImpact.highEstimate === null
+            ? null
+            : Number(parsed.upcomingQuarterEarningsImpact.highEstimate.toFixed(2)),
+      },
     },
   };
 }
