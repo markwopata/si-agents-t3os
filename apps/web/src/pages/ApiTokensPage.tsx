@@ -86,12 +86,12 @@ function getOwnerLabel(token: ApiToken): string {
 }
 
 export function ApiTokensPage() {
+  const [status, setStatus] = useState<{ tone: "info" | "success" | "warning"; message: string } | null>(null);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [tokens, setTokens] = useState<ApiToken[]>([]);
   const [workspaceMembers, setWorkspaceMembers] = useState<WorkspaceMemberSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [status, setStatus] = useState("");
   const [label, setLabel] = useState("");
   const [selectedScopes, setSelectedScopes] = useState<TokenScope[]>(DEFAULT_TOKEN_SCOPES);
   const [revealedToken, setRevealedToken] = useState("");
@@ -147,6 +147,19 @@ export function ApiTokensPage() {
     () => sortedWorkspaceMembers.find((member) => member.userId === selectedOwnerUserId) ?? null,
     [selectedOwnerUserId, sortedWorkspaceMembers],
   );
+
+  const createValidationMessage = useMemo(() => {
+    if (!label.trim()) {
+      return "Add a label so the token is easy to recognize later.";
+    }
+    if (creationMode === "delegate" && !selectedOwner) {
+      return "Select the workspace user who should own this token.";
+    }
+    if (selectedScopes.length === 0) {
+      return "Select at least one scope for the token.";
+    }
+    return "";
+  }, [creationMode, label, selectedOwner, selectedScopes]);
 
   const visibleTokens = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -205,21 +218,21 @@ export function ApiTokensPage() {
 
   async function handleCreateToken() {
     if (!label.trim()) {
-      setStatus("Add a label so the token is easy to recognize later.");
+      setStatus({ tone: "warning", message: "Add a label so the token is easy to recognize later." });
       return;
     }
 
     if (creationMode === "delegate" && !selectedOwner) {
-      setStatus("Select the workspace user who should own this token.");
+      setStatus({ tone: "warning", message: "Select the workspace user who should own this token." });
       return;
     }
 
     if (selectedScopes.length === 0) {
-      setStatus("Select at least one scope for the token.");
+      setStatus({ tone: "warning", message: "Select at least one scope for the token." });
       return;
     }
 
-    setStatus("Creating token...");
+    setStatus({ tone: "info", message: "Creating token..." });
     setRevealedToken("");
 
     try {
@@ -240,25 +253,44 @@ export function ApiTokensPage() {
       setSelectedScopes(DEFAULT_TOKEN_SCOPES);
       setSelectedOwnerUserId("");
       setCreationMode("self");
-      setStatus("Token created. Copy it now because it will not be shown again.");
+      setStatus({
+        tone: "success",
+        message: "Token created. Copy it now because it will not be shown again.",
+      });
       await load();
     } catch (caughtError) {
-      setStatus(
-        caughtError instanceof Error ? caughtError.message : "Token creation failed.",
-      );
+      setStatus({
+        tone: "warning",
+        message: caughtError instanceof Error ? caughtError.message : "Token creation failed.",
+      });
     }
   }
 
-  async function handleDeleteToken(tokenId: string) {
-    setBusyTokenId(tokenId);
-    setStatus("");
+  async function handleDeleteToken(token: ApiToken) {
+    const confirmation = window.confirm(
+      `Revoke "${token.label}" for ${getOwnerLabel(token)}? This cannot be undone.`,
+    );
+
+    if (!confirmation) {
+      return;
+    }
+
+    setBusyTokenId(token.id);
+    setStatus({ tone: "info", message: `Revoking ${token.label}...` });
 
     try {
-      await deleteApiToken(tokenId);
-      setStatus("Token revoked.");
-      await load();
+      await deleteApiToken(token.id);
+      setTokens((current) => current.filter((item) => item.id !== token.id));
+      setStatus({
+        tone: "success",
+        message: `Revoked ${token.label}.`,
+      });
+      void load();
     } catch (caughtError) {
-      setStatus(caughtError instanceof Error ? caughtError.message : "Token revoke failed.");
+      setStatus({
+        tone: "warning",
+        message: caughtError instanceof Error ? caughtError.message : "Token revoke failed.",
+      });
     } finally {
       setBusyTokenId("");
     }
@@ -271,9 +303,12 @@ export function ApiTokensPage() {
 
     try {
       await navigator.clipboard.writeText(revealedToken);
-      setStatus("Token copied to clipboard.");
+      setStatus({ tone: "success", message: "Token copied to clipboard." });
     } catch {
-      setStatus("Copy failed. Select the token manually and copy it now.");
+      setStatus({
+        tone: "warning",
+        message: "Copy failed. Select the token manually and copy it now.",
+      });
     }
   }
 
@@ -298,9 +333,17 @@ export function ApiTokensPage() {
       ) : null}
 
       {status ? (
-        <section className="notice-card notice-info">
+        <section
+          className={`notice-card ${
+            status.tone === "success"
+              ? "notice-success"
+              : status.tone === "warning"
+                ? "notice-warning"
+                : "notice-info"
+          }`}
+        >
           <strong>API access</strong>
-          <p className="muted">{status}</p>
+          <p className="muted">{status.message}</p>
         </section>
       ) : null}
 
@@ -391,6 +434,13 @@ export function ApiTokensPage() {
             </div>
           ) : null}
 
+          {createValidationMessage ? (
+            <div className="notice-card notice-warning">
+              <strong>Before you create the token</strong>
+              <p className="muted">{createValidationMessage}</p>
+            </div>
+          ) : null}
+
           <div className="token-scope-grid">
             {TOKEN_SCOPE_OPTIONS.map((scope) => {
               const checked = selectedScopes.includes(scope.value);
@@ -417,7 +467,12 @@ export function ApiTokensPage() {
           </div>
 
           <div className="button-row">
-            <button className="primary-button" onClick={() => void handleCreateToken()}>
+            <button
+              className="primary-button"
+              onClick={() => void handleCreateToken()}
+              disabled={Boolean(createValidationMessage)}
+              title={createValidationMessage || "Create token"}
+            >
               Create Token
             </button>
           </div>
@@ -500,9 +555,9 @@ export function ApiTokensPage() {
                             <button
                               className="ghost-button"
                               disabled={busyTokenId === token.id}
-                              onClick={() => void handleDeleteToken(token.id)}
+                              onClick={() => void handleDeleteToken(token)}
                             >
-                              Revoke
+                              {busyTokenId === token.id ? "Revoking..." : "Revoke"}
                             </button>
                           </td>
                         </tr>
@@ -536,9 +591,9 @@ export function ApiTokensPage() {
                                 <button
                                   className="ghost-button"
                                   disabled={busyTokenId === token.id}
-                                  onClick={() => void handleDeleteToken(token.id)}
+                                  onClick={() => void handleDeleteToken(token)}
                                 >
-                                  Revoke
+                                  {busyTokenId === token.id ? "Revoking..." : "Revoke"}
                                 </button>
                               </td>
                             </tr>
