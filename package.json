@@ -13,6 +13,7 @@
     "dev:api": "npm run dev -w @si/api",
     "dev:web": "npm run dev -w @si/web",
     "dev:agent": "npm run dev -w @si/agent-runner",
+    "si:api": "node scripts/si-admin-api.mjs",
     "build": "npm run build --workspaces --if-present",
     "build:analytics-corpus": "npm run build:analytics-corpus -w @si/api",
     "test": "npm run test --workspaces --if-present",
