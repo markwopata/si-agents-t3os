@@ -18,6 +18,15 @@ type PortfolioActor = {
   requestedById: string;
 };
 
+function isRecoverableGoogleSyncError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message.toLowerCase() : String(error).toLowerCase();
+  return (
+    message.includes("google api failed with http 403") ||
+    message.includes("google is not connected") ||
+    message.includes("google token refresh failed with http 403")
+  );
+}
+
 const activePortfolioRuns = new Map<string, Promise<void>>();
 
 function withTimeout<T>(promise: Promise<T>, label: string, timeoutMs: number): Promise<T> {
@@ -230,25 +239,71 @@ async function processPortfolioRefresh(
         `Slack sync for ${initiative.code}`,
         env.PORTFOLIO_STEP_TIMEOUT_MS,
       );
-      const googleSync = await withTimeout(
-        syncGoogleHistoryForInitiative(initiative),
-        `Google sync for ${initiative.code}`,
-        env.PORTFOLIO_STEP_TIMEOUT_MS,
-      );
-      const extraction = await withTimeout(
-        extractDocumentsForInitiative({
-          initiativeId: initiative.id,
-          slackRunIds: slackSync.runIds,
-          googleRunId: googleSync.runId,
-        }),
-        `Document extraction for ${initiative.code}`,
-        env.PORTFOLIO_STEP_TIMEOUT_MS,
-      );
-      const tracker = await withTimeout(
-        parseTrackerForInitiative(initiative.id, googleSync.runId),
-        `Tracker parsing for ${initiative.code}`,
-        env.PORTFOLIO_STEP_TIMEOUT_MS,
-      );
+      let googleSync: Record<string, unknown> = {
+        runId: null,
+        trackerCandidate: null,
+        snapshotCount: 0,
+        revisionCount: 0,
+        issueCount: 0,
+        performedSync: false,
+      };
+      let extraction: Record<string, unknown> = {
+        processedCount: 0,
+        completedCount: 0,
+        failedCount: 0,
+        unsupportedCount: 0,
+      };
+      let tracker: Awaited<ReturnType<typeof parseTrackerForInitiative>> = null;
+      let googleWarning: string | null = null;
+
+      try {
+        googleSync = await withTimeout(
+          syncGoogleHistoryForInitiative(initiative),
+          `Google sync for ${initiative.code}`,
+          env.PORTFOLIO_STEP_TIMEOUT_MS,
+        );
+        extraction = await withTimeout(
+          extractDocumentsForInitiative({
+            initiativeId: initiative.id,
+            slackRunIds: slackSync.runIds,
+            googleRunId: typeof googleSync.runId === "string" ? googleSync.runId : null,
+          }),
+          `Document extraction for ${initiative.code}`,
+          env.PORTFOLIO_STEP_TIMEOUT_MS,
+        );
+        tracker = await withTimeout(
+          parseTrackerForInitiative(
+            initiative.id,
+            typeof googleSync.runId === "string" ? googleSync.runId : undefined,
+          ),
+          `Tracker parsing for ${initiative.code}`,
+          env.PORTFOLIO_STEP_TIMEOUT_MS,
+        );
+      } catch (error) {
+        if (!isRecoverableGoogleSyncError(error)) {
+          throw error;
+        }
+
+        googleWarning = error instanceof Error ? error.message : String(error);
+        googleSync = {
+          runId: null,
+          trackerCandidate: null,
+          snapshotCount: 0,
+          revisionCount: 0,
+          issueCount: 1,
+          performedSync: false,
+          skipped: true,
+          reason: googleWarning,
+        };
+        extraction = {
+          processedCount: 0,
+          completedCount: 0,
+          failedCount: 0,
+          unsupportedCount: 0,
+          skipped: true,
+          reason: googleWarning,
+        };
+      }
       const kpiResearch = await withTimeout(
         runKpiResearchForInitiative(initiative),
         `KPI research for ${initiative.code}`,
@@ -277,6 +332,16 @@ async function processPortfolioRefresh(
         observationId: evaluation.observationId,
         kpiResearchRunId: kpiResearch.researchRunId,
         kpiFindingCount: kpiResearch.findings.length,
+        ...(googleWarning
+          ? {
+              warnings: [
+                {
+                  source: "google",
+                  message: googleWarning,
+                },
+              ],
+            }
+          : {}),
       });
       completedIds.add(initiative.id);
     } catch (error) {
