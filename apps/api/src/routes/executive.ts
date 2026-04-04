@@ -5,6 +5,11 @@ import {
 import type { FastifyPluginAsync } from "fastify";
 import { requireScope } from "../plugins/auth.js";
 import {
+  listAgentQueryLogs,
+  recordAgentQueryLog,
+  summarizeAgentQueryLogs,
+} from "../lib/query-log.js";
+import {
   ensureInitiativeReadAccess,
   requireExecutive,
 } from "../services/authorization-service.js";
@@ -34,10 +39,77 @@ function asNonNegativeInt(value: unknown, fallback: number, max: number): number
 }
 
 export const executiveRoutes: FastifyPluginAsync = async (app) => {
+  app.get("/executive/query-logs", async (request) => {
+    requireExecutive(request);
+    const query = (request.query ?? {}) as {
+      limit?: string;
+      logType?: "query" | "request";
+      method?: string;
+      status?: "succeeded" | "failed";
+      sinceHours?: string;
+      route?: string;
+      entityType?: string;
+      entityId?: string;
+    };
+
+    return listAgentQueryLogs({
+      limit: asPositiveInt(query.limit, 50, 200),
+      logType: query.logType,
+      method: query.method,
+      status: query.status,
+      sinceHours: asPositiveInt(query.sinceHours, 168, 24 * 365),
+      route: query.route,
+      entityType: query.entityType,
+      entityId: query.entityId,
+    });
+  });
+
+  app.get("/executive/query-log-summary", async (request) => {
+    requireExecutive(request);
+    const query = (request.query ?? {}) as {
+      sinceHours?: string;
+      limit?: string;
+    };
+
+    return summarizeAgentQueryLogs({
+      sinceHours: asPositiveInt(query.sinceHours, 168, 24 * 365),
+      limit: asPositiveInt(query.limit, 1000, 5000),
+    });
+  });
+
   app.post("/executive/portfolio/query", async (request) => {
     requireExecutive(request);
     const parsed = executivePortfolioQueryRequestSchema.parse(request.body ?? {});
-    return queryExecutivePortfolio(parsed);
+    try {
+      const result = await queryExecutivePortfolio(parsed);
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/executive/portfolio/query",
+        entityType: "portfolio",
+        entityId: request.actor.workspaceId ?? "portfolio",
+        prompt: parsed.question,
+        requestPayload: parsed,
+        responseSummary: {
+          interpretedIntent: result.interpretedIntent,
+          itemCount: result.items.length,
+          topInitiativeIds: result.items.map((item) => item.initiativeId).slice(0, 10),
+        },
+        status: "succeeded",
+      });
+      return result;
+    } catch (error) {
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/executive/portfolio/query",
+        entityType: "portfolio",
+        entityId: request.actor.workspaceId ?? "portfolio",
+        prompt: parsed.question,
+        requestPayload: parsed,
+        status: "failed",
+        errorText: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
   });
 
   app.get("/executive/initiatives/:initiativeId/context", async (request, reply) => {

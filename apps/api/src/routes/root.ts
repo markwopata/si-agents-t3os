@@ -8,6 +8,7 @@ export const rootRoutes: FastifyPluginAsync = async (app) => {
       apiTokens: "/api-tokens",
       initiatives: "/initiatives",
       executiveQueryLogs: "/executive/query-logs",
+      executiveQueryLogSummary: "/executive/query-log-summary",
       executivePortfolioQuery: "/executive/portfolio/query",
       executiveInitiativeContext: "/executive/initiatives/:initiativeId/context",
       executiveInitiativeRawPackage: "/executive/initiatives/:initiativeId/raw-package",

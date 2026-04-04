@@ -14,6 +14,7 @@ import type { FastifyPluginAsync } from "fastify";
 import { fetchGoogleEvidenceForInitiative } from "../integrations/google/reader.js";
 import { fetchSlackEvidenceForInitiative } from "../integrations/slack/reader.js";
 import { recordAuditEvent } from "../lib/audit.js";
+import { recordAgentQueryLog } from "../lib/query-log.js";
 import { requireScope } from "../plugins/auth.js";
 import { askInitiativeQuestion } from "../services/ask-service.js";
 import {
@@ -331,17 +332,60 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
       requireScope(request, "run:agents");
     }
 
-    return runInitiativeAgentQuery({
-      initiativeId,
-      requestedByType: request.actor.type,
-      requestedById: request.actor.id,
-      mode: parsed.mode,
-      refreshPolicy: parsed.refreshPolicy,
-      staleAfterMinutes: parsed.staleAfterMinutes,
-      refreshKpis:
-        parsed.refreshKpis ??
-        (parsed.mode === "assess" || parsed.mode === "full"),
-    });
+    try {
+      const result = await runInitiativeAgentQuery({
+        initiativeId,
+        requestedByType: request.actor.type,
+        requestedById: request.actor.id,
+        mode: parsed.mode,
+        refreshPolicy: parsed.refreshPolicy,
+        staleAfterMinutes: parsed.staleAfterMinutes,
+        refreshKpis:
+          parsed.refreshKpis ??
+          (parsed.mode === "assess" || parsed.mode === "full"),
+      });
+
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/initiatives/:initiativeId/agent-query",
+        entityType: "initiative",
+        entityId: initiativeId,
+        requestPayload: {
+          mode: parsed.mode,
+          refreshPolicy: parsed.refreshPolicy,
+          staleAfterMinutes: parsed.staleAfterMinutes,
+          refreshKpis:
+            parsed.refreshKpis ??
+            (parsed.mode === "assess" || parsed.mode === "full"),
+        },
+        responseSummary: {
+          hasRawData: Boolean(result.rawData),
+          hasInsights: Boolean(result.insights),
+          hasAssessment: Boolean(result.assessment),
+        },
+        status: "succeeded",
+      });
+
+      return result;
+    } catch (error) {
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/initiatives/:initiativeId/agent-query",
+        entityType: "initiative",
+        entityId: initiativeId,
+        requestPayload: {
+          mode: parsed.mode,
+          refreshPolicy: parsed.refreshPolicy,
+          staleAfterMinutes: parsed.staleAfterMinutes,
+          refreshKpis:
+            parsed.refreshKpis ??
+            (parsed.mode === "assess" || parsed.mode === "full"),
+        },
+        status: "failed",
+        errorText: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
   });
 
   app.post("/initiatives/:initiativeId/ask", async (request, reply) => {
@@ -353,11 +397,43 @@ export const initiativeRoutes: FastifyPluginAsync = async (app) => {
     }
 
     const parsed = initiativeAskRequestSchema.parse(request.body);
-    return askInitiativeQuestion({
-      initiativeId,
-      question: parsed.question,
-      includeRawEvidence: parsed.includeRawEvidence,
-    });
+    try {
+      const result = await askInitiativeQuestion({
+        initiativeId,
+        question: parsed.question,
+        includeRawEvidence: parsed.includeRawEvidence,
+      });
+
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/initiatives/:initiativeId/ask",
+        entityType: "initiative",
+        entityId: initiativeId,
+        prompt: parsed.question,
+        requestPayload: parsed,
+        responseSummary: {
+          confidence: result.confidence,
+          evidenceCount: result.evidence.length,
+          followUpCount: result.followUps.length,
+          answerPreview: result.answer.slice(0, 240),
+        },
+        status: "succeeded",
+      });
+
+      return result;
+    } catch (error) {
+      await recordAgentQueryLog({
+        actor: request.actor,
+        route: "/initiatives/:initiativeId/ask",
+        entityType: "initiative",
+        entityId: initiativeId,
+        prompt: parsed.question,
+        requestPayload: parsed,
+        status: "failed",
+        errorText: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
   });
 
   app.get("/initiatives/:initiativeId/run-config", async (request, reply) => {

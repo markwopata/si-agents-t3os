@@ -3,6 +3,11 @@ import multipart from "@fastify/multipart";
 import sensible from "@fastify/sensible";
 import Fastify from "fastify";
 import { env } from "./config/env.js";
+import {
+  extractPromptFromPayload,
+  recordAgentQueryLog,
+  summarizeRequestForLog,
+} from "./lib/query-log.js";
 import { authPlugin } from "./plugins/auth.js";
 import { apiTokenRoutes } from "./routes/api-tokens.js";
 import { agentRoutes } from "./routes/agent.js";
@@ -84,6 +89,63 @@ export async function buildApp() {
   });
   await app.register(multipart);
   await app.register(authPlugin);
+
+  app.addHook("onRequest", async (request) => {
+    (request as typeof request & { requestStartedAtMs?: number }).requestStartedAtMs = Date.now();
+  });
+
+  app.addHook("onResponse", async (request, reply) => {
+    try {
+      if (request.method === "OPTIONS") {
+        return;
+      }
+
+      const route = request.routeOptions?.url ?? request.raw.url?.split("?")[0] ?? request.url;
+      if (route === "/" || route === "/health") {
+        return;
+      }
+
+      const startedAt =
+        (request as typeof request & { requestStartedAtMs?: number }).requestStartedAtMs ?? Date.now();
+      const durationMs = Math.max(Date.now() - startedAt, 0);
+      const prompt = extractPromptFromPayload(request.body) ?? extractPromptFromPayload(request.query);
+      const responseSummary: Record<string, unknown> = {
+        route: request.routeOptions?.url ?? null,
+        statusCode: reply.statusCode,
+        durationMs,
+      };
+
+      await recordAgentQueryLog({
+        actor: request.actor,
+        logType: "request",
+        route,
+        requestPath: request.raw.url?.split("?")[0] ?? request.url,
+        method: request.method,
+        entityType:
+          typeof (request.params as Record<string, unknown> | undefined)?.initiativeId === "string"
+            ? "initiative"
+            : undefined,
+        entityId:
+          typeof (request.params as Record<string, unknown> | undefined)?.initiativeId === "string"
+            ? String((request.params as Record<string, unknown>).initiativeId)
+            : undefined,
+        prompt,
+        requestPayload: summarizeRequestForLog({
+          params: request.params,
+          query: request.query,
+          body: request.body,
+        }),
+        responseSummary,
+        status: reply.statusCode >= 400 ? "failed" : "succeeded",
+        statusCode: reply.statusCode,
+        durationMs,
+        userAgent: request.headers["user-agent"] ?? null,
+        errorText: reply.statusCode >= 500 ? reply.raw.statusMessage ?? null : null,
+      });
+    } catch (error) {
+      request.log.warn({ error }, "Unable to record API request telemetry");
+    }
+  });
 
   await app.register(rootRoutes);
   await app.register(sessionRoutes);

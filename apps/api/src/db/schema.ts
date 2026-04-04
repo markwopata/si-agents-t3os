@@ -169,12 +169,16 @@ export const auditEvents = pgTable("audit_events", {
 
 export const agentQueryLogs = pgTable("agent_query_logs", {
   id: text("id").primaryKey(),
+  logType: text("log_type").notNull().default("query"),
   actorType: text("actor_type").notNull(),
   actorId: text("actor_id").notNull(),
   actorEmail: text("actor_email"),
   actorRole: text("actor_role"),
   workspaceId: text("workspace_id"),
+  authSource: text("auth_source"),
+  method: text("method"),
   route: text("route").notNull(),
+  requestPath: text("request_path"),
   entityType: text("entity_type"),
   entityId: text("entity_id"),
   prompt: text("prompt"),
@@ -184,6 +188,9 @@ export const agentQueryLogs = pgTable("agent_query_logs", {
     .notNull()
     .default({}),
   status: text("status").notNull(),
+  statusCode: integer("status_code"),
+  durationMs: integer("duration_ms"),
+  userAgent: text("user_agent"),
   errorText: text("error_text"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
