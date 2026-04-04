@@ -308,7 +308,7 @@ function deriveUpcomingQuarterEarningsImpact(input: {
       direction: "unknown",
       confidence: 0.2,
       rationale:
-        "Current evidence does not credibly tie this initiative to a measurable Q2 FY26 earnings impact yet.",
+        "Current evidence does not provide enough measurable SI detail, KPI support, or current operating proof to support a credible Q2 FY26 earnings-impact estimate yet, and that should be treated as the initiative running behind on executive readiness.",
     };
   }
 
@@ -883,7 +883,7 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
 
   const quarterImpactSentence =
     !upcomingQuarterEarningsImpact.applicable
-      ? `For ${upcomingQuarterEarningsImpact.quarterLabel}, there is not enough evidence yet to support a credible earnings-impact estimate.`
+      ? `For ${upcomingQuarterEarningsImpact.quarterLabel}, there is not enough measurable detail yet to support a credible earnings-impact estimate, and that should be treated as the SI running behind on executive readiness.`
       : upcomingQuarterEarningsImpact.estimateType === "range"
         ? `For ${upcomingQuarterEarningsImpact.quarterLabel}, the initiative is currently estimated to have a ${upcomingQuarterEarningsImpact.direction} earnings impact in the range of $${upcomingQuarterEarningsImpact.lowEstimate?.toLocaleString() ?? "0"} to $${upcomingQuarterEarningsImpact.highEstimate?.toLocaleString() ?? "0"}, at ${Math.round(upcomingQuarterEarningsImpact.confidence * 100)}% confidence.`
         : `For ${upcomingQuarterEarningsImpact.quarterLabel}, the initiative currently points to a ${upcomingQuarterEarningsImpact.direction} directional earnings impact at ${Math.round(upcomingQuarterEarningsImpact.confidence * 100)}% confidence.`;
@@ -922,7 +922,7 @@ export function evaluateInitiative(input: EvaluationInput): EvaluationResult {
           ? upcomingQuarterEarningsImpact.estimateType === "range"
             ? `${upcomingQuarterEarningsImpact.direction} $${upcomingQuarterEarningsImpact.lowEstimate?.toLocaleString() ?? "0"} to $${upcomingQuarterEarningsImpact.highEstimate?.toLocaleString() ?? "0"} for ${upcomingQuarterEarningsImpact.quarterLabel}`
             : `${upcomingQuarterEarningsImpact.direction} directional view for ${upcomingQuarterEarningsImpact.quarterLabel}`
-          : `not enough evidence for ${upcomingQuarterEarningsImpact.quarterLabel}`
+          : `not enough measurable detail for ${upcomingQuarterEarningsImpact.quarterLabel}; treat the SI as behind until KPI-backed detail improves`
       }`,
       ...evidenceReferences.map((ref) => `${ref.title}: ${ref.excerpt}`),
     ].join("\n"),

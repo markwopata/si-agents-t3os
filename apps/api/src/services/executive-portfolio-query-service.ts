@@ -176,7 +176,7 @@ function buildQuarterImpactRead(
   }
 
   if (!impact.applicable) {
-    return `Q2 earnings impact: not enough evidence yet for ${impact.quarterLabel}.`;
+    return `Q2 earnings impact: not enough measurable detail yet for ${impact.quarterLabel}; treat the SI as behind until the team provides current KPI-backed detail.`;
   }
 
   const summary =

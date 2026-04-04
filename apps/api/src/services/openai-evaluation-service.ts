@@ -184,6 +184,8 @@ function buildPromptContext(input: {
         "Reserve on_track for initiatives with credible recent operating evidence and real progress.",
         "For upcoming-quarter impact, numeric ranges require credible KPI or tracker support.",
         "If the initiative is not credibly tied to Q2 FY26 earnings, mark it as not applicable or insufficient evidence.",
+        "If the SI and KPI analyzer do not provide enough measurable detail to support a credible Q2 estimate, say that explicitly.",
+        "When there is insufficient measurable detail, treat that as the SI running behind on executive readiness rather than quietly hand-waving the estimate.",
       ],
       initiative: {
         id: initiative.id,
@@ -239,6 +241,7 @@ Use the evidence conservatively:
 - Also estimate the initiative's likely Q2 FY26 earnings impact for the quarter ending 2026-06-30.
 - Use KPI and tracker evidence first for that estimate.
 - When hard data is incomplete, return a directional or confidence-banded estimate instead of fake precision.
+- If the SI and KPI analyzer do not provide enough measurable detail for a credible Q2 estimate, say that directly and frame the initiative as behind on executive readiness because the detail is not there yet.
 - Let progressAssessment briefly mention the upcoming-quarter earnings view when it is applicable.
 
 Return only valid JSON matching the schema.`;
