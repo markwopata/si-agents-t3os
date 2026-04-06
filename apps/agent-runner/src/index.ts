@@ -16,6 +16,26 @@ const dailyMinute = Number(process.env.AGENT_RUN_DAILY_MINUTE || "0");
 const directPortfolioWorker = (process.env.AGENT_DIRECT_PORTFOLIO_WORKER || "false") === "true";
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
+function findRepoRoot(startDir: string): string {
+  let cursor = startDir;
+
+  for (;;) {
+    const packageJsonPath = path.join(cursor, "package.json");
+    const appsApiPath = path.join(cursor, "apps/api");
+    if (existsSync(packageJsonPath) && existsSync(appsApiPath)) {
+      return cursor;
+    }
+
+    const parent = path.dirname(cursor);
+    if (parent === cursor) {
+      break;
+    }
+    cursor = parent;
+  }
+
+  return process.cwd();
+}
+
 type RunTarget = "portfolio_refresh" | "run_all_evaluations" | "sync_all_evidence";
 
 function authHeaders(): Record<string, string> {
@@ -91,11 +111,12 @@ async function importPortfolioWorkerModule(): Promise<{
     | null
   >;
 }> {
+  const repoRoot = findRepoRoot(currentDir);
   const candidates = [
-    path.resolve(process.cwd(), "apps/api/dist/apps/api/src/services/portfolio-service.js"),
-    path.resolve(process.cwd(), "apps/api/dist/services/portfolio-service.js"),
-    path.resolve(process.cwd(), "apps/api/src/services/portfolio-service.ts"),
-    path.resolve(process.cwd(), "apps/api/src/services/portfolio-service.js"),
+    path.resolve(repoRoot, "apps/api/dist/apps/api/src/services/portfolio-service.js"),
+    path.resolve(repoRoot, "apps/api/dist/services/portfolio-service.js"),
+    path.resolve(repoRoot, "apps/api/src/services/portfolio-service.ts"),
+    path.resolve(repoRoot, "apps/api/src/services/portfolio-service.js"),
     path.resolve(currentDir, "../../api/dist/apps/api/src/services/portfolio-service.js"),
     path.resolve(currentDir, "../../api/dist/services/portfolio-service.js"),
     path.resolve(currentDir, "../../api/src/services/portfolio-service.ts"),
