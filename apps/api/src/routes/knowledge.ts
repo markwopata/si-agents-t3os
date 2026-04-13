@@ -11,8 +11,14 @@ import {
   getInitiativeById,
   upsertKnowledgeDocument,
 } from "../services/initiative-service.js";
+import { buildAnalyticsDomainCatalog } from "../services/analytics-domain-service.js";
 
 export const knowledgeRoutes: FastifyPluginAsync = async (app) => {
+  app.get("/knowledge/analytics/domains", async (request) => {
+    requireScope(request, "read:knowledge");
+    return buildAnalyticsDomainCatalog();
+  });
+
   app.get("/knowledge/global", async (_request, reply) => {
     const doc = await getGlobalKnowledgeDocument();
     if (!doc) {

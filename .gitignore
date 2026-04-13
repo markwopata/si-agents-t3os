@@ -14,3 +14,10 @@ tools_snowflake.py
 apps/api/.data/
 apps/web/.vite/
 *.log
+*.swp
+.playwright-cli/
+output/
+apps/web/src/*.js
+apps/web/src/**/*.js
+apps/web/vite.config.js
+packages/domain/src/*.js

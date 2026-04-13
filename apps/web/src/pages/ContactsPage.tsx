@@ -146,53 +146,6 @@ export function ContactsPage() {
 
   return (
     <div className="page-stack">
-      <section className="hero-card panel-tonal contacts-hero">
-        <div className="contacts-hero-copy">
-          <div className="eyebrow">Workspace Directory</div>
-          <h2>Contacts</h2>
-          <p>
-            SI Management now mirrors the T3OS contacts experience with the same fast search, type
-            filters, and dual grid or table views for workspace people and businesses.
-          </p>
-          <div className="integration-strip">
-            <span className="shell-badge">T3OS Contacts</span>
-            <span className="shell-badge shell-badge-muted">
-              {workspaceName ?? workspaceId ?? "No active workspace"}
-            </span>
-          </div>
-        </div>
-        <div className="hero-command-panel contacts-command-panel">
-          <div className="hero-command-header">
-            <div className="eyebrow">Directory Scope</div>
-            <strong>{workspaceName ?? "Workspace not selected"}</strong>
-          </div>
-          <div className="hero-actions">
-            <button
-              className="primary-button"
-              disabled={!workspaceId || loading}
-              onClick={() => {
-                setWorkspaceId(getCurrentWorkspaceId());
-                setWorkspaceName(getCurrentWorkspaceName());
-              }}
-            >
-              Refresh Directory
-            </button>
-            <button
-              className="ghost-button"
-              disabled={loading}
-              onClick={() => handleViewChange(view === "table" ? "grid" : "table")}
-            >
-              Switch to {view === "table" ? "Grid" : "Table"} View
-            </button>
-          </div>
-          <div className="hero-command-footnote">
-            {workspaceId
-              ? "Contacts are pulled from the active T3OS workspace."
-              : "Open SI Management inside T3OS to resolve the active workspace and load contacts."}
-          </div>
-        </div>
-      </section>
-
       {!workspaceId ? (
         <section className="notice-card notice-warning">
           <strong>No T3OS workspace is active.</strong>
@@ -225,6 +178,21 @@ export function ContactsPage() {
             <p className="panel-subtitle">
               Search workspace participants, businesses, and linked company records.
             </p>
+          </div>
+          <div className="contacts-header-actions">
+            <span className="shell-badge shell-badge-muted">
+              {workspaceName ?? workspaceId ?? "Workspace pending"}
+            </span>
+            <button
+              className="ghost-button"
+              disabled={!workspaceId || loading}
+              onClick={() => {
+                setWorkspaceId(getCurrentWorkspaceId());
+                setWorkspaceName(getCurrentWorkspaceName());
+              }}
+            >
+              Refresh
+            </button>
           </div>
         </div>
 

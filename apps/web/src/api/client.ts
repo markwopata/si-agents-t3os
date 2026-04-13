@@ -1,5 +1,6 @@
 import type {
   ContactSummary,
+  AnalyticsDomainCatalog,
   ApiToken,
   ApiTokenCreateInput,
   ObservationReview,
@@ -92,6 +93,10 @@ export function getApiBaseUrl(): string {
 
 export function getCurrentUser(): Promise<CurrentUser> {
   return request("/me");
+}
+
+export function getAnalyticsDomainCatalog(): Promise<AnalyticsDomainCatalog> {
+  return request("/knowledge/analytics/domains");
 }
 
 export function listApiTokens(includeAllForAdmin = false): Promise<ApiToken[]> {

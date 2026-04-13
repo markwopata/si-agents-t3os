@@ -14,6 +14,7 @@ export const rootRoutes: FastifyPluginAsync = async (app) => {
       executiveInitiativeRawPackage: "/executive/initiatives/:initiativeId/raw-package",
       executiveGlobalKnowledge: "/executive/knowledge/global",
       executiveInitiativeKnowledge: "/executive/initiatives/:initiativeId/knowledge",
+      analyticsDomains: "/knowledge/analytics/domains",
       initiativeAgentQuery: "/initiatives/:initiativeId/agent-query",
       initiativeAsk: "/initiatives/:initiativeId/ask",
       initiativeRawEvidence: "/initiatives/:initiativeId/raw-evidence",
@@ -24,6 +25,8 @@ export const rootRoutes: FastifyPluginAsync = async (app) => {
       importWorkbook: "/imports/si-workbook",
       portfolioRefresh: "/portfolio/refresh",
       slackInstall: "/integrations/slack/install",
+      slackWorkspaceSyncStatus: "/integrations/slack/workspace-sync/status",
+      slackWorkspaceSync: "/integrations/slack/workspace-sync",
       googleInstall: "/integrations/google/install",
     },
   }));

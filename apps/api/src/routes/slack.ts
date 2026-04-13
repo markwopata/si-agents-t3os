@@ -1,14 +1,48 @@
 import type { FastifyPluginAsync } from "fastify";
 import { env } from "../config/env.js";
+import { requireScope } from "../plugins/auth.js";
+import { requireAdmin } from "../services/authorization-service.js";
 import {
   createSlackInstallUrl,
   exchangeSlackCode,
   getSlackInstallStatus,
   verifySlackState,
 } from "../integrations/slack/service.js";
+import {
+  getSlackWorkspaceCorpusStatus,
+  syncSlackWorkspaceCorpus,
+} from "../services/slack-workspace-corpus-service.js";
 
 export const slackRoutes: FastifyPluginAsync = async (app) => {
   app.get("/integrations/slack/status", async () => getSlackInstallStatus());
+
+  app.get("/integrations/slack/workspace-sync/status", async (request) => {
+    requireScope(request, "read:knowledge");
+    return getSlackWorkspaceCorpusStatus();
+  });
+
+  app.post("/integrations/slack/workspace-sync", async (request) => {
+    requireScope(request, "run:agents");
+    requireAdmin(request);
+    const body = (request.body ?? {}) as {
+      force?: boolean;
+      conversationTypes?: Array<"public_channel" | "private_channel" | "mpim" | "im">;
+      channelLimit?: number | null;
+      channelNamePrefixes?: string[];
+      channelIds?: string[];
+      oldestDate?: string | null;
+      includeArchived?: boolean;
+    };
+    return syncSlackWorkspaceCorpus({
+      force: body.force ?? false,
+      conversationTypes: body.conversationTypes,
+      channelLimit: typeof body.channelLimit === "number" ? body.channelLimit : null,
+      channelNamePrefixes: body.channelNamePrefixes,
+      channelIds: body.channelIds,
+      oldestDate: body.oldestDate ?? null,
+      includeArchived: body.includeArchived ?? false,
+    });
+  });
 
   app.get("/integrations/slack/install", async (_request, reply) => {
     const installUrl = createSlackInstallUrl();
@@ -34,4 +68,3 @@ export const slackRoutes: FastifyPluginAsync = async (app) => {
     `);
   });
 };
-

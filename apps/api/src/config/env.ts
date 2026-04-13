@@ -72,10 +72,26 @@ const envSchema = z.object({
   SLACK_REDIRECT_URI: z.string().default("http://localhost:3001/integrations/slack/callback"),
   SLACK_SCOPES: z
     .string()
-    .default("channels:history,groups:history,channels:read,groups:read,users:read"),
+    .default(
+      "channels:history,groups:history,im:history,mpim:history,channels:read,groups:read,im:read,mpim:read,users:read",
+    ),
   SLACK_USER_SCOPES: z
     .string()
-    .default("channels:history,groups:history,channels:read,groups:read,users:read"),
+    .default(
+      "channels:history,groups:history,im:history,mpim:history,channels:read,groups:read,im:read,mpim:read,users:read",
+    ),
+  SLACK_WORKSPACE_CONVERSATION_TYPES: z
+    .string()
+    .default("public_channel,private_channel,mpim,im"),
+  SLACK_WORKSPACE_CHANNEL_LIMIT: z.coerce.number().int().min(0).default(0),
+  SLACK_WORKSPACE_CHANNEL_PREFIXES: z.string().default(""),
+  SLACK_WORKSPACE_CHANNEL_IDS: z.string().default(""),
+  SLACK_WORKSPACE_OLDEST_DATE: z.string().default(""),
+  SLACK_WORKSPACE_SYNC_CONCURRENCY: z.coerce.number().int().min(1).max(16).default(6),
+  SLACK_WORKSPACE_INCLUDE_ARCHIVED: z
+    .string()
+    .default("false")
+    .transform((value) => value === "true"),
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_REDIRECT_URI: z.string().default("http://localhost:3001/integrations/google/callback"),

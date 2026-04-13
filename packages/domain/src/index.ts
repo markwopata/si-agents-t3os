@@ -188,6 +188,85 @@ export const knowledgeDocumentUpsertSchema = z.object({
   initiativeId: z.string().nullable().optional(),
 });
 
+export const analyticsSensitivityTierEnum = z.enum([
+  "broad_internal",
+  "operational_sensitive",
+  "finance_restricted",
+  "confidential_people",
+  "customer_sensitive",
+]);
+
+export const analyticsDomainKeyEnum = z.enum([
+  "branch_earnings",
+  "general_ledger_accounting",
+  "fixed_assets_depreciation",
+  "customer_revenue_performance",
+  "pricing_rate_achievement",
+  "fleet_assets_utilization",
+  "maintenance_work_orders",
+  "fleet_optimization_tco",
+  "materials",
+  "people_payroll",
+  "learning_training",
+  "planning_management_reporting",
+  "ownership_program",
+  "asset_disposition_valuation",
+]);
+
+export const analyticsPromptCandidateSourceTypeEnum = z.enum([
+  "seed",
+  "slack_message",
+  "slack_reply",
+]);
+
+export const analyticsPromptCandidateSchema = z.object({
+  domainKey: analyticsDomainKeyEnum,
+  prompt: z.string(),
+  observedText: z.string().nullable(),
+  sourceType: analyticsPromptCandidateSourceTypeEnum,
+  sourceId: z.string().nullable(),
+  initiativeId: z.string().nullable(),
+  channelId: z.string().nullable(),
+  channelName: z.string().nullable(),
+  permalink: z.string().nullable(),
+  confidence: z.number().min(0).max(1),
+  rationale: z.string(),
+  matchedTerms: z.array(z.string()),
+  messageAt: z.string().nullable(),
+});
+
+export const analyticsDomainSlackSignalSchema = z.object({
+  matchedMessageCount: z.number().int(),
+  matchedReplyCount: z.number().int(),
+  matchedTerms: z.array(z.string()),
+  lastMatchedAt: z.string().nullable(),
+});
+
+export const analyticsDomainSchema = z.object({
+  key: analyticsDomainKeyEnum,
+  label: z.string(),
+  description: z.string(),
+  sensitivityTier: analyticsSensitivityTierEnum,
+  canonicalTerms: z.array(z.string()),
+  sourceFamilies: z.array(z.string()),
+  organizingQuestions: z.array(z.string()),
+  seedPromptExamples: z.array(z.string()),
+  slackSignals: analyticsDomainSlackSignalSchema,
+  promptCandidates: z.array(analyticsPromptCandidateSchema),
+});
+
+export const analyticsDomainCatalogSchema = z.object({
+  generatedAt: z.string(),
+  sourceSummary: z.object({
+    storedSlackMessages: z.number().int(),
+    storedSlackReplies: z.number().int(),
+    analyzedSlackMessages: z.number().int(),
+    analyzedSlackReplies: z.number().int(),
+    methodology: z.string(),
+  }),
+  domains: z.array(analyticsDomainSchema),
+});
+
 export const serviceTokenCreateSchema = z.object({
   label: z.string().min(1),
   scopes: z.array(tokenScopeEnum).min(1),
@@ -1084,6 +1163,12 @@ export type InitiativePersonInput = z.infer<typeof initiativePersonSchema>;
 export type InitiativeLinkInput = z.infer<typeof initiativeLinkSchema>;
 export type PeriodSnapshotInput = z.infer<typeof periodSnapshotSchema>;
 export type KnowledgeDocumentUpsertInput = z.infer<typeof knowledgeDocumentUpsertSchema>;
+export type AnalyticsSensitivityTier = z.infer<typeof analyticsSensitivityTierEnum>;
+export type AnalyticsDomainKey = z.infer<typeof analyticsDomainKeyEnum>;
+export type AnalyticsPromptCandidateSourceType = z.infer<typeof analyticsPromptCandidateSourceTypeEnum>;
+export type AnalyticsPromptCandidate = z.infer<typeof analyticsPromptCandidateSchema>;
+export type AnalyticsDomain = z.infer<typeof analyticsDomainSchema>;
+export type AnalyticsDomainCatalog = z.infer<typeof analyticsDomainCatalogSchema>;
 export type InitiativeAnnotationCreateInput = z.infer<typeof initiativeAnnotationCreateSchema>;
 export type InitiativeRunConfigUpsertInput = z.infer<typeof initiativeRunConfigUpsertSchema>;
 export type ServiceTokenCreateInput = z.infer<typeof serviceTokenCreateSchema>;

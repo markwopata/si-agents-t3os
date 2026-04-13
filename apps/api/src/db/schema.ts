@@ -251,6 +251,123 @@ export const slackInstallations = pgTable("slack_installations", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const slackWorkspaceSyncRuns = pgTable("slack_workspace_sync_runs", {
+  id: text("id").primaryKey(),
+  status: text("status").notNull(),
+  syncMode: text("sync_mode").notNull().default("incremental"),
+  conversationTypes: jsonb("conversation_types").$type<string[]>().notNull().default([]),
+  summary: jsonb("summary").$type<Record<string, unknown>>().notNull().default({}),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
+});
+
+export const slackWorkspaceChannels = pgTable("slack_workspace_channels", {
+  channelId: text("channel_id").primaryKey(),
+  discoveryRunId: text("discovery_run_id").references(() => slackWorkspaceSyncRuns.id, {
+    onDelete: "set null",
+  }),
+  name: text("name"),
+  normalizedName: text("normalized_name"),
+  conversationType: text("conversation_type").notNull(),
+  title: text("title"),
+  topic: text("topic"),
+  purpose: text("purpose"),
+  userId: text("user_id"),
+  memberCount: integer("member_count"),
+  isArchived: boolean("is_archived").notNull().default(false),
+  isPrivate: boolean("is_private").notNull().default(false),
+  isIm: boolean("is_im").notNull().default(false),
+  isMpim: boolean("is_mpim").notNull().default(false),
+  isGeneral: boolean("is_general").notNull().default(false),
+  isShared: boolean("is_shared").notNull().default(false),
+  isExtShared: boolean("is_ext_shared").notNull().default(false),
+  isOrgShared: boolean("is_org_shared").notNull().default(false),
+  lastMessageTs: text("last_message_ts"),
+  lastMessageAt: timestamp("last_message_at", { withTimezone: true }),
+  lastDiscoveredAt: timestamp("last_discovered_at", { withTimezone: true }).notNull().defaultNow(),
+  lastSyncedAt: timestamp("last_synced_at", { withTimezone: true }),
+  rawJson: jsonb("raw_json").$type<Record<string, unknown>>().notNull().default({}),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const slackWorkspaceSyncIssues = pgTable("slack_workspace_sync_issues", {
+  id: text("id").primaryKey(),
+  runId: text("run_id")
+    .notNull()
+    .references(() => slackWorkspaceSyncRuns.id, { onDelete: "cascade" }),
+  channelId: text("channel_id"),
+  errorCode: text("error_code").notNull(),
+  message: text("message").notNull(),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull().default({}),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const slackWorkspaceMessageEvents = pgTable(
+  "slack_workspace_message_events",
+  {
+    id: text("id").primaryKey(),
+    syncRunId: text("sync_run_id").references(() => slackWorkspaceSyncRuns.id, {
+      onDelete: "set null",
+    }),
+    channelId: text("channel_id")
+      .notNull()
+      .references(() => slackWorkspaceChannels.channelId, { onDelete: "cascade" }),
+    ts: text("ts").notNull(),
+    threadTs: text("thread_ts"),
+    parentTs: text("parent_ts"),
+    isThreadReply: boolean("is_thread_reply").notNull().default(false),
+    messageAt: timestamp("message_at", { withTimezone: true }),
+    userId: text("user_id"),
+    text: text("text").notNull(),
+    permalink: text("permalink"),
+    replyCount: integer("reply_count").notNull().default(0),
+    rawJson: jsonb("raw_json").$type<Record<string, unknown>>().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    slackWorkspaceMessageUnique: uniqueIndex("slack_workspace_message_events_channel_ts_idx").on(
+      table.channelId,
+      table.ts,
+    ),
+  }),
+);
+
+export const slackWorkspaceFileEvents = pgTable(
+  "slack_workspace_file_events",
+  {
+    id: text("id").primaryKey(),
+    syncRunId: text("sync_run_id").references(() => slackWorkspaceSyncRuns.id, {
+      onDelete: "set null",
+    }),
+    channelId: text("channel_id")
+      .notNull()
+      .references(() => slackWorkspaceChannels.channelId, { onDelete: "cascade" }),
+    messageTs: text("message_ts").notNull(),
+    parentTs: text("parent_ts"),
+    slackFileId: text("slack_file_id").notNull(),
+    title: text("title"),
+    name: text("name"),
+    mimeType: text("mime_type"),
+    fileType: text("file_type"),
+    prettyType: text("pretty_type"),
+    sizeBytes: integer("size_bytes"),
+    permalink: text("permalink"),
+    privateUrl: text("private_url"),
+    privateDownloadUrl: text("private_download_url"),
+    textExcerpt: text("text_excerpt"),
+    rawJson: jsonb("raw_json").$type<Record<string, unknown>>().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    slackWorkspaceFileUnique: uniqueIndex("slack_workspace_file_events_channel_message_file_idx").on(
+      table.channelId,
+      table.messageTs,
+      table.slackFileId,
+    ),
+  }),
+);
+
 export const googleInstallations = pgTable("google_installations", {
   id: text("id").primaryKey(),
   googleUserId: text("google_user_id"),
